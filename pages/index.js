@@ -26,7 +26,7 @@ export default function Home({ links }) {
         <meta name="Language" content="en"/>
 
         <meta property="og:title" content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign" />
-        <meta property="og:image" content="/carp_streamer.ico" />
+        <meta property="og:image" content="/meta_pic.png" />
         <meta property="og:description" content="Coming soon ..." />
         <meta property="og:type" content="Website" />
         <meta property="og:site_name" content="Fabio Gschweidl" />
