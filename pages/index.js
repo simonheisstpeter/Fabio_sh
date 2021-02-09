@@ -33,7 +33,7 @@ export default function Home({ links }) {
         <meta property="og:url" content="https://fabio.sh" />
       </Head>
       <div className="container mx-auto pt-32 md:pt-72">
-        <div class="px-6 md:px-12 text-6xl md:text-9xl font-bold md:font-bold">
+        <div className="px-6 md:px-12 text-6xl md:text-9xl font-bold md:font-bold">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-200 to-green-400">
             Fabio 
           </span>
