@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
-export default function Fraktur() {
-    const array = [...Array(30)]    
+export default function Fraktur({ array }) {
+     
     
     return (
         <div className="h-screen w-screen">
@@ -24,4 +24,12 @@ export default function Fraktur() {
   
         </div>
     )
+    
+    export async function getServerSideProps() {
+        const array = [...Array(30)]  
+      return {
+        props: { array: array }, // will be passed to the page component as props
+      }
+}
+
 }
