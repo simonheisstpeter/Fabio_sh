@@ -24,12 +24,11 @@ export default function Fraktur({ array }) {
   
         </div>
     )
-    
-    export async function getServerSideProps() {
+}
+
+ export async function getServerSideProps() {
         const array = [...Array(30)]  
       return {
         props: { array: array }, // will be passed to the page component as props
       }
-}
-
 }
