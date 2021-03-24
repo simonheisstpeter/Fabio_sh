@@ -44,7 +44,7 @@ export default function MyApp({ Component, pageProps }) {
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-500">Info</a>
         </Link>
       </nav>
-      <main>
+      <main className="overflow-y-hidden">
         <Component {...pageProps} />
       </main>
     </>

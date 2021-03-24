@@ -7,7 +7,7 @@ const links = {
 
 export default function Home({ links }) {
   return (
-    <div className="h-screen w-screen">
+    <div className="h-screen w-screen overflow-hidden">
      
       <div className="container mx-auto pt-32 md:pt-60">
         <div className="px-6 md:px-12 text-6xl md:text-9xl font-bold md:font-bold">
