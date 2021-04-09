@@ -4,7 +4,7 @@ export default function Fraktur({ array }) {
      
     
     return (
-        <div className="h-full w-screen">
+        <div className="h-full w-full">
 
             <div className="container mx-auto pt-20 md:pt-60">
             <p className="mx-auto text-center mb-60">Hier kommt neues ... <span className="text-md font-bold">Bald</span> ....</p>
