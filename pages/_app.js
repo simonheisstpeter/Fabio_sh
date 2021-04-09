@@ -34,17 +34,17 @@ export default function MyApp({ Component, pageProps }) {
         <Link href="/">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-200">Home</a>
         </Link>
-        <Link href="/fraktur" className="">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-300">F wie Fraktur</a>
+        <Link href="/projects" className="">
+          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-300">Projekte</a>
         </Link>
         <Link href="/about" className="">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-400">Über mich</a>
         </Link>
-        <Link href="/" className="">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-500">Info</a>
+        <Link href="/fraktur" className="">
+          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-500">F wie Fraktur</a>
         </Link>
       </nav>
-      <main className="overflow-y-hidden">
+      <main>
         <Component {...pageProps} />
       </main>
     </>

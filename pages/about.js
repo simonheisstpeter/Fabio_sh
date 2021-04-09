@@ -1,6 +1,6 @@
 export default function About() {
     return (
-        <div className="h-screen w-screen">
+        <div className="h-full w-full">
         <div className="container mx-auto pt-32 md:pt-72">
         
         {/*
