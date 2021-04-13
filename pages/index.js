@@ -30,8 +30,8 @@ export default function Home({ links }) {
         */}
         <div className="p-6 md:p-12 md:pt-60">
           <p>Email</p>
-          <a href="mailto:fabio@fabio.sh" className="text-gray-400 hover:text-green-400 transition duration-300">
-            fabio(at)fabio.sh
+          <a href="mailto:f.gschweidl@gmail.com" className="text-gray-400 hover:text-green-400 transition duration-300">
+            f.gschweidl@gmail.com
           </a>
         </div>
 
