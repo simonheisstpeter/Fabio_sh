@@ -1,4 +1,7 @@
-export default function About() {
+export default function About({ data }) {
+
+
+
     return (
         <div className="h-full w-full">
         <div className="container mx-auto pt-32 md:pt-72">
@@ -12,5 +15,5 @@ export default function About() {
   
         </div>
       </div>
-    )
-}
+    )};
+
