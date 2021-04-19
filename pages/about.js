@@ -2,13 +2,15 @@ import useSWR from 'swr'
 
 export default function About() {
 
-    const { data, error } = useSWR('/api/player', fetch)
+    const fetcher = url => fetch(url).then(r => r.json())
+    const { data, error } = useSWR('/api/player', fetcher)  
+
     let text = "This Song plays now: "
 
     if (error) return <div>failed to load</div>
     if (!data) return <div>loading...</div>
 
-    if (data.redirected === false ) text = "No music is playing on Spotify";
+    if (data.isPlaying === false ) text = "No music is playing on Spotify";
 
     return (
         <div className="h-full w-full">
