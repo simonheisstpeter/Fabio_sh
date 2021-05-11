@@ -1,13 +1,15 @@
 import Image from 'next/image'
 
 export default function Fraktur() {
-     
+    
+    const email = 'fabio@fabio.sh'
     
     return (
         <div className="h-full w-full">
 
             <div className="container mx-auto pt-20 md:pt-60">
-                <p className="mx-auto text-center mb-52">Hier kommt neues ... <span className="text-md font-bold">Bald</span> ....</p>
+                <p className="mx-auto text-center">Hier kommt neues ... </p>
+                <p className="mx-auto text-center mb-52">SVGs laden derzeit nicht immer aber <span className="text-md font-bold">Bald</span> ....</p>
 
             <div className="px-6 md:px-12 mb-12 h-full grid grid-cols-2 md:grid-cols-5 gap-12 gap-y-24">
                 <Image src={'/f/0.svg'} width={100} height={150} className="p-4 duration-300 transform hover:scale-105"/>
@@ -45,8 +47,8 @@ export default function Fraktur() {
             </div>
             <div className="p-6 md:p-12 md:pt-60">
                 <p>Email</p>
-                <a href="mailto:f.gschweidl@gmail.com" className="text-gray-400 hover:text-green-400 transition duration-300">
-                    f.gschweidl(at)gmail.com
+                <a href={`mailto:${email}`} className="text-gray-400 hover:text-green-400 transition duration-300">
+                    {email}
                 </a>
             </div>
             </div>

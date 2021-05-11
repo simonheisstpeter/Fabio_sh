@@ -1,11 +1,6 @@
-import Head from 'next/head'
-import Image from 'next/image'
+const email = 'fabio@fabio.sh'
 
-const links = {
-
-}
-
-export default function Home({ links }) {
+export default function Home() {
   return (
     <div className="h-full w-full">
      
@@ -30,8 +25,8 @@ export default function Home({ links }) {
         */}
         <div className="p-6 md:p-12 md:pt-60">
           <p>Email</p>
-          <a href="mailto:f.gschweidl@gmail.com" className="text-gray-400 hover:text-green-400 transition duration-300">
-            f.gschweidl@gmail.com
+          <a href={`mailto:${email}`} className="text-gray-400 hover:text-green-400 transition duration-300">
+            {email}
           </a>
         </div>
 

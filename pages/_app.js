@@ -1,8 +1,17 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import "tailwindcss/tailwind.css";
+import React, { useState, useCallback } from 'react';
 
 export default function MyApp({ Component, pageProps }) {
+  const [menuOpen, setMenuOpen] = useState('hidden')
+
+  const toggle = useCallback(() => {
+      setMenuOpen(v => !v);
+    }, []);
+
+
+
   return (
     <>
       <Head>
@@ -30,7 +39,33 @@ export default function MyApp({ Component, pageProps }) {
         <meta property="og:site_name" content="Fabio Gschweidl" />
         <meta property="og:url" content="https://fabio.sh" />
       </Head>
-      <nav  className="mt-12 text-right container">
+      {/* Mobile */}
+      <nav className="w-full p-6 fixed top-0 text-center bg-white z-10 visible md:hidden focus:bg-red-400">
+                <button className="absolute w-8 h-8 bg-white text-gray-900 p-2 rounded right-6" onClick={() => toggle()}>
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                </button>
+
+                <div className={ menuOpen ? "hidden" : "visible h-screen pt-44"}>
+                    <div className="grid grid-cols-1 m-6" onClick={() => toggle()}>
+                      <Link href="/">
+                       <a className="mb-6">Home</a>
+                      </Link>
+                      <Link href="/projects">
+                        <a className="mb-6">Projekte</a>
+                      </Link>
+                      <Link href="/about">
+                        <a className="mb-6">Über mich</a>
+                      </Link>
+                      <Link href="/fraktur">
+                        <a className="mb-6">F wie Fraktur</a>
+                      </Link>
+                    </div>
+                </div>
+            </nav>
+
+                  {/* Desktop */}
+
+      <nav  className="mt-12 text-right container hidden md:visible">
         <Link href="/">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-200">Home</a>
         </Link>
