@@ -15,14 +15,6 @@ export default function Home() {
           </span>
         </div>
        
-        {/* Links 
-        <div className="p-12 pt-32">
-          <p>Links</p>
-          <div className="grid grid-cols-4 ">
-
-          </div>
-        </div>
-        */}
         <div className="p-6 pt-20 md:p-12 md:pt-60">
           <p>Email</p>
           <a href={`mailto:${email}`} className="text-gray-400 hover:text-green-400 transition duration-300">{email}</a>

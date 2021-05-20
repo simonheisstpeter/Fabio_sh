@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import "tailwindcss/tailwind.css";
 import React, { useState, useCallback } from 'react';
+import { SunIcon, EmojiHappyIcon } from '@iconicicons/react'
 
 export default function MyApp({ Component, pageProps }) {
   const [menuOpen, setMenuOpen] = useState('hidden')
@@ -43,13 +44,13 @@ export default function MyApp({ Component, pageProps }) {
       {/* Mobile */}
       <nav className="w-full fixed top-0 text-center bg-white z-10 visible md:hidden focus:bg-red-400">
                 <button className="absolute w-8 h-8 bg-white text-gray-900 p-2 rounded right-6 top-6" onClick={() => toggle()}>
-                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
                 </button>
 
-                <div className={ menuOpen ? "hidden" : "visible h-screen pt-52"}>
+                <div className={ menuOpen ? "hidden" : "visible h-screen pt-44"}>
                     <div className="grid grid-cols-1 text-2xl" onClick={() => toggle()}>
                       <Link href="/">
-                       <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-200 to-green-400">Home</a>
+                       <SunIcon className="mb-6 text-green-400 mx-auto h-8 w-8"/>
                       </Link>
                       <Link href="/projects">
                         <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-green-500">Projekte</a>
@@ -58,7 +59,10 @@ export default function MyApp({ Component, pageProps }) {
                         <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">Über mich</a>
                       </Link>
                       <Link href="/fraktur">
-                        <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-green-700">F wie Fraktur</a>
+                        <a className="disabled mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-green-700">F wie Fraktur</a>
+                      </Link>
+                      <Link href="/contact">
+                        <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-800">Kontakt</a>
                       </Link>
                     </div>
                 </div>
@@ -66,18 +70,21 @@ export default function MyApp({ Component, pageProps }) {
 
                   {/* Desktop */}
 
-      <nav  className="mt-12 text-right container hidden md:block">
+      <nav  className="mt-12 hidden md:block text-right pr-10">
         <Link href="/">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-200">Home</a>
+          <a className="md:left-14 xl:left-20 absolute h-4 w-4 transition duration-300 ease-in-out hover:text-green-200 inline-block"><SunIcon /></a>
         </Link>
-        <Link href="/projects" className="">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-300">Projekte</a>
+        <Link href="/projects">
+          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-300 inline-block">Projekte</a>
         </Link>
-        <Link href="/about" className="">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-400">Über mich</a>
+        <Link href="/about">
+          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-400 inline-block">Über mich</a>
         </Link>
-        <Link href="/fraktur" className="">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-500">F wie Fraktur</a>
+        <Link href="/fraktur">
+          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-500 inline-block opacity-50" aria-disabled>F wie Fraktur</a>
+        </Link>
+        <Link href="/contact">
+          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-600 inline-block">Kontakt</a>
         </Link>
       </nav>
       <main>
