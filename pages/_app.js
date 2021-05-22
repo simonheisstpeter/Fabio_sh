@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import "tailwindcss/tailwind.css";
 import React, { useState, useCallback } from 'react';
-import { SunIcon, EmojiHappyIcon } from '@iconicicons/react'
+import { SunIcon } from '@iconicicons/react'
 
 export default function MyApp({ Component, pageProps }) {
   const [menuOpen, setMenuOpen] = useState('hidden')
