@@ -58,9 +58,11 @@ export default function MyApp({ Component, pageProps }) {
                       <Link href="/about">
                         <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">Über mich</a>
                       </Link>
+                      {/*
                       <Link href="/fraktur">
                         <a className="disabled mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-green-700">F wie Fraktur</a>
                       </Link>
+                      */}
                       <Link href="/contact">
                         <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-800">Kontakt</a>
                       </Link>
@@ -80,9 +82,11 @@ export default function MyApp({ Component, pageProps }) {
         <Link href="/about">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-400 inline-block">Über mich</a>
         </Link>
+        {/*
         <Link href="/fraktur">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-500 inline-block opacity-50" aria-disabled>F wie Fraktur</a>
         </Link>
+        */}
         <Link href="/contact">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-green-600 inline-block">Kontakt</a>
         </Link>
