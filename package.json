@@ -11,15 +11,15 @@
   "dependencies": {
     "@iconicicons/react": "^1.5.0",
     "@tailwindcss/forms": "^0.3.4",
-    "autoprefixer": "^10.2.3",
+    "autoprefixer": "^10.4.0",
     "emailjs-com": "^3.2.0",
     "isomorphic-unfetch": "^3.1.0",
-    "next": "^12.0.1",
-    "postcss": "^8.2.4",
+    "next": "^12.0.4",
+    "postcss": "^8.3.11",
     "querystring": "^0.2.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.0.0-beta-fdc1d617a-20211118",
+    "react-dom": "^18.0.0-beta-fdc1d617a-20211118",
     "swr": "^1.0.1",
-    "tailwindcss": "^2.2.17"
+    "tailwindcss": "^2.2.19"
   }
 }
