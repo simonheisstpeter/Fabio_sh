@@ -27,7 +27,16 @@ export default function About() {
         <p className="mt-20 text-md text-center">
             Here some information about music playing on my Spotify account
         </p>
-        <span className="block my-4 text-md font-bold text-center">{text}</span>
+            <span className="block my-4 text-md font-bold text-center">{text}</span>
+            {data.isPlaying && 
+                <div>
+                    <span>{data.title}</span>
+                    <span>{data.artist}</span>
+                    <span>{data.album}</span>
+                    <Image src={data.albumImageUrl} width={50} height={50} />
+                    <a href={data.songUrl}>Click here to get to the song</a>
+                </div>
+            }
         </div>
       </div>
     )};
