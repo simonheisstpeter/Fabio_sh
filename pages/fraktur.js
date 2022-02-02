@@ -48,7 +48,7 @@ export default function Fraktur() {
             </div>
             <div className="p-6 md:p-12 md:pt-60">
                 <p>Email</p>
-                <a href={`mailto:${email}`} className="text-gray-400 hover:text-green-400 transition duration-300">
+                <a href={`mailto:${email}`} className="text-gray-400 hover:text-emerald-400 transition duration-300">
                     {email}
                 </a>
             </div>
