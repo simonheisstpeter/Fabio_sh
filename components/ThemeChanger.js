@@ -13,7 +13,7 @@ const ThemeChanger = () => {
     }
   };
   return (
-    <div className="justify-between items-center font-bold text-xl md:inline-block translate-y-1.5">
+    <div className="justify-between items-center font-bold text-xl mx-auto md:inline-block translate-y-1.5">
       <button className="w-full md:w-6 text-emerald-500" onClick={switchTheme}>
         {theme === "dark" ? (
           <svg
