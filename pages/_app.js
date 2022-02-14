@@ -1,9 +1,22 @@
-import Head from 'next/head'
+import Head from "next/head";
 import "tailwindcss/tailwind.css";
-import Navigation from '../components/navigation';
-import { ThemeProvider } from 'next-themes'
+import Navigation from "../components/navigation";
+import { ThemeProvider } from "next-themes";
+import React, { useEffect } from "react";
+import { LIST_OF_EMOJIS, arrayLength } from "../utils/emojis";
 
 export default function MyApp({ Component, pageProps }) {
+  // document.title = "Love is in the air";
+
+  useEffect(() => {
+    for (let i = 1; i <= arrayLength; i++) {
+      setTimeout(function () {
+        console.log(i);
+        document.title = "fabio " + LIST_OF_EMOJIS[i - 1];
+      }, 1000 * i);
+      if (i + 1 > arrayLength) i = 1;
+    }
+  }, []);
 
   return (
     <>
@@ -11,21 +24,32 @@ export default function MyApp({ Component, pageProps }) {
         <title>fabio</title>
         <link rel="icon" href="/carp_streamer.ico" />
 
-        <meta name="Title" content="Fabio Gschweidl"/>
-        <meta name="Author" content="Fabio Gschweidl"/>
-        <meta name="Publisher" content="Fabio Gschweidl"/>
-        <meta name="Copyright" content="Fabio Gschweidl"/>
-        <meta name="Revisit" content="After 5 days"/>
-        <meta name="Keywords" content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"/>
-        <meta name="Description" content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"/>
-        <meta name="Abstract" content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"/>
-        <meta name="page-topic" content="Medien"/>
-        <meta name="page-topic" content="Private Homepage"/>
-        <meta name="audience" content="Erwachsene"/>
-        <meta name="Robots" content="INDEX,FOLLOW"/>
-        <meta name="Language" content="de"/>
+        <meta name="Title" content="Fabio Gschweidl" />
+        <meta name="Author" content="Fabio Gschweidl" />
+        <meta name="Publisher" content="Fabio Gschweidl" />
+        <meta name="Copyright" content="Fabio Gschweidl" />
+        <meta
+          name="Keywords"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+        />
+        <meta
+          name="Description"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+        />
+        <meta
+          name="Abstract"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+        />
+        <meta name="page-topic" content="Medien" />
+        <meta name="page-topic" content="Private Homepage" />
+        <meta name="audience" content="Erwachsene" />
+        <meta name="Robots" content="INDEX,FOLLOW" />
+        <meta name="Language" content="de" />
 
-        <meta property="og:title" content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign" />
+        <meta
+          property="og:title"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+        />
         <meta property="og:image" content="/meta_pic.png" />
         <meta property="og:description" content="Coming soon ..." />
         <meta property="og:type" content="Website" />
@@ -38,5 +62,5 @@ export default function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </ThemeProvider>
     </>
-  )
+  );
 }
