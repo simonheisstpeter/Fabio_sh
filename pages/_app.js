@@ -8,15 +8,15 @@ import { LIST_OF_EMOJIS, arrayLength } from "../utils/emojis";
 export default function MyApp({ Component, pageProps }) {
   // document.title = "Love is in the air";
 
-  useEffect(() => {
-    for (let i = 1; i <= arrayLength; i++) {
-      setTimeout(function () {
-        console.log(i);
-        document.title = "fabio " + LIST_OF_EMOJIS[i - 1];
-      }, 1000 * i);
-      if (i + 1 > arrayLength) i = 1;
-    }
-  }, []);
+  // useEffect(() => {
+  //   for (let i = 1; i <= arrayLength; i++) {
+  //     setTimeout(function () {
+  //       console.log(i);
+  //       document.title = "fabio " + LIST_OF_EMOJIS[i - 1];
+  //     }, 1000 * i);
+  //     if (i + 1 > arrayLength) i = 1;
+  //   }
+  // }, []);
 
   return (
     <>
