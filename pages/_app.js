@@ -2,8 +2,6 @@ import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import Navigation from "../components/navigation";
 import { ThemeProvider } from "next-themes";
-import React, { useEffect } from "react";
-import { LIST_OF_EMOJIS, arrayLength } from "../utils/emojis";
 
 export default function MyApp({ Component, pageProps }) {
   // document.title = "Love is in the air";
