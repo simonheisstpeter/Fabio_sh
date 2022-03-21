@@ -2,6 +2,7 @@ import Head from "next/head";
 import "tailwindcss/tailwind.css";
 import Navigation from "../components/navigation";
 import { ThemeProvider } from "next-themes";
+import Footer from "../components/footer";
 
 export default function MyApp({ Component, pageProps }) {
   // document.title = "Love is in the air";
@@ -57,6 +58,7 @@ export default function MyApp({ Component, pageProps }) {
       <ThemeProvider attribute="class">
         <Navigation />
         <Component {...pageProps} />
+        <Footer />
       </ThemeProvider>
     </>
   );

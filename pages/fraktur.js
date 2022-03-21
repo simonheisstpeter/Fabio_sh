@@ -1,8 +1,6 @@
 import Image from "next/image";
 
 export default function Fraktur() {
-  const email = "fabio@fabio.sh";
-
   return (
     <div className="h-full w-full">
       <div className="container mx-auto pt-20 md:pt-60">
@@ -205,15 +203,6 @@ export default function Fraktur() {
               className="p-4 duration-300 transform hover:scale-105"
             />
           </div>
-        </div>
-        <div className="p-6 md:p-12 md:pt-60">
-          <p>Email</p>
-          <a
-            href={`mailto:${email}`}
-            className="text-gray-400 hover:text-emerald-400 transition duration-300"
-          >
-            {email}
-          </a>
         </div>
       </div>
     </div>

@@ -140,7 +140,7 @@ export default function Navigation() {
         </Link>
         */}
         <Link href="/contact">
-          <a className="mx-4 mr-10 transition duration-300 ease-in-out hover:underline hover:text-emerald-600 inline-block">
+          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-600 inline-block">
             {t.menuContact}
           </a>
         </Link>
@@ -149,7 +149,7 @@ export default function Navigation() {
           defaultValue={locale}
           className="w-16 text-right text-white text-shadow-sm text-lg bg-transparent tracking-wide mr-10"
         >
-          <option className="text-black w-20" value="de">
+          <option className="text-black" value="de">
             🇩🇪
           </option>
           <option className="text-black" value="en">
