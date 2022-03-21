@@ -102,7 +102,7 @@ export default function Navigation() {
             <select
               onChange={changeMobileLanguage}
               defaultValue={locale}
-              className="w-12 h-10 text-white text-shadow-sm text-md bg-transparent tracking-wide mx-auto mb-20"
+              className="w-12 h-10 text-white text-shadow-sm text-md bg-transparent tracking-wide mx-auto mb-12"
             >
               <option className="text-black w-20" value="de">
                 🇩🇪
