@@ -2,9 +2,13 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import ThemeChanger from "./ThemeChanger";
+import { useRouter } from "next/router";
 
 export default function Navigation() {
-  const [menuOpen, setMenuOpen] = useState("hidden");
+  const { locale, locales, defaultLocale } = useRouter();
+  // const t = locale === "de" ? de : en;
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen((v) => !v);
@@ -22,9 +26,9 @@ export default function Navigation() {
   return (
     <>
       {/* Mobile */}
-      <nav className="w-full fixed top-0 text-center bg-white z-10 visible md:hidden">
+      <nav className="w-full fixed top-0 text-center bg-white dark:bg-[#1c1b22] z-10 visible md:hidden">
         <button
-          className="absolute w-8 h-8 bg-white text-gray-900 p-2 rounded right-6 top-6"
+          className="absolute w-8 h-8 text-gray-900 dark:text-white p-2 rounded right-6 top-6"
           onClick={() => toggleMenu()}
         >
           <svg
@@ -68,7 +72,7 @@ export default function Navigation() {
                       */}
 
             <Link href="/contact">
-              <a className="mb-20 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-800">
+              <a className="mb-20 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-300 dark:to-emerald-500">
                 Kontakt
               </a>
             </Link>
