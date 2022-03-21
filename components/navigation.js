@@ -4,9 +4,25 @@ import { useTheme } from "next-themes";
 import ThemeChanger from "./ThemeChanger";
 import { useRouter } from "next/router";
 
+import de from "../locales/de/menu";
+import en from "../locales/en/menu";
+
 export default function Navigation() {
-  const { locale, locales, defaultLocale } = useRouter();
-  // const t = locale === "de" ? de : en;
+  const router = useRouter();
+  const { locale } = useRouter();
+  const t = locale === "de" ? de : en;
+
+  const changeLanguage = (e) => {
+    const locale = e.target.value;
+    router.push(router.pathname, router.asPath, { locale });
+    // router.reload(window.location.pathname);
+  };
+  const changeMobileLanguage = (e) => {
+    const locale = e.target.value;
+    router.push(router.pathname, router.asPath, { locale });
+    // router.reload(window.location.pathname);
+    toggleMenu();
+  };
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -44,38 +60,57 @@ export default function Navigation() {
           </svg>
         </button>
 
-        <div
-          className={menuOpen ? "hidden" : "visible h-screen pt-44"}
-          onClick={() => toggleMenu()}
-        >
+        <div className={menuOpen ? "visible h-screen pt-44" : "hidden"}>
           <div className="grid grid-cols-1 text-2xl">
             <Link href="/">
-              <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500">
-                Home
+              <a
+                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
+                onClick={() => toggleMenu()}
+              >
+                {t.menuHome}
               </a>
             </Link>
 
             <Link href="/projects">
-              <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500">
-                Projekte
+              <a
+                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
+                onClick={() => toggleMenu()}
+              >
+                {t.menuProjects}
               </a>
             </Link>
             <Link href="/about">
-              <a className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600">
-                Über mich
+              <a
+                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600"
+                onClick={() => toggleMenu()}
+              >
+                {t.menuAbout}
               </a>
             </Link>
             {/*
-                      <Link href="/fraktur">
-                        <a className="disabled mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-emerald-700">F wie Fraktur</a>
-                      </Link>
-                      */}
-
+              <Link href="/fraktur">
+                <a className="disabled mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-emerald-700">F wie Fraktur</a>             </Link>
+            */}
             <Link href="/contact">
-              <a className="mb-20 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-300 dark:to-emerald-500">
-                Kontakt
+              <a
+                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-300 dark:to-emerald-500"
+                onClick={() => toggleMenu()}
+              >
+                {t.menuContact}
               </a>
             </Link>
+            <select
+              onChange={changeMobileLanguage}
+              defaultValue={locale}
+              className="w-12 h-10 text-white text-shadow-sm text-md bg-transparent tracking-wide mx-auto mb-20"
+            >
+              <option className="text-black w-20" value="de">
+                🇩🇪
+              </option>
+              <option className="text-black" value="en">
+                🇺🇸
+              </option>
+            </select>
             <ThemeChanger />
           </div>
         </div>
@@ -86,17 +121,17 @@ export default function Navigation() {
       <nav className="mt-12 hidden md:block text-right pr-10">
         <Link href="/">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block">
-            Home
+            {t.menuHome}
           </a>
         </Link>
         <Link href="/projects">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block">
-            Projekte
+            {t.menuProjects}
           </a>
         </Link>
         <Link href="/about">
           <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-400 inline-block">
-            Über mich
+            {t.menuAbout}
           </a>
         </Link>
         {/*
@@ -106,9 +141,21 @@ export default function Navigation() {
         */}
         <Link href="/contact">
           <a className="mx-4 mr-10 transition duration-300 ease-in-out hover:underline hover:text-emerald-600 inline-block">
-            Kontakt
+            {t.menuContact}
           </a>
         </Link>
+        <select
+          onChange={changeLanguage}
+          defaultValue={locale}
+          className="w-16 text-right text-white text-shadow-sm text-lg bg-transparent tracking-wide mr-10"
+        >
+          <option className="text-black w-20" value="de">
+            🇩🇪
+          </option>
+          <option className="text-black" value="en">
+            🇺🇸
+          </option>
+        </select>
         <ThemeChanger />
       </nav>
     </>

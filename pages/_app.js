@@ -39,7 +39,6 @@ export default function MyApp({ Component, pageProps }) {
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
         />
         <meta name="page-topic" content="Medien" />
-        <meta name="page-topic" content="Private Homepage" />
         <meta name="audience" content="Erwachsene" />
         <meta name="Robots" content="INDEX,FOLLOW" />
         <meta name="Language" content="de" />
