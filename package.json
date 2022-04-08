@@ -15,8 +15,6 @@
     "next": "^12.1.2",
     "next-auth": "^4.2.1",
     "next-themes": "^0.1.1",
-    "preact": "^10.7.1",
-    "preact-compat": "^3.19.0",
     "querystring": "^0.2.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
