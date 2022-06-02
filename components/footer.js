@@ -3,7 +3,7 @@ const Footer = () => {
 
   return (
     <>
-      <div className="container mx-auto p-6 md:p-12 md:pt-52 pt-44">
+      <footer className="container mx-auto p-6 md:p-12 md:pt-52 pt-44">
         <p>Email</p>
         <a
           href={`mailto:${email}`}
@@ -11,7 +11,7 @@ const Footer = () => {
         >
           {email}
         </a>
-      </div>
+      </footer>
     </>
   );
 };

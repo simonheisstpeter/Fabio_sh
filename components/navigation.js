@@ -47,6 +47,7 @@ export default function Navigation() {
           className="absolute w-8 h-8 text-gray-900 dark:text-white p-2 rounded right-6 top-6"
           onClick={() => toggleMenu()}
           aria-haspopup="menu"
+          aria-label="menu"
         >
           <svg
             fill="currentColor"
