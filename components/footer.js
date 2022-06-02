@@ -7,7 +7,7 @@ const Footer = () => {
         <p>Email</p>
         <a
           href={`mailto:${email}`}
-          className="text-gray-400 hover:text-emerald-400 transition duration-300"
+          className="text-gray-700 dark:text-white hover:text-emerald-400 transition duration-300"
         >
           {email}
         </a>
