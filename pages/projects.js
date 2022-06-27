@@ -11,7 +11,7 @@ export default function Project() {
 
   return (<>
     <div className="h-full w-full">
-      <div id="partyEffect" className="container mx-auto py-32 md:py-72">
+      <div id="partyEffect" className="container mx-auto py-32 md:py-72 cursor-pointer">
         {/*
                 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
             */}
