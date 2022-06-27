@@ -32,8 +32,8 @@ export default function About() {
           <div className="text-center mt-6">
             <span className="text-lg font-medium block">{data.title}</span>
             <span className="text-xl font-bold block mt-2">{data.artist}</span>
-            <span className="text-lg font-medium block mt-2">{data.album}</span>
-            <Image src={data.albumImageUrl} width={50} height={50} />
+            <span className="text-lg font-medium block my-2">{data.album}</span>
+            <Image src={data.albumImageUrl} placeholder="blur" blurDataURL={data.albumImageUrl} width={200} height={200} />
             <a href={data.songUrl} className="block mt-8 font-light">Click here to get to the song</a>
           </div>
         )}
