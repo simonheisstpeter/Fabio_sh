@@ -38,7 +38,7 @@ export default function Kontakt() {
         </div>
 
         <form
-          className="contact-form w-full md:w-2/3 p-6 md:p-12"
+          className="contact-form w-full md:w-4/5 p-6 md:p-12"
           onSubmit={sendEmail}
         >
           <input type="hidden" name="contact_number" />

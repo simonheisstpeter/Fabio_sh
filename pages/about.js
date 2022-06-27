@@ -9,13 +9,13 @@ export default function About() {
 
   if (error) return <div>failed to load</div>;
   if (!data)
-    return <div className="w-full pt-32 md:pt-72 text-center">loading...</div>;
+    return <div className="w-full py-32 md:py-72 text-center">loading...</div>;
 
   if (data.isPlaying === false) text = "No music is playing on Spotify";
 
   return (
     <div className="h-full w-full">
-      <div className="container mx-auto pt-32 md:pt-72">
+      <div className="container mx-auto py-32 md:py-72">
         {/*
             bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
         */}
@@ -29,12 +29,12 @@ export default function About() {
         </p>
         <span className="block my-4 text-md font-bold text-center">{text}</span>
         {data.isPlaying && (
-          <div>
-            <span>{data.title}</span>
-            <span>{data.artist}</span>
-            <span>{data.album}</span>
+          <div className="text-center mt-6">
+            <span className="text-lg font-medium block">{data.title}</span>
+            <span className="text-xl font-bold block mt-2">{data.artist}</span>
+            <span className="text-lg font-medium block mt-2">{data.album}</span>
             <Image src={data.albumImageUrl} width={50} height={50} />
-            <a href={data.songUrl}>Click here to get to the song</a>
+            <a href={data.songUrl} className="block mt-8 font-light">Click here to get to the song</a>
           </div>
         )}
       </div>

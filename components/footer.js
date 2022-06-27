@@ -3,7 +3,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="container mx-auto p-6 md:p-12 md:pt-52 pt-44">
+      <footer className="container mx-auto p-6 md:p-12">
         <p>Email</p>
         <a
           href={`mailto:${email}`}
