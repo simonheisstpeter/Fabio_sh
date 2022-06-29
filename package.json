@@ -13,7 +13,7 @@
     "@splitbee/web": "^0.3.0",
     "emailjs-com": "^3.2.0",
     "isomorphic-unfetch": "^3.1.0",
-    "next": "^12.1.6",
+    "next": "^12.2.0",
     "next-auth": "^4.3.4",
     "next-themes": "^0.2.0",
     "party-js": "^2.1.3",

@@ -18,6 +18,17 @@ export default function Project() {
         <span className="text-center block">
           Hier kommt auch bald{" "}
           <span className="text-md font-bold">ETWAS.... Neues</span>
+          <span className='text-sm mt-12 block italic'>Click here for</span>
+          <span className=''>
+            <span className='text-red-400'>C</span>
+            <span className='text-yellow-400'>o</span>
+            <span className='text-blue-400'>n</span>
+            <span className='text-blue-500'>f</span>
+            <span className='text-lime-500'>e</span>
+            <span className='text-purple-600'>t</span>
+            <span className='text-emerald-500'>t</span>
+            <span className='text-orange-400'>i</span>
+          </span>
         </span>
       </div>
     </div>
