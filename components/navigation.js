@@ -64,42 +64,38 @@ export default function Navigation() {
 
         <div className={menuOpen ? "visible h-screen pt-44" : "hidden"}>
           <div className="grid grid-cols-1 text-2xl">
-            <Link href="/">
-              <a
-                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
-                onClick={() => toggleMenu()}
-              >
-                {t.menuHome}
-              </a>
+            <Link
+              href="/"
+              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
+              onClick={() => toggleMenu()}
+            >
+              {t.menuHome}
             </Link>
 
-            <Link href="/projects">
-              <a
-                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
-                onClick={() => toggleMenu()}
-              >
-                {t.menuProjects}
-              </a>
+            <Link
+              href="/projects"
+              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
+              onClick={() => toggleMenu()}
+            >
+              {t.menuProjects}
             </Link>
-            <Link href="/about">
-              <a
-                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600"
-                onClick={() => toggleMenu()}
-              >
-                {t.menuAbout}
-              </a>
+            <Link
+              href="/about"
+              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600"
+              onClick={() => toggleMenu()}
+            >
+              {t.menuAbout}
             </Link>
             {/*
               <Link href="/fraktur">
                 <a className="disabled mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-emerald-700">F wie Fraktur</a>             </Link>
             */}
-            <Link href="/contact">
-              <a
-                className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-300 dark:to-emerald-500"
-                onClick={() => toggleMenu()}
-              >
-                {t.menuContact}
-              </a>
+            <Link
+              href="/contact"
+              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-300 dark:to-emerald-500"
+              onClick={() => toggleMenu()}
+            >
+              {t.menuContact}
             </Link>
             <select
               onChange={changeMobileLanguage}
@@ -121,30 +117,33 @@ export default function Navigation() {
       {/* Desktop */}
 
       <nav className="mt-12 hidden md:block text-right pr-10">
-        <Link href="/">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block">
-            {t.menuHome}
-          </a>
+        <Link
+          href="/"
+          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block"
+        >
+          {t.menuHome}
         </Link>
-        <Link href="/projects">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block">
-            {t.menuProjects}
-          </a>
+        <Link
+          href="/projects"
+          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block"
+        >
+          {t.menuProjects}
         </Link>
-        <Link href="/about">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-400 inline-block">
-            {t.menuAbout}
-          </a>
+        <Link
+          href="/about"
+          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-400 inline-block"
+        >
+          {t.menuAbout}
         </Link>
         {/*
-        <Link href="/fraktur">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-500 inline-block opacity-50" aria-disabled>F wie Fraktur</a>
+        <Link href="/fraktur" className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-500 inline-block opacity-50" aria-disabled>F wie Fraktur<
         </Link>
         */}
-        <Link href="/contact">
-          <a className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-600 inline-block">
-            {t.menuContact}
-          </a>
+        <Link
+          href="/contact"
+          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-600 inline-block"
+        >
+          {t.menuContact}
         </Link>
         <select
           onChange={changeLanguage}
