@@ -46,7 +46,7 @@ const MobileMenu = () => {
         </svg>
       </button>
 
-      <div className={menuOpen ? "h-screen pt-32 dots" : "hidden"}>
+      <div className={menuOpen ? "h-screen pt-32 dots dark:dotsDark" : "hidden"}>
         <div className="grid grid-cols-1 text-2xl">
           <NavItem onClick={() => toggleNav()} href="/" text={t.menuHome} />
           <NavItem
