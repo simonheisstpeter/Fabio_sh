@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* This won't be included in your compiled CSS unless you actually use it */
+  .dots {
+    background-color: #f8f8ff;
+    opacity: 1;
+    background-image: radial-gradient(
+      #d7d7d7 0.8500000000000001px,
+      #f8f8ff 0.8500000000000001px
+    );
+    background-size: 17px 17px;
+  }
+
+  .dotsDark {
+    background-color: #1d1d1f;
+    opacity: 1;
+    background-image: radial-gradient(
+      #656565 0.8500000000000001px,
+      #1d1d1f 0.8500000000000001px
+    );
+    background-size: 17px 17px;
+  }
+}
+
+html {
+}
+
+body {
+  opacity: 1;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

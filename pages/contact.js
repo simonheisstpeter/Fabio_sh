@@ -4,6 +4,7 @@ import emailjs from "emailjs-com";
 
 import de from "../locales/de/contact";
 import en from "../locales/en/contact";
+import Container from "../components/Container";
 
 export default function Kontakt() {
   const { locale } = useRouter();
@@ -31,7 +32,8 @@ export default function Kontakt() {
   }
 
   return (
-    <div className="h-full w-full">
+    <Container>
+      {" "}
       <div className="container mx-auto pt-32">
         <div className="p-6 md:p-12 text-3xl md:text-5xl font-bold md:font-bold">
           {t.contactTitle}
@@ -70,6 +72,6 @@ export default function Kontakt() {
           />
         </form>
       </div>
-    </div>
+    </Container>
   );
 }

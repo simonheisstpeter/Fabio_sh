@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import Image from "next/image";
+import Container from "../components/Container";
 
 export default function About() {
   const fetcher = (url) => fetch(url).then((r) => r.json());
@@ -14,7 +15,8 @@ export default function About() {
   if (data.isPlaying === false) text = "No music is playing on Spotify";
 
   return (
-    <div className="h-full w-full">
+    <Container>
+      {" "}
       <div className="container mx-auto py-32 md:py-72">
         {/*
             bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
@@ -46,7 +48,7 @@ export default function About() {
           </div>
         )}
       </div>
-    </div>
+    </Container>
   );
 }
 
