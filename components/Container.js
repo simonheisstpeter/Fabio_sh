@@ -2,13 +2,13 @@ import { useRouter } from "next/router";
 import NavItem from "./NavItem";
 import de from "../locales/de/menu";
 import en from "../locales/en/menu";
-import Footer from "./Footer";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import ThemeChanger from "./ThemeChanger";
 import ScrollToTop from "./ScrollToTop";
 import MobileMenu from "./MobileMenu";
+import Footer from "./NewFooter";
 
 export default function Container(props) {
   const { children } = props;
