@@ -27,15 +27,15 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="Copyright" content="Fabio Gschweidl" />
         <meta
           name="Keywords"
-          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe Consulting"
         />
         <meta
           name="Description"
-          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
         />
         <meta
           name="Abstract"
-          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
         />
         <meta name="page-topic" content="Medien" />
         <meta name="audience" content="Erwachsene" />
@@ -44,7 +44,7 @@ export default function MyApp({ Component, pageProps }) {
 
         <meta
           property="og:title"
-          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign"
+          content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
         />
         <meta property="og:image" content="/meta_pic.png" />
         <meta property="og:description" content="Coming soon ..." />

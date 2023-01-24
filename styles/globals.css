@@ -23,15 +23,6 @@
     );
     background-size: 17px 17px;
   }
-
-  .move {
-    animation: move 3s;
-   }
-   
-   @keyframes move {
-     from {left: -50px;}
-     to {left: 0px;}
-   }
 }
 
 html {
@@ -56,3 +47,16 @@ a {
   box-sizing: border-box;
 }
 
+.bgFade {
+  animation: createBox .25s;
+  z-index: -1000;
+}
+
+@keyframes createBox {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}

@@ -8,6 +8,7 @@ module.exports = {
       animation: {
         fadeIn_2000: "fade 2s",
         fadeIn_3000: "fade 3s",
+        bgFade: "bgFade 4s"
       },
       keyframes: {
         fade: {
@@ -19,6 +20,15 @@ module.exports = {
             transform: "translate(0px, 0px)",
             opacity: 1,
           },
+          bgFade: {
+            "0%": {
+              opacity: 0,
+            },
+            "100%": {
+              opacity: 1,
+            },
+          }
+
         }
       },
     },
