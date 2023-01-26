@@ -32,7 +32,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta
           name="Description"
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
-        />
+        />x
         <meta
           name="Abstract"
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
