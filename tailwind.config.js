@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      cursor: {
+        'fabiosh': 'url(/f.cur), pointer',
+      },
       animation: {
         fadeIn_2000: "fade 2s",
         fadeIn_3000: "fade 3s",

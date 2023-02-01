@@ -38,7 +38,7 @@ export default function Container(props) {
 
   return (
     <>
-      <body className="opacity-100 z-10">
+      <body className="z-10">
         <MobileMenu />
         {/* Desktop */}
 

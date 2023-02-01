@@ -1,6 +1,12 @@
 import Container from "../components/Container";
+import { rainbowCursor } from "cursor-effects";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    rainbowCursor();
+  }, []);
+
   return (
     <Container>
       <div className="h-full w-full">

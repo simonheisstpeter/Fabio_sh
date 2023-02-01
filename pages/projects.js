@@ -1,16 +1,19 @@
-import Script from "next/script";
 import { useEffect } from "react";
 import Container from "../components/Container";
-
+import party from "party-js"
 export default function Project() {
-  useEffect(() => {
-    let el = document.getElementById("partyEffect");
-    if (el) {
-      el.addEventListener("click", function (e) {
-        party.confetti(this);
-      });
+  const buttonEffect = () => {  
+    
+    document
+    .getElementById("partyEffect")
+    .addEventListener("click", 
+    function (e) {
+    party.confetti(this, {
+      count: party.variation.range(0, 50),
+      size: party.variation.range(0.6, 1.4),
+    })})
     }
-  });
+
 
   return (
     <>
@@ -18,17 +21,15 @@ export default function Project() {
         <div className="h-full w-full">
           <div
             id="partyEffect"
-            className="container mx-auto py-32 md:py-72 cursor-grab"
+            className="mx-auto py-32 md:py-72"
+            onClick={buttonEffect}
           >
-            {/*
-                bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
-            */}
+            
             <span className="text-center block">
-              Hier kommt auch bald{" "}
-              <span className="text-md font-bold">ETWAS.... Neues</span>
-              <span className="text-sm mt-12 block italic">Click here for</span>
-              <span className="">
-                <span className="text-red-400">C</span>
+             
+              <span className="text-sm mt-12 mb-2 block italic">Click here for</span>
+              <span className="text-3xl block">
+                <span className="text-red-400 inline hover:scale-105 duration-300">C</span>
                 <span className="text-yellow-400">o</span>
                 <span className="text-blue-400">n</span>
                 <span className="text-blue-500">f</span>
@@ -41,7 +42,6 @@ export default function Project() {
           </div>
         </div>
       </Container>
-      <Script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js" />
     </>
   );
 }

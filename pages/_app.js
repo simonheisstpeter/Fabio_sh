@@ -20,7 +20,6 @@ export default function MyApp({ Component, pageProps }) {
       <Head>
         <title>fabio</title>
         <link rel="icon" href="/carp_streamer.ico" />
-
         <meta name="Title" content="Fabio Gschweidl" />
         <meta name="Author" content="Fabio Gschweidl" />
         <meta name="Publisher" content="Fabio Gschweidl" />
@@ -32,7 +31,8 @@ export default function MyApp({ Component, pageProps }) {
         <meta
           name="Description"
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
-        />x
+        />
+        x
         <meta
           name="Abstract"
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
@@ -41,7 +41,6 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="audience" content="Erwachsene" />
         <meta name="Robots" content="INDEX,FOLLOW" />
         <meta name="Language" content="de" />
-
         <meta
           property="og:title"
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
