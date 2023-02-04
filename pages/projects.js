@@ -25,7 +25,7 @@ export default function Project() {
             onClick={buttonEffect}
           >
             
-            <span className="text-center block">
+            <span className="text-center block select-none">
              
               <span className="text-sm mt-12 mb-2 block italic">Click here for</span>
               <span className="text-3xl block">
