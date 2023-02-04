@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import NavItem from "./NavItem";
 import de from "../locales/de/menu";
 import en from "../locales/en/menu";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import ThemeChanger from "./ThemeChanger";

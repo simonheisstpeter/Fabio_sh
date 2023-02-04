@@ -12,7 +12,7 @@ export default function NavItem({ href, text }) {
       aria-controls="menu"
       className={`${
         isActive ? "lg:border-b-2 border-emerald-400" : ""
-      } mx-4 mb-6 md:mb-0 transition duration-300 ease-in-out hover:text-emerald-400 inline-block`}
+      } mx-4 mb-6 md:mb-0 transition duration-300 ease-in-out hover:text-emerald-400 inline-block cursor-pointer`}
     >
       {text}
     </Link>
