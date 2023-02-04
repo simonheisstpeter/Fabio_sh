@@ -43,12 +43,12 @@ export default function Kontakt() {
           className="contact-form w-full md:w-4/5 p-6 md:p-12"
           onSubmit={sendEmail}
         >
-          <input type="hidden" name="contact_number" />
+          <input type="hidden" name="contact_number" required />
           <label>{t.contactName}</label>
           <input
             type="text"
             name="user_name"
-            className="w-full p-2 px-3 block rounded border border-emerald-300 focus:border-emerald-600 focus:bg-emerald-100 focus:text-emerald-600 mt-4 mb-6 dark:focus:ring-green-600 focus:ring-green-600 active:ring-green-400 focus:outline outline-emerald-400"
+            className="w-full p-2 px-3 block rounded border border-emerald-300 focus:border-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 mt-4 mb-6 dark:focus:ring-green-600 focus:ring-green-600 active:ring-green-400 focus:outline outline-emerald-400"
             placeholder={`${t.contactName}...`}
           />
           <label>{t.contactEMail}</label>
@@ -57,12 +57,14 @@ export default function Kontakt() {
             name="user_email"
             className="w-full p-2 px-3 block rounded border border-emerald-300 focus:border-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 mt-4 mb-6 focus:outline outline-emerald-400"
             placeholder={`${t.contactEMail}...`}
+            required
           />
           <label>{t.contactMessage}</label>
           <textarea
             name="message"
             className="w-full block rounded p-2 px-3 border border-emerald-300 focus:border-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 mt-4 mb-6 h-28 focus:outline outline-emerald-400"
             placeholder={`${t.contactMessage}...`}
+            required
           />
 
           <input
