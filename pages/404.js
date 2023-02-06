@@ -21,7 +21,7 @@ export default function Custom404() {
       </h2>
       <Link
         href="/"
-        className="block text-center w-32 mt-12 bg-gradient-to-br hover:from-emerald-300 hover:to-emerald-500 border-emerald-500 border-2 px-4 py-2 rounded-lg duration-300 mx-auto text-emerald-500 dark:text-white"
+        className="block text-center w-32 mt-12 bg-gradient-to-br hover:from-emerald-300 hover:to-emerald-500 border-emerald-500 border-2 px-4 py-2 rounded-lg mx-auto text-emerald-500 hover:text-white dark:text-white duration-300"
       >
         {t.custom404Button}
       </Link>
