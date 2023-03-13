@@ -1,20 +1,22 @@
 import { useRouter } from "next/router";
 import NavItem from "./NavItem";
-import de from "../locales/de/menu";
-import en from "../locales/en/menu";
+import de from "../locales/de";
+import en from "../locales/en";
+import es from "../locales/es";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import ThemeChanger from "./ThemeChanger";
 import ScrollToTop from "./ScrollToTop";
 import MobileMenu from "./MobileMenu";
 import Footer from "./NewFooter";
+import pt from "../locales/pt";
 
 export default function Container(props) {
   const { children } = props;
 
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : en;
+  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : pt;
   let href = "/";
   const isActive = router.asPath === href;
 
@@ -56,6 +58,12 @@ export default function Container(props) {
             </option>
             <option className="text-black" value="en">
               🇺🇸
+            </option>
+            <option className="text-black" value="es">
+              🇪🇸
+            </option>
+            <option className="text-black" value="pt">
+             🇧🇷
             </option>
           </select>
           <ThemeChanger />

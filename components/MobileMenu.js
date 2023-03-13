@@ -3,13 +3,15 @@ import React, { useState, useCallback, Fragment } from "react";
 import { useRouter } from "next/router";
 import NavItem from "./NavItem";
 import ThemeChanger from "./ThemeChanger";
-import de from "../locales/de/menu";
-import en from "../locales/en/menu";
+import de from "../locales/de";
+import en from "../locales/en";
+import es from "../locales/es";
+import pt from "../locales/pt";
 
 const MobileMenu = () => {
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : en;
+  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : pt;
   let href = "/";
   const isActive = router.asPath === href;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,6 +76,12 @@ const MobileMenu = () => {
             </option>
             <option className="text-black" value="en">
               🇺🇸
+            </option>
+            <option className="text-black" value="es">
+              🇪🇸
+            </option>
+            <option className="text-black" value="pt">
+             🇧🇷
             </option>
           </select>
           <ThemeChanger />

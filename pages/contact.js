@@ -1,14 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
 import emailjs from "emailjs-com";
-
-import de from "../locales/de/contact";
-import en from "../locales/en/contact";
 import Container from "../components/Container";
+
+import de from "../locales/de";
+import en from "../locales/en";
+import es from "../locales/es";
+import pt from "../locales/pt";
 
 export default function Kontakt() {
   const { locale } = useRouter();
-  const t = locale === "de" ? de : en;
+  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : pt;
 
   function sendEmail(e) {
     e.preventDefault();

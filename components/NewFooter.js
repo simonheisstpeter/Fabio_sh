@@ -1,10 +1,19 @@
+import { useRouter } from "next/router";
+import de from "../locales/de";
+import en from "../locales/en";
+import es from "../locales/es";
+import pt from "../locales/pt";
+
 const Footer = () => {
   const email = "fabio@fabio.sh";
+  const router = useRouter();
+  const { locale } = router;
+  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : pt;
 
   return (
     <>
       <footer className="container mx-auto p-6 md:p-12">
-        <p>Email</p>
+        <p>{t.contactEMail}</p>
         <a
           href={`mailto:${email}`}
           className="text-gray-700 dark:text-white hover:text-emerald-400 transition duration-300"

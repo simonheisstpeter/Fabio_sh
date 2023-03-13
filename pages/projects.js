@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Container from "../components/Container";
 import party from "party-js"
 export default function Project() {

@@ -3,7 +3,7 @@ module.exports = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   i18n: {
-    locales: ["de", "en"],
+    locales: ["de", "en", "es", "pt"],
     defaultLocale: "de",
   },
 };
