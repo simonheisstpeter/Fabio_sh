@@ -7,6 +7,8 @@ import ScrollToTop from "./ScrollToTop";
 import MobileMenu from "./MobileMenu";
 import Footer from "./NewFooter";
 
+import { Analytics } from '@vercel/analytics/react';
+
 import de from "../locales/de";
 import en from "../locales/en";
 import es from "../locales/es";
@@ -82,6 +84,7 @@ export default function Container(props) {
         <ScrollToTop />
         <Footer />
       </body>
+      <Analytics />
     </>
   );
 }
