@@ -36,9 +36,9 @@ export default function About() {
             <span className="text-xl font-bold block mt-2">{data.artist}</span>
             <span className="text-lg font-medium block my-2">{data.album}</span>
             <Image
-              src={data.albumImageUrl}
+              src={data?.albumImageUrl}
               placeholder="blur"
-              blurDataURL={data.albumImageUrl}
+              blurDataURL={data?.albumImageUrl}
               width={200}
               height={200}
             />

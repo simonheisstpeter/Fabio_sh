@@ -1,22 +1,26 @@
 import { useRouter } from "next/router";
 import NavItem from "./NavItem";
-import de from "../locales/de";
-import en from "../locales/en";
-import es from "../locales/es";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import ThemeChanger from "./ThemeChanger";
 import ScrollToTop from "./ScrollToTop";
 import MobileMenu from "./MobileMenu";
 import Footer from "./NewFooter";
+
+import de from "../locales/de";
+import en from "../locales/en";
+import es from "../locales/es";
 import pt from "../locales/pt";
+import ja from "../locales/ja";
+
+
 
 export default function Container(props) {
   const { children } = props;
 
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : pt;
+  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : locale === "ja" ? ja : pt;
   let href = "/";
   const isActive = router.asPath === href;
 
@@ -53,16 +57,19 @@ export default function Container(props) {
             defaultValue={locale}
             className="w-16 text-right text-white text-shadow-sm text-lg bg-transparent tracking-wide mr-10"
           >
-            <option className="text-black" value="de">
+            <option value="de">
               🇩🇪
             </option>
-            <option className="text-black" value="en">
+            <option value="en">
               🇺🇸
             </option>
-            <option className="text-black" value="es">
+            <option value="es">
               🇪🇸
             </option>
-            <option className="text-black" value="pt">
+            <option value="ja">
+              🇯🇵
+            </option>
+            <option value="pt">
              🇧🇷
             </option>
           </select>

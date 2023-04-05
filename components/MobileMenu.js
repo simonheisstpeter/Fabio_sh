@@ -7,11 +7,12 @@ import de from "../locales/de";
 import en from "../locales/en";
 import es from "../locales/es";
 import pt from "../locales/pt";
+import ja from "../locales/ja";
 
 const MobileMenu = () => {
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : pt;
+  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : locale === "ja" ? ja : pt;
   let href = "/";
   const isActive = router.asPath === href;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -71,16 +72,19 @@ const MobileMenu = () => {
             defaultValue={locale}
             className="w-16 text-lg bg-transparent tracking-wide mx-auto mb-6 flex text-center"
           >
-            <option className="text-black" value="de">
+            <option value="de">
               🇩🇪
             </option>
-            <option className="text-black" value="en">
+            <option value="en">
               🇺🇸
             </option>
-            <option className="text-black" value="es">
+            <option value="es">
               🇪🇸
             </option>
-            <option className="text-black" value="pt">
+            <option value="ja">
+              🇯🇵
+            </option>
+            <option value="pt">
              🇧🇷
             </option>
           </select>

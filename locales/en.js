@@ -4,6 +4,9 @@ export default {
   menuAbout: "About Me",
   menuContact: "Contact",
 
+  name: "Fabio",
+  lastname: "Gschweidl",
+
   contactTitle: "Contact Form",
   contactName: "Name",
   contactEMail: "E-Mail",

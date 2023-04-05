@@ -3,12 +3,13 @@ import de from "../locales/de";
 import en from "../locales/en";
 import es from "../locales/es";
 import pt from "../locales/pt";
+import ja from "../locales/ja";
 
 const Footer = () => {
   const email = "fabio@fabio.sh";
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : pt;
+  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : locale === "ja" ? ja : pt;
 
   return (
     <>
