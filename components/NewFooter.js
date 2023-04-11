@@ -13,7 +13,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="container mx-auto p-6 md:p-12">
+      <footer className="container mx-auto p-6 md:p-12 select-none">
         <p>{t.contactEMail}</p>
         <a
           href={`mailto:${email}`}
