@@ -51,21 +51,21 @@ export default function Kontakt() {
           <input
             type="text"
             name="user_name"
-            className="w-full p-2 px-3 block rounded border border-emerald-300 focus:border-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 mt-4 mb-6 dark:focus:ring-green-600 focus:ring-green-600 active:ring-green-400 focus:outline outline-emerald-400"
+            className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300"
             placeholder={`${t.contactName}...`}
           />
           <label>{t.contactEMail}</label>
           <input
             type="email"
             name="user_email"
-            className="w-full p-2 px-3 block rounded border border-emerald-300 focus:border-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 mt-4 mb-6 focus:outline outline-emerald-400"
+            className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300"
             placeholder={`${t.contactEMail}...`}
             required
           />
           <label>{t.contactMessage}</label>
           <textarea
             name="message"
-            className="w-full block rounded p-2 px-3 border border-emerald-300 focus:border-emerald-600 focus:bg-emerald-50 focus:text-emerald-600 mt-4 mb-6 h-28 focus:outline outline-emerald-400"
+            className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300 h-28"
             placeholder={`${t.contactMessage}...`}
             required
           />
@@ -73,7 +73,7 @@ export default function Kontakt() {
           <input
             type="submit"
             value={`${t.contactButton}!`}
-            className="w-44 mt-4 py-2 bg-gray-200 hover:bg-emerald-300 hover:text-white dark:bg-gray-700 dark:border dark:border-emerald-300 rounded transition duration-300 ease-in-out ring-emerald-300 dark:ring-emerald-500 text-gray-900 dark:text-white ring-offset-4 focus:outline outline-emerald-400 hover:scale-105 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
+            className="w-44 mt-4 py-2 bg-gray-200 hover:bg-emerald-300 hover:text-white dark:bg-gray-900 dark:border dark:border-emerald-300 rounded transition duration-300 ease-in-out ring-emerald-300 dark:ring-emerald-500 text-gray-900 dark:text-white focus:outline outline-emerald-400 hover:scale-105 dark:hover:bg-emerald-300 dark:hover:text-gray-800 dark:focus:outline outline-2 outline-offset-4"
           />
         </form>
       </div>
