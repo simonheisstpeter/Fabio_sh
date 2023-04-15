@@ -13,6 +13,9 @@ module.exports = {
         fadeIn_3000: "fade 3s",
         bgFade: "bgFade 4s"
       },
+      colors: {
+        darkDotsGray: "#1d1d1f"
+      },
       keyframes: {
         fade: {
           "0%": {

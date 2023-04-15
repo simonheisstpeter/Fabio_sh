@@ -4,7 +4,7 @@ const ProjectData = [
       title: "Fabio.sh",
       description: {
         de: {text: "Design, Entwicklung und Konzeption"},
-        en: {text: ""},
+        en: {text: "Design, development and concept"},
         es: {text: ""},
         ja: {text: ""},
         pt: {text: ""}
@@ -28,7 +28,7 @@ const ProjectData = [
       title: "Radiointernational.org",
       description: {
         de: {text: "Design, Entwicklung und Konzeption"},
-        en: {text: ""},
+        en: {text: "Design, development and concept"},
         es: {text: ""},
         ja: {text: ""},
         pt: {text: ""}
