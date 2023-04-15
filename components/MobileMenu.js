@@ -12,7 +12,16 @@ import ja from "../locales/ja";
 const MobileMenu = () => {
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : locale === "ja" ? ja : pt;
+  const t =
+    locale === "de"
+      ? de
+      : locale === "en"
+      ? en
+      : locale === "es"
+      ? es
+      : locale === "ja"
+      ? ja
+      : pt;
   let href = "/";
   const isActive = router.asPath === href;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -49,7 +58,9 @@ const MobileMenu = () => {
         </svg>
       </button>
 
-      <div className={menuOpen ? "h-screen pt-32 dots dark:dotsDark" : "hidden"}>
+      <div
+        className={menuOpen ? "h-screen pt-32 dots dark:dotsDark" : "hidden"}
+      >
         <div className="grid grid-cols-1 text-2xl">
           <NavItem onClick={() => toggleNav()} href="/" text={t.menuHome} />
           <NavItem
@@ -72,21 +83,11 @@ const MobileMenu = () => {
             defaultValue={locale}
             className="w-16 text-lg bg-transparent tracking-wide mx-auto mb-6 flex text-center"
           >
-            <option value="de">
-              🇩🇪
-            </option>
-            <option value="en">
-              🇺🇸
-            </option>
-            <option value="es">
-              🇪🇸
-            </option>
-            <option value="ja">
-              🇯🇵
-            </option>
-            <option value="pt">
-             🇧🇷
-            </option>
+            <option value="de">🇩🇪</option>
+            <option value="en">🇺🇸</option>
+            <option value="es">🇪🇸</option>
+            <option value="ja">🇯🇵</option>
+            <option value="pt">🇧🇷</option>
           </select>
           <ThemeChanger />
         </div>

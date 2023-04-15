@@ -13,6 +13,9 @@ export default {
   contactMessage: "通信文 ",
   contactButton: "レッツゴー ",
 
+  website: "サイト",
+  comingSoon: "more coming soon...",
+
   custom404Title: "申し訳ありませんが、このページは見つかりませんでした！",
   custom404Button: "バック",
 };

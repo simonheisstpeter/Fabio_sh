@@ -1,45 +1,123 @@
+import Confetti from "../components/Confetti";
 import Container from "../components/Container";
-import party from "party-js"
-export default function Project() {
-  const buttonEffect = () => {  
-    
-    document
-    .getElementById("partyEffect")
-    .addEventListener("click", 
-    function (e) {
-    party.confetti(this, {
-      count: party.variation.range(0, 50),
-      size: party.variation.range(0.6, 1.4),
-    })})
-    }
+import { useRouter } from "next/router";
+import de from "../locales/de";
+import en from "../locales/en";
+import es from "../locales/es";
+import ja from "../locales/ja";
+import pt from "../locales/pt";
+import { ProjectData } from "../utils/projectsData";
+import Image from "next/image";
 
+const Project = ({ locale, t, ...item }) => {
+  return (
+    <a     target="_blank"
+    rel="noopener noreferrer"
+    aria-label={item.title}
+    href={item.url} className="bg-white rounded-md border border-gray-300 hover:-translate-y-1 duration-200 shadow-sm hover:shadow">
+      {item.finished === false ? <picture className="block inset-0 max-h-[250px]">
+        <Image src={ item.image || "/meta_pic.pn"} width={400} height={200} alt={item.title} placeholder="blur" blurDataURL={item.image || "/meta_pic.png"} className="grayscale hover:grayscale-0 duration-200 rounded-t-md max-h-[220px] object-cover"/>
+       </picture> : null }
+      <div className="bg-white p-4 text-sm rounded-b-md">
+     
+        <h3 key={item.title} className="font-medium mb-4 text-base relative">
+          {item.title}
+          <span
+            className={`${
+              item.online
+                ? "bg-emerald-400"
+                : item.finished === false
+                ? "bg-yellow-300"
+                : "bg-red-500"
+            } inline-block w-2.5 h-2.5 rounded-full group ml-2`}
+          > <span class="absolute invisible group-hover:visible bottom-5 rounded-md bg-black text-white p-1 px-2 duration-200 z-50 -translate-x-7">{item.online ? "Online" : "Offline"}</span>
+          </span>
+        </h3>
+
+        <p className="text-gray-700 mb-2">
+          {item.description[locale].text !== ""
+            ? item.description[locale].text
+            : item.description["en"].text}
+        </p>
+        <span className="text-gray-400 mb-2 block">
+          {item.languages.map((language) => (
+            <span className="mr-1 grayscale hover:grayscale-0 relative group">{language.flag}<span class="absolute invisible group-hover:visible bottom-5 rounded-md bg-black text-white p-1 px-2 duration-200 z-50 -translate-x-11">{language.lang}</span></span>
+          ))}
+        </span>
+
+        <a
+          className={`block group text-emerald-400 hover:text-emerald-500 duration-300`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={item.title}
+          href={item.url}
+        >
+          {t.website}{" "}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-4 h-4 inline opacity-0 group-hover:opacity-100 -translate-y-[1px] group-hover:translate-x-1 duration-200"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </a>
+        <div className="overflow-y-auto mt-4">
+          {item.categories.map((category) => (
+            <span className="p-1 px-2 border-[0.5px] inline-block text-[0.8em] rounded-xl mb-1 mr-1">
+              {category}
+            </span>
+          ))}
+        </div>
+      </div>
+    </a>
+  );
+};
+
+export default function ProjectsView() {
+  const router = useRouter();
+  const { locale } = router;
+  const t =
+    locale === "de"
+      ? de
+      : locale === "en"
+      ? en
+      : locale === "es"
+      ? es
+      : locale === "ja"
+      ? ja
+      : pt;
 
   return (
     <>
       <Container>
-        <div className="h-full w-full">
-          <div
-            id="partyEffect"
-            className="mx-auto py-32 md:py-72"
-            onClick={buttonEffect}
-          >
-            
-            <span className="text-center block select-none">
-             
-              <span className="text-sm mt-12 mb-2 block italic">Click here for</span>
-              <span className="text-3xl block">
-                <span className="text-red-400 inline hover:scale-105 duration-300">C</span>
-                <span className="text-yellow-400">o</span>
-                <span className="text-blue-400">n</span>
-                <span className="text-blue-500">f</span>
-                <span className="text-lime-500">e</span>
-                <span className="text-purple-600">t</span>
-                <span className="text-emerald-500">t</span>
-                <span className="text-orange-400">i</span>
-              </span>
-            </span>
-          </div>
+        <div className="h-full container mx-auto px-4 md:px-12">
+          <h1 className="text-xl my-20">{t.menuProjects}</h1>
+
+          <h2 className="mb-6">Current projects</h2>
+          <article className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-20">
+            {ProjectData.filter((pr) => pr.finished === false).map((item) => (
+              <Project {...item} locale={locale} t={t} />
+            ))}
+          </article>
+
+          <h2 className="mb-6">Finished projects</h2>
+          <article className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 opacity-50 hover:opacity-100 duration-200">
+            {ProjectData.filter((pr) => pr.finished === true).map((item) => (
+              <Project {...item} locale={locale} t={t} />
+            ))}
+                <div className="bg-white rounded-md border border-gray-300 hover:-translate-y-1 duration-200 shadow-sm hover:shadow">
+              <span className="items-center mx-auto block w-full h-full text-center my-24 md:mb-0 xl:mt-32">{t.comingSoon}</span>
+</div>
+          </article>
         </div>
+        <Confetti />
       </Container>
     </>
   );

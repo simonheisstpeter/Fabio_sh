@@ -50,10 +50,16 @@ export default function MyApp({ Component, pageProps }) {
         <meta property="og:type" content="Website" />
         <meta property="og:site_name" content="Fabio Gschweidl" />
         <meta property="og:url" content="https://fabio.sh" />
-
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f8ff" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1d1d1f" />
-
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="#f8f8ff"
+        />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="#1d1d1f"
+        />
       </Head>
 
       <ThemeProvider attribute="class">

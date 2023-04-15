@@ -13,6 +13,9 @@ export default {
   contactMessage: "Nachricht",
   contactButton: "Los",
 
+  website: "Website",
+  comingSoon: "Bald mehr ...",
+
   custom404Title: "Diese Seite konnte leider nicht gefunden werden!",
   custom404Button: "Zurück",
 };

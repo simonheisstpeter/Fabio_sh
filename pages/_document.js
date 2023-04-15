@@ -12,7 +12,6 @@ class MyDocument extends Document {
           <NextScript />
         </body>
         <Script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js" />
-
       </Html>
     );
   }

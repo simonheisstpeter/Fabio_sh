@@ -11,7 +11,16 @@ import ja from "../locales/ja";
 
 export default function Kontakt() {
   const { locale } = useRouter();
-  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : locale === "ja" ? ja : pt;
+  const t =
+    locale === "de"
+      ? de
+      : locale === "en"
+      ? en
+      : locale === "es"
+      ? es
+      : locale === "ja"
+      ? ja
+      : pt;
 
   function sendEmail(e) {
     e.preventDefault();

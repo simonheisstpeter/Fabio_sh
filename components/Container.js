@@ -7,7 +7,7 @@ import ScrollToTop from "./ScrollToTop";
 import MobileMenu from "./MobileMenu";
 import Footer from "./NewFooter";
 
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 import de from "../locales/de";
 import en from "../locales/en";
@@ -15,14 +15,21 @@ import es from "../locales/es";
 import pt from "../locales/pt";
 import ja from "../locales/ja";
 
-
-
 export default function Container(props) {
   const { children } = props;
 
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : locale === "ja" ? ja : pt;
+  const t =
+    locale === "de"
+      ? de
+      : locale === "en"
+      ? en
+      : locale === "es"
+      ? es
+      : locale === "ja"
+      ? ja
+      : pt;
   let href = "/";
   const isActive = router.asPath === href;
 
@@ -59,21 +66,11 @@ export default function Container(props) {
             defaultValue={locale}
             className="w-16 text-right text-white text-shadow-sm text-lg bg-transparent tracking-wide mr-10"
           >
-            <option value="de">
-              🇩🇪
-            </option>
-            <option value="en">
-              🇺🇸
-            </option>
-            <option value="es">
-              🇪🇸
-            </option>
-            <option value="ja">
-              🇯🇵
-            </option>
-            <option value="pt">
-             🇧🇷
-            </option>
+            <option value="de">🇩🇪</option>
+            <option value="en">🇺🇸</option>
+            <option value="es">🇪🇸</option>
+            <option value="ja">🇯🇵</option>
+            <option value="pt">🇧🇷</option>
           </select>
           <ThemeChanger />
         </nav>

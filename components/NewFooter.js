@@ -9,7 +9,16 @@ const Footer = () => {
   const email = "fabio@fabio.sh";
   const router = useRouter();
   const { locale } = router;
-  const t = locale === "de" ? de : locale === "en" ? en : locale === "es" ? es : locale === "ja" ? ja : pt;
+  const t =
+    locale === "de"
+      ? de
+      : locale === "en"
+      ? en
+      : locale === "es"
+      ? es
+      : locale === "ja"
+      ? ja
+      : pt;
 
   return (
     <>
