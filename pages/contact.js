@@ -73,7 +73,7 @@ export default function Kontakt() {
           <input
             type="submit"
             value={`${t.contactButton}!`}
-            className="w-44 mt-4 py-2 bg-emerald-200 hover:bg-emerald-400 hover:text-white dark:bg-emerald-400 rounded transition duration-300 ease-in-out ring-emerald-300 dark:ring-emerald-400 text-emerald-700 dark:text-white ring-offset-4 focus:outline outline-emerald-400 hover:scale-105 dark:hover:bg-white dark:hover:text-emerald-500"
+            className="w-44 mt-4 py-2 bg-gray-200 hover:bg-emerald-300 hover:text-white dark:bg-gray-700 dark:border dark:border-emerald-300 rounded transition duration-300 ease-in-out ring-emerald-300 dark:ring-emerald-500 text-gray-900 dark:text-white ring-offset-4 focus:outline outline-emerald-400 hover:scale-105 dark:hover:bg-emerald-300 dark:hover:text-gray-900"
           />
         </form>
       </div>

@@ -19,12 +19,12 @@ export default function Custom404() {
       <h1 className="pt-32 md:pt-56 text-emerald-500 w-full text-center text-9xl">
         404
       </h1>
-      <h2 className="mt-12 text-emerald-500 dark:text-white w-full text-center text-2xl font-semibold">
+      <h2 className="mt-12 dark:text-white w-full text-center text-2xl font-semibold">
         {t.custom404Title}
       </h2>
       <Link
         href="/"
-        className="block text-center w-32 mt-12 bg-gradient-to-br hover:from-emerald-300 hover:to-emerald-500 border-emerald-500 border-2 px-4 py-2 rounded-lg mx-auto text-emerald-500 hover:text-white dark:text-white duration-300"
+        className="block text-center w-32 mt-12 hover:bg-emerald-500 border-emerald-500 border-2 px-4 py-2 rounded-lg mx-auto text-emerald-500 hover:text-white dark:text-white duration-300"
       >
         {t.custom404Button}
       </Link>
