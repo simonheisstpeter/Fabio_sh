@@ -41,6 +41,7 @@ const ProjectData = [
         "Vercel",
         "Spotify API",
         "Vercel Analytics",
+        "Email.js",
         "Party.js"
       ],
       published: true,
@@ -266,6 +267,7 @@ const ProjectData = [
       categories: [
         "Gatsby.js",
         "TailwindCSS",
+        "Email.js",
         "Vercel",
       ],
       published: true,
@@ -311,6 +313,7 @@ const ProjectData = [
       categories: [
         "Next.js",
         "Headless Wordpress",
+        "Graphql",
         "TailwindCSS",
       ],
       published: true,
