@@ -15,6 +15,9 @@ export default {
 
   website: "Website",
   comingSoon: "Bald mehr ...",
+  currentProjects: "Laufende Projekte",
+  upcomingProjects: "Kommende / Pausierte Projekte",
+  finishedProjects: "Fertiggestellte Projekte",
 
   custom404Title: "Diese Seite konnte leider nicht gefunden werden!",
   custom404Button: "Zurück",

@@ -18,7 +18,7 @@ const Project = ({ locale, t, ...item }) => {
       href={item.url}
       className="bg-white dark:bg-[#1d1d1f] hover:border-emerald-400 rounded-md border border-gray-400 hover:-translate-y-1 duration-200 shadow-sm hover:shadow cursor-fabiosh"
     >
-      {item.finished === false ? (
+      {!item.finished && item.published ? (
         <picture className="block inset-0 max-h-[250px]">
           <Image
             src={item.image || "/meta_pic.pn"}
@@ -30,7 +30,7 @@ const Project = ({ locale, t, ...item }) => {
             className="grayscale hover:grayscale-0 duration-200 rounded-t-md max-h-[220px] object-cover"
           />
         </picture>
-      ) : null}
+      ) : <div className="rounded-t-md h-1"></div>}
       <div className="bg-white dark:bg-[#1d1d1f] p-4 text-sm rounded-b-md">
         <h3 key={item.title} className="font-medium mb-4 text-base relative">
           {item.title}
@@ -38,14 +38,14 @@ const Project = ({ locale, t, ...item }) => {
             className={`${
               item.online
                 ? "bg-emerald-400"
-                : item.finished === false
+                : !item.finished
                 ? "bg-yellow-300"
                 : "bg-red-500"
             } inline-block w-2.5 h-2.5 rounded-full group ml-2`}
           >
             {" "}
             <span class="absolute invisible group-hover:visible bottom-5 rounded-md bg-black text-white p-1 px-2 duration-200 z-50 -translate-x-7">
-              {item.online ? "Online" : "Offline"}
+              {item.online ? "Online" : !item.finished ? "In review" : "Offline"}
             </span>
           </span>
         </h3>
@@ -59,7 +59,7 @@ const Project = ({ locale, t, ...item }) => {
           {item.languages.map((language) => (
             <span className="mr-1 grayscale hover:grayscale-0 relative group">
               {language.flag}
-              <span class="absolute invisible group-hover:visible bottom-5 rounded-md bg-black text-white p-1 px-2 duration-200 z-50 -translate-x-11">
+              <span class="absolute invisible group-hover:visible bottom-5 rounded-md bg-black text-white dark:bg-emerald-400 dark:text-white p-1 px-2 z-50 -translate-x-11 min-w-[60px]">
                 {language.lang}
               </span>
             </span>
@@ -103,10 +103,10 @@ const Project = ({ locale, t, ...item }) => {
 
 const ExtraBox = ({ text }) => {
   return (
-    <div className="bg-white dark:bg-[#1d1d1f] rounded-md border border-gray-300 hover:-translate-y-1 duration-200 shadow-sm hover:shadow flex items-center place-content-center">
-      <div className="">
+    <div className="bg-white dark:bg-[#1d1d1f] hover:border-gray-400 rounded-md border border-dotted border-gray-300 duration-200 shadow-sm hover:shadow flex items-center place-content-center">
+      <p className="">
         {text}
-      </div>
+      </p>
     </div>
   );
 };
@@ -131,16 +131,25 @@ export default function ProjectsView() {
         <div className="h-full container mx-auto px-4 md:px-12">
           <h1 className="text-xl my-20">{t.menuProjects}</h1>
 
-          <h2 className="mb-6">Current projects</h2>
+          <h2 className="mb-6">{t.currentProjects}</h2>
           <article className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-20">
-            {ProjectData.filter((pr) => pr.finished === false).map((item) => (
+            {ProjectData.filter((pr) => !pr.finished && pr.published).map((item) => (
               <Project {...item} locale={locale} t={t} />
             ))}
           </article>
 
-          <h2 className="mb-6">Finished projects</h2>
-          <article className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 opacity-50 hover:opacity-100 duration-200">
-            {ProjectData.filter((pr) => pr.finished === true).map((item) => (
+          <h2 className="mb-6">{t.upcomingProjects}</h2>
+          <article className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-20 opacity-50 hover:opacity-100 duration-200">
+            {ProjectData.filter((pr) => pr.finished === false && pr.published === false).map((item) => (
+              <Project {...item} locale={locale} t={t} />
+            ))}
+            {/* Extra Box 
+            <ExtraBox text={t.comingSoon} />*/}
+          </article>
+
+          <h2 className="mb-6">{t.finishedProjects}</h2>
+          <article className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-20 opacity-50 hover:opacity-100 duration-200">
+            {ProjectData.filter((pr) => pr.finished).map((item) => (
               <Project {...item} locale={locale} t={t} />
             ))}
             {/* Extra Box */}

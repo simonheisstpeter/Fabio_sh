@@ -14,7 +14,10 @@ export default {
   contactButton: "Enviar",
 
   website: "Pagina web",
-  comingSoon: "more coming soon...",
+  comingSoon: "En breve mas ...",
+  currentProjects: "Proyectos en curso",
+  upcomingProjects: "Próximos / proyectos en pausa",
+  finishedProjects: "Proyectos finalizados",
 
   custom404Title: "Lo siento, no se ha encontrado esta página!",
   custom404Button: "Volver atrás",

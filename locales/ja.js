@@ -14,7 +14,10 @@ export default {
   contactButton: "レッツゴー ",
 
   website: "サイト",
-  comingSoon: "more coming soon...",
+  comingSoon: "近日公開予定 ...",
+  currentProjects: "継続的なプロジェクト",
+  upcomingProjects: "進行中・休止中のプロジェクト",
+  finishedProjects: "終了したプロジェクト",
 
   custom404Title: "申し訳ありませんが、このページは見つかりませんでした！",
   custom404Button: "バック",
