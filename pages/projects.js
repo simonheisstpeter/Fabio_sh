@@ -16,7 +16,7 @@ const Project = ({ locale, t, ...item }) => {
       rel="noopener noreferrer"
       aria-label={item.title}
       href={item.url}
-      className="bg-white dark:bg-[#1d1d1f] rounded-md border border-gray-300 hover:-translate-y-1 duration-200 shadow-sm hover:shadow"
+      className="bg-white dark:bg-[#1d1d1f] hover:border-emerald-400 rounded-md border border-gray-400 hover:-translate-y-1 duration-200 shadow-sm hover:shadow cursor-fabiosh"
     >
       {item.finished === false ? (
         <picture className="block inset-0 max-h-[250px]">
@@ -101,6 +101,16 @@ const Project = ({ locale, t, ...item }) => {
   );
 };
 
+const ExtraBox = ({ text }) => {
+  return (
+    <div className="bg-white dark:bg-[#1d1d1f] rounded-md border border-gray-300 hover:-translate-y-1 duration-200 shadow-sm hover:shadow flex items-center place-content-center">
+      <div className="">
+        {text}
+      </div>
+    </div>
+  );
+};
+
 export default function ProjectsView() {
   const router = useRouter();
   const { locale } = router;
@@ -134,11 +144,7 @@ export default function ProjectsView() {
               <Project {...item} locale={locale} t={t} />
             ))}
             {/* Extra Box */}
-            <div className="bg-white dark:bg-[#1d1d1f] rounded-md border border-gray-300 hover:-translate-y-1 duration-200 shadow-sm hover:shadow">
-              <span className="items-center mx-auto block w-full h-full text-center my-24 md:mb-0 xl:mt-32">
-                {t.comingSoon}
-              </span>
-            </div>
+            <ExtraBox text={t.comingSoon} />
           </article>
         </div>
         <Confetti />

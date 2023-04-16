@@ -116,7 +116,7 @@ export default function Navigation() {
 
       {/* Desktop */}
 
-      <nav className="mt-12 hidden md:block text-right pr-10">
+      <nav className="mt-12 hidden md:block text-right pr-10 md:fixed">
         <Link
           href="/"
           className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block"
