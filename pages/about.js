@@ -8,7 +8,7 @@ export default function About() {
 
   let text = "This Song plays now: ";
 
-  if (error) return <div>failed to load</div>;
+  if (error) return <Container>failed to load</Container>;
   if (!data)
     return <div className="w-full py-32 md:py-72 text-center">loading...</div>;
 
@@ -35,14 +35,17 @@ export default function About() {
             <span className="text-lg font-medium block">{data.title}</span>
             <span className="text-xl font-bold block mt-2">{data.artist}</span>
             <span className="text-lg font-medium block my-2">{data.album}</span>
-            <Image
-              src={data?.albumImageUrl}
+            <a href={data.songUrl} target="_blank" rel="noopener noreferrer" className="block mx-auto text-center w-30">
+              <Image
+              src={data?.albumImageUrl || "/test.png"}
               placeholder="blur"
-              blurDataURL={data?.albumImageUrl}
+              blurDataURL={data?.albumImageUrl || "/test.png"}
               width={200}
               height={200}
-            />
-            <a href={data.songUrl} className="block mt-8 font-light">
+              alt={data.title}
+              className={data?.albumImageUrl ? "mx-auto rounded-md" : "mx-auto filter dark:mix-blend-multiply rounded-md"}
+            /></a>
+            <a href={data.songUrl} target="_blank" rel="noopener noreferrer" className="block mt-8 font-light">
               Click here to get to the song
             </a>
           </div>
