@@ -81,11 +81,11 @@ const MobileMenu = () => {
           <select
             onChange={changeMobileLanguage}
             defaultValue={locale}
-            className="mx-auto mb-6 flex w-16 bg-transparent text-center text-lg tracking-wide"
+            className="mx-auto translate-x-2 mb-6 flex w-12 bg-transparent text-center text-lg tracking-wide"
           >
-            <option value="de">🇩🇪</option>
+            <option value="de">🇦🇹</option>
             <option value="en">🇺🇸</option>
-            <option value="es">🇪🇸</option>
+            <option value="es">🇦🇷</option>
             <option value="ja">🇯🇵</option>
             <option value="pt">🇧🇷</option>
           </select>

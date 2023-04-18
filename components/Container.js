@@ -71,9 +71,9 @@ export default function Container(props) {
             defaultValue={locale}
             className="text-shadow-sm mr-10 w-16 bg-transparent text-right text-lg tracking-wide text-white"
           >
-            <option value="de">🇩🇪</option>
+            <option value="de">🇦🇹</option>
             <option value="en">🇺🇸</option>
-            <option value="es">🇪🇸</option>
+            <option value="es">🇦🇷</option>
             <option value="ja">🇯🇵</option>
             <option value="pt">🇧🇷</option>
           </select>
