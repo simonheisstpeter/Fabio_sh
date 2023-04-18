@@ -13,15 +13,15 @@ const ThemeChanger = () => {
     }
   };
   return (
-    <div className="justify-between items-center font-bold text-xl mx-auto md:inline-block translate-y-1.5">
+    <div className="mx-auto translate-y-1.5 items-center justify-between text-xl font-bold md:inline-block">
       <button
-        className="w-full md:w-6 text-emerald-400 dark:text-gray-100 "
+        className="w-full text-emerald-400 dark:text-gray-100 md:w-6 "
         onClick={switchTheme}
         aria-label="Change theme"
       >
         {theme === "dark" ? (
           <svg
-            className="w-6 h-6"
+            className="h-6 w-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -40,7 +40,7 @@ const ThemeChanger = () => {
             viewBox="0 0 24 24"
             stroke="currentColor"
             id="moon"
-            className="w-6 h-6"
+            className="h-6 w-6"
           >
             <path
               strokeLinecap="round"

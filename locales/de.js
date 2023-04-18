@@ -13,7 +13,7 @@ export default {
   contactMessage: "Nachricht",
   contactButton: "Los",
 
-  website: "Website",
+  website: "Webseite",
   comingSoon: "Bald mehr ...",
   currentProjects: "Laufende Projekte",
   upcomingProjects: "Kommende / Pausierte Projekte",

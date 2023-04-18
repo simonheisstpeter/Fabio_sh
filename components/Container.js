@@ -14,6 +14,8 @@ import en from "../locales/en";
 import es from "../locales/es";
 import pt from "../locales/pt";
 import ja from "../locales/ja";
+import Loader from "./Loader";
+import Link from "next/link";
 
 export default function Container(props) {
   const { children } = props;
@@ -52,19 +54,22 @@ export default function Container(props) {
 
   return (
     <>
-      <body className="z-10">
+      <main className="z-10">
         <MobileMenu />
         {/* Desktop */}
 
-        <nav className="pt-12 hidden md:block text-right pr-10">
-          <NavItem href="/" text={t.menuHome} />
+        <nav className="hidden pr-10 pt-12 text-right md:block">
+          <Link href={"/"}>
+            <Loader />
+          </Link>
+          {/* <NavItem href="/" text={t.menuHome} /> */}
           <NavItem href="/projects" text={t.menuProjects} />
           <NavItem href="/about" text={t.menuAbout} />
           <NavItem href="/contact" text={t.menuContact} />
           <select
             onChange={changeLanguage}
             defaultValue={locale}
-            className="w-16 text-right text-white text-shadow-sm text-lg bg-transparent tracking-wide mr-10"
+            className="text-shadow-sm mr-10 w-16 bg-transparent text-right text-lg tracking-wide text-white"
           >
             <option value="de">🇩🇪</option>
             <option value="en">🇺🇸</option>
@@ -80,7 +85,7 @@ export default function Container(props) {
 
         <ScrollToTop />
         <Footer />
-      </body>
+      </main>
       <Analytics />
     </>
   );

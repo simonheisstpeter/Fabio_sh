@@ -18,10 +18,10 @@ const Confetti = () => {
       className="mx-auto py-32 md:py-72"
       onClick={buttonEffect}
     >
-      <span className="text-center block select-none">
-        <span className="text-sm mt-12 mb-2 block italic">Click here for</span>
-        <span className="text-3xl block">
-          <span className="text-red-400 inline hover:scale-105 duration-300">
+      <span className="block select-none text-center">
+        <span className="mb-2 mt-12 block text-sm italic">Click here for</span>
+        <span className="block text-3xl">
+          <span className="inline text-red-400 duration-300 hover:scale-105">
             C
           </span>
           <span className="text-yellow-400">o</span>

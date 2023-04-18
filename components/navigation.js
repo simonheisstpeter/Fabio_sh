@@ -42,9 +42,9 @@ export default function Navigation() {
   return (
     <>
       {/* Mobile */}
-      <nav className="w-full fixed top-0 text-center bg-white dark:bg-[#1c1b22] z-10 visible md:hidden">
+      <nav className="visible fixed top-0 z-10 w-full bg-white text-center dark:bg-[#1c1b22] md:hidden">
         <button
-          className="absolute w-8 h-8 text-gray-900 dark:text-white p-2 rounded right-6 top-6"
+          className="absolute right-6 top-6 h-8 w-8 rounded p-2 text-gray-900 dark:text-white"
           onClick={() => toggleMenu()}
           aria-haspopup="menu"
           aria-label="menu"
@@ -66,7 +66,7 @@ export default function Navigation() {
           <div className="grid grid-cols-1 text-2xl">
             <Link
               href="/"
-              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
+              className="mb-6 bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent"
               onClick={() => toggleMenu()}
             >
               {t.menuHome}
@@ -74,14 +74,14 @@ export default function Navigation() {
 
             <Link
               href="/projects"
-              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-500"
+              className="mb-6 bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent"
               onClick={() => toggleMenu()}
             >
               {t.menuProjects}
             </Link>
             <Link
               href="/about"
-              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600"
+              className="mb-6 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent"
               onClick={() => toggleMenu()}
             >
               {t.menuAbout}
@@ -92,7 +92,7 @@ export default function Navigation() {
             */}
             <Link
               href="/contact"
-              className="mb-6 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-300 dark:to-emerald-500"
+              className="mb-6 bg-gradient-to-r from-emerald-600 to-emerald-300 bg-clip-text text-transparent dark:to-emerald-500"
               onClick={() => toggleMenu()}
             >
               {t.menuContact}
@@ -100,9 +100,9 @@ export default function Navigation() {
             <select
               onChange={changeMobileLanguage}
               defaultValue={locale}
-              className="w-12 h-10 text-white text-shadow-sm text-md bg-transparent tracking-wide mx-auto mb-12"
+              className="text-shadow-sm text-md mx-auto mb-12 h-10 w-12 bg-transparent tracking-wide text-white"
             >
-              <option className="text-black w-20" value="de">
+              <option className="w-20 text-black" value="de">
                 🇩🇪
               </option>
               <option className="text-black" value="en">
@@ -116,22 +116,22 @@ export default function Navigation() {
 
       {/* Desktop */}
 
-      <nav className="mt-12 hidden md:block text-right pr-10 md:fixed">
+      <nav className="mt-12 hidden pr-10 text-right md:fixed md:block">
         <Link
           href="/"
-          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block"
+          className="mx-4 inline-block transition duration-300 ease-in-out hover:text-emerald-300 hover:underline"
         >
           {t.menuHome}
         </Link>
         <Link
           href="/projects"
-          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-300 inline-block"
+          className="mx-4 inline-block transition duration-300 ease-in-out hover:text-emerald-300 hover:underline"
         >
           {t.menuProjects}
         </Link>
         <Link
           href="/about"
-          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-400 inline-block"
+          className="mx-4 inline-block transition duration-300 ease-in-out hover:text-emerald-400 hover:underline"
         >
           {t.menuAbout}
         </Link>
@@ -141,14 +141,14 @@ export default function Navigation() {
         */}
         <Link
           href="/contact"
-          className="mx-4 transition duration-300 ease-in-out hover:underline hover:text-emerald-600 inline-block"
+          className="mx-4 inline-block transition duration-300 ease-in-out hover:text-emerald-600 hover:underline"
         >
           {t.menuContact}
         </Link>
         <select
           onChange={changeLanguage}
           defaultValue={locale}
-          className="w-16 text-right text-white text-shadow-sm text-lg bg-transparent tracking-wide mr-10"
+          className="text-shadow-sm mr-10 w-16 bg-transparent text-right text-lg tracking-wide text-white"
         >
           <option className="text-black" value="de">
             🇩🇪

@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import Image from "next/image";
 import Container from "../components/Container";
+import Loader from "../components/Loader";
 
 export default function About() {
   const fetcher = (url) => fetch(url).then((r) => r.json());
@@ -8,9 +9,20 @@ export default function About() {
 
   let text = "This Song plays now: ";
 
-  if (error) return <Container>failed to load</Container>;
+  if (error)
+    return (
+      <Container>
+        <Loader />
+        failed to load
+      </Container>
+    );
   if (!data)
-    return <div className="w-full py-32 md:py-72 text-center">loading...</div>;
+    return (
+      <div className="h-12 w-full py-32 text-center md:py-72">
+        <Loader big />
+        <p className="mt-4">...loading</p>
+      </div>
+    );
 
   if (data.isPlaying === false) text = "No music is playing on Spotify";
 
@@ -21,31 +33,46 @@ export default function About() {
         {/*
             bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
         */}
-        <span className="text-center block mb-20">
+        <span className="mb-20 block text-center">
           Hier kommt bald{" "}
           <span className="text-md font-bold">ETWAS.... Neues</span>
         </span>
         <hr />
-        <p className="mt-20 text-md text-center">
+        <p className="text-md mt-20 text-center">
           Here some information about music playing on my Spotify account
         </p>
-        <span className="block my-4 text-md font-bold text-center">{text}</span>
+        <span className="text-md my-4 block text-center font-bold">{text}</span>
         {data.isPlaying && (
-          <div className="text-center mt-6">
-            <span className="text-lg font-medium block">{data.title}</span>
-            <span className="text-xl font-bold block mt-2">{data.artist}</span>
-            <span className="text-lg font-medium block my-2">{data.album}</span>
-            <a href={data.songUrl} target="_blank" rel="noopener noreferrer" className="block mx-auto text-center w-30">
+          <div className="mt-6 text-center">
+            <span className="block text-lg font-medium">{data.title}</span>
+            <span className="mt-2 block text-xl font-bold">{data.artist}</span>
+            <span className="my-2 block text-lg font-medium">{data.album}</span>
+            <a
+              href={data.songUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-30 mx-auto block text-center"
+            >
               <Image
-              src={data?.albumImageUrl || "/test.png"}
-              placeholder="blur"
-              blurDataURL={data?.albumImageUrl || "/test.png"}
-              width={200}
-              height={200}
-              alt={data.title}
-              className={data?.albumImageUrl ? "mx-auto rounded-md" : "mx-auto filter dark:mix-blend-multiply rounded-md"}
-            /></a>
-            <a href={data.songUrl} target="_blank" rel="noopener noreferrer" className="block mt-8 font-light">
+                src={"/test.png"}
+                placeholder="blur"
+                blurDataURL={"/test.png"}
+                width={200}
+                height={200}
+                alt={data.title}
+                className={
+                  data.albumImageUrl
+                    ? "mx-auto rounded-md"
+                    : "mx-auto rounded-md border border-dotted dark:mix-blend-difference"
+                }
+              />
+            </a>
+            <a
+              href={data.songUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 block font-light"
+            >
               Click here to get to the song
             </a>
           </div>

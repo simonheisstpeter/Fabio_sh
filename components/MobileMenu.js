@@ -38,9 +38,9 @@ const MobileMenu = () => {
   };
 
   return (
-    <nav className="w-full fixed top-0 text-center bg-white dark:bg-[#1c1b22] z-10 visible md:hidden">
+    <nav className="visible fixed top-0 z-10 w-full bg-white text-center dark:bg-[#1c1b22] md:hidden">
       <button
-        className="absolute w-8 h-8 text-gray-900 dark:text-white p-2 rounded right-6 top-6"
+        className="absolute right-6 top-6 h-8 w-8 rounded p-2 text-gray-900 dark:text-white"
         onClick={() => toggleNav()}
         aria-haspopup="menu"
         aria-label="menu"
@@ -59,7 +59,7 @@ const MobileMenu = () => {
       </button>
 
       <div
-        className={menuOpen ? "h-screen pt-32 dots dark:dotsDark" : "hidden"}
+        className={menuOpen ? "dots dark:dotsDark h-screen pt-32" : "hidden"}
       >
         <div className="grid grid-cols-1 text-2xl">
           <NavItem onClick={() => toggleNav()} href="/" text={t.menuHome} />
@@ -81,7 +81,7 @@ const MobileMenu = () => {
           <select
             onChange={changeMobileLanguage}
             defaultValue={locale}
-            className="w-16 text-lg bg-transparent tracking-wide mx-auto mb-6 flex text-center"
+            className="mx-auto mb-6 flex w-16 bg-transparent text-center text-lg tracking-wide"
           >
             <option value="de">🇩🇪</option>
             <option value="en">🇺🇸</option>

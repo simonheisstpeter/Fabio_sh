@@ -62,6 +62,7 @@ export default function Kontakt() {
             name="user_name"
             className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300"
             placeholder={`${t.contactName}...`}
+            required
           />
           <label>{t.contactEMail}</label>
           <input

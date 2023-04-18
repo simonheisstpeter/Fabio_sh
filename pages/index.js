@@ -26,10 +26,10 @@ export default function Home() {
         <div className="container mx-auto py-32 md:py-60">
           <h1
             className={`${
-              locale === "ja" ? "text-5xl space-y-4 md:space-y-6" : "text-6xl"
-            } md:text-9xl p-6 md:p-12 font-bold md:font-bold`}
+              locale === "ja" ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"
+            } p-6 font-bold md:p-12 md:text-9xl md:font-bold`}
           >
-            <p className="md:w-[515px] text-gray-300 dark:text-gray-400 animate-fadeIn_2000">
+            <p className="animate-fadeIn_2000 text-gray-300 dark:text-gray-400 md:w-[515px]">
               {t.name}
             </p>
             <p className="animate-fadeIn_2000">{t.lastname}</p>

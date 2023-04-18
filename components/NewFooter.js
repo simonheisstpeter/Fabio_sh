@@ -22,11 +22,11 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="container mx-auto p-6 md:p-12 select-none">
+      <footer className="container mx-auto select-none p-6 md:p-12">
         <p>{t.contactEMail}</p>
         <a
           href={`mailto:${email}`}
-          className="text-gray-700 dark:text-white hover:text-emerald-400 transition duration-300"
+          className="text-gray-700 transition duration-300 hover:text-emerald-400 dark:text-white"
         >
           {email}
         </a>
