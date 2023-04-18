@@ -516,6 +516,27 @@ const ProjectData = [
       url: "https://holocaustinhungary.centropa.org/",
       languages: [{lang: "English", flag: "🇺🇸"}]
     },
+    {
+      id: "23",
+      title: "ArtistenAllerArt",
+      description: {
+        de: {text: "Entwicklung, Support"},
+        en: {text: "Development, Support"},
+        es: {text: ""},
+        ja: {text: ""},
+        pt: {text: ""}
+      },
+      categories: [
+        "Wordpress",
+        "Divi",
+      ],
+      published: true,
+      finished: true,
+      online: true,
+      image: "",
+      url: "https://artistenallerart.at/",
+      languages: [{lang: "Deutsch", flag: "🇩🇪"}]
+    },
   ];
 
 export { ProjectData };
