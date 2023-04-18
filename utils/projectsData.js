@@ -324,6 +324,28 @@ const ProjectData = [
       languages: [{lang: "English", flag: "🇺🇸"}, {lang: "Deutsch", flag: "🇩🇪"}]
     },
     {
+      id: "24",
+      title: "CHOYCE",
+      description: {
+        de: {text: "WebScraping für CHOYCE"},
+        en: {text: "WebScraping for CHOYCE"},
+        es: {text: ""},
+        ja: {text: ""},
+        pt: {text: ""}
+      },
+      categories: [
+        "Python",
+        "Selenium",
+        "CSV"
+      ],
+      published: true,
+      finished: true,
+      online: true,
+      image: "",
+      url: "https://choyce.tech/",
+      languages: [{lang: "Deutsch", flag: "🇩🇪"}]
+    },
+    {
       id: "14",
       title: "Sarajveo30 - Centropa",
       description: {
