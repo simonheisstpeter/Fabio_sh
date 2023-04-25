@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useState, useCallback, Fragment } from "react";
 import { useRouter } from "next/router";
 import NavItem from "./NavItem";

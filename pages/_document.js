@@ -21,7 +21,6 @@ class MyDocument extends Document {
           name="Description"
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
         />
-        x
         <meta
           name="Abstract"
           content="Fabio Gschweidl Webdeveloper Webdevelopment Webdesign Wireframe Consulting Wireframe Consulting Wireframe"
