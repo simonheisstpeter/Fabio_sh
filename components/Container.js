@@ -18,6 +18,7 @@ export default function Container(props) {
   const router = useRouter();
   const { locale } = router;
   const t = locales[locale] || locales["en"];
+  const isActive = router.asPath === href;
 
   const changeLanguage = (event) => {
     const selectedLocale = event.target.value;
@@ -44,7 +45,7 @@ export default function Container(props) {
       <main className="z-10">
         {/* Desktop */}
         <nav className="hidden pr-10 pt-12 text-right md:block">
-          <Link href={"/"}>
+          <Link href={"/"} aria-current={isActive ? "page" : undefined}>
             <Loader />
           </Link>
           {/* <NavItem href="/" text={t.menuHome} /> */}
