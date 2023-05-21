@@ -7,11 +7,13 @@ const ThemeChanger = () => {
 
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), []);
+  
   const switchTheme = () => {
     if (mounted) {
       setTheme(theme === "light" ? "dark" : "light");
     }
   };
+
   return (
     <div className="mx-auto translate-y-1.5 items-center justify-between text-xl font-bold md:inline-block">
       <button

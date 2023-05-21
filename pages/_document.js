@@ -1,4 +1,3 @@
-import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import Script from "next/script";
 
@@ -7,7 +6,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-        <title>fabio</title>
         <link rel="icon" href="/carp_streamer.ico" />
         <meta name="Title" content="Fabio Gschweidl" />
         <meta name="Author" content="Fabio Gschweidl" />

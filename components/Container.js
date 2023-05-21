@@ -6,14 +6,8 @@ import ThemeChanger from "./ThemeChanger";
 import ScrollToTop from "./ScrollToTop";
 import MobileMenu from "./MobileMenu";
 import Footer from "./NewFooter";
-
 import { Analytics } from "@vercel/analytics/react";
-
-import de from "../locales/de";
-import en from "../locales/en";
-import es from "../locales/es";
-import pt from "../locales/pt";
-import ja from "../locales/ja";
+import locales from "../locales";
 import Loader from "./Loader";
 import Link from "next/link";
 
@@ -22,25 +16,13 @@ export default function Container(props) {
 
   const router = useRouter();
   const { locale } = router;
-  const t =
-    locale === "de"
-      ? de
-      : locale === "en"
-      ? en
-      : locale === "es"
-      ? es
-      : locale === "ja"
-      ? ja
-      : pt;
-  let href = "/";
-  const isActive = router.asPath === href;
+  const t = locales[locale] || locales["en"];
 
-  const changeLanguage = (e) => {
-    const locale = e.target.value;
+  const changeLanguage = (event) => {
+    const selectedLocale = event.target.value;
     router.push(router.pathname, router.asPath, {
-      locale,
+      locale: selectedLocale,
     });
-    //.then(() => router.reload());
   };
 
   // dark mode
@@ -54,10 +36,9 @@ export default function Container(props) {
 
   return (
     <>
+      <MobileMenu />
       <main className="z-10">
-        <MobileMenu />
         {/* Desktop */}
-
         <nav className="hidden pr-10 pt-12 text-right md:block">
           <Link href={"/"}>
             <Loader />
@@ -68,8 +49,9 @@ export default function Container(props) {
           <NavItem href="/contact" text={t.menuContact} />
           <select
             onChange={changeLanguage}
-            defaultValue={locale}
+            value={locale}
             className="text-shadow-sm mr-10 w-16 bg-transparent text-right text-lg tracking-wide text-white"
+            aria-label={t.languageSelect}
           >
             <option value="de">🇦🇹</option>
             <option value="en">🇺🇸</option>
@@ -81,7 +63,7 @@ export default function Container(props) {
         </nav>
 
         {/* Main Content */}
-        <main className="">{children}</main>
+        <main>{children}</main>
 
         <ScrollToTop />
         <Footer />

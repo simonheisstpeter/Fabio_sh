@@ -9,12 +9,11 @@ const Project = ({ locale, t, ...item }) => {
   const keyId = useId();
 
   return (
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
+    <article
+      role="link"
+      tabIndex={0}
       aria-label={item.title}
-      href={item.url}
-      key={keyId}
+      onClick={() => window.open(item.url, "_blank", "noopener noreferrer")}
       className="cursor-fabiosh rounded-md border border-gray-400 bg-white shadow-sm duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow dark:bg-[#1d1d1f]"
     >
       {!item.finished && item.published ? (
@@ -42,17 +41,17 @@ const Project = ({ locale, t, ...item }) => {
         </p>
         <span className="mb-2 block text-gray-400">
           {item.languages.map((language) => (
-            <ProjectLanguages language={language} />
+            <ProjectLanguages language={language} key={language} />
           ))}
         </span>
         <ProjectWebsiteLink text={t.website} {...item} />
         <div className="mt-4 overflow-y-auto">
           {item.categories.map((category) => (
-            <ProjectCategories category={category} />
+            <ProjectCategories category={category} key={category} />
           ))}
         </div>
       </div>
-    </a>
+    </article>
   );
 };
 

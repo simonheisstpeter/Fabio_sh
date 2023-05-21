@@ -1,26 +1,13 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Container from "../components/Container";
+import locales from "../locales";
 
-import en from "../locales/en";
-import de from "../locales/de";
-import es from "../locales/es";
-import pt from "../locales/pt";
-import ja from "../locales/ja";
 
 export default function Custom404() {
   const router = useRouter();
   const { locale } = router;
-  const t =
-    locale === "de"
-      ? de
-      : locale === "en"
-      ? en
-      : locale === "es"
-      ? es
-      : locale === "ja"
-      ? ja
-      : pt;
+  const t = locales[locale] || locales["en"]; 
 
   return (
     <Container>

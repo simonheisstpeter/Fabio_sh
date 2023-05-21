@@ -1,25 +1,12 @@
 import { useRouter } from "next/router";
 import Container from "../components/Container";
-import de from "../locales/de";
-import en from "../locales/en";
-import es from "../locales/es";
-import ja from "../locales/ja";
-import pt from "../locales/pt";
+import locales from "../locales";
 
 export default function Home() {
   const router = useRouter();
   const { locale } = router;
-  const t =
-    locale === "de"
-      ? de
-      : locale === "en"
-      ? en
-      : locale === "es"
-      ? es
-      : locale === "ja"
-      ? ja
-      : pt;
-
+  const t = locales[locale] || locales["en"]; 
+  
   return (
     <Container>
       <div className="h-full w-full">

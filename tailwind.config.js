@@ -14,7 +14,6 @@ module.exports = {
         bgFade: "bgFade 4s",
         loaderBig: "loaderBig 1.5s ease-in-out infinite",
         loaderRetourBig: "loaderRetourBig 2s ease-in-out infinite",
-
         loaderSmall: "loaderSmall 4s ease-in-out infinite",
         loaderRetourSmall: "loaderRetourSmall 4s ease-in-out infinite"
       },
@@ -25,71 +24,36 @@ module.exports = {
       },
       keyframes: {
         loaderSmall: {
-          "0%": {
-            transform: "translateX(-10px)"
-          },
-          "50%": {
-            transform: "translateX(10px)"
-          },
-          "100%": {
-            transform: "translateX(-10px)"
-          }
+          "0%": { transform: "translateX(-10px)" },
+          "50%": { transform: "translateX(10px)" },
+          "100%": { transform: "translateX(-10px)" }
         },
         loaderRetourSmall: {
-          "0%": {
-            transform: "translateX(10px)"
-          },
-          "50%": {
-            transform: "translateX(-10px)"
-          },
-          "100%": {
-            transform: "translateX(10px)"
-          }
+          "0%": { transform: "translateX(10px)" },
+          "50%": { transform: "translateX(-10px)" },
+          "100%": { transform: "translateX(10px)" }
         }, 
         loaderBig: {
-          "0%": {
-            transform: "translateX(-80px)"
-          },
-          "50%": {
-            transform: "translateX(80px)"
-          },
-          "100%": {
-            transform: "translateX(-80px)"
-          }
+          "0%": { transform: "translateX(-80px)" },
+          "50%": { transform: "translateX(80px)" },
+          "100%": { transform: "translateX(-80px)" }
         },
         loaderRetourBig: {
-          "0%": {
-            transform: "translateX(80px)"
-          },
-          "50%": {
-            transform: "translateX(-80px)"
-          },
-          "100%": {
-            transform: "translateX(80px)"
-          }
+          "0%": { transform: "translateX(80px)" },
+          "50%": { transform: "translateX(-80px)" },
+          "100%": { transform: "translateX(80px)" }
         },
         fade: {
-          "0%": {
-            transform: "translate(-20px, 0px)",
-            opacity: 0,
-          },
-          "100%": {
-            transform: "translate(0px, 0px)",
-            opacity: 1,
-          },
-          bgFade: {
-            "0%": {
-              opacity: 0,
-            },
-            "100%": {
-              opacity: 1,
-            },
-          }
-
+          "0%": { transform: "translate(-20px, 0px)", opacity: 0 },
+          "100%": { transform: "translate(0px, 0px)", opacity: 1 },
+        },
+        bgFade: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         }
       },
     },
   },
   darkMode: 'class',
   plugins: [],
-}
+};

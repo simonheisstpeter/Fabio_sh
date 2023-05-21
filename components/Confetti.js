@@ -1,25 +1,41 @@
+import { useEffect, useRef } from "react";
 import party from "party-js";
 
 const Confetti = () => {
-  const buttonEffect = () => {
-    document
-      .getElementById("partyEffect")
-      .addEventListener("click", function (e) {
-        party.confetti(this, {
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    const button = buttonRef.current;
+
+    if (button) {
+      const buttonEffect = () => {
+        party.confetti(button, {
           count: party.variation.range(0, 50),
           size: party.variation.range(0.6, 1.4),
         });
-      });
-  };
+      };
+
+      button.addEventListener("click", buttonEffect);
+
+      return () => {
+        button.removeEventListener("click", buttonEffect);
+      };
+    }
+  }, []);
 
   return (
     <div
-      id="partyEffect"
       className="mx-auto py-32 md:py-72"
-      onClick={buttonEffect}
+      onClick={() => buttonRef.current?.click()}
+      role="button"
+      tabIndex={0}
+      aria-label="Click here for Confetti"
+      ref={buttonRef}
     >
       <span className="block select-none text-center">
-        <span className="mb-2 mt-12 block text-sm italic">Click here for</span>
+        <span className="mb-2 mt-12 block text-sm italic">
+          Click here for
+        </span>
         <span className="block text-3xl">
           <span className="inline text-red-400 duration-300 hover:scale-105">
             C

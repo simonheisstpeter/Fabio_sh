@@ -1,27 +1,14 @@
 import { useRouter } from "next/router";
-import de from "../locales/de";
-import en from "../locales/en";
-import es from "../locales/es";
-import pt from "../locales/pt";
-import ja from "../locales/ja";
+import locales from "../locales";
+
 
 const Footer = () => {
   const email = "fabio@fabio.sh";
   const router = useRouter();
   const { locale } = router;
-  const t =
-    locale === "de"
-      ? de
-      : locale === "en"
-      ? en
-      : locale === "es"
-      ? es
-      : locale === "ja"
-      ? ja
-      : pt;
+  const t = locales[locale] || locales["en"]; 
 
   return (
-    <>
       <footer className="container mx-auto select-none p-6 md:p-12">
         <p>{t.contactEMail}</p>
         <a
@@ -31,7 +18,6 @@ const Footer = () => {
           {email}
         </a>
       </footer>
-    </>
   );
 };
 
