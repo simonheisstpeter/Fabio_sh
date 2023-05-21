@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import locales from "../locales";
 import Loader from "./Loader";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Container(props) {
   const { children } = props;
@@ -36,6 +37,9 @@ export default function Container(props) {
 
   return (
     <>
+    <Head>
+      <title>fabio.sh</title>
+    </Head>
       <MobileMenu />
       <main className="z-10">
         {/* Desktop */}
