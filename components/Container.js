@@ -18,7 +18,7 @@ export default function Container(props) {
   const router = useRouter();
   const { locale } = router;
   const t = locales[locale] || locales["en"];
-  const isActive = router.asPath === href;
+  const isActive = router.asPath === "/";
 
   const changeLanguage = (event) => {
     const selectedLocale = event.target.value;
