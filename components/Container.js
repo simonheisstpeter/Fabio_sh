@@ -63,7 +63,7 @@ export default function Container(props) {
         </nav>
 
         {/* Main Content */}
-        <main>{children}</main>
+        <section>{children}</section>
 
         <ScrollToTop />
         <Footer />
