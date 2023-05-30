@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "../styles/globals.css";
 import { ThemeProvider } from "next-themes";
 
@@ -13,6 +14,17 @@ export default function MyApp({ Component, pageProps }) {
   //     if (i + 1 > arrayLength) i = 1;
   //   }
   // }, []);
+
+  useEffect(() => {
+
+      window.addEventListener('blur', () => {
+        document.title = "😢 Come back! 😢"
+      })
+      window.addEventListener('focus', () => {
+        document.title = "Fabio.sh"
+      })
+ 
+  }, []);
 
   return (
     <>
