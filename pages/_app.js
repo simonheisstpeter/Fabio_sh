@@ -1,9 +1,30 @@
 import { useEffect } from "react";
 import "../styles/globals.css";
 import { ThemeProvider } from "next-themes";
+import localFont from 'next/font/local'
+
+const andesNeue = localFont({
+  src: [
+    {
+      path: './AndesNeue-Bold.woff2',
+      variable: '--font-andesneue-bold',
+    },
+    {
+      path: './AndesNeue-Book.woff2',
+      variable: '--font-andesneue-book',
+    },
+    {
+      path: './AndesNeue-Medium.woff2',
+      variable: '--font-andesneue-medium',
+    },
+    {
+      path: './AndesNeue-Light.woff2',
+      variable: '--font-andesneue-light',
+    },
+  ],
+});
 
 export default function MyApp({ Component, pageProps }) {
-  // document.title = "Love is in the air";
 
   // useEffect(() => {
   //   for (let i = 1; i <= arrayLength; i++) {
@@ -15,6 +36,7 @@ export default function MyApp({ Component, pageProps }) {
   //   }
   // }, []);
 
+  // Title Animation
   useEffect(() => {
 
       window.addEventListener('blur', () => {
@@ -29,7 +51,9 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <ThemeProvider attribute="class">
-        <Component {...pageProps} />
+        <div className={`${andesNeue.variable} font-andesneueBold`}>
+          <Component {...pageProps} />
+        </div>
       </ThemeProvider>
     </>
   );

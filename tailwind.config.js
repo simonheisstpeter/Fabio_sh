@@ -5,9 +5,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      cursor: {
-        'fabiosh': 'url(/f.cur), pointer',
-      },
       animation: {
         fadeIn_2000: "fade 2s",
         fadeIn_3000: "fade 3s",
@@ -21,6 +18,15 @@ module.exports = {
         darkDotsGray: "#1d1d1f",
         loaderAlpha: 'rgb(56, 109, 241)/ 0.05',
         loaderBorder: 'rgb(255, 255, 255)/ 0.1'
+      },
+      cursor: {
+        'fabiosh': 'url(/f.cur), pointer',
+      },
+      fontFamily: {
+        andesneueBold: ['var(--font-andesneue-bold)'],
+        andesneueBook: ['var(--font-andesneue-book)'],
+        andesneueMedium: ['var(--font-andesneue-medium)'],
+        andesneueLight: ['var(--font-andesneue-light)'],
       },
       keyframes: {
         loaderSmall: {
@@ -52,6 +58,7 @@ module.exports = {
           "100%": { opacity: 1 },
         }
       },
+      
     },
   },
   darkMode: 'class',
