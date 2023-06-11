@@ -9,11 +9,11 @@ const Footer = () => {
   const t = locales[locale] || locales["en"]; 
 
   return (
-      <footer className="container mx-auto select-none p-6 md:p-12">
+      <footer className="container mx-auto select-none p-6 md:p-12  font-andesNeueExtraLight">
         <p>{t.contactEMail}</p>
         <a
           href={`mailto:${email}`}
-          className="text-gray-700 transition duration-300 hover:text-emerald-400 dark:text-white"
+          className="text-gray-700 transition duration-300 hover:text-emerald-400 dark:text-white hover:text-xl"
         >
           {email}
         </a>

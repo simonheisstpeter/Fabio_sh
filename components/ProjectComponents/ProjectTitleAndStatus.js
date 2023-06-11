@@ -1,6 +1,6 @@
 const ProjectTitleAndStatus = ({ ...item }) => {
   return (
-    <h3 key={item.title} className="relative mb-4 text-base font-medium">
+    <h3 key={item.title} className="relative mb-4 text-base font-andesNeueBook">
       {item.title}
       <span
         className={`${

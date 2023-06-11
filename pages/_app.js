@@ -1,28 +1,28 @@
 import { useEffect } from "react";
 import "../styles/globals.css";
 import { ThemeProvider } from "next-themes";
-import localFont from 'next/font/local'
+// import localFont from 'next/font/local'
 
-const andesNeue = localFont({
-  src: [
-    {
-      path: './AndesNeue-Bold.woff2',
-      variable: '--font-andesneue-bold',
-    },
-    {
-      path: './AndesNeue-Book.woff2',
-      variable: '--font-andesneue-book',
-    },
-    {
-      path: './AndesNeue-Medium.woff2',
-      variable: '--font-andesneue-medium',
-    },
-    {
-      path: './AndesNeue-Light.woff2',
-      variable: '--font-andesneue-light',
-    },
-  ],
-});
+// const andesNeue = localFont({
+//   src: [
+//     {
+//       path: './AndesNeue-Bold.woff2',
+//       variable: '--font-andesneue-bold',
+//     },
+//     {
+//       path: './AndesNeue-Book.woff2',
+//       variable: '--font-andesneue-book',
+//     },
+//     {
+//       path: './AndesNeue-Medium.woff2',
+//       variable: '--font-andesneue-medium',
+//     },
+//     {
+//       path: './AndesNeue-Light.woff2',
+//       variable: '--font-andesneue-light',
+//     },
+//   ],
+// });
 
 export default function MyApp({ Component, pageProps }) {
 
@@ -51,9 +51,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <ThemeProvider attribute="class">
-        <div className={`${andesNeue.variable} font-andesneueBold`}>
-          <Component {...pageProps} />
-        </div>
+        <Component {...pageProps} />
       </ThemeProvider>
     </>
   );

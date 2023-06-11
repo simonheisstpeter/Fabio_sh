@@ -23,10 +23,11 @@ module.exports = {
         'fabiosh': 'url(/f.cur), pointer',
       },
       fontFamily: {
-        andesneueBold: ['var(--font-andesneue-bold)'],
-        andesneueBook: ['var(--font-andesneue-book)'],
-        andesneueMedium: ['var(--font-andesneue-medium)'],
-        andesneueLight: ['var(--font-andesneue-light)'],
+        'andesNeueBold': ['AndesNeueBold', 'system-ui', 'sans-serif'],
+        'andesNeueBook': ['AndesNeueBook', 'system-ui', 'sans-serif'],
+        'andesNeueMedium': ['AndesNeueMedium', 'system-ui', 'sans-serif'],
+        'andesNeueLight': ['AndesNeueLight', 'system-ui', 'sans-serif'],
+        'andesNeueExtraLight': ['AndesNeueExtraLight', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         loaderSmall: {

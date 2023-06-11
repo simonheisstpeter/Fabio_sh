@@ -29,7 +29,7 @@ export default function About() {
   return (
     <Container>
       {" "}
-      <div className="container mx-auto py-32 md:py-72">
+      <div className="container mx-auto py-32 md:py-72 ">
         {/*
             bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
         */}

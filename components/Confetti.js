@@ -33,20 +33,20 @@ const Confetti = () => {
       ref={buttonRef}
     >
       <span className="block select-none text-center">
-        <span className="mb-2 mt-12 block text-sm italic">
+        <span className="mb-8 mt-12 block text-sm  font-andesNeueExtraLight">
           Click here for
         </span>
-        <span className="block text-3xl">
-          <span className="inline text-red-400 duration-300 hover:scale-105">
+        <span className="text-3xl font-andesNeueMedium flex space-x-1 justify-center group">
+          <span className="inline text-red-400 duration-200 hover:scale-105 group-hover:skew-y-3 group-hover:-translate-x-1 group-hover:-translate-y-3 group-hover:-rotate-12">
             C
           </span>
-          <span className="text-yellow-400">o</span>
-          <span className="text-blue-400">n</span>
-          <span className="text-blue-500">f</span>
-          <span className="text-lime-500">e</span>
-          <span className="text-purple-600">t</span>
-          <span className="text-emerald-500">t</span>
-          <span className="text-orange-400">i</span>
+          <span className="text-yellow-400 duration-200 group-hover:translate-y-2 group-hover:-transalte-x-1 group-hover:-skew-x-3">o</span>
+          <span className="text-blue-400 duration-200 group-hover:-translate-x-2 group-hover:-rotate-12 group-hover:-translate-y-4">n</span>
+          <span className="text-blue-500 duration-200 group-hover:translate-x-1 group-hover:-translate-y-5 group-hover:rotate-16">f</span>
+          <span className="text-lime-500 duration-200 group-hover:rotate-45 group-hover:-translate-x-1 group-hover:translate-y-4">e</span>
+          <span className="text-purple-600 duration-200 group-hover:-rotate-12 group-hover:-translate-x-2 group-hover:-translate-y-1">t</span>
+          <span className="text-emerald-500 duration-200 group-hover:rotate-45 group-hover:-translate-y-5 group-hover:-translate-x-1">t</span>
+          <span className="text-orange-400 duration-200 group-hover:-rotate-45 group-hover:-translate-x-2 group-hover:translate-y-3">i</span>
         </span>
       </span>
     </div>

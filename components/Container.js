@@ -68,7 +68,7 @@ export default function Container(props) {
         </nav>
 
         {/* Main Content */}
-        <section>{children}</section>
+        <section className="font-andesNeueBook">{children}</section>
 
         <ScrollToTop />
         <Footer />

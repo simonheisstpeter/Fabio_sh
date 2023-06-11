@@ -34,10 +34,8 @@ const Project = ({ locale, t, ...item }) => {
       <div className="rounded-b-md bg-white p-4 text-sm dark:bg-[#1d1d1f]">
         <ProjectTitleAndStatus {...item} />
 
-        <p className="mb-2 text-gray-700 dark:text-gray-100">
-          {item.description[locale].text !== ""
-            ? item.description[locale].text
-            : item.description["en"].text}
+        <p className="mb-2 text-gray-700 dark:text-gray-100  font-andesNeueLight">
+          {item.description[locale].text || item.description["en"].text}
         </p>
         <span className="mb-2 block text-gray-400">
           {item.languages.map((language) => (

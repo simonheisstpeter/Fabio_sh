@@ -14,7 +14,7 @@ export default function Home() {
           <h1
             className={`${
               locale === "ja" ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"
-            } p-6 font-andesneueLight md:p-12 md:text-9xl md:font-andesneueMedium`}
+            } p-6 font-andesNeueMedium md:p-12 md:text-9xl md:font-andesNeueBold`}
           >
             <p className="animate-fadeIn_2000 text-gray-300 dark:text-gray-400 md:w-[515px]">
               {t.name}
