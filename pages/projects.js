@@ -1,11 +1,14 @@
-import Confetti from "../components/Confetti";
 import Container from "../components/Container";
 import { useRouter } from "next/router";
 import { ProjectData } from "../utils/projectsData";
 import ExtraBox from "../components/ProjectComponents/ExtraBox";
 import Project from "../components/ProjectComponents/Project";
-
+import dynamic from 'next/dynamic'
 import locales from "../locales";
+
+const Confetti = dynamic(() => import('../components/Confetti'), {
+  loading: () => <p>Loading...</p>,
+})
 
 export default function ProjectsView() {
   const router = useRouter();

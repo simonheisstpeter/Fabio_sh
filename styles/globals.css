@@ -2,37 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'AndesNeueExtraLight';
-  src: local(''), url('../public/fonts/AndesNeue-ExtraLight.woff2') format('woff2');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AndesNeueLight';
-  src: local(''), url('../public/fonts/AndesNeue-Light.woff2') format('woff2');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AndesNeueBook';
-  src: local(''), url('../public/fonts/AndesNeue-Book.woff2') format('woff2');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AndesNeueMedium';
-  src: local(''), url('../public/fonts/AndesNeue-Medium.woff2') format('woff2');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AndesNeueBold';
-  src: local(''), url('../public/fonts/AndesNeue-Bold.woff2') format('woff2');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AndesNeueBlack';
-  src: local(''), url('../public/fonts/AndesNeue-Black.woff2') format('woff2');
-  font-display: swap;
-}
-
 @layer components {
   /* This won't be included in your compiled CSS unless you actually use it */
   .dots {
