@@ -33,9 +33,9 @@ export default function About() {
         {/*
             bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
         */}
-        <span className="mb-20 block text-center">
+        <span className="mb-20 block text-center font-andesNeueLight">
           Hier kommt bald{" "}
-          <span className="text-md font-bold">ETWAS.... Neues</span>
+          <span className="text-md font-andesNeueBold">ETWAS.... Neues</span>
         </span>
         <hr />
         <p className="text-md mt-20 text-center">

@@ -23,6 +23,7 @@ module.exports = {
         'fabiosh': 'url(/f.cur), pointer',
       },
       fontFamily: {
+        'andesNeueBlack': ['AndesNeueBlack', 'system-ui', 'sans-serif'],
         'andesNeueBold': ['AndesNeueBold', 'system-ui', 'sans-serif'],
         'andesNeueBook': ['AndesNeueBook', 'system-ui', 'sans-serif'],
         'andesNeueMedium': ['AndesNeueMedium', 'system-ui', 'sans-serif'],

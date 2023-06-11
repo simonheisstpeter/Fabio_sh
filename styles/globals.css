@@ -27,6 +27,11 @@
   src: local(''), url('../public/fonts/AndesNeue-Bold.woff2') format('woff2');
   font-display: swap;
 }
+@font-face {
+  font-family: 'AndesNeueBlack';
+  src: local(''), url('../public/fonts/AndesNeue-Black.woff2') format('woff2');
+  font-display: swap;
+}
 
 @layer components {
   /* This won't be included in your compiled CSS unless you actually use it */

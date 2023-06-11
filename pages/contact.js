@@ -43,7 +43,7 @@ export default function Kontakt() {
           onSubmit={sendEmail}
         >
           <input type="hidden" name="contact_number" required />
-          <label>{t.contactName}</label>
+          <label className="font-andesNeueMedium">{t.contactName}</label>
           <input
             type="text"
             name="user_name"
@@ -51,7 +51,7 @@ export default function Kontakt() {
             placeholder={`${t.contactName}...`}
             required
           />
-          <label>{t.contactEMail}</label>
+          <label className="font-andesNeueMedium">{t.contactEMail}</label>
           <input
             type="email"
             name="user_email"
@@ -59,7 +59,7 @@ export default function Kontakt() {
             placeholder={`${t.contactEMail}...`}
             required
           />
-          <label>{t.contactMessage}</label>
+          <label className="font-andesNeueMedium">{t.contactMessage}</label>
           <textarea
             name="message"
             className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300 h-28"

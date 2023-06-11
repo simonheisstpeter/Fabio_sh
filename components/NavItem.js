@@ -10,7 +10,7 @@ const NavItem = ({ href, text }) => {
     <Link href={href}
         className={`${
           isActive ? "border-emerald-400 lg:border-b-2" : ""
-        } mx-4 mb-6 inline-block cursor-pointer transition duration-300 ease-in-out hover:text-emerald-400 md:mb-0 font-andesNeueLight`}
+        } mx-4 mb-6 inline-block cursor-pointer transition duration-300 ease-in-out hover:text-emerald-400 md:mb-0 font-andesNeueBook`}
         aria-current={isActive ? "page" : undefined}
       >
         {text}
