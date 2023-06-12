@@ -16,10 +16,10 @@ export default function Home() {
               locale === "ja" ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"
             } p-6 font-andesNeueMedium md:p-12 md:text-9xl md:font-andesNeueBold`}
           >
-            <p className="animate-fadeIn_2000 text-gray-300 dark:text-gray-400 md:w-[515px]">
+            <span className="block animate-fadeIn_2000 text-gray-300 dark:text-gray-400 md:w-[515px]">
               {t.name}
-            </p>
-            <p className="animate-fadeIn_2000">{t.lastname}</p>
+            </span>
+            <span className="block animate-fadeIn_2000">{t.lastname}</span>
           </h1>
         </div>
       </div>
