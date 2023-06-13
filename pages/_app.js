@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import "../styles/globals.css";
 import { ThemeProvider } from "next-themes";
 import { andesNeue } from "../styles/fonts";
+import { ConsoleMessage } from "../lib/concoleMessage";
 
 export default function MyApp({ Component, pageProps }) {
 
@@ -16,7 +17,8 @@ export default function MyApp({ Component, pageProps }) {
   // }, []);
   // Title Animation
   useEffect(() => {
-
+    ConsoleMessage();
+    
       window.addEventListener('blur', () => {
         document.title = "😢 Come back! 😢"
       })

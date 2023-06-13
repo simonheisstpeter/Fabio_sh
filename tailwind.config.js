@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       animation: {
         fadeIn_2000: "fade 2s",
+        fadeIn_2200: "fade 2.2s",
+        fadeIn_2500: "fade 2.5s",
+
         fadeIn_3000: "fade 3s",
         bgFade: "bgFade 4s",
         loaderBig: "loaderBig 1.5s ease-in-out infinite",

@@ -5,6 +5,7 @@ import ExtraBox from "../components/ProjectComponents/ExtraBox";
 import Project from "../components/ProjectComponents/Project";
 import dynamic from 'next/dynamic'
 import locales from "../locales";
+import Tilty from "react-tilty";
 
 const Confetti = dynamic(() => import('../components/Confetti'), {
   loading: () => <p>Loading...</p>,
@@ -34,7 +35,7 @@ export default function ProjectsView() {
           <h2 className="mb-6 text-lg font-andesNeueMedium">{t.currentProjects}</h2>
           <article className="mb-20 grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {currentProjects.map((item) => (
-              <Project key={item.id} {...item} locale={locale} t={t} />
+              <Tilty max={20} reverse={false}><Project key={item.id} {...item} locale={locale} t={t} /></Tilty>
             ))}
           </article>
 
