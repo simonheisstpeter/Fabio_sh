@@ -38,13 +38,13 @@ class MyDocument extends Document {
         <meta property="og:url" content="https://fabio.sh" />
         <meta
           name="theme-color"
-          media="(prefers-color-scheme: light)"
-          content="#f8f8ff"
+          media="(prefers-color-scheme: dark)"
+          content="#1d1d1f"
         />
         <meta
           name="theme-color"
-          media="(prefers-color-scheme: dark)"
-          content="#1d1d1f"
+          media="(prefers-color-scheme: light)"
+          content="#f8f8ff"
         />
         </Head>
         <body className="dots dark:dotsDark cursor-fabiosh">

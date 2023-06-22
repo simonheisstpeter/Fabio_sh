@@ -22,7 +22,7 @@ const MobileMenu = () => {
   };
 
   return (
-    <nav className="fixed top-0 z-10 w-full bg-white text-center dark:bg-[#1c1b22] md:hidden">
+    <nav className="fixed top-0 z-10 w-full bg-white text-center dark:bg-[#1c1b22] md:hidden" aria-label="mobile menu">
       <button
         className="absolute right-6 top-6 h-8 w-8 rounded p-2 text-gray-900 dark:text-white"
         onClick={toggleNav}
@@ -48,6 +48,7 @@ const MobileMenu = () => {
         <div
           className="dots dark:dotsDark h-screen pt-32"
           id="mobile-menu"
+          aria-live="assertive"
         >
           <div className="grid grid-cols-1 text-2xl">
             <NavItem onClick={toggleNav} href="/" text={t.menuHome} />
@@ -65,14 +66,14 @@ const MobileMenu = () => {
             <select
               onChange={changeMobileLanguage}
               value={locale}
-              className="mx-auto translate-x-2 mb-6 flex w-12 bg-transparent text-center text-lg tracking-wide"
+              className="mx-auto translate-x-2 mb-6 flex w-12 bg-transparent text-center text-lg tracking-wide hover:text-green-500 duration-200"
             >
-              <option value="de">🇦🇹</option>
-              <option value="en">🇺🇸</option>
-              <option value="es">🇦🇷</option>
-              <option value="ja">🇯🇵</option>
-              <option value="pt">🇧🇷</option>
-              </select>
+              <option value="de">Deutsch</option>
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="ja">日本語</option>
+              <option value="pt">Portugués</option> 
+            </select>
             <ThemeChanger />
           </div>
         </div>

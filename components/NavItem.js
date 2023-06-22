@@ -9,9 +9,12 @@ const NavItem = ({ href, text }) => {
   return (
     <Link href={href}
         className={`${
-          isActive ? "border-emerald-400 lg:border-b-2" : ""
-        } mx-4 mb-6 inline-block cursor-pointer transition duration-200 ease-in-out hover:text-emerald-400 md:mb-0 font-andesNeueBook`}
+          isActive ? "text-emerald-500 border-emerald-500 lg:border-b-2" : ""
+        } mx-4 mb-6 inline-block cursor-pointer transition duration-200 ease-in-out hover:text-emerald-500 md:mb-0 font-andesNeueLight focus:broder-emerald-400 focus:outline-2 outline-emerald-400`}
         aria-current={isActive ? "page" : undefined}
+        tabindex="0"
+        role="button"
+        aria-label={text}
       >
         {text}
     </Link>

@@ -26,12 +26,12 @@ module.exports = {
         'fabiosh': 'url(/f.cur), pointer',
       },
       fontFamily: {
-        'andesNeueBlack': ['var(--font-andesneue-black)'],
-        'andesNeueBold': ['var(--font-andesneue-bold)'],
-        'andesNeueBook': ['var(--font-andesneue-book)'],
+        // 'andesNeueBlack': ['var(--font-andesneue-black)'],
+        // 'andesNeueBold': ['var(--font-andesneue-bold)'],
+        // 'andesNeueBook': ['var(--font-andesneue-book)'],
         'andesNeueMedium': ['var(--font-andesneue-medium)'],
         'andesNeueLight': ['var(--font-andesneue-light)'],
-        'andesNeueExtraLight': ['var(--font-andesneue-extraLight)'],
+        // 'andesNeueExtraLight': ['var(--font-andesneue-extraLight)'],
       },
       keyframes: {
         loaderSmall: {

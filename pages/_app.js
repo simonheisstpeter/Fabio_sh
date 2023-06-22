@@ -25,13 +25,12 @@ export default function MyApp({ Component, pageProps }) {
       window.addEventListener('focus', () => {
         document.title = "Fabio.sh"
       })
- 
   }, []);
 
   return (
     <>
       <ThemeProvider attribute="class">
-        <div className={`${andesNeue.ExtraLight.variable} ${andesNeue.Light.variable} ${andesNeue.Book.variable} ${andesNeue.Medium.variable} ${andesNeue.Bold.variable} ${andesNeue.Black.variable} `}>
+        <div className={`${andesNeue.Light.variable} ${andesNeue.Medium.variable}`}>
           <Component {...pageProps} />
         </div>
       </ThemeProvider>

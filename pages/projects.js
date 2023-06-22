@@ -30,7 +30,7 @@ export default function ProjectsView() {
     <>
       <Container>
         <div className="container mx-auto h-full px-4 md:px-12">
-          <h1 className="my-20 text-5xl font-andesNeueBold">{t.menuProjects}</h1>
+          <h1 className="my-20 text-5xl font-andesNeueMedium">{t.menuProjects}</h1>
 
           <h2 className="mb-6 text-lg font-andesNeueMedium">{t.currentProjects}</h2>
           <article className="mb-20 grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">

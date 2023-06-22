@@ -15,9 +15,9 @@ const ThemeChanger = () => {
   };
 
   return (
-    <div className="mx-auto translate-y-1.5 items-center justify-between text-xl font-bold md:inline-block">
+    <div className="mx-auto translate-y-1.5 items-center justify-between text-xl font-bold md:inline-block focus:outline-2 outline-emerald-400">
       <button
-        className="w-full text-emerald-400 dark:text-gray-100 md:w-6 "
+        className="w-full text-emerald-400 dark:text-gray-100 md:w-6  focus:outline-2 outline-emerald-400"
         onClick={switchTheme}
         aria-label="Change theme"
       >

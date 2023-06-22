@@ -35,7 +35,7 @@ export default function About() {
         */}
         <span className="mb-20 block text-center font-andesNeueLight">
           Hier kommt bald{" "}
-          <span className="text-md font-andesNeueBold">ETWAS.... Neues</span>
+          <span className="text-md font-andesNeueMedium">ETWAS.... Neues</span>
         </span>
         <hr />
         <p className="text-md mt-20 text-center">

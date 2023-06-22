@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import ThemeChanger from "./ThemeChanger";
 import ScrollToTop from "./ScrollToTop";
 import MobileMenu from "./MobileMenu";
-import Footer from "./NewFooter";
+import Footer from "./Footer";
 import { Analytics } from "@vercel/analytics/react";
 import locales from "../locales";
 import Loader from "./Loader";
@@ -45,7 +45,7 @@ export default function Container(props) {
       <main className="z-10">
         {/* Desktop */}
         <nav className="hidden pr-10 pt-12 text-right md:block">
-          <Link href={"/"} aria-current={isActive ? "page" : undefined}>
+          <Link href={"/"} aria-current={isActive ? "page" : undefined} tabindex="0" className=" focus:outline-2 outline-emerald-400"     >
             <Loader />
           </Link>
           {/* <NavItem href="/" text={t.menuHome} /> */}
@@ -55,20 +55,20 @@ export default function Container(props) {
           <select
             onChange={changeLanguage}
             value={locale}
-            className="text-shadow-sm mr-10 w-16 bg-transparent text-right text-lg tracking-wide text-white"
+            className="text-shadow-sm mr-10 bg-transparent text-right tracking-wide dark:text-white font-andesNeueLight focus:outline-2 outline-emerald-400 rounded-md"
             aria-label={t.languageSelect}
           >
-            <option value="de">🇦🇹</option>
-            <option value="en">🇺🇸</option>
-            <option value="es">🇦🇷</option>
-            <option value="ja">🇯🇵</option>
-            <option value="pt">🇧🇷</option>
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="ja">日本語</option>
+            <option value="pt">Portugués</option>
           </select>
           <ThemeChanger />
         </nav>
 
         {/* Main Content */}
-        <section className="font-andesNeueBook">{children}</section>
+        <section className="font-andesNeueLight">{children}</section>
 
         <ScrollToTop />
         <Footer />

@@ -1,7 +1,7 @@
 const ProjectWebsiteLink = ({ text, ...item }) => {
   return (
     <span
-      className={`group block text-emerald-400 duration-300 hover:text-emerald-500  font-andesNeueLight`}
+      className={`group block text-emerald-400 duration-300 hover:text-emerald-500 font-andesNeueLight`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={item.title}

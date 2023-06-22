@@ -33,7 +33,7 @@ const Confetti = () => {
       ref={buttonRef}
     >
       <span className="block select-none text-center">
-        <span className="mb-8 mt-12 block text-sm  font-andesNeueExtraLight">
+        <span className="mb-8 mt-12 block text-sm font-andesNeueLight">
           Click here for
         </span>
         <span className="text-3xl font-andesNeueMedium flex space-x-1 justify-center group">

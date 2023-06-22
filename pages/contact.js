@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import emailjs from "emailjs-com";
 import Container from "../components/Container";
 import locales from "../locales";
+import Link from "next/link";
 
 export default function Kontakt() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function Kontakt() {
     <Container>
       {" "}
       <div className="container mx-auto pt-32 font-andesNeueLight">
-        <div className="p-6 md:p-12 text-3xl md:text-5xl font-andesNeueBook md:font-andesNeueBold">
+        <div className="p-6 md:p-12 text-3xl md:text-5xl font-andesNeueMedium">
           {t.contactTitle}
         </div>
 
@@ -67,12 +68,29 @@ export default function Kontakt() {
             required
           />
 
-          <input
+          <button
             type="submit"
-            value={`${t.contactButton}!`}
-            className="w-44 mt-4 py-2 bg-gray-200 hover:bg-emerald-300 hover:text-white dark:bg-emerald-900 dark:border dark:border-emerald-300 rounded transition duration-300 ease-in-out ring-emerald-300 dark:ring-emerald-500 text-gray-900 dark:text-white focus:outline outline-emerald-400 hover:scale-105 dark:hover:bg-emerald-300 dark:hover:text-gray-800 dark:focus:outline outline-2 outline-offset-4 text-lg font-andesNeueMedium"
-          />
+            className="w-44 mt-4 py-2 bg-emerald-500 border-2 border-emerald-500 hover:bg-emerald-500 hover:text-white dark:bg-emerald-400 dark:border dark:border-emerald-500 rounded transition duration-300 ease-in-out ring-emerald-400 dark:ring-emerald-500 text-white dark:text-white focus:outline outline-emerald-400 hover:scale-105 dark:hover:bg-darkDotsGray dark:hover:text-emerald-500 dark:focus:outline outline-2 outline-offset-4 text-lg font-andesNeueMedium"
+          >{t.contactButton}!</button>
         </form>
+
+        <Link href={"/mediakit"} className="group mx-6 md:mx-12 mt-20 block duration-300 text-darkDotsGray dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 text-sm">
+          Mediakit
+            <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={2}
+        stroke="currentColor"
+        className="inline h-4 w-4 -translate-y-[1px] duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M8.25 4.5l7.5 7.5-7.5 7.5"
+        />
+      </svg>
+        </Link>
       </div>
     </Container>
   );
