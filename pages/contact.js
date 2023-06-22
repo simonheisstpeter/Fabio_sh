@@ -74,22 +74,22 @@ export default function Kontakt() {
           >{t.contactButton}!</button>
         </form>
 
-        <Link href={"/mediakit"} className="group mx-6 md:mx-12 mt-20 block duration-300 text-darkDotsGray dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 text-sm">
+        <Link href={"/mediakit"} className="group mx-6 md:mx-12 mt-20 w-20 block duration-300 text-darkDotsGray dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 text-sm focus:outline-2 outline-emerald-400">
           Mediakit
             <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={2}
-        stroke="currentColor"
-        className="inline h-4 w-4 -translate-y-[1px] duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M8.25 4.5l7.5 7.5-7.5 7.5"
-        />
-      </svg>
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="inline h-4 w-4 -translate-y-[1px] duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
         </Link>
       </div>
     </Container>
