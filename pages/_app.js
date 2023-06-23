@@ -30,7 +30,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <ThemeProvider attribute="class">
-        <div className={`${andesNeue.Light.variable} ${andesNeue.Medium.variable}`}>
+        <div className={`${andesNeue.Light.variable} ${andesNeue.Medium.variable} selection:text-white selection:bg-emerald-500`}>
           <Component {...pageProps} />
         </div>
       </ThemeProvider>
