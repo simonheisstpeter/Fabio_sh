@@ -11,25 +11,24 @@
   "dependencies": {
     "@iconicicons/react": "^1.5.1",
     "@splitbee/web": "^0.3.0",
-    "@vercel/analytics": "^1.0.1",
+    "@vercel/analytics": "^1.0.2",
     "emailjs-com": "^3.2.0",
-    "eslint-config-next": "^13.4.3",
+    "eslint-config-next": "^13.5.2",
     "isomorphic-unfetch": "^4.0.2",
-    "next": "^13.4.3",
+    "next": "^13.5.2",
     "next-themes": "^0.2.1",
     "party-js": "^2.2.0",
     "querystring": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-tilty": "^3.0.0",
-    "swr": "^2.1.5",
-    "three": "^0.152.2"
+    "swr": "^2.2.2"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.3",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23",
-    "prettier": "^2.8.8",
-    "tailwindcss": "^3.3.2"
+    "@tailwindcss/forms": "^0.5.6",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.30",
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.3"
   }
 }

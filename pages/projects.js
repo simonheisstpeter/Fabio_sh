@@ -16,7 +16,6 @@ export default function ProjectsView() {
   const { locale } = router;
   const t = locales[locale] || locales["en"]; 
 
-
   const currentProjects = ProjectData.filter(
     (pr) => !pr.finished && pr.published
   );
@@ -24,7 +23,6 @@ export default function ProjectsView() {
     (pr) => !pr.finished && !pr.published
   );
   const finishedProjects = ProjectData.filter((pr) => pr.finished);
-
 
   return (
     <>
@@ -44,8 +42,6 @@ export default function ProjectsView() {
             {upcomingProjects.map((item) => (
               <Project key={item.id} {...item} locale={locale} t={t} />
             ))}
-            {/* Extra Box 
-            <ExtraBox text={t.comingSoon} />*/}
           </article>
 
           <h2 className="mb-6 text-lg font-andesNeueMedium">{t.finishedProjects}</h2>

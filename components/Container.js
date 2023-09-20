@@ -45,7 +45,7 @@ export default function Container(props) {
       <main className="z-10">
         {/* Desktop */}
         <nav className="hidden pr-10 pt-12 text-right md:block">
-          <Link href={"/"} aria-current={isActive ? "page" : undefined} tabindex="0" className=" focus:outline-2 outline-emerald-400"     >
+          <Link href={"/"} aria-current={isActive ? "page" : undefined} tabIndex="0" className=" focus:outline-2 outline-emerald-400"     >
             <Loader />
           </Link>
           {/* <NavItem href="/" text={t.menuHome} /> */}

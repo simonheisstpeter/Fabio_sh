@@ -10,7 +10,7 @@ const Project = ({ locale, t, ...item }) => {
 
   return (
     <article
-      role="link"
+      role="button"
       tabIndex={0}
       aria-label={item.title}
       onClick={() => window.open(item.url, "_blank", "noopener noreferrer")}
