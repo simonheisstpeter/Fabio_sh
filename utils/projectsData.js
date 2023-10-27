@@ -45,7 +45,7 @@ const ProjectData = [
         "Party.js"
       ],
       published: true,
-      finished: false,
+      finished: true,
       online: true,
       image: "/meta_pic.png",
       url: "https://fabio.sh", 
@@ -557,6 +557,50 @@ const ProjectData = [
       online: true,
       image: "",
       url: "https://artistenallerart.at/",
+      languages: [{lang: "Deutsch", flag: "🇩🇪"}]
+    },
+    {
+      id: "24",
+      title: "Gabriel Proedl",
+      description: {
+        de: {text: "Design, Entwicklung und Konzeption"},
+        en: {text: "Design, development and concept"},
+        es: {text: ""},
+        ja: {text: ""},
+        pt: {text: ""}
+      },
+      categories: [
+        "Next.js",
+        "TailwindCSS",
+        "Vercel",
+        "Sanity.io"
+      ],
+      published: false,
+      finished: false,
+      online: false,
+      image: "/test.png",
+      url: "https://gabrielproedl.com", 
+      languages: [{lang: "Deutsch", flag: "🇩🇪"}]
+    },
+    {
+      id: "25",
+      title: "Leando",
+      description: {
+        de: {text: "Entwicklung"},
+        en: {text: "development"},
+        es: {text: ""},
+        ja: {text: ""},
+        pt: {text: ""}
+      },
+      categories: [
+        "Angular",
+        "Drupal"
+      ],
+      published: true,
+      finished: false,
+      online: true,
+      image: "/test.png",
+      url: "https://leando.de", 
       languages: [{lang: "Deutsch", flag: "🇩🇪"}]
     },
   ];
