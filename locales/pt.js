@@ -19,6 +19,6 @@ export default {
   upcomingProjects: "Próximos / Projectos em Pausa",
   finishedProjects: "Projectos concluídos",
 
-  custom404Title: "Desulpe, esta página não pôde ser encontrada!",
+  custom404Title: "Desculpe, esta página não pôde ser encontrada!",
   custom404Button: "Voltar atrás",
 };
