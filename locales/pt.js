@@ -1,5 +1,5 @@
 export default {
-  menuHome: "Em Casa",
+  menuHome: "Início",
   menuProjects: "Projectos",
   menuAbout: "Sobre mim",
   menuContact: "Contacto",
