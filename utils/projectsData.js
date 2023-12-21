@@ -60,6 +60,7 @@ const ProjectData = [
         de: {text: "Entwicklung und Konzeption"},
         en: {text: "Development and Conception"},
         es: {text: ""},
+        it: {text: "Sviluppo e Concezione"},
         ja: {text: ""},
         pt: {text: ""}
       },
