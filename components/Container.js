@@ -61,6 +61,7 @@ export default function Container(props) {
             <option value="de">Deutsch</option>
             <option value="en">English</option>
             <option value="es">Español</option>
+            <option value="it">Italiano</option>
             <option value="ja">日本語</option>
             <option value="pt">Portugués</option>
           </select>
