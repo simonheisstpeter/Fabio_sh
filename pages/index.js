@@ -10,7 +10,26 @@ export default function Home() {
   const router = useRouter();
   const { locale } = router;
   const t = locales[locale] || locales["en"];
-
+  const CardData = [
+    {
+      title: "Project 1",
+      text: "",
+      graphic: "",
+      link: "",
+    },
+    {
+      title: "Project 2",
+      text: "",
+      graphic: "",
+      link: "",
+    },
+    {
+      title: "Project 3",
+      text: "",
+      graphic: "",
+      link: "",
+    },
+  ];
   function sendEmail(e) {
     e.preventDefault();
 
@@ -32,9 +51,9 @@ export default function Home() {
     e.target.reset();
   }
 
-  const currentProjects = ProjectData.filter(
-    (pr) => !pr.finished && pr.published,
-  );
+  // const currentProjects = ProjectData.filter(
+  //   (pr) => !pr.finished && pr.published,
+  // );
 
   return (
     <Container>
@@ -55,7 +74,7 @@ export default function Home() {
 
         {/* Projekt Sektion */}
         <section className="container relative mx-auto grid lg:grid-cols-3 lg:grid-rows-2 gap-4 min-h-[600px] ">
-          {currentProjects.map((item, index) => (
+          {CardData.map((item, index) => (
             <React.Fragment key={index}>
               <Card {...item} itemKey={index} />
             </React.Fragment>
