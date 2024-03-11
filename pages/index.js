@@ -80,7 +80,7 @@ export default function Home() {
             </React.Fragment>
           ))}
           <div className="absolute w-full bg-black/20 hover:bg-black/50 duration-300 h-full text-center rounded-3xl text-4xl font-andesNeueMedium flex justify-center items-center">
-            <p>Coming soon ...</p>
+            <p>{t.comingSoon}</p>
           </div>
         </section>
 
