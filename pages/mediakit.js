@@ -2,10 +2,9 @@ import React from "react";
 import { useRouter } from "next/router";
 import Container from "../components/Container";
 import locales from "../locales";
-import localFont from "next/font/local"
+import localFont from "next/font/local";
 import Loader from "../components/Loader";
 import Image from "next/image";
-
 
 // const Black = localFont({ src: '../public/font',variable: '--font-andesneue-black',});
 // const Bold = localFont({ src: 'fonts/AndesNeue-Bold.woff2',variable: '--font-andesneue-bold',});
@@ -17,13 +16,12 @@ import Image from "next/image";
 export default function Kontakt() {
   const router = useRouter();
   const { locale } = router;
-  const t = locales[locale] || locales["en"]; 
-
+  const t = locales[locale] || locales["en"];
 
   // const andesNeue = {
   //   Black, Bold, Medium, Book, Light, ExtraLight
   // }
-  
+
   return (
     <Container>
       {" "}
@@ -34,26 +32,35 @@ export default function Kontakt() {
 
         {/* Fonts */}
         <section aria-labelledby="Fonts">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">Fonts</span>
+          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+            Fonts
+          </span>
           <div aria-aria-label="Fonts" className="mt-12 mb-20 md:w-2/3">
-            <h3 className="font-andesNeueMedium text-3xl mb-4">Andes Neue Medium</h3>
+            <h3 className="font-andesNeueMedium text-3xl mb-4">
+              Andes Neue Medium
+            </h3>
             <p className="font-andesNeueLight text-3xl">Andes Neue Light</p>
           </div>
         </section>
 
         {/* Colours */}
         <section aria-labelledby="Colours">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">Colours</span>
-          <div aria-aria-label="Colours" className="mt-12 mb-20 md:w-2/3 border-gray-900 dark:border-white rounded-md grid grid-cols-2 md:grid-cols-4 gap-8 align-middle justify-center">
+          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+            Colours
+          </span>
+          <div
+            aria-aria-label="Colours"
+            className="mt-12 mb-20 md:w-2/3 border-white rounded-md grid grid-cols-2 md:grid-cols-4 gap-8 align-middle justify-center"
+          >
             <div className="text-center">
               <div className="block h-20 w-20 mx-auto bg-white border border-white rounded-full mb-4"></div>
               <span className="block">White</span>
               <span className="block text-emerald-500">#fff</span>
             </div>
             <div className="text-center">
-              <div className="block h-20 w-20 mx-auto bg-darkDotsGray dark:border border-white rounded-full mb-4"></div>
+              <div className="block h-20 w-20 mx-auto bg-darkDotsGray border border-white rounded-full mb-4"></div>
               <span className="block">Dark Gray</span>
-              <span className="block text-emerald-500">#1d1d1f</span>
+              <span className="block text-emerald-500">#030303</span>
             </div>
             <div className="text-center">
               <div className="block h-20 w-20 mx-auto bg-emerald-400 rounded-full mb-4"></div>
@@ -70,21 +77,35 @@ export default function Kontakt() {
 
         {/* Cursor */}
         <section aria-labelledby="Cursor">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">Cursor</span>
-          <div aria-aria-label="Cursor" className="mt-12 mb-20 md:w-2/3 border-gray-900 dark:border-white rounded-md grid grid-cols-2 md:grid-cols-4 gap-8 align-middle justify-center">
-            <Image src={"/f.png"} height={30} width={30} alt="Cursor fabio.sh" />
+          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+            Cursor
+          </span>
+          <div
+            aria-aria-label="Cursor"
+            className="mt-12 mb-20 md:w-2/3 border-white rounded-md grid grid-cols-2 md:grid-cols-4 gap-8 align-middle justify-center"
+          >
+            <Image
+              src={"/f.png"}
+              height={30}
+              width={30}
+              alt="Cursor fabio.sh"
+            />
           </div>
         </section>
-
 
         {/* Loader */}
         <section aria-labelledby="Loader">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">Loading Icon / Logo</span>
-          <div aria-aria-label="Loader" className="mt-12 mb-20 md:w-2/3  border-gray-900 dark:border-white rounded-md flex align-middle justify-center">
+          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+            Loading Icon / Logo
+          </span>
+          <div
+            aria-aria-label="Loader"
+            className="mt-12 mb-20 md:w-2/3 border-white rounded-md flex align-middle justify-center"
+          >
             <Loader big />
           </div>
         </section>
-       </div>
+      </div>
     </Container>
   );
 }

@@ -28,34 +28,39 @@ export default function Container(props) {
   };
 
   // dark mode
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  // const { theme, setTheme } = useTheme();
+  // const [mounted, setMounted] = useState(false);
 
   // When mounted on client, now we can show the UI
-  useEffect(() => setMounted(true), []);
+  // useEffect(() => setMounted(true), []);
 
-  if (!mounted) return null;
+  // if (!mounted) return null;
 
   return (
     <>
-    <Head>
-      <title>fabio.sh</title>
-    </Head>
+      <Head>
+        <title>fabio.sh</title>
+      </Head>
       <MobileMenu />
       <main className="z-10">
         {/* Desktop */}
         <nav className="hidden pr-10 pt-12 text-right md:block">
-          <Link href={"/"} aria-current={isActive ? "page" : undefined} tabIndex="0" className=" focus:outline-2 outline-emerald-400"     >
+          <Link
+            href={"/"}
+            aria-current={isActive ? "page" : undefined}
+            tabIndex="0"
+            className=" focus:outline-2 outline-emerald-400"
+          >
             <Loader />
           </Link>
           {/* <NavItem href="/" text={t.menuHome} /> */}
-          <NavItem href="/projects" text={t.menuProjects} />
-          <NavItem href="/about" text={t.menuAbout} />
-          <NavItem href="/contact" text={t.menuContact} />
+          {/* <NavItem href="/projects" text={t.menuProjects} /> */}
+          {/* <NavItem href="/about" text={t.menuAbout} /> */}
+          {/* <NavItem href="/contact" text={t.menuContact} /> */}
           <select
             onChange={changeLanguage}
             value={locale}
-            className="text-shadow-sm mr-10 bg-transparent text-right tracking-wide dark:text-white font-andesNeueLight focus:outline-2 outline-emerald-400 rounded-md"
+            className="text-shadow-sm mr-10 bg-transparent text-right tracking-wide text-white font-andesNeueLight focus:outline-2 outline-emerald-400 rounded-md"
             aria-label={t.languageSelect}
           >
             <option value="de">Deutsch</option>
@@ -65,7 +70,7 @@ export default function Container(props) {
             <option value="ja">日本語</option>
             <option value="pt">Portugués</option>
           </select>
-          <ThemeChanger />
+          {/* <ThemeChanger /> */}
         </nav>
 
         {/* Main Content */}

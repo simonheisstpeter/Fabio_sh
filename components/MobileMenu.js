@@ -22,7 +22,10 @@ const MobileMenu = () => {
   };
 
   return (
-    <nav className="fixed top-0 z-10 w-full bg-white text-center dark:bg-[#1c1b22] md:hidden" aria-label="mobile menu">
+    <nav
+      className="fixed top-0 z-10 w-full bg-white text-center dark:bg-[#1c1b22] md:hidden"
+      aria-label="mobile menu"
+    >
       <button
         className="absolute right-6 top-6 h-8 w-8 rounded p-2 text-gray-900 dark:text-white"
         onClick={toggleNav}
@@ -52,7 +55,7 @@ const MobileMenu = () => {
         >
           <div className="grid grid-cols-1 text-2xl">
             <NavItem onClick={toggleNav} href="/" text={t.menuHome} />
-            <NavItem
+            {/* <NavItem
               onClick={toggleNav}
               href="/projects"
               text={t.menuProjects}
@@ -62,7 +65,7 @@ const MobileMenu = () => {
               onClick={toggleNav}
               href="/contact"
               text={t.menuContact}
-            />
+            /> */}
             <select
               onChange={changeMobileLanguage}
               value={locale}
@@ -71,10 +74,11 @@ const MobileMenu = () => {
               <option value="de">Deutsch</option>
               <option value="en">English</option>
               <option value="es">Español</option>
+              <option value="it">Italiano</option>
               <option value="ja">日本語</option>
-              <option value="pt">Portugués</option> 
+              <option value="pt">Portugués</option>
             </select>
-            <ThemeChanger />
+            {/* <ThemeChanger /> */}
           </div>
         </div>
       )}

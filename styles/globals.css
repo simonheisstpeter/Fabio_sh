@@ -15,11 +15,11 @@
   }
 
   .dotsDark {
-    background-color: #1d1d1f;
+    background-color: #030303;
     opacity: 1;
     background-image: radial-gradient(
-      #656565 0.8500000000000001px,
-      #1d1d1f 0.8500000000000001px
+      #1f1e1e 0.8500000000000001px,
+      #030303 0.8500000000000001px
     );
     background-size: 17px 17px;
   }
@@ -41,7 +41,7 @@ a {
 }
 
 .bgFade {
-  animation: createBox .25s;
+  animation: createBox 0.25s;
   z-index: -1000;
 }
 
