@@ -26,16 +26,16 @@ export default function Kontakt() {
     <Container>
       {" "}
       <div className="container mx-auto pt-32 font-andesNeueLight px-6 md:px-12">
-        <div className="text-3xl md:text-5xl font-andesNeueMedium mb-12">
+        <div className="text-3xl md:text-5xl font-andesNeueMedium mb-12 text-white">
           MediaKit
         </div>
 
         {/* Fonts */}
         <section aria-labelledby="Fonts">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+          <span className="border-b-2 border-emerald-400 pb-1 text-white hover:text-emerald-400 duration-200">
             Fonts
           </span>
-          <div aria-aria-label="Fonts" className="mt-12 mb-20 md:w-2/3">
+          <div aria-aria-label="Fonts" className="mt-12 mb-20 md:w-2/3 text-white">
             <h3 className="font-andesNeueMedium text-3xl mb-4">
               Andes Neue Medium
             </h3>
@@ -45,12 +45,12 @@ export default function Kontakt() {
 
         {/* Colours */}
         <section aria-labelledby="Colours">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+          <span className="border-b-2 border-emerald-400 pb-1 text-white hover:text-emerald-400 duration-200">
             Colours
           </span>
           <div
             aria-aria-label="Colours"
-            className="mt-12 mb-20 md:w-2/3 border-white rounded-md grid grid-cols-2 md:grid-cols-4 gap-8 align-middle justify-center"
+            className="mt-12 mb-20 md:w-2/3 border-white rounded-md grid grid-cols-2 md:grid-cols-4 gap-8 align-middle justify-center text-white"
           >
             <div className="text-center">
               <div className="block h-20 w-20 mx-auto bg-white border border-white rounded-full mb-4"></div>
@@ -77,7 +77,7 @@ export default function Kontakt() {
 
         {/* Cursor */}
         <section aria-labelledby="Cursor">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+          <span className="border-b-2 border-emerald-400 pb-1 text-white hover:text-emerald-400 duration-200">
             Cursor
           </span>
           <div
@@ -95,7 +95,7 @@ export default function Kontakt() {
 
         {/* Loader */}
         <section aria-labelledby="Loader">
-          <span className="border-b-2 border-emerald-400 pb-1 hover:text-emerald-400 duration-200">
+          <span className="border-b-2 border-emerald-400 pb-1 text-white hover:text-emerald-400 duration-200">
             Loading Icon / Logo
           </span>
           <div

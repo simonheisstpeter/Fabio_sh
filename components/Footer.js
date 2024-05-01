@@ -22,7 +22,7 @@ const Footer = () => {
 
       <Link
         href={"/mediakit"}
-        className="group mx-6 md:mx-12 mt-20 w-20 block duration-300 text-darkDotsGray dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 text-sm focus:outline-2 outline-emerald-400"
+        className="group mx-6 md:mx-12 mt-20 w-20 block duration-300 text-white hover:text-emerald-500 dark:hover:text-emerald-500 text-sm focus:outline-2 outline-emerald-400"
       >
         Mediakit
         <svg
