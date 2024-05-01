@@ -14,7 +14,7 @@ const Footer = () => {
         <p>{t.contactEMail}</p>
         <a
           href={`mailto:${email}`}
-          className="text-gray-700 transition hover:text-emerald-400 dark:text-white dark:hover:text-emerald-400 duration-200  focus:outline-2 outline-emerald-400"
+          className=" transition hover:text-emerald-400 text-white dark:hover:text-emerald-400 duration-200  focus:outline-2 outline-emerald-400"
         >
           {email}
         </a>
