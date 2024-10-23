@@ -5,7 +5,5 @@ module.exports = {
     locales: ["de", "en", "es", "it", "ja", "pt"],
     defaultLocale: "de",
   },
-  experimental: {
-    reactCompiler: true,
-  },
+  bundlePagesRouterDependencies: true,
 };
