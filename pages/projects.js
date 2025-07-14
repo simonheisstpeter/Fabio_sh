@@ -35,7 +35,7 @@ export default function ProjectsView() {
           <h2 className="mb-6 text-lg font-andesNeueMedium">
             {t.currentProjects}
           </h2>
-          <article className="mb-20 grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4 relative">
+          <article className="mb-20 grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {currentProjects.map((item) => (
               <Tilty max={20} reverse={false}>
                 <Project key={item.id} {...item} locale={locale} t={t} />

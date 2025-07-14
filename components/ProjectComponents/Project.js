@@ -10,7 +10,7 @@ const Project = ({ locale, t, ...item }) => {
 
   return (
     <article
-      className="cursor-fabiosh rounded-md border border-gray-400 bg-white shadow-sm duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow dark:bg-[#1d1d1f] focus:outline-2 outline-emerald-400 relative"
+      className="relative cursor-fabiosh rounded-md border border-gray-400 bg-white shadow-sm duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow dark:bg-[#1d1d1f] focus:outline-2 outline-emerald-400 "
     >
       {!item.finished && item.published ? (
         <picture className="inset-0 block max-h-[250px]">
@@ -45,7 +45,6 @@ const Project = ({ locale, t, ...item }) => {
           ))}
         </div>
       </div>
-      <a className="absolute before:inset-0 w-100 h-100" href={item.url} target="_blank" rel="noopener noreferrer" aria-label={item.title}></a>
     </article>
   );
 };

@@ -1,14 +1,14 @@
 const ProjectWebsiteLink = ({ text, ...item }) => {
   return (
-    <span
-      className={`group block text-emerald-400 duration-300 hover:text-emerald-500 font-andesNeueLight`}
+    <a
+      className={`group static block text-emerald-400 duration-300 hover:text-emerald-500 font-andesNeueLight before:absolute before:inset-0 before:content-['']`}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={item.title}
       href={item.url}
     >
       {text}
       <svg
+        aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -22,7 +22,7 @@ const ProjectWebsiteLink = ({ text, ...item }) => {
           d="M8.25 4.5l7.5 7.5-7.5 7.5"
         />
       </svg>
-    </span>
+    </a>
   );
 };
 
