@@ -68,7 +68,7 @@ export default function Home() {
             <span className="">{t.name}</span>
             <span className="block">{t.lastname}</span>
             <span className="block animate-fadeIn_2000 delay-1000 text-xl md:text-3xl text-emerald-500 mt-4 font-andesNeueMedium transition duration-300 underline-offset-8 drop-shadow-sm">
-              \ digital media & IT
+              \\ digital media & IT
             </span>
           </h1>
         </div>
