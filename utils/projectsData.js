@@ -622,7 +622,8 @@ const ProjectData = [
       },
       categories: [
         "Angular",
-        "Drupal"
+        "Drupal 8 & 10",
+        "Decoupled"
       ],
       published: true,
       finished: false,
