@@ -35,7 +35,7 @@ export default function ProjectsView() {
           <h2 className="mb-6 text-lg font-andesNeueMedium">
             {t.currentProjects}
           </h2>
-          <article className="mb-20 grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">
+          <article className="mb-20 grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4 relative">
             {currentProjects.map((item) => (
               <Tilty max={20} reverse={false}>
                 <Project key={item.id} {...item} locale={locale} t={t} />
@@ -43,7 +43,7 @@ export default function ProjectsView() {
             ))}
           </article>
 
-          {/* <h2 className="mb-6 text-lg font-andesNeueMedium">{t.upcomingProjects}</h2>
+          <h2 className="mb-6 text-lg font-andesNeueMedium">{t.upcomingProjects}</h2>
           <article className="mb-20 grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5">
             {upcomingProjects.map((item) => (
               <Project key={item.id} {...item} locale={locale} t={t} />
@@ -54,8 +54,8 @@ export default function ProjectsView() {
           <article className="mb-20 grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5">
             {finishedProjects.map((item) => (
               <Project key={item.id} {...item} locale={locale} t={t} />
-            ))} */}
-          {/* </article> */}
+            ))} 
+           </article>
 
           {/* Extra Box */}
           {/* <ExtraBox text={t.comingSoon} /> */}

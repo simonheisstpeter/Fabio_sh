@@ -5,6 +5,7 @@ import locales from "../locales";
 import React from "react";
 import emailjs from "emailjs-com";
 import { ProjectData } from "../utils/projectsData";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
@@ -80,7 +81,10 @@ export default function Home() {
             </React.Fragment>
           ))}
           <div className="absolute w-full bg-neutral-800/20 hover:bg-black/50 duration-300 h-full text-center rounded-3xl text-4xl font-andesNeueMedium flex justify-center items-center text-white">
-            <p>{t.comingSoon}</p>
+            <Link href="/projects" className="hover:underline focus:underline flex gap-3 items-center hover:gap-5 transform-gpu transitiion-all duration-200">{t.toProjectsLink} <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 ">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+</svg>
+</Link>
           </div>
         </section>
 
@@ -92,7 +96,7 @@ export default function Home() {
             </div>
 
             <form
-              className="contact-form w-full md:w-4/5 mx-auto max-w-xl my-12"
+              className="contact-form w-full md:w-4/5 mx-auto max-w-xl my-12 text-white"
               onSubmit={sendEmail}
             >
               <input type="hidden" name="contact_number" required />

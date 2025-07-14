@@ -15,6 +15,7 @@ export default {
 
   website: "Webseite",
   comingSoon: "Bald mehr ...",
+  toProjectsLink: "Zu den Projekten",
   currentProjects: "Laufende Projekte",
   upcomingProjects: "Kommende / Pausierte Projekte",
   finishedProjects: "Fertiggestellte Projekte",

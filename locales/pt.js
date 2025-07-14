@@ -15,6 +15,7 @@ export default {
   
   website: "Página do site",
   comingSoon: "Brevemente mais ...",
+  toProjectsLink: "Para os Projectos",
   currentProjects: "Projectos em curso",
   upcomingProjects: "Próximos / Projectos em Pausa",
   finishedProjects: "Projectos concluídos",

@@ -15,6 +15,7 @@ export default {
 
   website: "サイト",
   comingSoon: "近日公開予定 ...",
+  toProjectsLink: "プロジェクトへ",
   currentProjects: "継続的なプロジェクト",
   upcomingProjects: "進行中・休止中のプロジェクト",
   finishedProjects: "終了したプロジェクト",

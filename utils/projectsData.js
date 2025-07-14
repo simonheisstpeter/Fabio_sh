@@ -14,10 +14,11 @@ const ProjectData = [
       categories: [
         "Next.js",
         "TailwindCSS",
-        "Vercel",
+        "Rest",
         "GraphQL",
-        "DatoCMS",
+        "Directus",
         "Vercel Analytics",
+        "Selfhosted"
       ],
       published: true,
       finished: false,
@@ -75,7 +76,7 @@ const ProjectData = [
       ],
       published: true,
       finished: false,
-      online: true,
+      online: false,
       image: "/ukmko008(1).jpg",
       url: "https://podcast.centropa.org",
       languages: [{lang: "Deutsch", flag: "🇩🇪"}, {lang: "English", flag: "🇺🇸"}, {lang: "Ukrainian", flag: "🇺🇦" } ]
@@ -100,7 +101,7 @@ const ProjectData = [
         "Splitbee",
         "Github",
       ],
-      published: true,
+      published: false,
       finished: true,
       online: true,
       image: "",
@@ -253,7 +254,7 @@ const ProjectData = [
         "Three.js",
         "TailwindCSS",
         "NextAuth",
-        "DigitalOcean",
+        "Selfhosted",
         "Vercel"
       ],
       published: false,
