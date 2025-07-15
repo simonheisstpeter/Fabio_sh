@@ -1,58 +1,34 @@
 const ProjectData = [
-    
     {
-      id: "2",
-      title: "Radio International",
+      id: "7",
+      title: "NeverAtHome",
       description: {
-        de: {text: "Design, Entwicklung und Konzeption"},
-        en: {text: "Design, development and concept"},
-        es: {text: ""},
-        it: {text: "Progettazione, Sviluppo e Concezione"},
+        de: {text: "Entwicklung und Konzeption, Webseite, Plattformprojekt, Newsletter, Sysadmintätigkeiten sowie kommender Multi-Tenant Option für Mitglieder:innen"},
+        en: {text: "Development and Conception, Website, Platform Project, Newsletter, Sysadmin Tasks and upcoming Multi-Tenant Option for Members"},
+        es: {text: "Proyecto de Plataforma, Sitio Web, Newsletter, Actividades de Sysadmin y próxima opción Multi-Tenant para miembros"},
+        it: {text: "Progettazione e Concezione, Sito Web, Progetto Piattaforma, Newsletter, Attività Sysadmin e prossima opzione Multi-Tenant per i membri"},
         ja: {text: ""},
         pt: {text: ""}
       },
       categories: [
-        "Next.js",
-        "TailwindCSS",
-        "REST",
-        "GraphQL",
-        "Directus",
-        "Vercel Analytics",
-        "Selfhosted"
+        "SvelteKit",
+        "SCSS",
+        "Lucia",
+        "Postgres",
+        "Go",
+        "Selfhosted",
+        "GCP",
+        "Astro",
+        "NodeJS",
+        "Typescript",
+
       ],
       published: true,
       finished: false,
       online: true,
-      image: "/ri_meta_pic.png",
-      url: "https://radiointernational.org",
-      languages: [{lang: "Deutsch", flag: "🇩🇪"},]
-    },
-    {
-      id: "1",
-      title: "Fabio.sh",
-      description: {
-        de: {text: "Design, Entwicklung und Konzeption"},
-        en: {text: "Design, development and concept"},
-        es: {text: ""},
-        it: {text: "Progettazione, Sviluppo e Concezione"},
-        ja: {text: ""},
-        pt: {text: ""}
-      },
-      categories: [
-        "Next.js",
-        "TailwindCSS",
-        "Vercel",
-        "Spotify API",
-        "Vercel Analytics",
-        "Email.js",
-        "Party.js"
-      ],
-      published: false,
-      finished: false,
-      online: true,
-      image: "/meta_pic.png",
-      url: "https://fabio.sh", 
-      languages: [{lang: "Deutsch", flag: "🇩🇪"}, {lang: "English", flag: "🇺🇸"},{lang: "Español", flag: "🇦🇷"},{lang: "Italiano", flag: "🇮🇹"}, {lang: "Bras. Port.", flag: "🇧🇷"}, {lang: "日本の", flag: "🇯🇵"}, ]
+      image: "/RZ_NeverAtHome_Sharebild_compressed.png",
+      url: "https://never-at-home.at",
+      languages: [{lang: "English", flag: "🇺🇸"}, {lang: "Deutsch", flag: "🇩🇪"}]
     },
     {
       id: "3",
@@ -103,7 +79,7 @@ const ProjectData = [
       ],
       published: false,
       finished: true,
-      online: true,
+      online: false,
       image: "",
       url: "https://ukrainianstories.centropa.org",
       languages: [{lang: "Deutsch", flag: "🇩🇪"}, {lang: "English", flag: "🇺🇸"}, {lang: "Ukrainian", flag: "🇺🇦" } ]
@@ -153,36 +129,65 @@ const ProjectData = [
       ],
       published: true,
       finished: true,
-      online: true,
+      online: false,
       image: "",
       url: "https://dorcol.centropa.app",
       languages: [{lang: "English", flag: "🇺🇸"}, {lang: "Serbian", flag: "🇷🇸"}]
     },
-    {
-      id: "7",
-      title: "NeverAtHome",
+   
+     {
+      id: "1",
+      title: "Fabio.sh",
       description: {
-        de: {text: "Entwicklung und Konzeption, Webseite, Plattformprojekt, Newsletter, Sysadmintätigkeiten sowie kommender Multi-Tenant Option für Mitglieder:innen"},
-        en: {text: "Development and Conception, Website, Platform Project, Newsletter, Sysadmin Tasks and upcoming Multi-Tenant Option for Members"},
-        es: {text: "Proyecto de Plataforma, Sitio Web, Newsletter, Actividades de Sysadmin y próxima opción Multi-Tenant para miembros"},
-        it: {text: "Progettazione e Concezione, Sito Web, Progetto Piattaforma, Newsletter, Attività Sysadmin e prossima opzione Multi-Tenant per i membri"},
+        de: {text: "Design, Entwicklung und Konzeption"},
+        en: {text: "Design, development and concept"},
+        es: {text: ""},
+        it: {text: "Progettazione, Sviluppo e Concezione"},
         ja: {text: ""},
         pt: {text: ""}
       },
       categories: [
-        "SvelteKit",
-        "SCSS",
-        "Lucia",
-        "Postgres",
-        "Go",
-        "Selfhosted",
+        "Next.js",
+        "TailwindCSS",
+        "Vercel",
+        "Spotify API",
+        "Vercel Analytics",
+        "Email.js",
+        "Party.js"
       ],
       published: true,
       finished: false,
       online: true,
-      image: "/RZ_NeverAtHome_Sharebild_compressed.png",
-      url: "https://never-at-home.at",
-      languages: [{lang: "English", flag: "🇺🇸"}, {lang: "Deutsch", flag: "🇩🇪"}]
+      image: "/meta_pic.png",
+      url: "https://fabio.sh", 
+      languages: [{lang: "Deutsch", flag: "🇩🇪"}, {lang: "English", flag: "🇺🇸"},{lang: "Español", flag: "🇦🇷"},{lang: "Italiano", flag: "🇮🇹"}, {lang: "Bras. Port.", flag: "🇧🇷"}, {lang: "日本の", flag: "🇯🇵"}, ]
+    },
+     {
+      id: "2",
+      title: "Radio International",
+      description: {
+        de: {text: "Design, Entwicklung und Konzeption"},
+        en: {text: "Design, development and concept"},
+        es: {text: ""},
+        it: {text: "Progettazione, Sviluppo e Concezione"},
+        ja: {text: ""},
+        pt: {text: ""}
+      },
+      categories: [
+        "Next.js",
+        "TailwindCSS",
+        "REST",
+        "GraphQL",
+        "Directus",
+        "Vercel Analytics",
+        "Selfhosted"
+      ],
+      published: true,
+      finished: false,
+      online: true,
+      image: "/ri_meta_pic.png",
+      url: "https://radiointernational.org",
+      languages: [{lang: "Deutsch", flag: "🇩🇪"},]
     },
     {
       id: "8",
@@ -279,9 +284,9 @@ const ProjectData = [
         "Email.js",
         "Vercel",
       ],
-      published: true,
+      published: false,
       finished: true,
-      online: true,
+      online: false,
       image: "",
       url: "https://ninaluciak.at",
       languages: [{lang: "English", flag: "🇺🇸"}, {lang: "Deutsch", flag: "🇩🇪"}]
@@ -359,7 +364,7 @@ const ProjectData = [
     },
     {
       id: "14",
-      title: "Sarajveo30 - Centropa",
+      title: "Sarajevo30 - Centropa",
       description: {
         de: {text: "Entwicklung, Support, nur für Desktop Nutzung"},
         en: {text: "Development, Support, only for desktop use"},
@@ -373,9 +378,9 @@ const ProjectData = [
         "TailwindCSS",
         "Github"
       ],
-      published: true,
+      published: false,
       finished: true,
-      online: true,
+      online: false,
       image: "",
       url: "https://sarajevo.centropa.org",
       languages: [{lang: "Deutsch", flag: "🇩🇪"}]
@@ -611,23 +616,77 @@ const ProjectData = [
       title: "Leando",
       description: {
         de: {text: "Entwicklung"},
-        en: {text: "development"},
-        es: {text: ""},
+        en: {text: "Development"},
+        es: {text: "Desarrollo"},
         it: {text: "Sviluppo"},
-        ja: {text: ""},
-        pt: {text: ""}
+        ja: {text: "開発"},
+        pt: {text: "Desenvolvimento"}
       },
       categories: [
-        "Angular",
+        "Angular 17 & 19",
         "Drupal 8 & 10",
-        "Decoupled"
+        "Decoupled", 
+        "Typescript",
+        "SCSS"
       ],
       published: true,
       finished: false,
       online: true,
-      image: "/test.png",
+      image: "",
       url: "https://leando.de", 
       languages: [{lang: "Deutsch", flag: "🇩🇪"}]
+    },
+    // Tim Oppermann timoppermann.at
+    {
+      id: "26",
+      title: "Tim Oppermann",
+      description: {
+        de: {text: "Design, Entwicklung und Konzeption, E-Mail, Hosting"},
+        en: {text: "Design, development and concept, Email, Hosting"},
+        es: {text: "Diseño, desarrollo y concepto, Correo electrónico, Alojamiento"},
+        it: {text: "Progettazione, Sviluppo e Concezione, Email, Hosting"},
+        ja: {text: ""},
+        pt: {text: ""}
+      },
+      categories: [
+        "Next.js",
+        "TailwindCSS",
+        "Directus",
+        "Selfhosted", 
+        "Vercel",
+      ],
+      published: true,
+      finished: true,
+      online: true,
+      image: "",
+      url: "https://timoppermann.at", 
+      languages: [{lang: "Deutsch", flag: "🇩🇪"}, {lang: "English", flag: "🇬🇧"}]
+    },
+    // same for https://www.kollektivfilm.at/about
+    {
+      id: "27",
+      title: "Kollektiv Film",
+      description: {
+        de: {text: "Design, Entwicklung und Konzeption, E-Mail, Hosting"},
+        en: {text: "Design, development and concept, Email, Hosting"},
+        es: {text: "Diseño, desarrollo y concepto, Correo electrónico, Alojamiento"},
+        it: {text: "Progettazione, Sviluppo e Concezione, Email, Hosting"},
+        ja: {text: ""},
+        pt: {text: ""}
+      },
+      categories: [
+        "Next.js",
+        "TailwindCSS",
+        "Directus",
+        "Selfhosted", 
+        "Vercel",
+      ],
+      published: true,
+      finished: true,
+      online: true,
+      image: "",
+      url: "https://www.kollektivfilm.at", 
+      languages: [{lang: "Deutsch", flag: "🇩🇪"}, {lang: "English", flag: "🇬🇧"}]
     },
   ];
 
