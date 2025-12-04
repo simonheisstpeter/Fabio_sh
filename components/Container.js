@@ -52,6 +52,7 @@ export default function Container(props) {
             className=" focus:outline-2 outline-emerald-400"
           >
             <Loader />
+            
           </Link>
           {/* <NavItem href="/" text={t.menuHome} /> */}
           {/* <NavItem href="/projects" text={t.menuProjects} /> */}
