@@ -13,7 +13,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "emailjs-com": "^3.2.0",
     "eslint-config-next": "^16.0.7",
-    "next": "^16.0.7",
+    "next": "16.0.10",
     "next-themes": "^0.4.6",
     "party-js": "^2.2.0",
     "react": "^19.2.1",
