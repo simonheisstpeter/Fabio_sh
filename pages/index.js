@@ -74,20 +74,20 @@ export default function Home() {
         </div>
 
         {/* Projekt Sektion */}
-        <section className="container relative mx-auto grid lg:grid-cols-3 lg:grid-rows-2 gap-4 min-h-[600px] ">
+            {/*  <section className="container relative mx-auto grid lg:grid-cols-3 lg:grid-rows-2 gap-4 min-h-[600px] ">
           {CardData.map((item, index) => (
             <React.Fragment key={index}>
               <Card {...item} itemKey={index} />
             </React.Fragment>
           ))}
-          {/* <div className="absolute w-full bg-neutral-800/20 hover:bg-black/50 duration-300 h-full text-center rounded-3xl text-4xl font-andesNeueMedium flex flex-col justify-center items-center text-white gap-2">
+     <div className="absolute w-full bg-neutral-800/20 hover:bg-black/50 duration-300 h-full text-center rounded-3xl text-4xl font-andesNeueMedium flex flex-col justify-center items-center text-white gap-2">
             <p>{t.comingSoon}</p>
             <Link href="/projects" className="hover:underline focus:underline flex gap-3 items-center hover:gap-5 transform-gpu transitiion-all duration-200">{t.toProjectsLink} <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 ">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
             </svg>
             </Link>
-          </div> */}
-        </section>
+          </div> 
+        </section>*/}
 
         {/* Projekt Sektion */}
         <section className="container mx-auto">
