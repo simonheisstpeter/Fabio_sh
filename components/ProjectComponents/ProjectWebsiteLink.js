@@ -14,7 +14,7 @@ const ProjectWebsiteLink = ({ text, ...item }) => {
         viewBox="0 0 24 24"
         strokeWidth={2}
         stroke="currentColor"
-        className="inline h-4 w-4 -translate-y-[1px] opacity-0 duration-200 group-hover:translate-x-1 group-hover:opacity-100"
+        className="inline h-4 w-4 -translate-y-px opacity-0 duration-200 group-hover:translate-x-1 group-hover:opacity-100"
       >
         <path
           strokeLinecap="round"

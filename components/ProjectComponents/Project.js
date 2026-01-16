@@ -10,7 +10,7 @@ const Project = ({ locale, t, ...item }) => {
 
   return (
     <article
-      className="relative cursor-fabiosh rounded-md border border-gray-400 shadow-sm duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow bg-[#1d1d1f] focus:outline-2 outline-emerald-400 "
+      className="relative cursor-fabiosh rounded-md border border-gray-400 shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-[#1d1d1f] focus:outline-2 outline-emerald-400 "
     >
       {!item.finished && item.published   ? (
         <picture className="inset-0 block max-h-[250px]">

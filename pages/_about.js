@@ -31,7 +31,7 @@ export default function About() {
       {" "}
       <div className="container mx-auto py-32 md:py-72 ">
         {/*
-            bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400
+            bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-emerald-400
         */}
         <span className="mb-20 block text-center font-andesNeueLight">
           Hier kommt bald{" "}

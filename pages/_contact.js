@@ -48,7 +48,7 @@ export default function Kontakt() {
           <input
             type="text"
             name="user_name"
-            className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300 font-andesNeueLight"
+            className="w-full p-2 px-3 block rounded-sm border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline-solid outline-2 outline-emerald-300 font-andesNeueLight"
             placeholder={`${t.contactName}...`}
             required
           />
@@ -56,21 +56,21 @@ export default function Kontakt() {
           <input
             type="email"
             name="user_email"
-            className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300"
+            className="w-full p-2 px-3 block rounded-sm border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline-solid outline-2 outline-emerald-300"
             placeholder={`${t.contactEMail}...`}
             required
           />
           <label className="font-andesNeueMedium">{t.contactMessage}</label>
           <textarea
             name="message"
-            className="w-full p-2 px-3 block rounded border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline outline-[2px] outline-emerald-300 h-28"
+            className="w-full p-2 px-3 block rounded-sm border border-gray-400 focus:border-gray-400 mt-4 mb-6 focus:outline-solid outline-2 outline-emerald-300 h-28"
             placeholder={`${t.contactMessage}...`}
             required
           />
 
           <button
             type="submit"
-            className="w-44 mt-4 py-2 bg-emerald-500 border-2 border-emerald-500 hover:bg-emerald-500 hover:text-white dark:bg-emerald-400 dark:border dark:border-emerald-500 rounded transition duration-300 ease-in-out ring-emerald-400 dark:ring-emerald-500 text-white dark:text-white focus:outline outline-emerald-400 hover:scale-105 dark:hover:bg-darkDotsGray dark:hover:text-emerald-500 dark:focus:outline outline-2 outline-offset-4 text-lg font-andesNeueMedium"
+            className="w-44 mt-4 py-2 bg-emerald-500 border-2 border-emerald-500 hover:bg-emerald-500 hover:text-white dark:bg-emerald-400 dark:border dark:border-emerald-500 rounded-sm transition duration-300 ease-in-out ring-emerald-400 dark:ring-emerald-500 text-white dark:text-white focus:outline-solid outline-emerald-400 hover:scale-105 dark:hover:bg-darkDotsGray dark:hover:text-emerald-500 dark:focus:outline-solid outline-2 outline-offset-4 text-lg font-andesNeueMedium"
           >{t.contactButton}!</button>
         </form>
 
@@ -82,7 +82,7 @@ export default function Kontakt() {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="inline h-4 w-4 -translate-y-[1px] duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
+              className="inline h-4 w-4 -translate-y-px duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
             >
               <path
                 strokeLinecap="round"

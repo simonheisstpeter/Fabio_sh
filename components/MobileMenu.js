@@ -27,7 +27,7 @@ const MobileMenu = () => {
       aria-label="mobile menu"
     >
       <button
-        className="absolute right-6 top-6 h-8 w-8 rounded p-2 text-gray-900 dark:text-white"
+        className="absolute right-6 top-6 h-8 w-8 rounded-sm p-2 text-gray-900 dark:text-white"
         onClick={toggleNav}
         aria-haspopup="menu"
         aria-expanded={menuOpen ? "true" : "false"}

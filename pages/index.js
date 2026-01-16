@@ -63,11 +63,11 @@ export default function Home() {
           <h1
             className={`${
               locale === "ja" ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"
-            } w-fit px-6 font-andesNeueMedium md:pl-12 md:text-9xl md:font-andesNeueMedium block animate-fadeIn_2000 text-transparent bg-gradient-to-tr transition-all duration-300 from-white to-transparent bg-clip-text`}
+            } w-fit px-6 font-andesNeueMedium md:pl-12 md:text-9xl md:font-andesNeueMedium block animate-fadeIn_2000 text-transparent bg-linear-to-tr transition-all duration-300 from-white to-transparent bg-clip-text`}
           >
             <span className="">{t.name}</span>
             <span className="block">{t.lastname}</span>
-            <span className="block animate-fadeIn_2000 delay-1000 text-xl md:text-3xl text-emerald-500 mt-4 font-andesNeueMedium transition duration-300 underline-offset-8 drop-shadow-sm">
+            <span className="block animate-fadeIn_2000 delay-1000 text-xl md:text-3xl text-emerald-500 mt-4 font-andesNeueMedium transition duration-300 underline-offset-8 drop-shadow-xs">
               \\ digital media & IT
             </span>
           </h1>
@@ -104,11 +104,11 @@ export default function Home() {
               <div className="mt-4 mb-6 group flex flex-col gap-2">
                 <label className="font-andesNeueMedium">{t.contactName}</label>
 
-                <div className="bg-gradient-to-t from-white/20 ring-1 ring-white/10 rounded p-1">
+                <div className="bg-linear-to-t from-white/20 ring-1 ring-white/10 rounded-sm p-1">
                   <input
                     type="text"
                     name="user_name"
-                    className="bg-[#030303] w-full p-2 px-3 block rounded border border-white/10 focus:border-gray-400 group-focus:outline outline-[2px] outline-white"
+                    className="bg-darkDotsGray w-full p-2 px-3 block rounded-sm border border-white/10 focus:border-gray-400 group-focus:outline-solid outline-2 outline-white"
                     placeholder={`${t.contactName}...`}
                     required
                   />
@@ -117,11 +117,11 @@ export default function Home() {
               {/*  */}
               <div className="mt-4 mb-6 group flex flex-col gap-2">
                 <label className="font-andesNeueMedium">{t.contactEMail}</label>
-                <div className="bg-gradient-to-t from-white/20 ring-1 ring-white/10 rounded p-1">
+                <div className="bg-linear-to-t from-white/20 ring-1 ring-white/10 rounded-sm p-1">
                   <input
                     type="email"
                     name="user_email"
-                    className="bg-[#030303] w-full p-2 px-3 block rounded borderborder-white/10 focus:border-gray-400  group-focus:outline outline-[2px] outline-white"
+                    className="bg-darkDotsGray w-full p-2 px-3 block rounded-sm borderborder-white/10 focus:border-gray-400  group-focus:outline-solid outline-2 outline-white"
                     placeholder={`${t.contactEMail}...`}
                     required
                   />
@@ -132,10 +132,10 @@ export default function Home() {
                 <label className="font-andesNeueMedium">
                   {t.contactMessage}
                 </label>
-                <div className="bg-gradient-to-t from-white/20 ring-1 ring-white/10 rounded p-1">
+                <div className="bg-linear-to-t from-white/20 ring-1 ring-white/10 rounded-sm p-1">
                   <textarea
                     name="message"
-                    className="bg-[#030303] w-full p-2 px-3 block rounded border border-white/10 focus:border-gray-400 group-focus:outline outline-[2px] outline-white h-28"
+                    className="bg-darkDotsGray w-full p-2 px-3 block rounded-sm border border-white/10 focus:border-gray-400 group-focus:outline-solid outline-2 outline-white h-28"
                     placeholder={`${t.contactMessage}...`}
                     required
                   />
@@ -144,7 +144,7 @@ export default function Home() {
 
               <button
                 type="submit"
-                className="w-44 mt-4 py-2 bg-emerald-600 border border-emerald-700 rounded transition duration-300 ease-in-out ring-emerald-500 text-white outline-emerald-400 hover:bg-darkDotsGray hover:text-emerald-500 focus:outline outline-2 outline-offset-4 text-lg font-andesNeueMedium"
+                className="w-44 mt-4 py-2 bg-emerald-600 border border-emerald-700 rounded-sm transition duration-300 ease-in-out ring-emerald-500 text-white outline-emerald-400 hover:bg-darkDotsGray hover:text-emerald-500 focus:outline-solid outline-2 outline-offset-4 text-lg font-andesNeueMedium"
               >
                 {t.contactButton}!
               </button>

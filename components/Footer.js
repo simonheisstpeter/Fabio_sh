@@ -31,7 +31,7 @@ const Footer = () => {
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="inline h-4 w-4 -translate-y-[1px] duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
+          className="inline h-4 w-4 -translate-y-px duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
         >
           <path
             strokeLinecap="round"
