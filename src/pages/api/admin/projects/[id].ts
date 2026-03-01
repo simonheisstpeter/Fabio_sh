@@ -13,10 +13,7 @@ function parseLanguages(raw: string): { flag: string; lang: string }[] {
     });
 }
 
-export const PUT: APIRoute = async ({ request, params }) => {
-  const id = params.id!;
-  const form = await request.formData();
-
+async function handlePut(id: string, form: FormData): Promise<Response> {
   const title = String(form.get('title') ?? '').trim();
   if (!title) {
     return new Response(JSON.stringify({ error: 'title is required' }), {
@@ -69,15 +66,14 @@ export const PUT: APIRoute = async ({ request, params }) => {
   });
 };
 
-export const DELETE: APIRoute = ({ params }) => {
-  const id = params.id!;
-  const db = getDb();
-  db.prepare('DELETE FROM projects WHERE id = ?').run(id);
+export const PUT: APIRoute = async ({ request, params }) => {
+  return handlePut(params.id!, await request.formData());
+};
 
-  return new Response(null, {
-    status: 302,
-    headers: { Location: '/admin/projects' },
-  });
+export const DELETE: APIRoute = ({ params }) => {
+  const db = getDb();
+  db.prepare('DELETE FROM projects WHERE id = ?').run(params.id!);
+  return new Response(null, { status: 302, headers: { Location: '/admin/projects' } });
 };
 
 // Handle _method override for HTML forms (PUT/DELETE via POST)
@@ -86,10 +82,12 @@ export const POST: APIRoute = async ({ request, params }) => {
   const method = String(form.get('_method') ?? '').toUpperCase();
 
   if (method === 'DELETE') {
-    return DELETE({ request, params } as Parameters<typeof DELETE>[0]);
+    const db = getDb();
+    db.prepare('DELETE FROM projects WHERE id = ?').run(params.id!);
+    return new Response(null, { status: 302, headers: { Location: '/admin/projects' } });
   }
   if (method === 'PUT') {
-    return PUT({ request, params } as Parameters<typeof PUT>[0]);
+    return handlePut(params.id!, form);
   }
 
   return new Response(JSON.stringify({ error: 'Invalid method override' }), {

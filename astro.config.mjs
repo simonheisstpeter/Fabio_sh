@@ -6,11 +6,8 @@ export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   site: 'https://fabio.sh',
-  security:{
-    allowedDomains: [
-      { hostname: 'fabio.sh', protocol: 'https' },
-      { hostname: 'www.fabio.sh', protocol: 'https' }
-    ],
+  security: {
+    checkOrigin: false,
   },
   vite: {
     plugins: [tailwindcss()],
