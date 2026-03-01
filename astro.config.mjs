@@ -6,11 +6,15 @@ export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   site: 'https://fabio.sh',
-
+  security:{
+    allowedDomains: [
+      { hostname: 'fabio.sh', protocol: 'https' },
+      { hostname: 'www.fabio.sh', protocol: 'https' }
+    ],
+  },
   vite: {
     plugins: [tailwindcss()],
   },
-
   i18n: {
     defaultLocale: 'de',
     locales: ['de', 'en', 'es', 'it', 'ja', 'pt'],
@@ -18,16 +22,16 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
-
   server: {
     headers: {
       'X-Frame-Options': 'DENY',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+            // 'Content-Security-Policy': "worker-src 'none'; frame-src 'none'; frame-ancestors 'none';",
+
     },
   },
-
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover',
