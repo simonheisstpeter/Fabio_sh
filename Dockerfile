@@ -11,15 +11,13 @@ FROM node:22-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# FIX: Copy BOTH package.json AND package-lock.json
-COPY --from=builder /app/package*.json ./
-
-# Now npm ci will work
-RUN npm ci --omit=dev
+COPY --from=builder /app/package.json ./package.json
+# Copy pre-built node_modules (better-sqlite3 native bindings compiled in builder)
+COPY --from=builder /app/node_modules ./node_modules
 
 # Copy the rest of the built files
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/src/lib/seed.js ./src/lib/seed.js
+# COPY --from=builder /app/src/lib/seed.js ./src/lib/seed.js
 
 # Setup DB directory
 RUN mkdir -p /app/db
