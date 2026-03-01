@@ -33,13 +33,19 @@ function maskEmail(email: string): string {
     <p class="text-gray-500 text-sm">No submissions yet.</p>
   )}
 
-  <div class="grid gap-3 max-w-3xl">
+  <div class="grid gap-3 max-w-3xl" id="submissions-list">
     {submissions.map((s) => (
-      <details class="bg-[#1a1a1a] border border-[#222] rounded-lg p-4">
+      <details class="bg-[#1a1a1a] border border-[#222] rounded-lg p-4" data-id={s.id}>
         <summary class="cursor-pointer flex items-center gap-4 list-none select-none">
           <span class="font-medium text-gray-50">{s.name}</span>
           <span class="text-gray-500 text-xs">{maskEmail(s.email)}</span>
           <span class="text-gray-600 text-xs ml-auto">{new Date(s.submitted_at + 'Z').toLocaleString('en-GB')}</span>
+          <form action={`/api/admin/submissions/${s.id}`} method="POST" class="inline delete-form">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="text-red-500 hover:text-red-400 text-xs px-2 py-0.5 border border-red-900 rounded hover:bg-red-950/40 transition-colors bg-transparent cursor-pointer">
+              Delete
+            </button>
+          </form>
         </summary>
         <div class="mt-4 pt-4 border-t border-gray-800">
           <p class="text-xs text-gray-400 mb-2">
@@ -51,3 +57,19 @@ function maskEmail(email: string): string {
     ))}
   </div>
 </AdminLayout>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.delete-form').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const card = form.closest<HTMLElement>('details[data-id]');
+      const id = card?.dataset.id;
+      if (!id || !confirm('Delete this submission?')) return;
+
+      const res = await fetch(`/api/admin/submissions/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        card.remove();
+      }
+    });
+  });
+</script>
