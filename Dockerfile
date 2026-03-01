@@ -20,6 +20,9 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
+# Copy seed script (run manually: node src/lib/seed.js)
+COPY --from=builder /app/src/lib/seed.js ./src/lib/seed.js
+
 # Ensure the db directory exists (volume will be mounted here)
 RUN mkdir -p /app/db
 
