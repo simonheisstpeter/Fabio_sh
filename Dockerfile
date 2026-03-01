@@ -11,14 +11,15 @@ FROM node:22-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Copy only the necessary files
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/src/lib/seed.js ./src/lib/seed.js
+# FIX: Copy BOTH package.json AND package-lock.json
+COPY --from=builder /app/package*.json ./
 
-# Install ONLY production dependencies (no devDeps)
-# This significantly reduces image size
+# Now npm ci will work
 RUN npm ci --omit=dev
+
+# Copy the rest of the built files
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/src/lib/seed.js ./src/lib/seed.js
 
 # Setup DB directory
 RUN mkdir -p /app/db
