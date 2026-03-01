@@ -5,6 +5,9 @@ import {
 } from '@simplewebauthn/server';
 import { getDb } from '../../../lib/db';
 
+export const GET: APIRoute = () =>
+  new Response(null, { status: 302, headers: { Location: '/admin/register' } });
+
 export const POST: APIRoute = async ({ cookies }) => {
   const db = getDb();
   const existingCredentials = db

@@ -3,6 +3,9 @@ import { verifyAuthenticationResponse } from '@simplewebauthn/server';
 import { getDb } from '../../../lib/db';
 import { createSession } from '../../../lib/admin-auth';
 
+export const GET: APIRoute = () =>
+  new Response(null, { status: 302, headers: { Location: '/admin/login' } });
+
 export const POST: APIRoute = async ({ request, cookies }) => {
   const challenge = cookies.get('__wac')?.value;
   if (!challenge) {

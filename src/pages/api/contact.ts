@@ -1,16 +1,10 @@
 import type { APIRoute } from 'astro';
-import { createHash } from 'node:crypto';
-import { getDb } from '../../lib/db';
+import { getDb, hashIp } from '../../lib/db';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RATE_LIMIT = 3;        // max submissions
 const RATE_WINDOW = 3600;    // per hour (seconds)
 const MIN_SUBMIT_MS = 3000;  // min 3 s between page load and submit
-
-function hashIp(ip: string): string {
-  const secret = import.meta.env.IP_HASH_SECRET ?? process.env.IP_HASH_SECRET ?? 'changeme';
-  return createHash('sha256').update(secret + ip).digest('hex');
-}
 
 function getClientIp(request: Request): string {
   return (
@@ -120,6 +114,5 @@ export const POST: APIRoute = async ({ request }) => {
   });
 };
 
-// Block non-POST
 export const GET: APIRoute = () =>
-  new Response('Method not allowed', { status: 405 });
+  new Response(null, { status: 302, headers: { Location: '/#contact' } });

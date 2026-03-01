@@ -1,16 +1,13 @@
 import type { APIRoute } from 'astro';
 import bcrypt from 'bcryptjs';
-import { createHash } from 'crypto';
-import { getDb } from '../../../lib/db';
+import { getDb, hashIp } from '../../../lib/db';
 import { createSession } from '../../../lib/admin-auth';
-
-function hashIp(ip: string): string {
-  const secret = import.meta.env.IP_HASH_SECRET ?? 'change-me';
-  return createHash('sha256').update(ip + secret).digest('hex');
-}
 
 const WINDOW_MINUTES = 15;
 const MAX_ATTEMPTS = 5;
+
+export const GET: APIRoute = () =>
+  new Response(null, { status: 302, headers: { Location: '/admin/login' } });
 
 export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   const form = await request.formData();

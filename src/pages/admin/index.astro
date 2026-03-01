@@ -4,10 +4,15 @@ import { getDb } from '../../lib/db';
 
 const db = getDb();
 
-const totalProjects = (db.prepare('SELECT COUNT(*) as n FROM projects').get() as { n: number }).n;
-const currentProjects = (db.prepare('SELECT COUNT(*) as n FROM projects WHERE published=1 AND finished=0').get() as { n: number }).n;
-const upcomingProjects = (db.prepare('SELECT COUNT(*) as n FROM projects WHERE published=0').get() as { n: number }).n;
-const finishedProjects = (db.prepare('SELECT COUNT(*) as n FROM projects WHERE finished=1').get() as { n: number }).n;
+const stats = db.prepare(`
+  SELECT
+    COUNT(*) as total,
+    SUM(CASE WHEN published=1 AND finished=0 THEN 1 ELSE 0 END) as current,
+    SUM(CASE WHEN published=0 THEN 1 ELSE 0 END) as upcoming,
+    SUM(CASE WHEN finished=1 THEN 1 ELSE 0 END) as finished
+  FROM projects
+`).get() as { total: number; current: number; upcoming: number; finished: number };
+
 const submissions = (db.prepare('SELECT COUNT(*) as n FROM contact_submissions').get() as { n: number }).n;
 ---
 
@@ -16,19 +21,19 @@ const submissions = (db.prepare('SELECT COUNT(*) as n FROM contact_submissions')
 
   <div class="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 mb-8">
     <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-emerald-400">{totalProjects}</div>
+      <div class="text-[1.75rem] font-bold text-emerald-400">{stats.total}</div>
       <div class="text-xs text-gray-400 mt-1">Total Projects</div>
     </div>
     <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-blue-400">{currentProjects}</div>
+      <div class="text-[1.75rem] font-bold text-blue-400">{stats.current}</div>
       <div class="text-xs text-gray-400 mt-1">Current</div>
     </div>
     <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-amber-400">{upcomingProjects}</div>
+      <div class="text-[1.75rem] font-bold text-amber-400">{stats.upcoming}</div>
       <div class="text-xs text-gray-400 mt-1">Upcoming</div>
     </div>
     <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-gray-500">{finishedProjects}</div>
+      <div class="text-[1.75rem] font-bold text-gray-500">{stats.finished}</div>
       <div class="text-xs text-gray-400 mt-1">Finished</div>
     </div>
     <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">

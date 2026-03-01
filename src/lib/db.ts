@@ -1,6 +1,24 @@
 import Database from 'better-sqlite3';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
+import { createHash } from 'node:crypto';
+
+export function hashIp(ip: string): string {
+  const secret = process.env.IP_HASH_SECRET ?? 'changeme';
+  return createHash('sha256').update(secret + ip).digest('hex');
+}
+
+export function parseLanguages(raw: string): { flag: string; lang: string }[] {
+  return raw
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const firstSpace = line.indexOf(' ');
+      if (firstSpace === -1) return { flag: '', lang: line };
+      return { flag: line.slice(0, firstSpace), lang: line.slice(firstSpace + 1).trim() };
+    });
+}
 
 const dbPath =
   process.env.DATABASE_PATH ??
@@ -83,6 +101,9 @@ function initSchema(db: Database.Database) {
       count        INTEGER NOT NULL DEFAULT 1,
       window_start DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE INDEX IF NOT EXISTS idx_projects_pub_fin ON projects(published, finished);
+    CREATE INDEX IF NOT EXISTS idx_sessions_expires ON admin_sessions(expires_at);
   `);
 }
 

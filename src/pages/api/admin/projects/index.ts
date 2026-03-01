@@ -1,18 +1,8 @@
 import type { APIRoute } from 'astro';
-import { getDb } from '../../../../lib/db';
+import { getDb, parseLanguages } from '../../../../lib/db';
 
-function parseLanguages(raw: string): { flag: string; lang: string }[] {
-  return raw
-    .split('\n')
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .map((line) => {
-      // Format: "🇺🇸 English"
-      const firstSpace = line.indexOf(' ');
-      if (firstSpace === -1) return { flag: '', lang: line };
-      return { flag: line.slice(0, firstSpace), lang: line.slice(firstSpace + 1).trim() };
-    });
-}
+export const GET: APIRoute = () =>
+  new Response(null, { status: 302, headers: { Location: '/admin/projects' } });
 
 export const POST: APIRoute = async ({ request }) => {
   const form = await request.formData();

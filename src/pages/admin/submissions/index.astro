@@ -7,7 +7,8 @@ const submissions = db
   .prepare(
     `SELECT id, name, email, message, ip_hash, submitted_at
      FROM contact_submissions
-     ORDER BY submitted_at DESC`
+     ORDER BY submitted_at DESC
+     LIMIT 100`
   )
   .all() as {
     id: number;

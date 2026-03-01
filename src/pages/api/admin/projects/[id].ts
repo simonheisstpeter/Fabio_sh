@@ -1,17 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getDb } from '../../../../lib/db';
-
-function parseLanguages(raw: string): { flag: string; lang: string }[] {
-  return raw
-    .split('\n')
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const firstSpace = line.indexOf(' ');
-      if (firstSpace === -1) return { flag: '', lang: line };
-      return { flag: line.slice(0, firstSpace), lang: line.slice(firstSpace + 1).trim() };
-    });
-}
+import { getDb, parseLanguages } from '../../../../lib/db';
 
 async function handlePut(id: string, form: FormData): Promise<Response> {
   const title = String(form.get('title') ?? '').trim();
@@ -65,6 +53,9 @@ async function handlePut(id: string, form: FormData): Promise<Response> {
     headers: { Location: '/admin/projects' },
   });
 };
+
+export const GET: APIRoute = () =>
+  new Response(null, { status: 302, headers: { Location: '/admin/projects' } });
 
 export const PUT: APIRoute = async ({ request, params }) => {
   return handlePut(params.id!, await request.formData());

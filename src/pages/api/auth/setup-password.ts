@@ -2,6 +2,9 @@ import type { APIRoute } from 'astro';
 import bcrypt from 'bcryptjs';
 import { getDb } from '../../../lib/db';
 
+export const GET: APIRoute = () =>
+  new Response(null, { status: 302, headers: { Location: '/admin/register' } });
+
 export const POST: APIRoute = async ({ request }) => {
   const form = await request.formData();
   const email = String(form.get('email') ?? '').trim();
