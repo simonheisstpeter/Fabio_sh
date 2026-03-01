@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+  online: boolean;
+  finished: boolean;
+}
+const { title, online, finished } = Astro.props;
+
+// Status dot: green=online, yellow=in-review/paused, red=offline
+const dotColor = online ? 'bg-emerald-400' : finished ? 'bg-red-400' : 'bg-yellow-400';
+const statusLabel = online ? 'Online' : finished ? 'Offline' : 'In development';
+---
+
+<div class="mb-2 flex items-center gap-2">
+  <span
+    class={`h-2 w-2 rounded-full ${dotColor} shrink-0`}
+    title={statusLabel}
+    aria-label={statusLabel}
+  ></span>
+  <h3 class="font-andesNeueMedium text-white leading-snug">{title}</h3>
+</div>

@@ -1,0 +1,97 @@
+---
+import AdminLayout from '../../../components/AdminLayout.astro';
+import { getDb, rowToProject, type ProjectRow } from '../../../lib/db';
+
+const { id } = Astro.params;
+const db = getDb();
+const row = db.prepare('SELECT * FROM projects WHERE id = ?').get(id) as ProjectRow | undefined;
+
+if (!row) {
+  return Astro.redirect('/admin/projects');
+}
+
+const p = rowToProject(row);
+
+const langText = p.languages.map((l) => `${l.flag} ${l.lang}`).join('\n');
+const catText = p.categories.join('\n');
+---
+
+<AdminLayout title={`Edit: ${p.title}`}>
+  <div class="flex items-center gap-3 mb-6">
+    <h1 class="text-2xl font-semibold text-gray-50 mb-0">Edit Project</h1>
+    <code class="text-xs text-gray-500 bg-[#1a1a1a] px-2 py-0.5 rounded">{p.id}</code>
+  </div>
+
+  <form action={`/api/admin/projects/${p.id}`} method="POST" class="max-w-2xl">
+    <input type="hidden" name="_method" value="PUT" />
+
+    <div class="mb-4">
+      <label for="title" class="block text-xs text-gray-400 mb-1">Title</label>
+      <input id="title" name="title" type="text" required value={p.title}
+        class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+    </div>
+
+    <details class="mb-4">
+      <summary class="cursor-pointer text-sm text-gray-400 mb-3 select-none">Descriptions (by language)</summary>
+      <div class="grid gap-3 mt-3">
+        {(['de','en','es','it','ja','pt'] as const).map((lang) => (
+          <div>
+            <label for={`desc_${lang}`} class="block text-xs text-gray-600 mb-1">{lang.toUpperCase()}</label>
+            <textarea id={`desc_${lang}`} name={`desc_${lang}`} rows="3"
+              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-sans">{p.description[lang]}</textarea>
+          </div>
+        ))}
+      </div>
+    </details>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="categories" class="block text-xs text-gray-400 mb-1">Categories (one per line)</label>
+        <textarea id="categories" name="categories" rows="4"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono">{catText}</textarea>
+      </div>
+      <div>
+        <label for="languages" class="block text-xs text-gray-400 mb-1">Languages (flag + name per line)</label>
+        <textarea id="languages" name="languages" rows="4"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono">{langText}</textarea>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="image" class="block text-xs text-gray-400 mb-1">Image path</label>
+        <input id="image" name="image" type="text" value={p.image}
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+      <div>
+        <label for="url" class="block text-xs text-gray-400 mb-1">URL</label>
+        <input id="url" name="url" type="text" value={p.url}
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+    </div>
+
+    <div class="flex gap-6 mb-6">
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name="published" value="1" checked={p.published} class="accent-emerald-500" />
+        Published
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name="finished" value="1" checked={p.finished} class="accent-emerald-500" />
+        Finished
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name="online" value="1" checked={p.online} class="accent-emerald-500" />
+        Online
+      </label>
+    </div>
+
+    <div class="flex gap-3">
+      <button type="submit" class="bg-emerald-500 text-white px-6 py-2 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors">
+        Save Changes
+      </button>
+      <a href="/admin/projects" class="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
+        Cancel
+      </a>
+    </div>
+  </form>
+</AdminLayout>

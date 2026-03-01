@@ -13,8 +13,17 @@
 /.next/
 /out/
 
+# astro
+/dist/
+/.astro/
+
 # production
 /build
+
+# SQLite database (runtime file, do not commit)
+/db/*.db
+/db/*.db-shm
+/db/*.db-wal
 
 # misc
 .DS_Store

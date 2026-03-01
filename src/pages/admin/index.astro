@@ -1,0 +1,51 @@
+---
+import AdminLayout from '../../components/AdminLayout.astro';
+import { getDb } from '../../lib/db';
+
+const db = getDb();
+
+const totalProjects = (db.prepare('SELECT COUNT(*) as n FROM projects').get() as { n: number }).n;
+const currentProjects = (db.prepare('SELECT COUNT(*) as n FROM projects WHERE published=1 AND finished=0').get() as { n: number }).n;
+const upcomingProjects = (db.prepare('SELECT COUNT(*) as n FROM projects WHERE published=0').get() as { n: number }).n;
+const finishedProjects = (db.prepare('SELECT COUNT(*) as n FROM projects WHERE finished=1').get() as { n: number }).n;
+const submissions = (db.prepare('SELECT COUNT(*) as n FROM contact_submissions').get() as { n: number }).n;
+---
+
+<AdminLayout title="Dashboard">
+  <h1 class="text-2xl font-semibold text-gray-50 mb-6">Dashboard</h1>
+
+  <div class="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 mb-8">
+    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+      <div class="text-[1.75rem] font-bold text-emerald-400">{totalProjects}</div>
+      <div class="text-xs text-gray-400 mt-1">Total Projects</div>
+    </div>
+    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+      <div class="text-[1.75rem] font-bold text-blue-400">{currentProjects}</div>
+      <div class="text-xs text-gray-400 mt-1">Current</div>
+    </div>
+    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+      <div class="text-[1.75rem] font-bold text-amber-400">{upcomingProjects}</div>
+      <div class="text-xs text-gray-400 mt-1">Upcoming</div>
+    </div>
+    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+      <div class="text-[1.75rem] font-bold text-gray-500">{finishedProjects}</div>
+      <div class="text-xs text-gray-400 mt-1">Finished</div>
+    </div>
+    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+      <div class="text-[1.75rem] font-bold text-violet-400">{submissions}</div>
+      <div class="text-xs text-gray-400 mt-1">Submissions</div>
+    </div>
+  </div>
+
+  <div class="flex gap-3 flex-wrap">
+    <a href="/admin/projects" class="bg-emerald-500 text-white px-5 py-2 rounded-lg no-underline text-sm font-medium hover:bg-emerald-600 transition-colors">
+      Manage Projects
+    </a>
+    <a href="/admin/projects/new" class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
+      + New Project
+    </a>
+    <a href="/admin/submissions" class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
+      View Submissions
+    </a>
+  </div>
+</AdminLayout>

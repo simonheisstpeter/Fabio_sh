@@ -1,0 +1,177 @@
+---
+import '../../styles/globals.css';
+import { validateSession } from '../../lib/admin-auth';
+import { getDb } from '../../lib/db';
+
+if (validateSession(Astro.cookies)) {
+  return Astro.redirect('/admin');
+}
+
+const db = getDb();
+const hasPasskey = (db.prepare('SELECT COUNT(*) as n FROM webauthn_credentials').get() as { n: number }).n > 0;
+const hasPassword = (db.prepare('SELECT COUNT(*) as n FROM admin_password').get() as { n: number }).n > 0;
+
+if (!hasPasskey && !hasPassword) {
+  return Astro.redirect('/admin/register');
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login – fabio.sh</title>
+    <meta name="robots" content="noindex,nofollow" />
+  </head>
+  <body class="bg-[#0a0a0a] text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
+    <div class="bg-[#111] border border-[#222] rounded-xl p-8 w-full max-w-sm">
+      <h1 class="text-xl font-semibold text-gray-50 mb-5 text-center">fabio.sh admin</h1>
+
+      <!-- Tabs -->
+      <div class="flex border-b border-gray-800 mb-5" role="tablist">
+        {hasPasskey && (
+          <button
+            class="tab flex-1 py-2 text-center text-xs cursor-pointer border-b-2 transition-colors active"
+            role="tab" data-tab="passkey" id="tab-passkey" aria-selected="true"
+          >Passkey</button>
+        )}
+        {hasPassword && (
+          <button
+            class={`tab flex-1 py-2 text-center text-xs cursor-pointer border-b-2 transition-colors${!hasPasskey ? ' active' : ''}`}
+            role="tab" data-tab="password" id="tab-password" aria-selected={!hasPasskey ? 'true' : 'false'}
+          >Password</button>
+        )}
+      </div>
+
+      <!-- Passkey panel -->
+      {hasPasskey && (
+        <div class="tab-panel active" id="panel-passkey" role="tabpanel">
+          <button id="passkey-btn" type="button"
+            class="w-full bg-gray-800 text-gray-200 py-2.5 rounded-lg border border-gray-700 cursor-pointer text-sm hover:bg-gray-700 transition-colors disabled:opacity-50">
+            Sign in with Passkey
+          </button>
+          <div id="passkey-status" class="text-xs text-gray-500 mt-2 min-h-5 text-center"></div>
+        </div>
+      )}
+
+      <!-- Password panel -->
+      {hasPassword && (
+        <div class={`tab-panel${!hasPasskey ? ' active' : ''}`} id="panel-password" role="tabpanel">
+          <div id="pw-error" class="hidden bg-[#1f0a0a] border border-red-900 text-red-300 rounded px-3 py-2 text-xs mb-3"></div>
+          <form id="pw-form" novalidate>
+            <!-- Honeypot -->
+            <div class="absolute opacity-0 pointer-events-none h-0 w-0 overflow-hidden" aria-hidden="true">
+              <input name="website" tabindex="-1" autocomplete="off" />
+            </div>
+            <input type="hidden" name="_t" id="form-ts" />
+
+            <label for="email" class="block text-xs text-gray-400 mb-1">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email"
+              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-emerald-400 transition-colors" />
+
+            <label for="password" class="block text-xs text-gray-400 mb-1">Password</label>
+            <input id="password" name="password" type="password" required autocomplete="current-password"
+              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-emerald-400 transition-colors" />
+
+            <button id="pw-btn" type="submit"
+              class="w-full bg-emerald-500 text-white py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors disabled:opacity-50">
+              Sign in
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
+
+    <script>
+      // Timestamp for anti-bot timing check
+      const tsEl = document.getElementById('form-ts') as HTMLInputElement | null;
+      if (tsEl) tsEl.value = String(Date.now());
+
+      // Tab switching
+      document.querySelectorAll<HTMLButtonElement>('[role="tab"]').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('[role="tab"]').forEach((t) => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          document.querySelectorAll('.tab-panel').forEach((p) => p.classList.remove('active'));
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          document.getElementById('panel-' + tab.dataset.tab)?.classList.add('active');
+        });
+      });
+
+      // Passkey login
+      const passkeyBtn = document.getElementById('passkey-btn') as HTMLButtonElement | null;
+      const passkeyStatus = document.getElementById('passkey-status');
+      if (passkeyBtn) {
+        passkeyBtn.addEventListener('click', async () => {
+          passkeyBtn.disabled = true;
+          if (passkeyStatus) passkeyStatus.textContent = 'Requesting challenge…';
+          try {
+            const optRes = await fetch('/api/auth/login-start', { method: 'POST' });
+            if (!optRes.ok) throw new Error(await optRes.text());
+            const options = await optRes.json();
+
+            if (passkeyStatus) passkeyStatus.textContent = 'Waiting for passkey…';
+            const { startAuthentication } = await import('@simplewebauthn/browser');
+            const authResp = await startAuthentication({ optionsJSON: options });
+
+            const finRes = await fetch('/api/auth/login-finish', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(authResp),
+            });
+            if (!finRes.ok) throw new Error(await finRes.text());
+
+            if (passkeyStatus) passkeyStatus.textContent = '✓ Authenticated!';
+            window.location.href = '/admin';
+          } catch (err) {
+            if (passkeyStatus) passkeyStatus.textContent = '✗ ' + (err instanceof Error ? err.message : 'Error');
+            passkeyBtn.disabled = false;
+          }
+        });
+      }
+
+      // Password login
+      const pwForm = document.getElementById('pw-form') as HTMLFormElement | null;
+      const pwError = document.getElementById('pw-error');
+      const pwBtn = document.getElementById('pw-btn') as HTMLButtonElement | null;
+      if (pwForm) {
+        pwForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (pwBtn) pwBtn.disabled = true;
+          if (pwError) pwError.classList.add('hidden');
+
+          const fd = new FormData(pwForm);
+          try {
+            const res = await fetch('/api/auth/password-login', { method: 'POST', body: fd });
+            if (res.ok) {
+              window.location.href = '/admin';
+              return;
+            }
+            const data = await res.json().catch(() => ({}));
+            if (pwError) {
+              pwError.textContent = data.error ?? 'Login failed.';
+              pwError.classList.remove('hidden');
+            }
+          } catch {
+            if (pwError) {
+              pwError.textContent = 'Network error.';
+              pwError.classList.remove('hidden');
+            }
+          }
+          if (pwBtn) pwBtn.disabled = false;
+        });
+      }
+    </script>
+
+    <style>
+      .tab { color: #6b7280; border-color: transparent; background: none; }
+      .tab.active { color: #34d399; border-color: #34d399; }
+      .tab-panel { display: none; }
+      .tab-panel.active { display: block; }
+    </style>
+  </body>
+</html>

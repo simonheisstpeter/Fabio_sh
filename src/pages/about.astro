@@ -1,0 +1,84 @@
+---
+import Layout from '../components/Layout.astro';
+import Loader from '../components/Loader.astro';
+import { getTranslations } from '../i18n/index';
+import { getLastPlayed } from '../lib/tidal';
+
+const locale = Astro.currentLocale ?? 'de';
+const t = getTranslations(locale);
+
+// Fetch Tidal last-played server-side (with graceful fallback)
+const track = await getLastPlayed().catch(() => null);
+---
+
+<Layout
+  title={`${t.menuAbout} – fabio.sh`}
+  description="About Fabio Gschweidl – developer, designer, music enthusiast"
+>
+  <div class="container mx-auto py-24 md:py-36 px-4 md:px-12">
+    <h1 class="text-5xl font-andesNeueMedium mb-20 animate-fadeIn_2000">
+      {t.aboutTitle}
+    </h1>
+
+    <p class="font-andesNeueLight text-xl text-white/80 mb-8 max-w-2xl">
+      Fabio Gschweidl &mdash; digital media &amp; IT, based in Austria.
+    </p>
+
+    <hr class="border-white/10 my-12" />
+
+    <!-- Tidal now playing -->
+    <section aria-labelledby="tidal-heading" class="mt-12">
+      <h2 id="tidal-heading" class="text-2xl font-andesNeueMedium mb-6">
+        {track ? t.nowPlaying : t.notPlaying}
+      </h2>
+
+      {track ? (
+        <div class="flex flex-col sm:flex-row items-start gap-6 max-w-md">
+          {track.coverUrl && (
+            <a
+              href={track.trackUrl ?? '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="shrink-0"
+              aria-label={`${track.title} on Tidal`}
+            >
+              <img
+                src={track.coverUrl}
+                alt={`${track.album} album cover`}
+                width="160"
+                height="160"
+                loading="lazy"
+                decoding="async"
+                class="rounded-md shadow-lg"
+              />
+            </a>
+          )}
+          <div class="flex flex-col gap-1">
+            <span class="text-lg font-andesNeueMedium">{track.title}</span>
+            <span class="text-emerald-400 font-andesNeueMedium">{track.artist}</span>
+            <span class="text-sm text-white/60">{track.album}</span>
+            {track.trackUrl && (
+              <a
+                href={track.trackUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 inline-flex items-center gap-2 text-sm text-white/60 hover:text-emerald-400 transition duration-200"
+              >
+                Open on Tidal
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-3.5 w-3.5" aria-hidden="true">
+                  <path d="M6.22 8.72a.75.75 0 001.06 1.06l5.22-5.22v1.69a.75.75 0 001.5 0v-3.5a.75.75 0 00-.75-.75h-3.5a.75.75 0 000 1.5h1.69L6.22 8.72z" />
+                  <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 007 4H4.75A2.75 2.75 0 002 6.75v4.5A2.75 2.75 0 004.75 14h4.5A2.75 2.75 0 0012 11.25V9a.75.75 0 00-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5z" />
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div class="flex items-center gap-4 text-white/40">
+          <Loader />
+          <span class="font-andesNeueLight">{t.notPlaying}</span>
+        </div>
+      )}
+    </section>
+  </div>
+</Layout>

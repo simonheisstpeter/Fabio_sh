@@ -1,0 +1,52 @@
+---
+import AdminLayout from '../../../components/AdminLayout.astro';
+import { getDb } from '../../../lib/db';
+
+const db = getDb();
+const submissions = db
+  .prepare(
+    `SELECT id, name, email, message, ip_hash, submitted_at
+     FROM contact_submissions
+     ORDER BY submitted_at DESC`
+  )
+  .all() as {
+    id: number;
+    name: string;
+    email: string;
+    message: string;
+    ip_hash: string | null;
+    submitted_at: string;
+  }[];
+
+function maskEmail(email: string): string {
+  const [local, domain] = email.split('@');
+  if (!domain) return email;
+  return local.slice(0, 2) + '***@' + domain;
+}
+---
+
+<AdminLayout title="Submissions">
+  <h1 class="text-2xl font-semibold text-gray-50 mb-6">Contact Submissions</h1>
+
+  {submissions.length === 0 && (
+    <p class="text-gray-500 text-sm">No submissions yet.</p>
+  )}
+
+  <div class="grid gap-3 max-w-3xl">
+    {submissions.map((s) => (
+      <details class="bg-[#1a1a1a] border border-[#222] rounded-lg p-4">
+        <summary class="cursor-pointer flex items-center gap-4 list-none select-none">
+          <span class="font-medium text-gray-50">{s.name}</span>
+          <span class="text-gray-500 text-xs">{maskEmail(s.email)}</span>
+          <span class="text-gray-600 text-xs ml-auto">{new Date(s.submitted_at + 'Z').toLocaleString('en-GB')}</span>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-gray-800">
+          <p class="text-xs text-gray-400 mb-2">
+            From: <span class="text-gray-200">{s.email}</span>
+          </p>
+          <p class="text-sm text-gray-300 whitespace-pre-wrap wrap-break-word">{s.message}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</AdminLayout>

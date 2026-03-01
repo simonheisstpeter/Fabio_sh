@@ -1,0 +1,14 @@
+---
+interface Props {
+  language: { lang: string; flag: string };
+}
+const { language } = Astro.props;
+---
+
+<span
+  class="mr-1 inline-block cursor-default"
+  title={language.lang}
+  aria-label={language.lang}
+>
+  {language.flag}
+</span>

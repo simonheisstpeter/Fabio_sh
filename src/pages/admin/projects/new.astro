@@ -1,0 +1,85 @@
+---
+import AdminLayout from '../../../components/AdminLayout.astro';
+---
+
+<AdminLayout title="New Project">
+  <h1 class="text-2xl font-semibold text-gray-50 mb-6">New Project</h1>
+
+  <form action="/api/admin/projects" method="POST" class="max-w-2xl">
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="id" class="block text-xs text-gray-400 mb-1">ID (slug)</label>
+        <input id="id" name="id" type="text" required pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, hyphens"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+      <div>
+        <label for="title" class="block text-xs text-gray-400 mb-1">Title</label>
+        <input id="title" name="title" type="text" required
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+    </div>
+
+    <details class="mb-4">
+      <summary class="cursor-pointer text-sm text-gray-400 mb-3 select-none">Descriptions (by language)</summary>
+      <div class="grid gap-3 mt-3">
+        {(['de','en','es','it','ja','pt'] as const).map((lang) => (
+          <div>
+            <label for={`desc_${lang}`} class="block text-xs text-gray-600 mb-1">{lang.toUpperCase()}</label>
+            <textarea id={`desc_${lang}`} name={`desc_${lang}`} rows="3"
+              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-sans"></textarea>
+          </div>
+        ))}
+      </div>
+    </details>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="categories" class="block text-xs text-gray-400 mb-1">Categories (one per line)</label>
+        <textarea id="categories" name="categories" rows="4" placeholder="Web&#10;TypeScript&#10;Open Source"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono"></textarea>
+      </div>
+      <div>
+        <label for="languages" class="block text-xs text-gray-400 mb-1">Languages (flag + name per line)</label>
+        <textarea id="languages" name="languages" rows="4" placeholder="🇩🇪 German&#10;🇺🇸 English"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono"></textarea>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="image" class="block text-xs text-gray-400 mb-1">Image path (e.g. /meta_pic.png)</label>
+        <input id="image" name="image" type="text"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+      <div>
+        <label for="url" class="block text-xs text-gray-400 mb-1">URL</label>
+        <input id="url" name="url" type="text"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+    </div>
+
+    <div class="flex gap-6 mb-6">
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name="published" value="1" class="accent-emerald-500" />
+        Published
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name="finished" value="1" class="accent-emerald-500" />
+        Finished
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name="online" value="1" class="accent-emerald-500" />
+        Online
+      </label>
+    </div>
+
+    <div class="flex gap-3">
+      <button type="submit" class="bg-emerald-500 text-white px-6 py-2 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors">
+        Create Project
+      </button>
+      <a href="/admin/projects" class="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
+        Cancel
+      </a>
+    </div>
+  </form>
+</AdminLayout>

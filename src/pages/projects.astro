@@ -1,0 +1,78 @@
+---
+import Layout from '../components/Layout.astro';
+import ProjectCard from '../components/projects/ProjectCard.astro';
+import { getTranslations } from '../i18n/index';
+import { getAllProjects } from '../lib/db';
+
+const locale = Astro.currentLocale ?? 'de';
+const t = getTranslations(locale);
+
+const allProjects = getAllProjects();
+
+const currentProjects = allProjects.filter((p) => !p.finished && p.published);
+const upcomingProjects = allProjects.filter((p) => !p.finished && !p.published);
+const finishedProjects = allProjects.filter((p) => p.finished);
+---
+
+<Layout
+  title={`${t.menuProjects} – fabio.sh`}
+  description="All projects by Fabio Gschweidl – web development, design and conception"
+>
+  <div class="container mx-auto h-full px-4 md:px-12 pb-12">
+    <h1 class="my-20 text-5xl font-andesNeueMedium animate-fadeIn_2000">
+      {t.menuProjects}
+    </h1>
+
+    <!-- Current -->
+    <section aria-labelledby="current-heading" class="mb-20">
+      <h2 id="current-heading" class="mb-6 text-lg font-andesNeueMedium text-emerald-400">
+        {t.currentProjects}
+      </h2>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">
+        {currentProjects.map((project) => (
+          <ProjectCard project={project} locale={locale} t={t} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Upcoming / Paused -->
+    <section aria-labelledby="upcoming-heading" class="mb-20">
+      <h2 id="upcoming-heading" class="mb-6 text-lg font-andesNeueMedium">
+        {t.upcomingProjects}
+      </h2>
+      <div class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5">
+        {upcomingProjects.map((project) => (
+          <ProjectCard project={project} locale={locale} t={t} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Finished -->
+    <section aria-labelledby="finished-heading" class="mb-20">
+      <h2 id="finished-heading" class="mb-6 text-lg font-andesNeueMedium">
+        {t.finishedProjects}
+      </h2>
+      <div class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5">
+        {finishedProjects.map((project) => (
+          <ProjectCard project={project} locale={locale} t={t} />
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <!-- Confetti easter egg (loads only when visible, no-JS graceful) -->
+  <script>
+    // Party.js confetti on projects page – loads lazily
+    let partyLoaded = false;
+    const observer = new IntersectionObserver(() => {
+      if (!partyLoaded) {
+        partyLoaded = true;
+        // No-op if party-js not installed; silently skip
+        import('https://cdn.jsdelivr.net/npm/party-js@2.2.0/bundle/party.min.js')
+          .catch(() => {});
+      }
+    });
+    const footer = document.querySelector('footer');
+    if (footer) observer.observe(footer);
+  </script>
+</Layout>

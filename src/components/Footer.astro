@@ -1,0 +1,42 @@
+---
+import type { Translations } from '../i18n/index';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+interface Props {
+  locale: string;
+  t: Translations;
+}
+
+const { locale, t } = Astro.props;
+const email = 'fabio@fabio.sh';
+---
+
+<footer class="container mx-auto select-none font-andesNeueLight my-20 flex justify-between px-4 md:px-12">
+  <div>
+    <p class="text-sm text-white/60">{t.contactEMail}</p>
+    <a
+      href={`mailto:${email}`}
+      class="transition-colors hover:text-emerald-400 text-white duration-200"
+    >
+      {email}
+    </a>
+  </div>
+
+  <a
+    href={getRelativeLocaleUrl(locale, '/mediakit')}
+    class="group mx-6 md:mx-12 mt-20 w-20 block duration-300 text-white hover:text-emerald-500 text-sm"
+  >
+    Mediakit
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+      stroke="currentColor"
+      class="inline h-4 w-4 -translate-y-px duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+    </svg>
+  </a>
+</footer>
