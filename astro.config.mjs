@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
+  site: 'https://fabio.sh',
 
   vite: {
     plugins: [tailwindcss()],
