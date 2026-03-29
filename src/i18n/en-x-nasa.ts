@@ -1,9 +1,9 @@
 // BCP 47: en-x-nasa
 export default {
-  menuHome: 'Ground Control 🛰️',
-  menuProjects: 'Active Payloads 📂',
-  menuAbout: 'Bio-Data / Crew Profile 🧬',
-  menuContact: 'Communication Uplink 📞',
+  menuHome: 'Ground Control',
+  menuProjects: 'Active Payloads',
+  menuAbout: 'Bio-Data / Crew Profile',
+  menuContact: 'Communication Uplink',
 
   name: 'Commander Fabio',
   lastname: 'Gschweidl (Lead Engineer)',
@@ -12,12 +12,12 @@ export default {
   contactName: 'Personnel Designation',
   contactEMail: 'Uplink Address',
   contactMessage: 'Encoded Data',
-  contactButton: 'Initiate Launch 🚀',
+  contactButton: 'Initiate Launch',
   contactSuccess: 'Transmission Successful. Data packet integrated.',
   contactError: 'Signal Interference. Re-establish connection.',
 
-  website: 'Global Network Node 🌐',
-  comingSoon: 'Research in progress... ⏳',
+  website: 'Global Network Node',
+  comingSoon: 'Research in progress...',
   toProjectsLink: 'Navigate to Mission Manifest',
   currentProjects: 'Active Trajectories',
   upcomingProjects: 'Future Orbital Windows',
@@ -28,7 +28,7 @@ export default {
 
   languageSelect: 'Modulate Frequency',
 
-  nowPlaying: 'Auditory Telemetry Active 🎧',
+  nowPlaying: 'Auditory Telemetry Active',
   notPlaying: 'Radio Silence',
 
   mediakitTitle: 'Visual Schematics',

@@ -1,9 +1,9 @@
 // BCP 47: en-x-cowboy
 export default {
-  menuHome: 'The Homestead 🏠',
-  menuProjects: 'Cattle Drive 📂',
-  menuAbout: 'The Drifter 🧬',
-  menuContact: 'The Telegraph 📞',
+  menuHome: 'The Homestead',
+  menuProjects: 'Cattle Drive',
+  menuAbout: 'The Drifter',
+  menuContact: 'The Telegraph',
 
   name: 'Fabio',
   lastname: 'Gschweidl (The Fastest Gun)',
@@ -16,8 +16,8 @@ export default {
   contactSuccess: 'Much obliged, partner! I’ll get back to ya.',
   contactError: 'Well, tarnation. Something misfired.',
 
-  website: 'The Digital Ranch 🌐',
-  comingSoon: 'Still in the saddle... ⏳',
+  website: 'The Digital Ranch',
+  comingSoon: 'Still in the saddle...',
   toProjectsLink: 'Head to the Stables',
   currentProjects: 'Workin’ the Land',
   upcomingProjects: 'On the Horizon',
@@ -28,7 +28,7 @@ export default {
 
   languageSelect: 'Pick your Drawl',
 
-  nowPlaying: 'Strummin’ the Banjo 🎧',
+  nowPlaying: 'Strummin’ the Banjo',
   notPlaying: 'Tumbleweed Silence',
 
   mediakitTitle: 'Branding Iron',

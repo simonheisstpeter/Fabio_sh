@@ -1,9 +1,9 @@
 // BCP 47: en-x-brainrot
 export default {
-  menuHome: 'The Spawn Point 🏠',
-  menuProjects: 'The Grindset / Major W’s 📂',
-  menuAbout: 'The Lore 🧬',
-  menuContact: 'Send a DM (No Ghosting) 📞',
+  menuHome: 'The Spawn Point',
+  menuProjects: 'The Grindset / Major W’s',
+  menuAbout: 'The Lore',
+  menuContact: 'Send a DM (No Ghosting)',
 
   name: 'Fabio (The Main Character)',
   lastname: 'Gschweidl (Aura +1000)',
@@ -16,8 +16,8 @@ export default {
   contactSuccess: 'Massive W! Your message is locked in.',
   contactError: 'Massive L. Skill issue, try again.',
 
-  website: 'The Main Channel 🌐',
-  comingSoon: 'Wait for the glow up... ⏳',
+  website: 'The Main Channel',
+  comingSoon: 'Wait for the glow up...',
   toProjectsLink: 'Peep the Portfolio',
   currentProjects: 'Active Mogging',
   upcomingProjects: 'Upcoming Heat',
@@ -28,7 +28,7 @@ export default {
 
   languageSelect: 'Switch the Vibe',
 
-  nowPlaying: 'Currently Cooking 🎧',
+  nowPlaying: 'Currently Cooking',
   notPlaying: 'Silence (Mewing in progress)',
 
   mediakitTitle: 'The Visual Flex',
