@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getTranslations, LOCALES, LOCALE_LABELS } from '../i18n/index';
 import Footer from './Footer.astro';
@@ -90,7 +90,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
       />
     ))}
 
-    <ViewTransitions />
+    <ClientRouter />
   </head>
 
   <body class="cursor-fabiosh min-h-screen bg-darkDotsGray text-white font-andesNeueLight">
