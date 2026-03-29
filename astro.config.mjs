@@ -39,6 +39,10 @@ export default defineConfig({
       'en-x-min': DEFAULT_LOCALE,
       'en-x-cyberpunk': DEFAULT_LOCALE,
       'en-x-starwars': DEFAULT_LOCALE,
+      'en-x-aislop': DEFAULT_LOCALE,
+      'en-x-nasa': DEFAULT_LOCALE,
+      'en-x-brainrot': DEFAULT_LOCALE,
+      'en-x-cowboy': DEFAULT_LOCALE,
     },
   },
   server: {
