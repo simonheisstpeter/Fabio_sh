@@ -37,6 +37,7 @@ export default defineConfig({
       'en-x-leet': DEFAULT_LOCALE,
       'en-x-min': DEFAULT_LOCALE,
       'en-x-cyberpunk': DEFAULT_LOCALE,
+      'en-x-starwars': DEFAULT_LOCALE,
     },
   },
   server: {

@@ -18,12 +18,13 @@ import enXCorp from './en-x-corp';
 import enXLeet from './en-x-leet';
 import enXMin from './en-x-min';
 import enXCyberpunk from './en-x-cyberpunk';
+import enXStarwars from './en-x-starwars.js';
 
 import { LOCALES } from "./locales.js";
 
 export type Translations = typeof de;
 
-const translations: Record<string, Translations> = { de, en, eo, es, fr, he, it, ja, la, nl, pt, sv, uk, zh, 'en-x-corp': enXCorp, 'en-x-leet': enXLeet, 'en-x-min': enXMin, 'en-x-cyberpunk': enXCyberpunk, };
+const translations: Record<string, Translations> = { de, en, eo, es, 'fr-FR': fr, he, it, ja, la, nl, pt, sv, uk, zh, 'en-x-corp': enXCorp, 'en-x-leet': enXLeet, 'en-x-min': enXMin, 'en-x-starwars': enXStarwars, 'en-x-cyberpunk': enXCyberpunk, };
 
 export function getTranslations(locale: string | undefined): Translations {
   return translations[locale ?? 'de'] ?? translations['de'];
@@ -36,7 +37,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   en: 'English',
   es: 'Español',
   eo: 'Esperanto',
-  fr: 'Français',
+  'fr-FR': 'Français',
   he: 'עברית',
   it: 'Italiano',
   ja: '日本語',
@@ -49,5 +50,6 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   'en-x-corp': 'Corpo',
   'en-x-leet': 'Leet',
   'en-x-min': 'Minimal',
+  'en-x-starwars': 'Star Wars',
   'en-x-cyberpunk': 'Cyberpunk',
 };
