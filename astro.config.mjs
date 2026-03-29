@@ -26,6 +26,7 @@ export default defineConfig({
       it: DEFAULT_LOCALE,
       ja: DEFAULT_LOCALE,
       pt: DEFAULT_LOCALE,
+      zh: DEFAULT_LOCALE,
     },
   },
   server: {

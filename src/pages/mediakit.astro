@@ -100,21 +100,30 @@ const colors = [
 </Layout>
 
 <script>
+  function showTooltip(anchor: HTMLElement) {
+    const existing = anchor.querySelector<HTMLElement>('.copy-tooltip');
+    if (existing) return;
+    const tip = document.createElement('span');
+    tip.className = 'copy-tooltip';
+    tip.textContent = 'Copied!';
+    tip.style.cssText =
+      'position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 6px);' +
+      'background:#18181b;color:#34d399;font-size:0.7rem;white-space:nowrap;' +
+      'padding:2px 8px;border-radius:4px;pointer-events:none;z-index:50;';
+    anchor.style.position = 'relative';
+    anchor.appendChild(tip);
+    setTimeout(() => tip.remove(), 1500);
+  }
+
   document.addEventListener('astro:page-load', () => {
     document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
       if (btn.dataset.copyInit) return;
       btn.dataset.copyInit = '1';
-      const original = btn.textContent ?? '';
       btn.addEventListener('click', async () => {
-        const text = btn.dataset.copy ?? original;
+        const text = btn.dataset.copy ?? btn.textContent ?? '';
         try {
           await navigator.clipboard.writeText(text);
-          btn.textContent = 'Copied!';
-          btn.classList.add('text-white', 'border-emerald-500');
-          setTimeout(() => {
-            btn.textContent = original;
-            btn.classList.remove('text-white', 'border-emerald-500');
-          }, 1500);
+          showTooltip(btn);
         } catch {
           // clipboard API unavailable (non-HTTPS or denied)
         }
