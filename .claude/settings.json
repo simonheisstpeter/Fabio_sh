@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Bash(curl -sv http://localhost:4322/en/)"
+    ]
+  }
+}

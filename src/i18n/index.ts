@@ -1,28 +1,53 @@
 import de from './de';
 import en from './en';
+import eo from './eo';
 import es from './es';
+import fr from './fr-FR';
+import he from './he';
 import it from './it';
 import ja from './ja';
+import la from './la';
+import nl from './nl';
+import sv from './sv';
 import pt from './pt';
+import uk from './uk';
 import zh from './zh';
+
+// Extra "en-x-*" locales for fun and testing purposes.
+import enXCorp from './en-x-corp';
+import enXLeet from './en-x-leet';
+import enXMin from './en-x-min';
+import enXCyberpunk from './en-x-cyberpunk';
+
+import { LOCALES } from "./locales.js";
 
 export type Translations = typeof de;
 
-const translations: Record<string, Translations> = { de, en, es, it, ja, pt, zh };
+const translations: Record<string, Translations> = { de, en, eo, es, fr, he, it, ja, la, nl, pt, sv, uk, zh, 'en-x-corp': enXCorp, 'en-x-leet': enXLeet, 'en-x-min': enXMin, 'en-x-cyberpunk': enXCyberpunk, };
 
 export function getTranslations(locale: string | undefined): Translations {
   return translations[locale ?? 'de'] ?? translations['de'];
 }
 
-export const LOCALES = ['de', 'en', 'es', 'it', 'ja', 'pt', 'zh'] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const LOCALE_LABELS: Record<Locale, string> = {
   de: 'Deutsch',
   en: 'English',
   es: 'Español',
+  eo: 'Esperanto',
+  fr: 'Français',
+  he: 'עברית',
   it: 'Italiano',
   ja: '日本語',
+  la: 'Latina',
+  nl: 'Nederlands',
+  sv: 'Svenska',
   pt: 'Português',
+  uk: 'Українська',
   zh: '中文',
+  'en-x-corp': 'Corpo',
+  'en-x-leet': 'Leet',
+  'en-x-min': 'Minimal',
+  'en-x-cyberpunk': 'Cyberpunk',
 };

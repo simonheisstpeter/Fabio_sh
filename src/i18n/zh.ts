@@ -4,8 +4,9 @@ export default {
   menuAbout: '关于我',
   menuContact: '联系',
 
-  name: 'Fabio',
-  lastname: 'Gschweidl',
+  // 法比欧 (Fǎ bǐ ōu) 贡施维德 (Gòng shī wéi dé)
+  name: '法比欧', // 法比奥 (Fǎ bǐ ào) 贡施维德 (Gòng shī wéi dé)
+  lastname: '贡施维德',
 
   contactTitle: '联系表单',
   contactName: '姓名',
