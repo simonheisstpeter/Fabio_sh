@@ -72,7 +72,7 @@ export const POST: APIRoute = async ({ request }) => {
     .get(ipHash) as { count: number; window_start: string } | undefined;
 
   if (existing) {
-    const windowStart = new Date(existing.window_start).getTime();
+    const windowStart = new Date(existing.window_start + 'Z').getTime();
     const elapsed = (Date.now() - windowStart) / 1000;
 
     if (elapsed < RATE_WINDOW) {
@@ -97,8 +97,8 @@ export const POST: APIRoute = async ({ request }) => {
   // If the request accepts JSON (JS-enhanced), return JSON.
   // Otherwise redirect (no-JS plain form submit).
   const acceptsJson = request.headers.get('accept')?.includes('application/json') ?? false;
-  const referer = request.headers.get('referer') ?? '/';
-  const redirectUrl = new URL(referer);
+  const referer = request.headers.get('referer') ?? request.url;
+  const redirectUrl = new URL(referer, request.url);
   redirectUrl.searchParams.set('sent', '1');
 
   if (acceptsJson) {

@@ -9,11 +9,10 @@ const stats = db.prepare(`
     COUNT(*) as total,
     SUM(CASE WHEN published=1 AND finished=0 THEN 1 ELSE 0 END) as current,
     SUM(CASE WHEN published=0 THEN 1 ELSE 0 END) as upcoming,
-    SUM(CASE WHEN finished=1 THEN 1 ELSE 0 END) as finished
+    SUM(CASE WHEN finished=1 THEN 1 ELSE 0 END) as finished,
+    (SELECT COUNT(*) FROM contact_submissions) as submissions
   FROM projects
-`).get() as { total: number; current: number; upcoming: number; finished: number };
-
-const submissions = (db.prepare('SELECT COUNT(*) as n FROM contact_submissions').get() as { n: number }).n;
+`).get() as { total: number; current: number; upcoming: number; finished: number; submissions: number };
 ---
 
 <AdminLayout title="Dashboard">
@@ -37,7 +36,7 @@ const submissions = (db.prepare('SELECT COUNT(*) as n FROM contact_submissions')
       <div class="text-xs text-gray-400 mt-1">Finished</div>
     </div>
     <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-violet-400">{submissions}</div>
+      <div class="text-[1.75rem] font-bold text-violet-400">{stats.submissions}</div>
       <div class="text-xs text-gray-400 mt-1">Submissions</div>
     </div>
   </div>

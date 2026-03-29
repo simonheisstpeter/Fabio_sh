@@ -18,6 +18,14 @@ export default defineConfig({
     locales: LOCALES,
     routing: {
       prefixDefaultLocale: false,
+      fallbackType: 'rewrite',
+    },
+    fallback: {
+      en: DEFAULT_LOCALE,
+      es: DEFAULT_LOCALE,
+      it: DEFAULT_LOCALE,
+      ja: DEFAULT_LOCALE,
+      pt: DEFAULT_LOCALE,
     },
   },
   server: {

@@ -22,13 +22,21 @@ const TIDAL_API = 'https://api.tidal.com/v1';
 
 type TidalSession = { sessionId: string; userId: number; countryCode: string };
 
+const FETCH_TIMEOUT_MS = 5_000;
+
+function fetchWithTimeout(url: string, init?: RequestInit): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  return fetch(url, { ...init, signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
 async function authenticate(): Promise<TidalSession> {
   const mail = import.meta.env.TIDAL_MAIL ?? process.env.TIDAL_MAIL;
   const password = import.meta.env.TIDAL_PASSWORD ?? process.env.TIDAL_PASSWORD;
 
   if (!mail || !password) throw new Error('TIDAL_MAIL / TIDAL_PASSWORD not set');
 
-  const res = await fetch(`${TIDAL_API}/login/username?token=${TIDAL_TOKEN}`, {
+  const res = await fetchWithTimeout(`${TIDAL_API}/login/username?token=${TIDAL_TOKEN}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Tidal-Token': TIDAL_TOKEN },
     body: JSON.stringify({ username: mail, password }),
@@ -41,7 +49,7 @@ async function authenticate(): Promise<TidalSession> {
 async function fetchLastPlayed(session: TidalSession): Promise<TidalTrack | null> {
   // Tidal does not have a public "currently playing" endpoint.
   // We fetch recent tracks from the user's playback history.
-  const res = await fetch(
+  const res = await fetchWithTimeout(
     `${TIDAL_API}/users/${session.userId}/playbacksessions?limit=1&countryCode=${session.countryCode}`,
     {
       headers: {

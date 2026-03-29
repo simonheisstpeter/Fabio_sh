@@ -22,7 +22,5 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   es: 'Español',
   it: 'Italiano',
   ja: '日本語',
-  pt: 'Portugués',
+  pt: 'Português',
 };
-
-export { de, en, es, it, ja, pt };
