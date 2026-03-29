@@ -33,7 +33,7 @@ const projects = getProjectsList();
             <td class="px-3 py-2 text-center">{p.online ? '✓' : '–'}</td>
             <td class="px-3 py-2 whitespace-nowrap">
               <a href={`/admin/projects/${p.id}`} class="text-blue-400 no-underline text-xs mr-3 hover:text-blue-300">Edit</a>
-              <form action={`/api/admin/projects/${p.id}`} method="POST" class="inline" onsubmit={`return confirm('Delete "${p.title}"?')`}>
+              <form action={`/api/admin/projects/${p.id}`} method="POST" class="inline delete-form" data-title={p.title}>
                 <input type="hidden" name="_method" value="DELETE" />
                 <button type="submit" class="bg-transparent border-0 text-red-500 cursor-pointer text-xs p-0 hover:text-red-400">Delete</button>
               </form>
@@ -47,3 +47,12 @@ const projects = getProjectsList();
     )}
   </div>
 </AdminLayout>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.delete-form').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      const title = form.dataset.title ?? 'this project';
+      if (!confirm(`Delete "${title}"?`)) e.preventDefault();
+    });
+  });
+</script>

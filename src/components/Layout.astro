@@ -220,14 +220,17 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
     <script>
       function initLangSelect(id: string) {
         const sel = document.getElementById(id) as HTMLSelectElement | null;
-        if (!sel) return;
+        if (!sel || sel.dataset.lsInit) return;
+        sel.dataset.lsInit = '1';
         sel.addEventListener('change', () => {
-          const url = sel.value;
-          if (url) window.location.href = url;
+          if (sel.value) window.location.href = sel.value;
         });
       }
-      initLangSelect('lang-select');
-      initLangSelect('lang-select-mobile');
+      // astro:page-load fires on both initial load and after every View Transition
+      document.addEventListener('astro:page-load', () => {
+        initLangSelect('lang-select');
+        initLangSelect('lang-select-mobile');
+      });
     </script>
   </body>
 </html>

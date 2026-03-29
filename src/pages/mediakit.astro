@@ -31,9 +31,21 @@ const colors = [
       >
         {t.mediakitFonts}
       </h2>
-      <div class="md:w-2/3 text-white">
-        <p class="font-andesNeueMedium text-3xl mb-4">Andes Neue Medium</p>
-        <p class="font-andesNeueLight text-3xl">Andes Neue Light</p>
+      <div class="md:w-2/3 text-white space-y-6">
+        <div>
+          <p class="font-andesNeueMedium text-3xl mb-3">Andes Neue Medium</p>
+          <button
+            class="copy-btn font-mono text-xs text-emerald-500 bg-white/5 hover:bg-white/10 border border-white/10 rounded px-3 py-1.5 cursor-pointer transition-colors text-left"
+            data-copy="font-family: 'AndesNeueMedium', sans-serif; font-weight: 500;"
+          >font-family: 'AndesNeueMedium', sans-serif; font-weight: 500;</button>
+        </div>
+        <div>
+          <p class="font-andesNeueLight text-3xl mb-3">Andes Neue Light</p>
+          <button
+            class="copy-btn font-mono text-xs text-emerald-500 bg-white/5 hover:bg-white/10 border border-white/10 rounded px-3 py-1.5 cursor-pointer transition-colors text-left"
+            data-copy="font-family: 'AndesNeueLight', sans-serif; font-weight: 300;"
+          >font-family: 'AndesNeueLight', sans-serif; font-weight: 300;</button>
+        </div>
       </div>
     </section>
 
@@ -47,11 +59,14 @@ const colors = [
       </h2>
       <div class="md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
         {colors.map(({ name, hex, class: cls }) => (
-          <div class="text-center">
-            <div class={`block h-20 w-20 mx-auto ${cls} rounded-full mb-4`}></div>
+          <button
+            class="copy-btn text-center bg-transparent border-0 cursor-pointer group p-0"
+            data-copy={hex}
+          >
+            <div class={`h-20 w-20 mx-auto ${cls} rounded-full mb-4 transition-transform duration-200 group-hover:scale-105`}></div>
             <span class="block text-sm">{name}</span>
-            <span class="block text-xs text-emerald-500 font-mono">{hex}</span>
-          </div>
+            <span class="block text-xs text-emerald-500 font-mono mt-1">{hex}</span>
+          </button>
         ))}
       </div>
     </section>
@@ -83,3 +98,27 @@ const colors = [
     </section>
   </div>
 </Layout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+      if (btn.dataset.copyInit) return;
+      btn.dataset.copyInit = '1';
+      const original = btn.textContent ?? '';
+      btn.addEventListener('click', async () => {
+        const text = btn.dataset.copy ?? original;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied!';
+          btn.classList.add('text-white', 'border-emerald-500');
+          setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove('text-white', 'border-emerald-500');
+          }, 1500);
+        } catch {
+          // clipboard API unavailable (non-HTTPS or denied)
+        }
+      });
+    });
+  });
+</script>
