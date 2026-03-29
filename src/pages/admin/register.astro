@@ -3,17 +3,18 @@ import '../../styles/globals.css';
 import { getDb } from '../../lib/db';
 import { validateSession } from '../../lib/admin-auth';
 
-if (validateSession(Astro.cookies)) {
-  return Astro.redirect('/admin');
-}
+if (validateSession(Astro.cookies))  return Astro.redirect('/admin');
 
 const db = getDb();
-const hasPasskey = (db.prepare('SELECT COUNT(*) as n FROM webauthn_credentials').get() as { n: number }).n > 0;
-const hasPassword = (db.prepare('SELECT COUNT(*) as n FROM admin_password').get() as { n: number }).n > 0;
+const authState = db.prepare(`
+  SELECT
+    (SELECT COUNT(*) FROM webauthn_credentials) as passkeys,
+    (SELECT COUNT(*) FROM admin_password)        as passwords
+`).get() as { passkeys: number; passwords: number };
+const hasPasskey = authState.passkeys > 0;
+const hasPassword = authState.passwords > 0;
 
-if (hasPasskey && hasPassword) {
-  return Astro.redirect('/admin/login');
-}
+if (hasPasskey && hasPassword) return Astro.redirect('/admin/login');
 
 const error = Astro.url.searchParams.get('error');
 const pwSet = Astro.url.searchParams.get('pw') === 'set';
@@ -110,7 +111,7 @@ const errorMessages: Record<string, string> = {
             if (status) status.textContent = 'Waiting for passkey…';
             const { startRegistration } = await import('@simplewebauthn/browser');
             // the fetched value already is the PublicKeyCredentialCreationOptionsJSON
-            const attResp = await startRegistration(options);
+            const attResp = await startRegistration({ optionsJSON: options });
             if (status) status.textContent = 'Verifying…';
 
 

@@ -165,3 +165,27 @@ export function getAllProjects(): Project[] {
   const rows = db.prepare('SELECT * FROM projects').all() as ProjectRow[];
   return rows.map(rowToProject);
 }
+
+export type ProjectListItem = {
+  id: string;
+  title: string;
+  published: boolean;
+  finished: boolean;
+  online: boolean;
+};
+
+type ProjectListRow = { id: string; title: string; published: number; finished: number; online: number };
+
+export function getProjectsList(): ProjectListItem[] {
+  const db = getDb();
+  return (db
+    .prepare('SELECT id, title, published, finished, online FROM projects ORDER BY id')
+    .all() as ProjectListRow[]
+  ).map((r) => ({
+    id: r.id,
+    title: r.title,
+    published: Boolean(r.published),
+    finished: Boolean(r.finished),
+    online: Boolean(r.online),
+  }));
+}

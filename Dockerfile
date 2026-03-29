@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build
+RUN npm run build && npm prune --omit=dev
 
 # ── Runtime stage ───────────────────────────────
 FROM node:22-slim AS runner
@@ -12,12 +12,12 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/package.json ./package.json
-# Copy pre-built node_modules (better-sqlite3 native bindings compiled in builder)
+# node_modules pruned to prod-only deps in builder (better-sqlite3 native bindings intact)
 COPY --from=builder /app/node_modules ./node_modules
 
-# Copy the rest of the built files
+# Built server + seed script (run manually: node src/lib/seed.js)
 COPY --from=builder /app/dist ./dist
-# COPY --from=builder /app/src/lib/seed.js ./src/lib/seed.js
+COPY --from=builder /app/src/lib/seed.js ./src/lib/seed.js
 
 # Setup DB directory
 RUN mkdir -p /app/db

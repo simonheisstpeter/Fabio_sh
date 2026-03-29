@@ -13,4 +13,17 @@ export function getTranslations(locale: string | undefined): Translations {
   return translations[locale ?? 'de'] ?? translations['de'];
 }
 
+import { LOCALES as _LOCALES } from './locales.js';
+export const LOCALES = _LOCALES as readonly ['de', 'en', 'es', 'it', 'ja', 'pt'];
+export type Locale = (typeof LOCALES)[number];
+
+export const LOCALE_LABELS: Record<Locale, string> = {
+  de: 'Deutsch',
+  en: 'English',
+  es: 'Español',
+  it: 'Italiano',
+  ja: '日本語',
+  pt: 'Portugués',
+};
+
 export { de, en, es, it, ja, pt };

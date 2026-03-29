@@ -1,5 +1,6 @@
 ---
 import AdminLayout from '../../../components/AdminLayout.astro';
+import { LOCALES } from '../../../i18n/index';
 ---
 
 <AdminLayout title="New Project">
@@ -22,7 +23,7 @@ import AdminLayout from '../../../components/AdminLayout.astro';
     <details class="mb-4">
       <summary class="cursor-pointer text-sm text-gray-400 mb-3 select-none">Descriptions (by language)</summary>
       <div class="grid gap-3 mt-3">
-        {(['de','en','es','it','ja','pt'] as const).map((lang) => (
+        {LOCALES.map((lang) => (
           <div>
             <label for={`desc_${lang}`} class="block text-xs text-gray-600 mb-1">{lang.toUpperCase()}</label>
             <textarea id={`desc_${lang}`} name={`desc_${lang}`} rows="3"

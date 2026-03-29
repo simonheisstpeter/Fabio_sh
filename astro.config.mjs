@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
+import { LOCALES, DEFAULT_LOCALE } from './src/i18n/locales.js';
 
 export default defineConfig({
   output: 'server',
@@ -13,8 +14,8 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   i18n: {
-    defaultLocale: 'de',
-    locales: ['de', 'en', 'es', 'it', 'ja', 'pt'],
+    defaultLocale: DEFAULT_LOCALE,
+    locales: LOCALES,
     routing: {
       prefixDefaultLocale: false,
     },
@@ -25,8 +26,6 @@ export default defineConfig({
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-            // 'Content-Security-Policy': "worker-src 'none'; frame-src 'none'; frame-ancestors 'none';",
-
     },
   },
   prefetch: {

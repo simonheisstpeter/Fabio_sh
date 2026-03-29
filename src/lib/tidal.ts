@@ -91,7 +91,8 @@ export async function getLastPlayed(): Promise<TidalTrack | null> {
     const track = await fetchLastPlayed(session);
     cache = { track, expiresAt: now + 30_000 };
     return track;
-  } catch {
+  } catch (err) {
+    console.error('[tidal] getLastPlayed failed:', err instanceof Error ? err.message : err);
     // Graceful fallback — cache null for 10 s to avoid retry spam
     cache = { track: null, expiresAt: now + 10_000 };
     return null;

@@ -8,7 +8,7 @@ const locale = Astro.currentLocale ?? 'de';
 const t = getTranslations(locale);
 
 // Fetch Tidal last-played server-side (with graceful fallback)
-const track = await getLastPlayed().catch(() => null);
+const track = await getLastPlayed();
 ---
 
 <Layout

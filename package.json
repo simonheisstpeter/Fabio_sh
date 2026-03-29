@@ -10,19 +10,19 @@
     "seed": "node src/lib/seed.js"
   },
   "dependencies": {
-    "@astrojs/node": "^9.0.0",
-    "@simplewebauthn/browser": "^10.0.0",
-    "@simplewebauthn/server": "^10.0.1",
-    "@tailwindcss/vite": "^4.2.1",
-    "@types/bcryptjs": "^2.4.6",
-    "astro": "^5.0.0",
+    "@astrojs/node": "^10.0.4",
+    "@simplewebauthn/browser": "^13.3.0",
+    "@simplewebauthn/server": "^13.3.0",
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.1.1",
     "bcryptjs": "^3.0.3",
-    "better-sqlite3": "^11.0.0",
-    "tailwindcss": "^4.1.18"
+    "better-sqlite3": "^12.8.0",
+    "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/better-sqlite3": "^7.6.13",
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.5.0",
     "typescript": "^5.0.0"
   }
 }

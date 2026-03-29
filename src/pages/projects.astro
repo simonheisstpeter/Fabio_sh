@@ -7,11 +7,16 @@ import { getAllProjects } from '../lib/db';
 const locale = Astro.currentLocale ?? 'de';
 const t = getTranslations(locale);
 
-const allProjects = getAllProjects();
-
-const currentProjects = allProjects.filter((p) => !p.finished && p.published);
-const upcomingProjects = allProjects.filter((p) => !p.finished && !p.published);
-const finishedProjects = allProjects.filter((p) => p.finished);
+const { current: currentProjects, upcoming: upcomingProjects, finished: finishedProjects } =
+  getAllProjects().reduce(
+    (acc, p) => {
+      if (p.finished)       acc.finished.push(p);
+      else if (p.published) acc.current.push(p);
+      else                  acc.upcoming.push(p);
+      return acc;
+    },
+    { current: [], upcoming: [], finished: [] } as Record<string, ReturnType<typeof getAllProjects>>,
+  );
 ---
 
 <Layout

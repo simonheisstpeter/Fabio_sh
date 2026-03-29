@@ -1,8 +1,8 @@
 ---
 import AdminLayout from '../../../components/AdminLayout.astro';
-import { getAllProjects } from '../../../lib/db';
+import { getProjectsList } from '../../../lib/db';
 
-const projects = getAllProjects();
+const projects = getProjectsList();
 ---
 
 <AdminLayout title="Projects">

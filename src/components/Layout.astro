@@ -1,7 +1,7 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import { getTranslations } from '../i18n/index';
+import { getTranslations, LOCALES, LOCALE_LABELS } from '../i18n/index';
 import Footer from './Footer.astro';
 import Loader from './Loader.astro';
 import ScrollToTop from './ScrollToTop.astro';
@@ -22,27 +22,16 @@ const {
 const locale = Astro.currentLocale ?? 'de';
 const t = getTranslations(locale);
 
-const localeLabels: Record<string, string> = {
-  de: 'Deutsch',
-  en: 'English',
-  es: 'Español',
-  it: 'Italiano',
-  ja: '日本語',
-  pt: 'Portugués',
-};
-
 // Build language switcher URLs
 const currentPath = Astro.url.pathname;
-const locales = ['de', 'en', 'es', 'it', 'ja', 'pt'];
+const localePrefixRe = new RegExp(`^\\/(${LOCALES.join('|')})(\\/$|$|\\/)`);
 
-// Strip current locale prefix to get bare path
 function getPathForLocale(targetLocale: string) {
   return getRelativeLocaleUrl(targetLocale, '/').replace(/\/$/, '') +
-    (currentPath === '/' ? '/' : currentPath.replace(/^\/(de|en|es|it|ja|pt)(\/|$)/, '/'));
+    (currentPath === '/' ? '/' : currentPath.replace(localePrefixRe, '/'));
 }
 
-const isHome = Astro.url.pathname === '/' ||
-  /^\/(en|es|it|ja|pt)\/?$/.test(Astro.url.pathname);
+const isHome = currentPath === '/' || LOCALES.some((l) => currentPath === `/${l}` || currentPath === `/${l}/`);
 
 const siteUrl = 'https://fabio.sh';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
@@ -93,7 +82,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
     />
 
     <!-- Hreflang for SEO -->
-    {locales.map((l) => (
+    {LOCALES.map((l) => (
       <link
         rel="alternate"
         hreflang={l}
@@ -158,9 +147,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                 aria-label={t.languageSelect}
                 class="bg-transparent text-white text-lg tracking-wide border border-white/20 rounded-md px-3 py-1"
               >
-                {locales.map((l) => (
+                {LOCALES.map((l) => (
                   <option value={getPathForLocale(l)} selected={l === locale}>
-                    {localeLabels[l]}
+                    {LOCALE_LABELS[l]}
                   </option>
                 ))}
               </select>
@@ -210,9 +199,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
             aria-label={t.languageSelect}
             class="bg-transparent text-white tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
           >
-            {locales.map((l) => (
+            {LOCALES.map((l) => (
               <option value={getPathForLocale(l)} selected={l === locale}>
-                {localeLabels[l]}
+                {LOCALE_LABELS[l]}
               </option>
             ))}
           </select>
