@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build && npm prune --omit=dev
+RUN npm run build 
 
 # ── Runtime stage ───────────────────────────────
 FROM node:22-slim AS runner
