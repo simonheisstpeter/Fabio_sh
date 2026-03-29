@@ -30,6 +30,7 @@ export function getTranslations(locale: string | undefined): Translations {
   return translations[locale ?? 'de'] ?? translations['de'];
 }
 
+export { LOCALES };
 export type Locale = (typeof LOCALES)[number];
 
 export const LOCALE_LABELS: Record<Locale, string> = {
