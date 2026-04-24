@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'À propos de moi',
 
   scrollTop: 'Remonter en haut',
+
+  statusOnline: 'En ligne',
+  statusOffline: 'Hors ligne',
+  statusStandby: 'En pause',
 };

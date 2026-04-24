@@ -40,4 +40,8 @@ export default {
   aboutTitle: 'My Origin Story',
 
   scrollTop: 'Double Jump to Top',
+
+  statusOnline: 'Bussin\'',
+  statusStandby: 'On Ice',
+  statusOffline: 'Retired W',
 };

@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Про мене',
 
   scrollTop: 'Прокрутити вгору',
+
+  statusOnline: 'Онлайн',
+  statusOffline: 'Офлайн',
+  statusStandby: 'На паузі',
 };

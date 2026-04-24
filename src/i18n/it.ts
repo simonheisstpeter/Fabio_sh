@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Su di me',
 
   scrollTop: 'Torna in cima',
+
+  statusOnline: 'Online',
+  statusOffline: 'Offline',
+  statusStandby: 'In pausa',
 };

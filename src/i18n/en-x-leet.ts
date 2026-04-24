@@ -39,4 +39,8 @@ export default {
   aboutTitle: '4b0u7 M3',
 
   scrollTop: '5cr011 70 70p',
+
+  statusOnline: '0nl1n3',
+  statusStandby: '574ndb¥',
+  statusOffline: '0ffl1n3',
 };

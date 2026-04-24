@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'De me',
 
   scrollTop: 'Ad summum revertere',
+
+  statusOnline: 'Online',
+  statusStandby: 'In Expectatione',
+  statusOffline: 'Offline',
 };

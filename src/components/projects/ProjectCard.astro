@@ -1,79 +1,101 @@
 ---
-import type { Project } from '../../lib/db';
-import type { Translations } from '../../i18n/index';
-import ProjectStatus from './ProjectStatus.astro';
-import ProjectCategories from './ProjectCategories.astro';
-import ProjectLanguages from './ProjectLanguages.astro';
+import type { Project } from "../../lib/db";
+import type { Translations } from "../../i18n/index";
+import ProjectStatus from "./ProjectStatus.astro";
+import ProjectCategories from "./ProjectCategories.astro";
+import ProjectLanguages from "./ProjectLanguages.astro";
 
 interface Props {
-  project: Project;
-  locale: string;
-  t: Translations;
+    project: Project;
+    locale: string;
+    t: Translations;
 }
 
 const { project, locale, t } = Astro.props;
 
 const description =
-  project.description[locale] ||
-  project.description['en'] ||
-  project.description['de'] ||
-  '';
+    project.description[locale] ||
+    project.description["en"] ||
+    project.description["de"] ||
+    "";
 
 const hasImage = !project.finished && project.published && project.image;
 ---
 
 <article
-  class="relative cursor-fabiosh rounded-md border border-gray-700 shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-[#1d1d1f] flex flex-col"
-  tabindex="0"
+    class="relative cursor-fabiosh rounded-md border border-gray-700 shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-[#1d1d1f] flex flex-col"
+    tabindex="0"
 >
-  {hasImage && (
-    <div class="block max-h-[250px] overflow-hidden rounded-t-md">
-      <img
-        src={project.image}
-        width="400"
-        height="200"
-        alt={project.title}
-        loading="lazy"
-        decoding="async"
-        class="max-h-[220px] w-full bg-white rounded-t-md object-cover grayscale duration-200 hover:grayscale-0"
-      />
+    {
+        hasImage && (
+            <picture class="block max-h-62.5 overflow-hidden rounded-t-md">
+                <img
+                    src={project.image}
+                    width="400"
+                    height="200"
+                    alt={project.title}
+                    loading="lazy"
+                    decoding="async"
+                    class="max-h-55 w-full bg-white rounded-t-md object-cover grayscale duration-200 hover:grayscale-0"
+                />
+            </picture>
+        )
+    }
+
+    {!hasImage && <div class="h-1 rounded-t-md" />}
+
+    <div class="rounded-b-md bg-[#1d1d1f] p-4 text-sm flex flex-col flex-1">
+        <ProjectStatus
+            title={project.title}
+            online={project.online}
+            finished={project.finished}
+        />
+
+        {
+            description && (
+                <p class="mb-2 text-gray-100 font-andesNeueLight">
+                    {description}
+                </p>
+            )
+        }
+
+        <span class="mb-2 block text-gray-400">
+            {
+                project.languages.map((language) => (
+                    <ProjectLanguages language={language} />
+                ))
+            }
+        </span>
+
+        {
+            project.url && (
+                <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mb-3 w-fit inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition duration-200 text-xs"
+                >
+                    {t.website}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-3 w-3"
+                        aria-hidden="true"
+                    >
+                        <path d="M6.22 8.72a.75.75 0 001.06 1.06l5.22-5.22v1.69a.75.75 0 001.5 0v-3.5a.75.75 0 00-.75-.75h-3.5a.75.75 0 000 1.5h1.69L6.22 8.72z" />
+                        <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 007 4H4.75A2.75 2.75 0 002 6.75v4.5A2.75 2.75 0 004.75 14h4.5A2.75 2.75 0 0012 11.25V9a.75.75 0 00-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5z" />
+                    </svg>
+                </a>
+            )
+        }
+
+        <div class="mt-auto pt-2 flex flex-wrap gap-1">
+            {
+                project.categories.map((category) => (
+                    <ProjectCategories category={category} />
+                ))
+            }
+        </div>
     </div>
-  )}
-
-  {!hasImage && <div class="h-1 rounded-t-md"></div>}
-
-  <div class="rounded-b-md bg-[#1d1d1f] p-4 text-sm flex flex-col flex-1">
-    <ProjectStatus title={project.title} online={project.online} finished={project.finished} />
-
-    {description && (
-      <p class="mb-2 text-gray-100 font-andesNeueLight">{description}</p>
-    )}
-
-    <span class="mb-2 block text-gray-400">
-      {project.languages.map((language) => (
-        <ProjectLanguages language={language} />
-      ))}
-    </span>
-
-    {project.url && (
-      <a
-        href={project.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mb-3 w-fit inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition duration-200 text-xs"
-      >
-        {t.website}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-3 w-3" aria-hidden="true">
-          <path d="M6.22 8.72a.75.75 0 001.06 1.06l5.22-5.22v1.69a.75.75 0 001.5 0v-3.5a.75.75 0 00-.75-.75h-3.5a.75.75 0 000 1.5h1.69L6.22 8.72z" />
-          <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 007 4H4.75A2.75 2.75 0 002 6.75v4.5A2.75 2.75 0 004.75 14h4.5A2.75 2.75 0 0012 11.25V9a.75.75 0 00-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5z" />
-        </svg>
-      </a>
-    )}
-
-    <div class="mt-auto pt-2 flex flex-wrap gap-1">
-      {project.categories.map((category) => (
-        <ProjectCategories category={category} />
-      ))}
-    </div>
-  </div>
 </article>

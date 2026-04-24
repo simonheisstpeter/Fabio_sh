@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Om mig',
 
   scrollTop: 'Scrolla till toppen',
+
+  statusOnline: 'Online',
+  statusStandby: 'Vänteläge',
+  statusOffline: 'Offline',
 };

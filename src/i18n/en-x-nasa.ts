@@ -40,4 +40,8 @@ export default {
   aboutTitle: 'Subject Biography',
 
   scrollTop: 'Ascend to Zenith',
+
+  statusOnline: 'Mission Active',
+  statusStandby: 'Standby Mode',
+  statusOffline: 'Mission Complete',
 };

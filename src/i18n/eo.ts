@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Pri mi',
 
   scrollTop: 'Rulumi supren',
+
+  statusOnline: 'Rete',
+  statusStandby: 'Atendostato',
+  statusOffline: 'Eksterrete',
 };

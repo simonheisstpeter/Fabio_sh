@@ -49,4 +49,8 @@ export default {
 
   // Gravity Reversal
   scrollTop: 'Ascend to the Zenith',
+
+  statusOnline: 'Deployed 🚀',
+  statusStandby: 'In the Pipeline',
+  statusOffline: 'Deprecated',
 };

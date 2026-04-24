@@ -40,4 +40,8 @@ export default {
   aboutTitle: 'The Man in Black',
 
   scrollTop: 'Back to the Peak',
+
+  statusOnline: 'Ridin\'',
+  statusStandby: 'Holdin\' Up',
+  statusOffline: 'Roped In',
 };

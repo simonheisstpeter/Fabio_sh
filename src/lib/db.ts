@@ -22,7 +22,7 @@ export function parseLanguages(raw: string): { flag: string; lang: string }[] {
 
 const dbPath =
   process.env.DATABASE_PATH ??
-  join(fileURLToPath(import.meta.url), '../../../../db/fabio.db');
+  join(process.cwd(), 'db/fabio.db');
 
 let _db: Database.Database | null = null;
 

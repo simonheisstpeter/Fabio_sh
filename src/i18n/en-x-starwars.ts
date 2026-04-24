@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Archive Data',
 
   scrollTop: 'Return to Top',
+
+  statusOnline: 'In Service',
+  statusStandby: 'Deferred',
+  statusOffline: 'Decommissioned',
 };

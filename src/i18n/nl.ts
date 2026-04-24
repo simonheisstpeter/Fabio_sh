@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Over mij',
 
   scrollTop: 'Scroll naar boven',
+
+  statusOnline: 'Online',
+  statusStandby: 'Standby',
+  statusOffline: 'Offline',
 };

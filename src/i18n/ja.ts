@@ -39,4 +39,8 @@ export default {
   aboutTitle: '私について',
 
   scrollTop: 'トップへ戻る',
+
+  statusOnline: 'オンライン',
+  statusOffline: 'オフライン',
+  statusStandby: 'スタンバイ',
 };

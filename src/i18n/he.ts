@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'עליי',
 
   scrollTop: 'גלול למעלה',
+
+  statusOnline: 'מחובר',
+  statusOffline: 'לא מחובר',
+  statusStandby: 'בהמתנה',
 };

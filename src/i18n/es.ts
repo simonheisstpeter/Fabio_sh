@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Sobre mí',
 
   scrollTop: 'Volver arriba',
+
+  statusOnline: 'En línea',
+  statusOffline: 'Desconectado',
+  statusStandby: 'En pausa',
 };

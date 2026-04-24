@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Individual Overview',
 
   scrollTop: 'Return to Top',
+
+  statusOnline: 'Live',
+  statusStandby: 'On Hold',
+  statusOffline: 'Deprecated',
 };

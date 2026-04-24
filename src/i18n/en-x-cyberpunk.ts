@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'Profile Data',
 
   scrollTop: 'Jack to top',
+
+  statusOnline: 'Active',
+  statusStandby: 'Suspended',
+  statusOffline: 'Flatlined',
 };

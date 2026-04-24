@@ -40,4 +40,8 @@ export default {
   aboutTitle: '关于我',
 
   scrollTop: '返回顶部',
+
+  statusOnline: '在线',
+  statusOffline: '离线',
+  statusStandby: '待机',
 };

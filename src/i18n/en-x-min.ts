@@ -39,4 +39,8 @@ export default {
   aboutTitle: 'About',
 
   scrollTop: 'Top',
+
+  statusOnline: 'Live',
+  statusStandby: 'Paused',
+  statusOffline: 'Off',
 };
