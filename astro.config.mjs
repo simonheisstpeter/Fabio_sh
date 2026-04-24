@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: node({ mode: "standalone" }),
   site: "https://fabio.sh",
   security: {
-    checkOrigin: true,
+    checkOrigin: false,
   },
   vite: {
     plugins: [tailwindcss()],

@@ -1,0 +1,66 @@
+---
+const { t, isJa } = Astro.props;
+---
+
+<section class="container mx-auto pt-32 md:pt-60 px-6 relative">
+    <!-- Dynamic Metadata Header -->
+    <div
+        class="flex flex-wrap items-center gap-x-8 gap-y-4 mb-12 font-mono text-[10px] md:text-xs tracking-[0.2em] uppercase text-emerald-500/60 animate-fadeIn_2000"
+    >
+        <div class="flex items-center gap-2">
+            <span
+                class="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"
+            ></span>
+            <span>Status: Available</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-white/20">//</span>
+            <span>Loc: Vienna, AT [48.2082° N, 16.3738° E]</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-white/20">//</span>
+            <span>Time: <span id="vienna-time">00:00:00</span> CET</span>
+        </div>
+    </div>
+
+    <div class="relative">
+        <h1
+            class={`font-andesNeueMedium leading-[0.8] animate-fadeIn_2000 ${isJa ? "text-6xl md:text-9xl" : "text-8xl md:text-[14rem]"} text-white`}
+        >
+            {t.name}
+        </h1>
+        <h1
+            class={`font-andesNeueMedium leading-[0.8] animate-fadeIn_2200 ${isJa ? "text-6xl md:text-9xl" : "text-8xl md:text-[14rem]"} text-transparent bg-linear-to-b from-emerald-500 via-emerald-800 to-transparent bg-clip-text -mt-2 md:-mt-6`}
+        >
+            {t.lastname}
+        </h1>
+
+        <!-- Vertical Branding -->
+        <div
+            class="absolute -right-4 top-0 h-full hidden lg:flex flex-col justify-between py-4 translate-x-full"
+        >
+            <span
+                class="font-mono text-[10px] rotate-90 origin-left whitespace-nowrap text-white/20 uppercase tracking-[0.5em]"
+                >Digital Media Specialist</span
+            >
+            <span
+                class="font-mono text-[10px] rotate-90 origin-left whitespace-nowrap text-white/20 uppercase tracking-[0.5em]"
+                >IT Infrastructure</span
+            >
+        </div>
+    </div>
+</section>
+
+<script>
+    function updateTime() {
+        const timeSpan = document.getElementById("vienna-time");
+        if (!timeSpan) return;
+        const now = new Date().toLocaleTimeString("en-GB", {
+            timeZone: "Europe/Vienna",
+            hour12: false,
+        });
+        timeSpan.textContent = now;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>
