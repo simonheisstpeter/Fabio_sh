@@ -41,6 +41,11 @@ export default {
 
   scrollTop: '返回顶部',
 
+  projectsTeaser: '我当前项目的精选概览。',
+
+  searchPlaceholder: '搜索项目...',
+  filterAll: '全部',
+
   statusOnline: '在线',
   statusOffline: '离线',
   statusStandby: '待机',

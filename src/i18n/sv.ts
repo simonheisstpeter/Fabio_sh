@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Scrolla till toppen',
 
+  projectsTeaser: 'En inblick i mina nuvarande projekt.',
+
+  searchPlaceholder: 'Sök projekt...',
+  filterAll: 'Alla',
+
   statusOnline: 'Online',
   statusStandby: 'Vänteläge',
   statusOffline: 'Offline',

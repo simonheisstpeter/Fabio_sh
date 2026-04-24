@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Nach oben scrollen',
 
+  projectsTeaser: 'Ein Blick auf meine aktuellen Arbeiten.',
+
+  searchPlaceholder: 'Projekte suchen...',
+  filterAll: 'Alle',
+
   statusOnline: 'Online',
   statusOffline: 'Offline',
   statusStandby: 'Pausiert',

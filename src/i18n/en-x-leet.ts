@@ -40,6 +40,11 @@ export default {
 
   scrollTop: '5cr011 70 70p',
 
+  projectsTeaser: '4 5n34k p33k 47 my curr3n7 w0rk.',
+
+  searchPlaceholder: '534rch pr0j3c75...',
+  filterAll: '4ll',
+
   statusOnline: '0nl1n3',
   statusStandby: '574ndb¥',
   statusOffline: '0ffl1n3',

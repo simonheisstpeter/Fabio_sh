@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Top',
 
+  projectsTeaser: 'Some current work.',
+
+  searchPlaceholder: 'Search...',
+  filterAll: 'All',
+
   statusOnline: 'Live',
   statusStandby: 'Paused',
   statusOffline: 'Off',

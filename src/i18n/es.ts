@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Volver arriba',
 
+  projectsTeaser: 'Una selección de mis proyectos actuales.',
+
+  searchPlaceholder: 'Buscar proyectos...',
+  filterAll: 'Todos',
+
   statusOnline: 'En línea',
   statusOffline: 'Desconectado',
   statusStandby: 'En pausa',

@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Return to Top',
 
+  projectsTeaser: 'A record of active missions.',
+
+  searchPlaceholder: 'Scan the archive...',
+  filterAll: 'All',
+
   statusOnline: 'In Service',
   statusStandby: 'Deferred',
   statusOffline: 'Decommissioned',

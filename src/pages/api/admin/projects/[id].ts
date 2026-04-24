@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getDb, parseLanguages } from '../../../../lib/db';
+import { getDb, parseLanguages, invalidateProjectsCache } from '../../../../lib/db';
 
 async function handlePut(id: string, form: FormData): Promise<Response> {
   const title = String(form.get('title') ?? '').trim();
@@ -48,6 +48,7 @@ async function handlePut(id: string, form: FormData): Promise<Response> {
     });
   }
 
+  invalidateProjectsCache();
   return new Response(null, {
     status: 302,
     headers: { Location: '/admin/projects' },
@@ -64,6 +65,7 @@ export const PUT: APIRoute = async ({ request, params }) => {
 export const DELETE: APIRoute = ({ params }) => {
   const db = getDb();
   db.prepare('DELETE FROM projects WHERE id = ?').run(params.id!);
+  invalidateProjectsCache();
   return new Response(null, { status: 302, headers: { Location: '/admin/projects' } });
 };
 
@@ -75,6 +77,7 @@ export const POST: APIRoute = async ({ request, params }) => {
   if (method === 'DELETE') {
     const db = getDb();
     db.prepare('DELETE FROM projects WHERE id = ?').run(params.id!);
+    invalidateProjectsCache();
     return new Response(null, { status: 302, headers: { Location: '/admin/projects' } });
   }
   if (method === 'PUT') {

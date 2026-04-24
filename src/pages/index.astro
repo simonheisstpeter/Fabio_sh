@@ -1,7 +1,9 @@
 ---
 import Layout from '../components/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getTranslations } from '../i18n/index';
+import { getAllProjects } from '../lib/db';
 
 const locale = Astro.currentLocale ?? 'de';
 const t = getTranslations(locale);
@@ -10,6 +12,10 @@ const sent = Astro.url.searchParams.get('sent') === '1';
 const error = Astro.url.searchParams.get('error') === '1';
 
 const isJa = locale === 'ja';
+
+const previewProjects = getAllProjects()
+  .filter(p => p.published && !p.finished && p.online)
+  .slice(0, 4);
 ---
 
 <Layout title="fabio.sh" description="Fabio Gschweidl – digital media & IT">
@@ -26,6 +32,34 @@ const isJa = locale === 'ja';
           \ digital media &amp; IT
         </span>
       </h1>
+    </section>
+
+    <!-- Projects teaser -->
+    <section class="container mx-auto px-4 md:px-12" aria-labelledby="projects-teaser-heading">
+      <div class="border-l-2 border-emerald-500 pl-6 md:pl-8">
+        <p class="text-emerald-400 text-sm font-andesNeueMedium mb-3 animate-fadeIn_2000">
+          {t.currentProjects}
+        </p>
+        <h2 id="projects-teaser-heading" class="text-3xl md:text-5xl font-andesNeueMedium text-white mb-6 animate-fadeIn_2000">
+          {t.projectsTeaser}
+        </h2>
+        <ul class="mb-8 space-y-2">
+          {previewProjects.map(p => (
+            <li class="text-gray-400 font-andesNeueLight text-sm md:text-base animate-fadeIn_2200">
+              <span class="text-emerald-600 mr-2">—</span>{p.title}
+            </li>
+          ))}
+        </ul>
+        <a
+          href={getRelativeLocaleUrl(locale, '/projects')}
+          class="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-andesNeueMedium transition-colors duration-200 group"
+        >
+          {t.toProjectsLink}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
+            <path fill-rule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
     </section>
 
     <!-- Contact section -->

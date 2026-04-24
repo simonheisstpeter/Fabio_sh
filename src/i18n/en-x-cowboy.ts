@@ -41,6 +41,11 @@ export default {
 
   scrollTop: 'Back to the Peak',
 
+  projectsTeaser: 'A glimpse at what I\'m workin\' on.',
+
+  searchPlaceholder: 'Search the ranch...',
+  filterAll: 'All',
+
   statusOnline: 'Ridin\'',
   statusStandby: 'Holdin\' Up',
   statusOffline: 'Roped In',

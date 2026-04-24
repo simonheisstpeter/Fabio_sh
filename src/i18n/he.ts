@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'גלול למעלה',
 
+  projectsTeaser: 'מבחר מהפרויקטים הנוכחיים שלי.',
+
+  searchPlaceholder: 'חיפוש פרויקטים...',
+  filterAll: 'הכל',
+
   statusOnline: 'מחובר',
   statusOffline: 'לא מחובר',
   statusStandby: 'בהמתנה',

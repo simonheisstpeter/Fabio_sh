@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Scroll naar boven',
 
+  projectsTeaser: 'Een kijkje in mijn huidige projecten.',
+
+  searchPlaceholder: 'Projecten zoeken...',
+  filterAll: 'Alle',
+
   statusOnline: 'Online',
   statusStandby: 'Standby',
   statusOffline: 'Offline',

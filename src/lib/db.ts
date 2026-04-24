@@ -31,9 +31,9 @@ export function getDb(): Database.Database {
 
   _db = new Database(dbPath);
 
-  // WAL mode for better concurrent read performance
   _db.pragma('journal_mode = WAL');
   _db.pragma('foreign_keys = ON');
+  _db.pragma('cache_size = -1000'); // 1 MB page cache — sufficient for this workload
 
   initSchema(_db);
   return _db;
@@ -160,10 +160,21 @@ export function rowToProject(row: ProjectRow): Project {
   };
 }
 
+let _projectsCache: { data: Project[]; expiresAt: number } | null = null;
+const PROJECTS_CACHE_TTL = 60_000;
+
 export function getAllProjects(): Project[] {
+  const now = Date.now();
+  if (_projectsCache && _projectsCache.expiresAt > now) return _projectsCache.data;
   const db = getDb();
   const rows = db.prepare('SELECT * FROM projects').all() as ProjectRow[];
-  return rows.map(rowToProject);
+  const data = rows.map(rowToProject);
+  _projectsCache = { data, expiresAt: now + PROJECTS_CACHE_TTL };
+  return data;
+}
+
+export function invalidateProjectsCache(): void {
+  _projectsCache = null;
 }
 
 export type ProjectListItem = {

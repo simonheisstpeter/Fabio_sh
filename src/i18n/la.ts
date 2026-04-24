@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Ad summum revertere',
 
+  projectsTeaser: 'Inspice opera mea praesentia.',
+
+  searchPlaceholder: 'Quaerere proiecta...',
+  filterAll: 'Omnia',
+
   statusOnline: 'Online',
   statusStandby: 'In Expectatione',
   statusOffline: 'Offline',

@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Rulumi supren',
 
+  projectsTeaser: 'Rigardu miajn nunajn projektojn.',
+
+  searchPlaceholder: 'Serĉi projektojn...',
+  filterAll: 'Ĉiuj',
+
   statusOnline: 'Rete',
   statusStandby: 'Atendostato',
   statusOffline: 'Eksterrete',

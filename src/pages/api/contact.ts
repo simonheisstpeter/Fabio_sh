@@ -1,5 +1,27 @@
 import type { APIRoute } from 'astro';
+import type { Database } from 'better-sqlite3';
 import { getDb, hashIp } from '../../lib/db';
+
+type Stmts = {
+  checkRate: ReturnType<Database['prepare']>;
+  incrementRate: ReturnType<Database['prepare']>;
+  resetRate: ReturnType<Database['prepare']>;
+  insertRate: ReturnType<Database['prepare']>;
+  insertSubmission: ReturnType<Database['prepare']>;
+};
+let _stmts: Stmts | null = null;
+function stmts(): Stmts {
+  if (_stmts) return _stmts;
+  const db = getDb();
+  _stmts = {
+    checkRate:        db.prepare('SELECT count, window_start FROM rate_limits WHERE ip_hash = ?'),
+    incrementRate:    db.prepare('UPDATE rate_limits SET count = count + 1 WHERE ip_hash = ?'),
+    resetRate:        db.prepare('UPDATE rate_limits SET count = 1, window_start = CURRENT_TIMESTAMP WHERE ip_hash = ?'),
+    insertRate:       db.prepare('INSERT INTO rate_limits (ip_hash) VALUES (?)'),
+    insertSubmission: db.prepare('INSERT INTO contact_submissions (name, email, message, ip_hash) VALUES (?, ?, ?, ?)'),
+  };
+  return _stmts;
+}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RATE_LIMIT = 3;        // max submissions
@@ -65,11 +87,9 @@ export const POST: APIRoute = async ({ request }) => {
   const ip = getClientIp(request);
   const ipHash = hashIp(ip);
 
-  const db = getDb();
+  const s = stmts();
 
-  const existing = db
-    .prepare('SELECT count, window_start FROM rate_limits WHERE ip_hash = ?')
-    .get(ipHash) as { count: number; window_start: string } | undefined;
+  const existing = s.checkRate.get(ipHash) as { count: number; window_start: string } | undefined;
 
   if (existing) {
     const windowStart = new Date(existing.window_start + 'Z').getTime();
@@ -79,19 +99,16 @@ export const POST: APIRoute = async ({ request }) => {
       if (existing.count >= RATE_LIMIT) {
         return errorResponse('Too many submissions. Please try again later.', 429);
       }
-      db.prepare('UPDATE rate_limits SET count = count + 1 WHERE ip_hash = ?').run(ipHash);
+      s.incrementRate.run(ipHash);
     } else {
-      // Window expired — reset
-      db.prepare('UPDATE rate_limits SET count = 1, window_start = CURRENT_TIMESTAMP WHERE ip_hash = ?').run(ipHash);
+      s.resetRate.run(ipHash);
     }
   } else {
-    db.prepare('INSERT INTO rate_limits (ip_hash) VALUES (?)').run(ipHash);
+    s.insertRate.run(ipHash);
   }
 
   // ── 5. Store submission ───────────────────────────────────────────────────
-  db.prepare(
-    'INSERT INTO contact_submissions (name, email, message, ip_hash) VALUES (?, ?, ?, ?)',
-  ).run(name, email, message, ipHash);
+  s.insertSubmission.run(name, email, message, ipHash);
 
   // ── 6. Respond ────────────────────────────────────────────────────────────
   // If the request accepts JSON (JS-enhanced), return JSON.

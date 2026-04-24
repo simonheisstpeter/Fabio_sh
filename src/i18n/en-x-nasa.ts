@@ -41,6 +41,11 @@ export default {
 
   scrollTop: 'Ascend to Zenith',
 
+  projectsTeaser: 'Mission overview: active trajectories.',
+
+  searchPlaceholder: 'Search mission manifest...',
+  filterAll: 'All',
+
   statusOnline: 'Mission Active',
   statusStandby: 'Standby Mode',
   statusOffline: 'Mission Complete',

@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Return to Top',
 
+  projectsTeaser: 'A curated selection of active initiatives.',
+
+  searchPlaceholder: 'Search initiatives...',
+  filterAll: 'All',
+
   statusOnline: 'Live',
   statusStandby: 'On Hold',
   statusOffline: 'Deprecated',

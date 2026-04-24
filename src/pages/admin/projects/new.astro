@@ -1,6 +1,9 @@
 ---
 import AdminLayout from '../../../components/AdminLayout.astro';
 import { LOCALES } from '../../../i18n/index';
+import { getAllProjects } from '../../../lib/db';
+
+const allCategories = [...new Set(getAllProjects().flatMap(p => p.categories))].sort();
 ---
 
 <AdminLayout title="New Project">
@@ -38,6 +41,13 @@ import { LOCALES } from '../../../i18n/index';
         <label for="categories" class="block text-xs text-gray-400 mb-1">Categories (one per line)</label>
         <textarea id="categories" name="categories" rows="4" placeholder="Web&#10;TypeScript&#10;Open Source"
           class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono"></textarea>
+        <div class="mt-2 flex flex-wrap gap-1">
+          {allCategories.map(cat => (
+            <button type="button" class="cat-suggest px-2 py-0.5 rounded text-xs bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700 border border-neutral-700 transition-colors" data-cat={cat}>
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
       <div>
         <label for="languages" class="block text-xs text-gray-400 mb-1">Languages (flag + name per line)</label>
@@ -84,3 +94,16 @@ import { LOCALES } from '../../../i18n/index';
     </div>
   </form>
 </AdminLayout>
+
+<script>
+  const ta = document.getElementById('categories') as HTMLTextAreaElement;
+  document.querySelectorAll<HTMLButtonElement>('.cat-suggest').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat ?? '';
+      const lines = ta.value.split('\n').map(l => l.trim()).filter(Boolean);
+      if (!lines.includes(cat)) {
+        ta.value = lines.length ? lines.join('\n') + '\n' + cat : cat;
+      }
+    });
+  });
+</script>

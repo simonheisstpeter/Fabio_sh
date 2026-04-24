@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getDb, parseLanguages } from '../../../../lib/db';
+import { getDb, parseLanguages, invalidateProjectsCache } from '../../../../lib/db';
 
 export const GET: APIRoute = () =>
   new Response(null, { status: 302, headers: { Location: '/admin/projects' } });
@@ -55,6 +55,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
+  invalidateProjectsCache();
   return new Response(null, {
     status: 302,
     headers: { Location: '/admin/projects' },

@@ -41,6 +41,11 @@ export default {
 
   scrollTop: 'Double Jump to Top',
 
+  projectsTeaser: 'No cap, peep my current mogging.',
+
+  searchPlaceholder: 'Search the grindset...',
+  filterAll: 'All',
+
   statusOnline: 'Bussin\'',
   statusStandby: 'On Ice',
   statusOffline: 'Retired W',

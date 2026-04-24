@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'トップへ戻る',
 
+  projectsTeaser: '現在のプロジェクトをご覧ください。',
+
+  searchPlaceholder: 'プロジェクトを検索...',
+  filterAll: 'すべて',
+
   statusOnline: 'オンライン',
   statusOffline: 'オフライン',
   statusStandby: 'スタンバイ',

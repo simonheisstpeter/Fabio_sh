@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Прокрутити вгору',
 
+  projectsTeaser: 'Погляньте на мої поточні проєкти.',
+
+  searchPlaceholder: 'Пошук проєктів...',
+  filterAll: 'Усі',
+
   statusOnline: 'Онлайн',
   statusOffline: 'Офлайн',
   statusStandby: 'На паузі',

@@ -40,6 +40,11 @@ export default {
 
   scrollTop: 'Jack to top',
 
+  projectsTeaser: 'A glimpse into active ops.',
+
+  searchPlaceholder: 'Scan the net...',
+  filterAll: 'All',
+
   statusOnline: 'Active',
   statusStandby: 'Suspended',
   statusOffline: 'Flatlined',

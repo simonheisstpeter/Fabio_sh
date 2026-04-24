@@ -50,6 +50,11 @@ export default {
   // Gravity Reversal
   scrollTop: 'Ascend to the Zenith',
 
+  projectsTeaser: 'Curated paradigm shifts, currently disrupting markets. 🚀',
+
+  searchPlaceholder: 'Search the innovation pipeline... 🔍',
+  filterAll: 'All',
+
   statusOnline: 'Deployed 🚀',
   statusStandby: 'In the Pipeline',
   statusOffline: 'Deprecated',
