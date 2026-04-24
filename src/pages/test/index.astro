@@ -1,11 +1,16 @@
 ---
-import Layout from "../components/Layout.astro";
-import Hero from "../components/Hero.astro";
+import Layout from "../../components/Layout.astro";
+import Hero from "../../components/Hero.astro";
+import Hero2 from "../../components/Hero2.astro";
+import Hero3 from "../../components/Hero3.astro";
+import Hero4 from "../../components/Hero4.astro";
+import Hero5 from "../../components/Hero5.astro";
+import Hero6 from "../../components/Hero6.astro";
 
-import ContactForm from "../components/ContactForm.astro";
-import ProjectTeaser from "../components/projects/ProjectTeaser.astro";
-import { getTranslations } from "../i18n/index";
-import { getAllProjects } from "../lib/db";
+import ContactForm from "../../components/ContactForm.astro";
+import ProjectTeaser from "../../components/projects/ProjectTeaser.astro";
+import { getTranslations } from "../../i18n/index";
+import { getAllProjects } from "../../lib/db";
 
 const locale = Astro.currentLocale ?? "de";
 const t = getTranslations(locale);
@@ -24,6 +29,11 @@ const previewProjects = getAllProjects()
     <div class="h-full w-full grid gap-32 md:gap-56">
         <!-- Hero -->
         <Hero t={t} isJa={isJa} />
+        <Hero2 t={t} isJa={isJa} />
+        <Hero3 t={t} isJa={isJa} />
+        <Hero4 t={t} isJa={isJa} />
+        <Hero5 t={t} isJa={isJa} />
+        <Hero6 t={t} isJa={isJa} />
 
         <!-- Projects teaser -->
         <ProjectTeaser projects={previewProjects} locale={locale} t={t} />

@@ -1,0 +1,43 @@
+---
+const { t, isJa } = Astro.props;
+---
+
+<section class="container mx-auto pt-32 md:pt-60 px-6 relative overflow-hidden">
+    <!-- Huge background text (Watermark) -->
+    <div
+        class="absolute top-20 left-4 text-[15rem] md:text-[25rem] font-andesNeueMedium text-white/[0.03] select-none pointer-events-none leading-none -z-10"
+    >
+        {t.lastname.charAt(0)}
+    </div>
+
+    <div class="max-w-4xl">
+        <h1 class="font-andesNeueMedium animate-fadeIn_2000">
+            <span
+                class="text-emerald-500 text-lg md:text-2xl block mb-4 font-mono tracking-tighter"
+            >
+                &lt;personal_portfolio&gt;
+            </span>
+            <span
+                class={`block text-white leading-none ${isJa ? "text-6xl md:text-8xl" : "text-7xl md:text-9xl"}`}
+            >
+                {t.name}
+            </span>
+            <span
+                class={`block leading-none text-transparent bg-linear-to-tr from-white/80 to-white/10 bg-clip-text ${isJa ? "text-6xl md:text-8xl" : "text-7xl md:text-9xl"}`}
+            >
+                {t.lastname}
+            </span>
+        </h1>
+
+        <p class="mt-8 animate-fadeIn_2200 flex items-center gap-3">
+            <span class="text-emerald-500 font-bold text-2xl">\</span>
+            <span
+                class="text-gray-400 text-lg md:text-2xl font-andesNeueLight tracking-wide"
+            >
+                Bridging the gap between <span class="text-white"
+                    >creative media</span
+                > and <span class="text-white">technical IT</span>.
+            </span>
+        </p>
+    </div>
+</section>

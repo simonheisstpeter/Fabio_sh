@@ -28,7 +28,7 @@ const {
     </div>
 
     <div
-        class="relative overflow-hidden rounded-3xl bg-white/5 border border-white/10 p-8 md:p-12 backdrop-blur-xs"
+        class="relative overflow-hidden rounded-3xl border border-white/10 p-8 md:p-12 backdrop-blur-xs"
     >
         {
             sent && (
@@ -73,7 +73,7 @@ const {
                 <div class="group flex flex-col gap-3">
                     <label
                         for="contact-name"
-                        class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-emerald-500/70"
+                        class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-500/70"
                     >
                         <span>01 //</span>
                         {t.contactName}
@@ -84,7 +84,7 @@ const {
                         name="name"
                         required
                         placeholder="John Doe"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/[0.08] focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/8 focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
                     />
                 </div>
 
@@ -92,7 +92,7 @@ const {
                 <div class="group flex flex-col gap-3">
                     <label
                         for="contact-email"
-                        class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-emerald-500/70"
+                        class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-500/70"
                     >
                         <span>02 //</span>
                         {t.contactEMail}
@@ -103,7 +103,7 @@ const {
                         name="email"
                         required
                         placeholder="hello@example.com"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/[0.08] focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
+                        class="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/[0.08] focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
                     />
                 </div>
             </div>
@@ -112,7 +112,7 @@ const {
             <div class="group flex flex-col gap-3">
                 <label
                     for="contact-message"
-                    class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-emerald-500/70"
+                    class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-500/70"
                 >
                     <span>03 //</span>
                     {t.contactMessage}

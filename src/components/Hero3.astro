@@ -1,0 +1,65 @@
+---
+const { t, isJa } = Astro.props;
+---
+
+<section class="container mx-auto pt-24 md:pt-48 px-6">
+    <div
+        class="border border-white/10 p-8 md:p-16 rounded-3xl bg-linear-to-br from-white/[0.03] to-transparent backdrop-blur-3xl"
+    >
+        <div
+            class="flex flex-col md:flex-row justify-between items-start gap-12"
+        >
+            <div class="flex-1">
+                <h1
+                    class={`font-andesNeueMedium leading-none animate-fadeIn_2000
+          ${isJa ? "text-5xl md:text-7xl" : "text-7xl md:text-9xl"} text-white`}
+                >
+                    {t.name}
+                    <br />
+                    <span
+                        class="text-transparent bg-linear-to-r from-emerald-400 to-emerald-600 bg-clip-text"
+                    >
+                        {t.lastname}
+                    </span>
+                </h1>
+            </div>
+
+            <div class="flex-1 space-y-8 animate-fadeIn_2200">
+                <div class="space-y-4">
+                    <div class="w-12 h-1 bg-emerald-500"></div>
+                    <h2
+                        class="text-2xl md:text-3xl font-andesNeueMedium text-white"
+                    >
+                        Digital Media & IT
+                    </h2>
+                    <p
+                        class="text-gray-400 font-andesNeueLight text-lg leading-relaxed"
+                    >
+                        Specialized in bridging the gap between creative visual
+                        production and robust technical infrastructure.
+                    </p>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex flex-col">
+                        <span
+                            class="text-[10px] font-mono uppercase text-emerald-500"
+                            >Status</span
+                        >
+                        <span class="text-sm text-white"
+                            >Available for Projects</span
+                        >
+                    </div>
+                    <div class="w-[1px] h-10 bg-white/10"></div>
+                    <div class="flex flex-col">
+                        <span
+                            class="text-[10px] font-mono uppercase text-emerald-500"
+                            >Location</span
+                        >
+                        <span class="text-sm text-white">Europe / Remote</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,52 @@
+---
+const { t, isJa } = Astro.props;
+---
+
+<section
+    class="container mx-auto pt-32 md:pt-60 px-6 relative min-h-[60vh] flex flex-col justify-center"
+>
+    <!-- Large Background Lastname -->
+    <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none opacity-[0.03] blur-sm"
+    >
+        <span
+            class="text-[20vw] font-andesNeueMedium uppercase tracking-tighter"
+            >{t.lastname}</span
+        >
+    </div>
+
+    <div class="relative z-10">
+        <h1 class="flex flex-col gap-0">
+            <span
+                class="font-mono text-emerald-500 text-sm md:text-base animate-fadeIn_2000 tracking-[0.5em] uppercase mb-4"
+            >
+                \\ Freelance Professional
+            </span>
+            <span
+                class={`font-andesNeueMedium text-white animate-fadeIn_2000 leading-[0.8]
+        ${isJa ? "text-7xl md:text-9xl" : "text-8xl md:text-[13rem]"}`}
+            >
+                {t.name}
+            </span>
+            <div class="flex items-center gap-6 animate-fadeIn_2200">
+                <span
+                    class={`font-andesNeueMedium text-transparent bg-linear-to-r from-emerald-500 to-white bg-clip-text leading-[0.8]
+          ${isJa ? "text-7xl md:text-9xl" : "text-8xl md:text-[13rem]"}`}
+                >
+                    {t.lastname}
+                </span>
+            </div>
+        </h1>
+
+        <div
+            class="mt-8 md:mt-0 md:absolute md:bottom-0 md:right-0 md:text-right max-w-sm animate-fadeIn_2200"
+        >
+            <p class="text-gray-400 text-lg md:text-xl font-andesNeueLight">
+                Providing <span class="text-white">full-stack IT solutions</span
+                > and
+                <span class="text-white">digital content creation</span> for the modern
+                web.
+            </p>
+        </div>
+    </div>
+</section>

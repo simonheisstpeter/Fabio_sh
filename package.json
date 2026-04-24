@@ -1,6 +1,6 @@
 {
   "name": "fabio-sh",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@astrojs/node": "^10.0.6",
+    "@astrojs/sitemap": "^3.7.2",
     "@simplewebauthn/browser": "^13.3.0",
     "@simplewebauthn/server": "^13.3.0",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.1.9",
+    "astro-compressor": "^1.3.0",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.9.0",
     "tailwindcss": "^4.2.4"

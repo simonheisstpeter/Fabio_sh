@@ -1,0 +1,52 @@
+---
+const { t, isJa } = Astro.props;
+---
+
+<section class="container mx-auto pt-32 md:pt-60 px-6">
+    <div class="relative max-w-5xl">
+        <!-- Decorative Line Numbers -->
+        <div
+            class="absolute -left-8 top-0 hidden md:flex flex-col text-white/10 font-mono text-sm select-none"
+        >
+            <span>01</span><span>02</span><span>03</span><span>04</span><span
+                >05</span
+            >
+        </div>
+
+        <div class="space-y-2">
+            <div class="flex items-center gap-3 animate-fadeIn_2000">
+                <span
+                    class="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]"
+                ></span>
+                <span
+                    class="font-mono text-xs uppercase tracking-[0.4em] text-emerald-500/80"
+                    >System.Initialize</span
+                >
+            </div>
+
+            <h1
+                class={`font-andesNeueMedium tracking-tighter leading-[0.85] animate-fadeIn_2000
+        ${isJa ? "text-6xl md:text-8xl" : "text-7xl md:text-[11rem]"} text-white`}
+            >
+                {t.name}<span class="text-emerald-500">.</span>
+            </h1>
+
+            <h1
+                class={`font-andesNeueMedium tracking-tighter leading-[0.85] md:-mt-4 animate-fadeIn_2200
+        ${isJa ? "text-6xl md:text-8xl" : "text-7xl md:text-[11rem]"}
+        text-transparent bg-linear-to-r from-white/40 via-white to-white/40 bg-clip-text`}
+            >
+                {t.lastname}
+            </h1>
+        </div>
+
+        <div
+            class="mt-12 flex flex-col md:flex-row md:items-center gap-6 animate-fadeIn_2200"
+        >
+            <p
+                class="font-andesNeueLight text-xl md:text-2xl text-gray-400 max-w-md"
+            >
+            </p>
+        </div>
+    </div>
+</section>

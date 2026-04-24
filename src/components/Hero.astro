@@ -1,0 +1,17 @@
+---
+const { t, isJa } = Astro.props;
+---
+
+<section class="container mx-auto pt-24 md:pt-60 px-6 md:pl-12">
+    <h1
+        class={`${isJa ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"} w-fit font-andesNeueMedium md:text-9xl block animate-fadeIn_2000 text-transparent bg-linear-to-tr transition-all duration-300 from-white to-transparent bg-clip-text`}
+    >
+        <span>{t.name}</span>
+        <span class="block">{t.lastname}</span>
+        <span
+            class="block animate-fadeIn_2200 text-xl md:text-3xl text-emerald-500 mt-4 font-andesNeueMedium transition duration-300 underline-offset-8 drop-shadow-xs"
+        >
+            \ digital media &amp; IT
+        </span>
+    </h1>
+</section>

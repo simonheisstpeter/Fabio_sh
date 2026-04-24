@@ -1,14 +1,17 @@
-import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
-import tailwindcss from '@tailwindcss/vite';
-import { LOCALES, DEFAULT_LOCALE } from './src/i18n/locales.js';
+import { defineConfig } from "astro/config";
+import node from "@astrojs/node";
+import tailwindcss from "@tailwindcss/vite";
+import { LOCALES, DEFAULT_LOCALE } from "./src/i18n/locales.js";
+import sitemap from "@astrojs/sitemap";
+
+import compressor from "astro-compressor";
 
 export default defineConfig({
-  output: 'server',
-  adapter: node({ mode: 'standalone' }),
-  site: 'https://fabio.sh',
+  output: "server",
+  adapter: node({ mode: "standalone" }),
+  site: "https://fabio.sh",
   security: {
-    checkOrigin: false,
+    checkOrigin: true,
   },
   vite: {
     plugins: [tailwindcss()],
@@ -18,7 +21,7 @@ export default defineConfig({
     locales: LOCALES,
     routing: {
       prefixDefaultLocale: false,
-      fallbackType: 'rewrite',
+      fallbackType: "rewrite",
     },
     fallback: {
       en: DEFAULT_LOCALE,
@@ -34,27 +37,28 @@ export default defineConfig({
       sv: DEFAULT_LOCALE,
       uk: DEFAULT_LOCALE,
       zh: DEFAULT_LOCALE,
-      'en-x-corp': DEFAULT_LOCALE,
-      'en-x-leet': DEFAULT_LOCALE,
-      'en-x-min': DEFAULT_LOCALE,
-      'en-x-cyberpunk': DEFAULT_LOCALE,
-      'en-x-starwars': DEFAULT_LOCALE,
-      'en-x-aislop': DEFAULT_LOCALE,
-      'en-x-nasa': DEFAULT_LOCALE,
-      'en-x-brainrot': DEFAULT_LOCALE,
-      'en-x-cowboy': DEFAULT_LOCALE,
+      "en-x-corp": DEFAULT_LOCALE,
+      "en-x-leet": DEFAULT_LOCALE,
+      "en-x-min": DEFAULT_LOCALE,
+      "en-x-cyberpunk": DEFAULT_LOCALE,
+      "en-x-starwars": DEFAULT_LOCALE,
+      "en-x-aislop": DEFAULT_LOCALE,
+      "en-x-nasa": DEFAULT_LOCALE,
+      "en-x-brainrot": DEFAULT_LOCALE,
+      "en-x-cowboy": DEFAULT_LOCALE,
     },
   },
   server: {
     headers: {
-      'X-Frame-Options': 'DENY',
-      'X-Content-Type-Options': 'nosniff',
-      'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+      "X-Frame-Options": "DENY",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
     },
   },
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: 'hover',
+    defaultStrategy: "hover",
   },
+  integrations: [sitemap(), compressor()],
 });
