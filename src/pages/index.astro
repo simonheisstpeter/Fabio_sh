@@ -35,30 +35,61 @@ const previewProjects = getAllProjects()
     </section>
 
     <!-- Projects teaser -->
+    <!-- Projects teaser -->
     <section class="container mx-auto px-4 md:px-12" aria-labelledby="projects-teaser-heading">
-      <div class="border-l-2 border-emerald-500 pl-6 md:pl-8">
-        <p class="text-emerald-400 text-sm font-andesNeueMedium mb-3 animate-fadeIn_2000">
-          {t.currentProjects}
-        </p>
-        <h2 id="projects-teaser-heading" class="text-3xl md:text-5xl font-andesNeueMedium text-white mb-6 animate-fadeIn_2000">
-          {t.projectsTeaser}
-        </h2>
-        <ul class="mb-8 space-y-2">
-          {previewProjects.map(p => (
-            <li class="text-gray-400 font-andesNeueLight text-sm md:text-base animate-fadeIn_2200">
-              <span class="text-emerald-600 mr-2">—</span>{p.title}
-            </li>
+      <div class="relative">
+        <!-- Header Area -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div class="border-l-2 border-emerald-500 pl-6">
+            <p class="text-emerald-400 text-xs md:text-sm font-andesNeueMedium uppercase tracking-widest mb-2 animate-fadeIn_2000">
+              {t.currentProjects}
+            </p>
+            <h2 id="projects-teaser-heading" class="text-4xl md:text-6xl font-andesNeueMedium text-white animate-fadeIn_2000">
+              {t.projectsTeaser}
+            </h2>
+          </div>
+
+          <a
+            href={getRelativeLocaleUrl(locale, '/projects')}
+            class="group flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/5 rounded-full transition-all duration-300 animate-fadeIn_2200"
+          >
+            <span class="text-sm font-andesNeueMedium text-gray-300 group-hover:text-emerald-400 transition-colors">
+              {t.toProjectsLink}
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 text-emerald-500 transition-transform duration-300 group-hover:translate-x-1">
+              <path fill-rule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Project Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {previewProjects.map((p, index) => (
+            <div
+              class="group relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-white/[0.08] hover:border-emerald-500/30 animate-fadeIn_2200"
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              <!-- Accent Glow -->
+              <div class="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-emerald-500/10 blur-3xl group-hover:bg-emerald-500/20 transition-all duration-500"></div>
+
+              <div class="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <span class="text-emerald-500 font-mono text-xs mb-4 block opacity-70">
+                    0{index + 1} //
+                  </span>
+                  <h3 class="text-xl md:text-2xl font-andesNeueMedium text-gray-100 group-hover:text-white transition-colors leading-tight">
+                    {p.title}
+                  </h3>
+                </div>
+
+                <div class="mt-8 flex items-center text-xs font-andesNeueMedium text-emerald-500/80 uppercase tracking-tighter">
+                  <span class="w-8 h-[1px] bg-emerald-500/40 mr-3"></span>
+                  Active Project
+                </div>
+              </div>
+            </div>
           ))}
-        </ul>
-        <a
-          href={getRelativeLocaleUrl(locale, '/projects')}
-          class="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-andesNeueMedium transition-colors duration-200 group"
-        >
-          {t.toProjectsLink}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
-            <path fill-rule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clip-rule="evenodd" />
-          </svg>
-        </a>
+        </div>
       </div>
     </section>
 
