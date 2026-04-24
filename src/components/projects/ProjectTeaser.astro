@@ -1,0 +1,71 @@
+---
+import ProjectPreviewCard from "./ProjectPreviewCard.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+interface Props {
+    projects: any[];
+    locale: string;
+    t: any;
+}
+
+const { projects, locale, t }: Props = Astro.props;
+---
+
+<section
+    class="container mx-auto px-4 md:px-12"
+    aria-labelledby="projects-teaser-heading"
+>
+    <div class="relative">
+        <div
+            class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8"
+        >
+            <div class="border-l-2 border-emerald-500 pl-6">
+                <p
+                    class="text-emerald-400 text-xs md:text-sm font-andesNeueMedium uppercase tracking-widest mb-2 animate-fadeIn_2000"
+                >
+                    {t.currentProjects}
+                </p>
+                <h2
+                    id="projects-teaser-heading"
+                    class="text-4xl md:text-6xl font-andesNeueMedium text-white animate-fadeIn_2000"
+                >
+                    {t.projectsTeaser}
+                </h2>
+            </div>
+
+            <div class="animate-fadeIn_2200">
+                <a
+                    href={getRelativeLocaleUrl(locale, "/projects")}
+                    class="group inline-flex items-center gap-3 px-8 py-4 bg-emerald-500/5 border border-emerald-500/20 hover:border-emerald-500 hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
+                >
+                    <span
+                        class="text-sm font-andesNeueMedium text-emerald-400 group-hover:text-emerald-300 transition-colors"
+                    >
+                        {t.toProjectsLink}
+                    </span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 text-emerald-500 transition-transform duration-300 group-hover:translate-x-1"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <ul
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+        >
+            {
+                projects.map((p, index) => (
+                    <ProjectPreviewCard title={p.title} index={index} />
+                ))
+            }
+        </ul>
+    </div>
+</section>

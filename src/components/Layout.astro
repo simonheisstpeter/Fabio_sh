@@ -17,7 +17,7 @@ const {
     title = "fabio.sh",
     description = "Fabio Gschweidl – digital media & IT",
     ogImage = "/meta_pic.png",
-} = Astro.props;
+}: Props = Astro.props;
 
 const locale = Astro.currentLocale ?? "de";
 const t = getTranslations(locale);

@@ -1,0 +1,12 @@
+---
+const { cat } = Astro.props;
+---
+
+<li>
+    <button
+        data-category={cat}
+        class="filter-btn border border-neutral-600 text-neutral-400 hover:border-neutral-400 hover:text-white px-3 py-1 rounded-full text-xs transition-colors"
+    >
+        {cat}
+    </button>
+</li>

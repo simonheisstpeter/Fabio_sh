@@ -1,17 +1,15 @@
 ---
 interface Props {
-  big?: boolean;
+    big?: boolean;
 }
-const { big = false } = Astro.props;
+const { big = false }: Props = Astro.props;
 ---
 
-<div class={big ? '' : 'mr-7 inline-block'} aria-hidden="true">
-  <span
-    class={
-      big
-        ? 'h-[180px] w-[180px] before:animate-loaderRetourBig after:animate-loaderBig relative mx-auto block before:absolute before:inset-0 before:rounded-full before:bg-white before:duration-200 after:absolute after:inset-0 after:z-[1] after:rounded-full after:border after:border-white/10 after:bg-loaderAlpha after:backdrop-blur-[10px] hover:before:bg-emerald-400'
-        : 'h-7 w-7 translate-y-1.5 before:animate-loaderRetourSmall after:animate-loaderSmall relative mx-auto block before:absolute before:inset-0 before:rounded-full before:bg-white before:duration-200 after:absolute after:inset-0 after:z-[1] after:rounded-full after:border after:border-white/10 after:bg-loaderAlpha after:backdrop-blur-[10px] hover:before:bg-emerald-400'
-    }
-  ></span>
-  <span class="sr-only">Home</span>
+<div class={big ? "" : "mr-7 inline-block"} aria-hidden="true">
+    <span
+        class={big
+            ? "h-45 w-45 before:animate-loaderRetourBig after:animate-loaderBig relative mx-auto block before:absolute before:inset-0 before:rounded-full before:bg-white before:duration-200 after:absolute after:inset-0 after:z-[1] after:rounded-full after:border after:border-white/10 after:bg-loaderAlpha after:backdrop-blur-[10px] hover:before:bg-emerald-400"
+            : "h-7 w-7 translate-y-1.5 before:animate-loaderRetourSmall after:animate-loaderSmall relative mx-auto block before:absolute before:inset-0 before:rounded-full before:bg-white before:duration-200 after:absolute after:inset-0 after:z-[1] after:rounded-full after:border after:border-white/10 after:bg-loaderAlpha after:backdrop-blur-[10px] hover:before:bg-emerald-400"}
+    ></span>
+    <span class="sr-only">Home</span>
 </div>

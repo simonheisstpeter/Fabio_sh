@@ -1,147 +1,191 @@
 ---
-import Layout from '../components/Layout.astro';
-import ProjectCard from '../components/projects/ProjectCard.astro';
-import { getTranslations } from '../i18n/index';
-import { getAllProjects } from '../lib/db';
+import Layout from "../components/Layout.astro";
+import ProjectCard from "../components/projects/ProjectCard.astro";
+import CategoryButton from "../components/CategoryButton.astro";
 
-const locale = Astro.currentLocale ?? 'de';
+import { getTranslations } from "../i18n/index";
+import { getAllProjects } from "../lib/db";
+
+const locale = Astro.currentLocale ?? "de";
 const t = getTranslations(locale);
 
 const allProjects = getAllProjects();
-const currentProjects  = allProjects.filter(p => p.published && !p.finished);
-const upcomingProjects = allProjects.filter(p => !p.published && !p.finished);
-const finishedProjects = allProjects.filter(p => p.finished);
+const currentProjects = allProjects.filter((p) => p.published && !p.finished);
+const upcomingProjects = allProjects.filter((p) => !p.published && !p.finished);
+const finishedProjects = allProjects.filter((p) => p.finished);
 
-const allCategories = [...new Set(allProjects.flatMap(p => p.categories))].sort();
+const allCategories = [
+    ...new Set(allProjects.flatMap((p) => p.categories)),
+].sort();
+
+const firstCategories = allCategories.filter((cat, index) => index < 4);
+const otherCategories = allCategories.filter((cat, index) => index >= 4);
 ---
 
 <Layout
-  title={`${t.menuProjects} – fabio.sh`}
-  description="All projects by Fabio Gschweidl – web development, design and conception"
+    title={`${t.menuProjects} – fabio.sh`}
+    description="All projects by Fabio Gschweidl – web development, design and conception"
 >
-  <div class="container mx-auto h-full px-4 md:px-12 pb-12">
-    <h1 class="my-20 text-5xl font-andesNeueMedium animate-fadeIn_2000">
-      {t.menuProjects}
-    </h1>
+    <div class="container mx-auto h-full px-4 md:px-12 pb-12">
+        <h1 class="my-20 text-5xl font-andesNeueMedium animate-fadeIn_2000">
+            {t.menuProjects}
+        </h1>
 
-    <!-- Search + category filters -->
-    <div class="mb-12 flex flex-col gap-4">
-      <input
-        id="project-search"
-        type="search"
-        placeholder={t.searchPlaceholder}
-        class="w-full max-w-md rounded-lg bg-neutral-900 border border-neutral-700 px-4 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-400 transition-colors"
-      />
-      <div class="flex flex-wrap gap-2">
-        <button
-          data-category=""
-          class="filter-btn border border-emerald-400 text-emerald-400 px-3 py-1 rounded-full text-xs transition-colors"
-        >
-          {t.filterAll}
-        </button>
-        {allCategories.map(cat => (
-          <button
-            data-category={cat}
-            class="filter-btn border border-neutral-600 text-neutral-400 hover:border-neutral-400 hover:text-white px-3 py-1 rounded-full text-xs transition-colors"
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+        <!-- Search + category filters -->
+        <div class="mb-12 flex flex-col gap-4">
+            <input
+                id="project-search"
+                type="search"
+                placeholder={t.searchPlaceholder}
+                class="w-full max-w-md rounded-lg bg-neutral-900 border border-neutral-700 px-4 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-400 transition-colors"
+            />
+            <div class="grid gap-2">
+                <ul class="flex flex-wrap gap-2 row-gap-3">
+                    <li>
+                        <button
+                            data-category=""
+                            class="filter-btn w-fit border border-emerald-400 text-emerald-400 px-3 py-1 rounded-full text-xs transition-colors"
+                        >
+                            {t.filterAll}
+                        </button>
+                    </li>
+
+                    {firstCategories.map((cat) => <CategoryButton cat={cat} />)}
+                    <li>...</li>
+                </ul>
+
+                <details class="flex flex-wrap gap-2">
+                    <summary>{t.filterMore}</summary>
+                    <ul class="flex flex-wrap gap-2">
+                        {
+                            otherCategories.map((cat) => (
+                                <CategoryButton cat={cat} />
+                            ))
+                        }
+                    </ul>
+                </details>
+            </div>
+        </div>
+
+        <!-- Current -->
+        <section data-section aria-labelledby="current-heading" class="mb-20">
+            <h2
+                id="current-heading"
+                class="mb-6 text-lg font-andesNeueMedium text-emerald-400"
+            >
+                {t.currentProjects}
+            </h2>
+            <ul class="grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">
+                {
+                    currentProjects.map((project) => (
+                        <ProjectCard project={project} locale={locale} t={t} />
+                    ))
+                }
+            </ul>
+        </section>
+
+        <!-- Upcoming / Paused -->
+        <section data-section aria-labelledby="upcoming-heading" class="mb-20">
+            <h2 id="upcoming-heading" class="mb-6 text-lg font-andesNeueMedium">
+                {t.upcomingProjects}
+            </h2>
+            <ul
+                class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5"
+            >
+                {
+                    upcomingProjects.map((project) => (
+                        <ProjectCard project={project} locale={locale} t={t} />
+                    ))
+                }
+            </ul>
+        </section>
+
+        <!-- Finished -->
+        <section data-section aria-labelledby="finished-heading" class="mb-20">
+            <h2 id="finished-heading" class="mb-6 text-lg font-andesNeueMedium">
+                {t.finishedProjects}
+            </h2>
+            <ul
+                class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5"
+            >
+                {
+                    finishedProjects.map((project) => (
+                        <ProjectCard project={project} locale={locale} t={t} />
+                    ))
+                }
+            </ul>
+        </section>
     </div>
 
-    <!-- Current -->
-    <section data-section aria-labelledby="current-heading" class="mb-20">
-      <h2 id="current-heading" class="mb-6 text-lg font-andesNeueMedium text-emerald-400">
-        {t.currentProjects}
-      </h2>
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">
-        {currentProjects.map((project) => (
-          <ProjectCard project={project} locale={locale} t={t} />
-        ))}
-      </div>
-    </section>
+    <script>
+        const searchInput = document.getElementById(
+            "project-search",
+        ) as HTMLInputElement | null;
+        const filterBtns =
+            document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+        const cards = document.querySelectorAll<HTMLElement>(".project-card");
+        const sections =
+            document.querySelectorAll<HTMLElement>("[data-section]");
 
-    <!-- Upcoming / Paused -->
-    <section data-section aria-labelledby="upcoming-heading" class="mb-20">
-      <h2 id="upcoming-heading" class="mb-6 text-lg font-andesNeueMedium">
-        {t.upcomingProjects}
-      </h2>
-      <div class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5">
-        {upcomingProjects.map((project) => (
-          <ProjectCard project={project} locale={locale} t={t} />
-        ))}
-      </div>
-    </section>
+        let activeCategory = "";
+        let searchTerm = "";
 
-    <!-- Finished -->
-    <section data-section aria-labelledby="finished-heading" class="mb-20">
-      <h2 id="finished-heading" class="mb-6 text-lg font-andesNeueMedium">
-        {t.finishedProjects}
-      </h2>
-      <div class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5">
-        {finishedProjects.map((project) => (
-          <ProjectCard project={project} locale={locale} t={t} />
-        ))}
-      </div>
-    </section>
-  </div>
+        function applyFilters() {
+            cards.forEach((card) => {
+                const categories: string[] = JSON.parse(
+                    card.dataset.categories ?? "[]",
+                );
+                const title = card.dataset.title ?? "";
+                const matchesCategory =
+                    !activeCategory || categories.includes(activeCategory);
+                const matchesSearch = !searchTerm || title.includes(searchTerm);
+                card.classList.toggle(
+                    "hidden",
+                    !(matchesCategory && matchesSearch),
+                );
+            });
 
-  <script>
-    const searchInput = document.getElementById('project-search') as HTMLInputElement | null;
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-    const cards = document.querySelectorAll<HTMLElement>('.project-card');
-    const sections = document.querySelectorAll<HTMLElement>('[data-section]');
+            sections.forEach((section) => {
+                const hasVisible =
+                    section.querySelectorAll(".project-card:not(.hidden)")
+                        .length > 0;
+                section.classList.toggle("hidden", !hasVisible);
+            });
+        }
 
-    let activeCategory = '';
-    let searchTerm = '';
-
-    function applyFilters() {
-      cards.forEach(card => {
-        const categories: string[] = JSON.parse(card.dataset.categories ?? '[]');
-        const title = card.dataset.title ?? '';
-        const matchesCategory = !activeCategory || categories.includes(activeCategory);
-        const matchesSearch = !searchTerm || title.includes(searchTerm);
-        card.classList.toggle('hidden', !(matchesCategory && matchesSearch));
-      });
-
-      sections.forEach(section => {
-        const hasVisible = section.querySelectorAll('.project-card:not(.hidden)').length > 0;
-        section.classList.toggle('hidden', !hasVisible);
-      });
-    }
-
-    searchInput?.addEventListener('input', e => {
-      searchTerm = (e.target as HTMLInputElement).value.toLowerCase().trim();
-      applyFilters();
-    });
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeCategory = btn.dataset.category ?? '';
-        filterBtns.forEach(b => {
-          const isActive = b === btn;
-          b.classList.toggle('border-emerald-400', isActive);
-          b.classList.toggle('text-emerald-400', isActive);
-          b.classList.toggle('border-neutral-600', !isActive);
-          b.classList.toggle('text-neutral-400', !isActive);
+        searchInput?.addEventListener("input", (e) => {
+            searchTerm = (e.target as HTMLInputElement).value
+                .toLowerCase()
+                .trim();
+            applyFilters();
         });
-        applyFilters();
-      });
-    });
-  </script>
 
-  <!-- Confetti easter egg (loads only when visible, no-JS graceful) -->
-  <script>
-    let partyLoaded = false;
-    const observer = new IntersectionObserver(() => {
-      if (!partyLoaded) {
-        partyLoaded = true;
-        import('https://cdn.jsdelivr.net/npm/party-js@2.2.0/bundle/party.min.js')
-          .catch(() => {});
-      }
-    });
-    const footer = document.querySelector('footer');
-    if (footer) observer.observe(footer);
-  </script>
+        filterBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                activeCategory = btn.dataset.category ?? "";
+                filterBtns.forEach((b) => {
+                    const isActive = b === btn;
+                    b.classList.toggle("border-emerald-400", isActive);
+                    b.classList.toggle("text-emerald-400", isActive);
+                    b.classList.toggle("border-neutral-600", !isActive);
+                    b.classList.toggle("text-neutral-400", !isActive);
+                });
+                applyFilters();
+            });
+        });
+    </script>
+
+    <script>
+        let partyLoaded = false;
+        const observer = new IntersectionObserver(() => {
+            if (!partyLoaded) {
+                partyLoaded = true;
+                import("https://cdn.jsdelivr.net/npm/party-js@2.2.0/bundle/party.min.js").catch(
+                    () => {},
+                );
+            }
+        });
+        const footer = document.querySelector("footer");
+        if (footer) observer.observe(footer);
+    </script>
 </Layout>
