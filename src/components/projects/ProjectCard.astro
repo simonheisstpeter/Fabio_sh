@@ -24,7 +24,7 @@ const hasImage = !project.finished && project.published && project.image;
 
 <li>
     <article
-        class="project-card relative cursor-fabiosh rounded-md border border-gray-700 shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-[#1d1d1f] flex flex-col"
+        class="project-card relative cursor-fabiosh rounded-md border border-gray-200 shadow-sm duration-200 hover:-translate-y-1 hover:border-blue-400 hover:shadow-md bg-white flex flex-col"
         data-title={project.title.toLowerCase()}
         data-categories={JSON.stringify(project.categories)}
         tabindex="0"
@@ -47,7 +47,7 @@ const hasImage = !project.finished && project.published && project.image;
 
         {!hasImage && <div class="h-1 rounded-t-md" />}
 
-        <div class="rounded-b-md bg-[#1d1d1f] p-4 text-sm flex flex-col flex-1">
+        <div class="rounded-b-md bg-white p-4 text-sm flex flex-col flex-1">
             <ProjectStatus
                 title={project.title}
                 online={project.online}
@@ -56,13 +56,13 @@ const hasImage = !project.finished && project.published && project.image;
 
             {
                 description && (
-                    <p class="mb-2 text-gray-100 font-andesNeueLight">
+                    <p class="mb-2 text-gray-900 font-andesNeueLight">
                         {description}
                     </p>
                 )
             }
 
-            <span class="mb-2 block text-gray-400">
+            <span class="mb-2 block text-gray-500">
                 {
                     project.languages.map((language) => (
                         <ProjectLanguages language={language} />
@@ -76,7 +76,7 @@ const hasImage = !project.finished && project.published && project.image;
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="mb-3 w-fit inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition duration-200 text-xs"
+                        class="mb-3 w-fit inline-flex items-center gap-1 text-blue-500 hover:text-blue-400 transition duration-200 text-xs"
                     >
                         {t.website}
                         <svg

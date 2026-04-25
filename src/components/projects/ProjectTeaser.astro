@@ -19,15 +19,15 @@ const { projects, locale, t }: Props = Astro.props;
         <div
             class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8"
         >
-            <div class="border-l-2 border-emerald-500 pl-6">
+            <div class="border-l-2 border-blue-500 pl-6">
                 <p
-                    class="text-emerald-400 text-xs md:text-sm font-andesNeueMedium uppercase tracking-widest mb-2 animate-fadeIn_2000"
+                    class="text-blue-500 text-xs md:text-sm font-andesNeueMedium uppercase tracking-widest mb-2 animate-fadeIn_2000"
                 >
                     {t.currentProjects}
                 </p>
                 <h2
                     id="projects-teaser-heading"
-                    class="text-4xl md:text-6xl font-andesNeueMedium text-white animate-fadeIn_2000"
+                    class="text-4xl md:text-6xl font-andesNeueMedium text-gray-900 animate-fadeIn_2000"
                 >
                     {t.projectsTeaser}
                 </h2>
@@ -36,10 +36,10 @@ const { projects, locale, t }: Props = Astro.props;
             <div class="animate-fadeIn_2200">
                 <a
                     href={getRelativeLocaleUrl(locale, "/projects")}
-                    class="group inline-flex items-center gap-3 px-8 py-4 bg-emerald-500/5 border border-emerald-500/20 hover:border-emerald-500 hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
+                    class="group inline-flex items-center gap-3 px-8 py-4 bg-blue-500/5 border border-blue-500/20 hover:border-blue-500 hover:bg-blue-500/10 rounded-xl transition-all duration-300"
                 >
                     <span
-                        class="text-sm font-andesNeueMedium text-emerald-400 group-hover:text-emerald-300 transition-colors"
+                        class="text-sm font-andesNeueMedium text-blue-500 group-hover:text-blue-400 transition-colors"
                     >
                         {t.toProjectsLink}
                     </span>
@@ -47,7 +47,7 @@ const { projects, locale, t }: Props = Astro.props;
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 16 16"
                         fill="currentColor"
-                        class="h-4 w-4 text-emerald-500 transition-transform duration-300 group-hover:translate-x-1"
+                        class="h-4 w-4 text-blue-500 transition-transform duration-300 group-hover:translate-x-1"
                     >
                         <path
                             fill-rule="evenodd"

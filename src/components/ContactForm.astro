@@ -16,28 +16,28 @@ const {
 }: Props = Astro.props;
 ---
 
-<div class="relative w-full max-w-2xl mx-auto my-12 animate-fadeIn_2200">
+<div class="relative w-full max-w-2xl mx-auto my-20 animate-fadeIn_2200">
     <!-- Background Glow Decoration -->
     <div
-        class="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-emerald-500/5 blur-[100px] pointer-events-none"
+        class="absolute -left-16 -top-16 h-80 w-80 rounded-full bg-blue-500/30 blur-[100px] pointer-events-none"
     >
     </div>
     <div
-        class="absolute -right-16 -bottom-16 h-64 w-64 rounded-full bg-emerald-500/5 blur-[100px] pointer-events-none"
+        class="absolute -right-16 -bottom-16 h-96 w-96 rounded-full bg-blue-500/30 blur-[100px] pointer-events-none"
     >
     </div>
 
     <div
-        class="relative overflow-hidden rounded-3xl border border-white/10 p-8 md:p-12 backdrop-blur-xs"
+        class="relative overflow-hidden rounded-3xl border border-gray-200 p-8 md:p-12 bg-white/80 backdrop-blur-xs"
     >
         {
             sent && (
                 <div
                     role="status"
                     aria-live="polite"
-                    class="mb-8 flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-6 py-4 text-emerald-400"
+                    class="mb-8 flex items-center gap-3 rounded-xl border border-blue-500/30 bg-blue-500/10 px-6 py-4 text-blue-500"
                 >
-                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span class="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
                     {t.contactSuccess}
                 </div>
             )
@@ -60,7 +60,7 @@ const {
             action={action}
             method="POST"
             novalidate
-            class="space-y-8 text-white"
+            class="space-y-8 text-gray-900"
         >
             <!-- Honeypot -->
             <div aria-hidden="true" class="hidden">
@@ -73,7 +73,7 @@ const {
                 <div class="group flex flex-col gap-3">
                     <label
                         for="contact-name"
-                        class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-500/70"
+                        class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-blue-500/70"
                     >
                         <span>01 //</span>
                         {t.contactName}
@@ -84,7 +84,7 @@ const {
                         name="name"
                         required
                         placeholder="John Doe"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/8 focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
+                        class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-blue-500/50 focus:bg-blue-50 focus:ring-4 focus:ring-blue-500/10 placeholder:text-gray-400 text-gray-900"
                     />
                 </div>
 
@@ -92,7 +92,7 @@ const {
                 <div class="group flex flex-col gap-3">
                     <label
                         for="contact-email"
-                        class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-500/70"
+                        class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-blue-500/70"
                     >
                         <span>02 //</span>
                         {t.contactEMail}
@@ -103,7 +103,7 @@ const {
                         name="email"
                         required
                         placeholder="hello@example.com"
-                        class="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/[0.08] focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
+                        class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-blue-500/50 focus:bg-blue-50 focus:ring-4 focus:ring-blue-500/10 placeholder:text-gray-400 text-gray-900"
                     />
                 </div>
             </div>
@@ -112,7 +112,7 @@ const {
             <div class="group flex flex-col gap-3">
                 <label
                     for="contact-message"
-                    class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-500/70"
+                    class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-blue-500/70"
                 >
                     <span>03 //</span>
                     {t.contactMessage}
@@ -123,7 +123,7 @@ const {
                     required
                     rows="5"
                     placeholder={`${t.contactMessage}...`}
-                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/[0.08] focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20 resize-none"
+                    class="w-full bg-white border border-gray-300 rounded-xl px-4 py-4 outline-none transition-all duration-300 focus:border-blue-500/50 focus:bg-blue-50 focus:ring-4 focus:ring-blue-500/10 placeholder:text-gray-400 text-gray-900 resize-none"
                 ></textarea>
             </div>
 
@@ -140,7 +140,7 @@ const {
                 <button
                     type="submit"
                     id="contact-submit"
-                    class="group relative w-full md:w-auto px-10 py-4 bg-emerald-500 text-darkDotsGray font-andesNeueMedium rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="group relative w-full md:w-auto px-10 py-4 bg-blue-500 text-white font-andesNeueMedium rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <span
                         class="relative z-10 flex items-center justify-center gap-2"
@@ -196,10 +196,10 @@ const {
 
                 if (res.ok && json.ok) {
                     form.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-center">
-                        <div class="h-16 w-16 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mb-6">
+                        <div class="h-16 w-16 bg-blue-500/20 text-blue-500 rounded-full flex items-center justify-center mb-6">
                              <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         </div>
-                        <p class="text-emerald-400 text-2xl font-andesNeueMedium">${successMsg}</p>
+                        <p class="text-blue-500 text-2xl font-andesNeueMedium">${successMsg}</p>
                     </div>`;
                 } else {
                     throw new Error();

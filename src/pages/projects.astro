@@ -37,14 +37,14 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                 id="project-search"
                 type="search"
                 placeholder={t.searchPlaceholder}
-                class="w-full max-w-md rounded-lg bg-neutral-900 border border-neutral-700 px-4 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-400 transition-colors"
+                class="w-full max-w-md rounded-lg bg-white border border-gray-300 px-4 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors"
             />
             <div class="grid gap-2">
                 <ul class="flex flex-wrap gap-2 row-gap-3">
                     <li>
                         <button
                             data-category=""
-                            class="filter-btn w-fit border border-emerald-400 text-emerald-400 px-3 py-1 rounded-full text-xs transition-colors"
+                            class="filter-btn w-fit border border-blue-500 text-blue-500 px-3 py-1 rounded-full text-xs transition-colors"
                         >
                             {t.filterAll}
                         </button>
@@ -71,7 +71,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
         <section data-section aria-labelledby="current-heading" class="mb-20">
             <h2
                 id="current-heading"
-                class="mb-6 text-lg font-andesNeueMedium text-emerald-400"
+                class="mb-6 text-lg font-andesNeueMedium text-blue-500"
             >
                 {t.currentProjects}
             </h2>
@@ -165,10 +165,10 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                 activeCategory = btn.dataset.category ?? "";
                 filterBtns.forEach((b) => {
                     const isActive = b === btn;
-                    b.classList.toggle("border-emerald-400", isActive);
-                    b.classList.toggle("text-emerald-400", isActive);
-                    b.classList.toggle("border-neutral-600", !isActive);
-                    b.classList.toggle("text-neutral-400", !isActive);
+                    b.classList.toggle("border-blue-500", isActive);
+                    b.classList.toggle("text-blue-500", isActive);
+                    b.classList.toggle("border-gray-300", !isActive);
+                    b.classList.toggle("text-gray-500", !isActive);
                 });
                 applyFilters();
             });

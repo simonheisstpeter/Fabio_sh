@@ -42,11 +42,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 ---
 
 <!doctype html>
-<html lang={locale} class="dotsDark scroll-smooth">
+<html lang={locale} class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="color-scheme" content="dark" />
+        <meta name="color-scheme" content="light" />
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalUrl} />
@@ -104,7 +104,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
     </head>
 
     <body
-        class="cursor-fabiosh min-h-screen bg-darkDotsGray text-white font-andesNeueLight relative"
+        class="cursor-fabiosh min-h-screen text-gray-900 font-andesNeueLight relative"
     >
         <a href="#main-content" class="skip-link">to Main</a>
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
@@ -118,7 +118,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 
         <!-- Mobile nav -->
         <nav
-            class="fixed top-0 z-20 w-full bg-darkDotsGray/95 backdrop-blur-sm md:hidden"
+            class="fixed top-0 z-20 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 md:hidden"
             aria-label={t.menuHome}
         >
             <details class="group">
@@ -152,28 +152,28 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                     </svg>
                 </summary>
 
-                <div class="dotsDark h-screen pt-24 text-center">
+                <div class="dots h-screen pt-24 text-center">
                     <nav
                         class="grid grid-cols-1 text-2xl gap-6 font-andesNeueMedium"
                     >
                         <a
                             href={getRelativeLocaleUrl(locale, "/")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
+                            class="py-2 text-gray-800 hover:text-blue-500 transition duration-200"
                             >{t.menuHome}</a
                         >
                         <a
                             href={getRelativeLocaleUrl(locale, "/projects")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
+                            class="py-2 text-gray-800 hover:text-blue-500 transition duration-200"
                             >{t.menuProjects}</a
                         >
                         <a
                             href={getRelativeLocaleUrl(locale, "/about")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
+                            class="py-2 text-gray-800 hover:text-blue-500 transition duration-200"
                             >{t.menuAbout}</a
                         >
                         <a
                             href={getRelativeLocaleUrl(locale, "/contact")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
+                            class="py-2 text-gray-800 hover:text-blue-500 transition duration-200"
                             >{t.menuContact}</a
                         >
 
@@ -181,7 +181,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                             <select
                                 id="lang-select-mobile"
                                 aria-label={t.languageSelect}
-                                class="bg-transparent text-white text-lg tracking-wide border border-white/20 rounded-md px-3 py-1"
+                                class="bg-transparent text-gray-700 text-lg tracking-wide border border-gray-300 rounded-md px-3 py-1"
                             >
                                 {
                                     LOCALES.map((l) => (
@@ -223,7 +223,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                         aria-current={Astro.url.pathname.includes("/projects")
                             ? "page"
                             : undefined}
-                        class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
+                        class="text-gray-700 transition-colors duration-200 hover:text-blue-500 aria-[current=page]:text-blue-500"
                     >
                         {t.menuProjects}
                     </a>
@@ -232,7 +232,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                         aria-current={Astro.url.pathname.includes("/about")
                             ? "page"
                             : undefined}
-                        class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
+                        class="text-gray-700 transition-colors duration-200 hover:text-blue-500 aria-[current=page]:text-blue-500"
                     >
                         {t.menuAbout}
                     </a>
@@ -241,7 +241,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                         aria-current={Astro.url.pathname.includes("/contact")
                             ? "page"
                             : undefined}
-                        class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
+                        class="text-gray-700 transition-colors duration-200 hover:text-blue-500 aria-[current=page]:text-blue-500"
                     >
                         {t.menuContact}
                     </a>
@@ -249,7 +249,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                     <select
                         id="lang-select"
                         aria-label={t.languageSelect}
-                        class="bg-transparent text-white tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
+                        class="bg-transparent text-gray-700 tracking-wide border-none cursor-pointer hover:text-blue-500 transition duration-200"
                     >
                         {
                             LOCALES.map((l) => (
@@ -308,11 +308,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
         z-index: 1003;
         pointer-events: none;
         border-radius: 0 8px 0 8px;
-        border: 1px solid #10b981;
+        border: 1px solid #3b82f6;
         border-left: 0;
         border-bottom: 0;
-        background: rgba(144, 144, 144, 0.2);
-        box-shadow: 0 0 10px rgba(177, 177, 177, 0.5);
+        background: rgba(59, 130, 246, 0.08);
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
         backdrop-filter: blur(4px);
         -webkit-backdrop-filter: blur(4px);
 
@@ -322,10 +322,10 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
             font-size: 0.62rem;
             font-weight: 900;
             letter-spacing: 0.12em;
-            color: #10b981;
+            color: #3b82f6;
             text-shadow:
-                0 0 6px #10b981,
-                0 0 12px #10b981;
+                0 0 6px #3b82f6,
+                0 0 12px #3b82f6;
             text-transform: uppercase;
             line-height: 1;
         }
@@ -335,7 +335,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
         position: absolute;
         top: -100%;
         left: 1rem;
-        background: #10b981;
+        background: #3b82f6;
         color: white;
         padding: 0.75rem 1.5rem;
         font-weight: bold;

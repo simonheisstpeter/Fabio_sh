@@ -9,15 +9,15 @@ const t = getTranslations(locale);
 
 <Layout title="404 – fabio.sh" description="Page not found">
   <section class="h-screen w-full flex flex-col items-center justify-center px-4">
-    <h1 class="text-9xl text-emerald-500 font-andesNeueMedium mb-6" aria-label="Error 404">
+    <h1 class="text-9xl text-blue-500 font-andesNeueMedium mb-6" aria-label="Error 404">
       404
     </h1>
-    <p class="text-2xl text-white text-center mb-12">
+    <p class="text-2xl text-gray-900 text-center mb-12">
       {t.custom404Title}
     </p>
     <a
       href={getRelativeLocaleUrl(locale, '/')}
-      class="rounded-lg border-2 border-emerald-500 px-6 py-2 text-white text-center transition duration-300 hover:bg-emerald-500 hover:text-white"
+      class="rounded-lg border-2 border-blue-500 px-6 py-2 text-gray-900 text-center transition duration-300 hover:bg-blue-500 hover:text-white"
     >
       {t.custom404Button}
     </a>
