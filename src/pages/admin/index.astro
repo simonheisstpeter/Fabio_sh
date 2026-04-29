@@ -1,10 +1,12 @@
 ---
-import AdminLayout from '../../components/AdminLayout.astro';
-import { getDb } from '../../lib/db';
+import AdminLayout from "../../components/AdminLayout.astro";
+import { getDb } from "../../lib/db";
 
 const db = getDb();
 
-const stats = db.prepare(`
+const stats = db
+    .prepare(
+        `
   SELECT
     COUNT(*) as total,
     SUM(CASE WHEN published=1 AND finished=0 THEN 1 ELSE 0 END) as current,
@@ -12,44 +14,112 @@ const stats = db.prepare(`
     SUM(CASE WHEN finished=1 THEN 1 ELSE 0 END) as finished,
     (SELECT COUNT(*) FROM contact_submissions) as submissions
   FROM projects
-`).get() as { total: number; current: number; upcoming: number; finished: number; submissions: number };
+`,
+    )
+    .get() as {
+    total: number;
+    current: number;
+    upcoming: number;
+    finished: number;
+    submissions: number;
+};
 ---
 
 <AdminLayout title="Dashboard">
-  <h1 class="text-2xl font-semibold text-gray-50 mb-6">Dashboard</h1>
+    <h1 class="text-2xl font-semibold text-gray-50 mb-6">Dashboard</h1>
 
-  <div class="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 mb-8">
-    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-emerald-400">{stats.total}</div>
-      <div class="text-xs text-gray-400 mt-1">Total Projects</div>
-    </div>
-    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-blue-400">{stats.current}</div>
-      <div class="text-xs text-gray-400 mt-1">Current</div>
-    </div>
-    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-amber-400">{stats.upcoming}</div>
-      <div class="text-xs text-gray-400 mt-1">Upcoming</div>
-    </div>
-    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-gray-500">{stats.finished}</div>
-      <div class="text-xs text-gray-400 mt-1">Finished</div>
-    </div>
-    <div class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
-      <div class="text-[1.75rem] font-bold text-violet-400">{stats.submissions}</div>
-      <div class="text-xs text-gray-400 mt-1">Submissions</div>
-    </div>
-  </div>
+    <ul
+        class="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 mb-8 list-none"
+    >
+        <li class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+            <div class="text-[1.75rem] font-bold text-emerald-400">
+                {stats.total}
+            </div>
+            <div class="text-xs text-gray-400 mt-1">Total Projects</div>
+        </li>
+        <li class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+            <div class="text-[1.75rem] font-bold text-blue-400">
+                {stats.current}
+            </div>
+            <div class="text-xs text-gray-400 mt-1">Current</div>
+        </li>
+        <li class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+            <div class="text-[1.75rem] font-bold text-amber-400">
+                {stats.upcoming}
+            </div>
+            <div class="text-xs text-gray-400 mt-1">Upcoming</div>
+        </li>
+        <li class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+            <div class="text-[1.75rem] font-bold text-gray-500">
+                {stats.finished}
+            </div>
+            <div class="text-xs text-gray-400 mt-1">Finished</div>
+        </li>
+        <li class="bg-[#1a1a1a] border border-[#222] rounded-lg p-5">
+            <div class="text-[1.75rem] font-bold text-violet-400">
+                {stats.submissions}
+            </div>
+            <div class="text-xs text-gray-400 mt-1">Submissions</div>
+        </li>
+    </ul>
 
-  <div class="flex gap-3 flex-wrap">
-    <a href="/admin/projects" class="bg-emerald-500 text-white px-5 py-2 rounded-lg no-underline text-sm font-medium hover:bg-emerald-600 transition-colors">
-      Manage Projects
-    </a>
-    <a href="/admin/projects/new" class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
-      + New Project
-    </a>
-    <a href="/admin/submissions" class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
-      View Submissions
-    </a>
-  </div>
+    <ul class="flex gap-3 flex-wrap">
+        <li>
+            <a
+                href="/admin/projects"
+                class="bg-emerald-500 text-white px-5 py-2 rounded-lg no-underline text-sm font-medium hover:bg-emerald-600 transition-colors"
+            >
+                Manage Projects
+            </a>
+        </li>
+        <li>
+            <a
+                href="/admin/projects/new"
+                class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors"
+            >
+                + New Project
+            </a>
+        </li>
+        <li>
+            <a
+                href="/admin/submissions"
+                class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors"
+            >
+                View Submissions
+            </a>
+        </li>
+    </ul>
+
+    <div class="mt-8 border-t border-[#222] pt-6">
+        <h2
+            class="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider"
+        >
+            LLMs / GEO
+        </h2>
+        <ul class="flex gap-3 flex-wrap items-center">
+            <li>
+                <a
+                    href="/llms.txt"
+                    target="_blank"
+                    class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors"
+                >
+                    View llms.txt
+                </a>
+            </li>
+            <li>
+                <form method="POST" action="/api/admin/regenerate-llms">
+                    <button
+                        type="submit"
+                        class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg text-sm border border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer"
+                    >
+                        Regenerate llms.txt
+                    </button>
+                </form>
+            </li>
+        </ul>
+        <p class="text-xs text-gray-500 mt-2">
+            Regenerate clears the projects cache so the next request to
+            /llms.txt reflects current data.
+        </p>
+    </div>
 </AdminLayout>

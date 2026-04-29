@@ -9,6 +9,17 @@ interface Props {
 
 const { locale, t }: Props = Astro.props;
 const email = "fabio@fabio.sh";
+
+const footerLinks = [
+    {
+        title: "Mediakit",
+        href: getRelativeLocaleUrl(locale, "/mediakit"),
+    },
+    {
+        title: "llms.txt",
+        href: "/llms.txt",
+    },
+];
 ---
 
 <footer
@@ -24,24 +35,18 @@ const email = "fabio@fabio.sh";
         </a>
     </div>
 
-    <a
-        href={getRelativeLocaleUrl(locale, "/mediakit")}
-        class="group mx-6 md:mx-12 mt-20 w-20 block duration-300 text-white hover:text-emerald-500 text-sm"
-    >
-        Mediakit
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="inline h-4 w-4 -translate-y-px duration-200 group-hover:translate-x-1 group-hover:text-emerald-500"
-            aria-hidden="true"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
-        </svg>
-    </a>
+    <ul class="flex flex-col gap-2 text-sm text-right">
+        {
+            footerLinks.map(({ title, href }) => (
+                <li>
+                    <a
+                        href={href}
+                        class="transition-colors duration-200 text-white/60 hover:text-emerald-400"
+                    >
+                        {title}
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
 </footer>
