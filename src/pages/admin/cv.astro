@@ -1,0 +1,210 @@
+---
+import AdminLayout from "../../components/AdminLayout.astro";
+import { getCvFiles, getCvSecrets } from "../../lib/db";
+
+const cvFiles = getCvFiles();
+const secrets = getCvSecrets();
+
+function formatDate(dt: string | null): string {
+    if (!dt) return "—";
+    return new Date(dt).toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+}
+
+function formatBytes(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+const langs = [
+    { key: "de" as const, label: "Deutsch" },
+    { key: "en" as const, label: "English" },
+];
+---
+
+<AdminLayout title="CV">
+    <h1 class="text-2xl font-semibold text-gray-50 mb-6">CV Management</h1>
+
+    <!-- PDF Files section -->
+    <section class="bg-[#1a1a1a] border border-[#222] rounded-lg p-6 mb-8">
+        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-5">
+            PDF Files
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {langs.map(({ key, label }) => {
+                const file = cvFiles[key];
+                return (
+                    <div class="bg-[#111] border border-[#2a2a2a] rounded-lg p-5">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-xs font-semibold uppercase tracking-widest text-gray-400">{label}</span>
+                            {file ? (
+                                <span class="text-xs bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded">uploaded</span>
+                            ) : (
+                                <span class="text-xs bg-gray-800 text-gray-500 px-2 py-0.5 rounded">missing</span>
+                            )}
+                        </div>
+
+                        {file && (
+                            <div class="mb-4">
+                                <p class="text-gray-300 text-sm font-medium truncate">{file.filename}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">
+                                    {formatBytes(file.size)} &middot; {formatDate(file.uploaded_at)}
+                                </p>
+                            </div>
+                        )}
+
+                        <form
+                            method="POST"
+                            action="/api/admin/cv/upload"
+                            enctype="multipart/form-data"
+                            class="flex flex-col gap-3"
+                        >
+                            <input type="hidden" name="lang" value={key} />
+                            <input
+                                type="file"
+                                name="cv"
+                                accept="application/pdf"
+                                required
+                                class="text-sm text-gray-300 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:bg-gray-700 file:text-gray-200 file:cursor-pointer hover:file:bg-gray-600"
+                            />
+                            <button
+                                type="submit"
+                                class="self-start bg-emerald-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors cursor-pointer"
+                            >
+                                {file ? "Replace" : "Upload"}
+                            </button>
+                        </form>
+                    </div>
+                );
+            })}
+        </div>
+    </section>
+
+    <!-- Secrets section -->
+    <section class="bg-[#1a1a1a] border border-[#222] rounded-lg p-6">
+        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+            Access Secrets
+        </h2>
+
+        {secrets.length > 0 ? (
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-[#333] text-left">
+                            <th class="text-xs text-gray-500 font-medium pb-2 pr-6">Label</th>
+                            <th class="text-xs text-gray-500 font-medium pb-2 pr-6">Secret</th>
+                            <th class="text-xs text-gray-500 font-medium pb-2 pr-6 text-right">Views</th>
+                            <th class="text-xs text-gray-500 font-medium pb-2 pr-6">Last opened</th>
+                            <th class="text-xs text-gray-500 font-medium pb-2 pr-6">Created</th>
+                            <th class="pb-2" />
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {secrets.map((s) => (
+                            <tr class="border-b border-[#2a2a2a] last:border-0">
+                                <td class="py-3 pr-6 text-gray-200 font-medium">{s.label}</td>
+                                <td class="py-3 pr-6">
+                                    <code class="font-mono text-xs bg-[#0a0a0a] px-2 py-0.5 rounded text-emerald-400 select-all">
+                                        {s.secret}
+                                    </code>
+                                </td>
+                                <td class="py-3 pr-6 text-right">
+                                    <span class={`font-semibold ${s.view_count > 0 ? "text-emerald-400" : "text-gray-500"}`}>
+                                        {s.view_count}
+                                    </span>
+                                </td>
+                                <td class="py-3 pr-6 text-gray-400 text-xs whitespace-nowrap">
+                                    {formatDate(s.last_opened_at)}
+                                </td>
+                                <td class="py-3 pr-6 text-gray-500 text-xs whitespace-nowrap">
+                                    {formatDate(s.created_at)}
+                                </td>
+                                <td class="py-3">
+                                    <button
+                                        data-delete-secret={s.id}
+                                        class="text-xs text-red-500 hover:text-red-400 transition-colors cursor-pointer bg-transparent border-0"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        ) : (
+            <p class="text-gray-500 text-sm mb-6">No secrets yet. Create one below.</p>
+        )}
+
+        <!-- Create new secret -->
+        <div class="border-t border-[#2a2a2a] pt-5">
+            <h3 class="text-xs text-gray-400 font-medium mb-3">New Secret</h3>
+            <form
+                method="POST"
+                action="/api/admin/cv/secrets"
+                class="flex gap-3 flex-wrap items-end"
+            >
+                <div class="flex flex-col gap-1">
+                    <label for="label" class="text-xs text-gray-500">Label</label>
+                    <input
+                        id="label"
+                        type="text"
+                        name="label"
+                        placeholder="e.g. Google – Sarah"
+                        required
+                        class="bg-[#111] border border-[#333] rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-[#444] w-56"
+                    />
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="secret" class="text-xs text-gray-500">Secret</label>
+                    <div class="flex gap-1.5">
+                        <input
+                            id="secret"
+                            type="text"
+                            name="secret"
+                            placeholder="e.g. my-secret-123"
+                            required
+                            class="bg-[#111] border border-[#333] rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-[#444] font-mono w-48"
+                        />
+                        <button
+                            type="button"
+                            id="generate-secret"
+                            title="Generate random secret"
+                            class="bg-[#111] border border-[#333] rounded px-2.5 text-gray-400 hover:text-emerald-400 hover:border-emerald-400 transition-colors cursor-pointer text-xs"
+                        >⟳</button>
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    class="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg text-sm border border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer"
+                >
+                    Create
+                </button>
+            </form>
+        </div>
+    </section>
+</AdminLayout>
+
+<script>
+    document.getElementById("generate-secret")?.addEventListener("click", () => {
+        const input = document.getElementById("secret") as HTMLInputElement;
+        const bytes = crypto.getRandomValues(new Uint8Array(12));
+        input.value = Array.from(bytes, (b) => b.toString(36).padStart(2, "0")).join("").slice(0, 16);
+    });
+
+    document.querySelectorAll("[data-delete-secret]").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+            if (!confirm("Delete this secret? Anyone using it will lose access.")) return;
+            const id = (btn as HTMLElement).dataset.deleteSecret;
+            await fetch(`/api/admin/cv/secrets/${id}`, { method: "DELETE" });
+            window.location.reload();
+        });
+    });
+</script>

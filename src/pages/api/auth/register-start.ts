@@ -34,6 +34,7 @@ export const POST: APIRoute = async ({ cookies }) => {
   cookies.set('__wac', options.challenge, {
     httpOnly: true,
     sameSite: 'strict',
+    secure: import.meta.env.PROD,
     maxAge: 300,
     path: '/',
   });

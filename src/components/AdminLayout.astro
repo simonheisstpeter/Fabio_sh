@@ -51,6 +51,13 @@ const navLink =
                         : undefined}
                     class={navLink}>Submissions</a
                 >
+                <a
+                    href="/admin/cv"
+                    aria-current={path.startsWith("/admin/cv")
+                        ? "page"
+                        : undefined}
+                    class={navLink}>CV</a
+                >
             </nav>
             <form action="/api/auth/logout" method="POST" class="ml-auto">
                 <button

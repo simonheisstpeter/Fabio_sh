@@ -48,6 +48,7 @@ export function createSession(cookies: AstroCookies): void {
   cookies.set(COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: 'strict',
+    secure: import.meta.env.PROD,
     maxAge: SESSION_TTL_SECONDS,
     path: '/',
   });

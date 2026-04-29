@@ -7,26 +7,23 @@ export const GET: APIRoute = () =>
 
 export const POST: APIRoute = async ({ cookies }) => {
   const db = getDb();
-  const credentials = db
-    .prepare('SELECT credential_id, transports FROM webauthn_credentials')
-    .all() as { credential_id: string; transports: string }[];
+  const count = (db.prepare('SELECT COUNT(*) as n FROM webauthn_credentials').get() as { n: number }).n;
 
-  if (credentials.length === 0) {
+  if (count === 0) {
     return new Response(JSON.stringify({ error: 'No passkeys registered' }), { status: 400 });
   }
 
+  // Omit allowCredentials so the browser surfaces all discoverable passkeys for
+  // this rpID. The server verifies the credential is authorized in login-finish.
   const options = await generateAuthenticationOptions({
     rpID: import.meta.env.ADMIN_RP_ID ?? 'localhost',
     userVerification: 'required',
-    allowCredentials: credentials.map((c) => ({
-      id: c.credential_id,
-      transports: JSON.parse(c.transports ?? '[]'),
-    })),
   });
 
   cookies.set('__wac', options.challenge, {
     httpOnly: true,
     sameSite: 'strict',
+    secure: import.meta.env.PROD,
     maxAge: 300,
     path: '/',
   });
