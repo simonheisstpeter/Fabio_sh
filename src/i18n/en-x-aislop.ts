@@ -62,4 +62,11 @@ export default {
   statusOnline: "Deployed 🚀",
   statusStandby: "In the Pipeline",
   statusOffline: "Deprecated",
+
+  cvDownload: "Extract Intellectual Property",
+  cvNoFiles: "The knowledge artifact has not yet been instantiated in the system.",
+  cvEnterCode: "Enter your authentication token to unlock this value-driven document.",
+  cvInvalidCode: "Authentication vector rejected. Please re-attempt synergization.",
+  cvAccessPlaceholder: "Authentication token",
+  cvViewButton: "Unlock Value Document",
 };

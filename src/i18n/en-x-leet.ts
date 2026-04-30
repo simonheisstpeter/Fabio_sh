@@ -49,4 +49,11 @@ export default {
   statusOnline: "0nl1n3",
   statusStandby: "574ndb¥",
   statusOffline: "0ffl1n3",
+
+  cvDownload: "D0wnl04d",
+  cvNoFiles: "N0 CV h45 b33n upl04d3d y37.",
+  cvEnterCode: "3n73r 7h3 4cc355 c0d3 70 v13w 7h15 CV.",
+  cvInvalidCode: "1nv4l1d 4cc355 c0d3. 7ry 4g41n.",
+  cvAccessPlaceholder: "4cc355 c0d3",
+  cvViewButton: "V13w CV",
 };

@@ -49,4 +49,11 @@ export default {
   statusOnline: "In Service",
   statusStandby: "Deferred",
   statusOffline: "Decommissioned",
+
+  cvDownload: "Retrieve Datapad",
+  cvNoFiles: "No mission dossier has been uploaded.",
+  cvEnterCode: "Enter the clearance code to access this dossier.",
+  cvInvalidCode: "Clearance code rejected. Try again, you must.",
+  cvAccessPlaceholder: "Clearance code",
+  cvViewButton: "Access Dossier",
 };

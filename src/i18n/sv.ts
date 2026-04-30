@@ -49,4 +49,11 @@ export default {
   statusOnline: "Online",
   statusStandby: "Vänteläge",
   statusOffline: "Offline",
+
+  cvDownload: "Ladda ner",
+  cvNoFiles: "Inget CV har laddats upp ännu.",
+  cvEnterCode: "Ange åtkomstkoden för att se detta CV.",
+  cvInvalidCode: "Ogiltig åtkomstkod. Försök igen.",
+  cvAccessPlaceholder: "Åtkomstkod",
+  cvViewButton: "Visa CV",
 };

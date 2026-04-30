@@ -50,4 +50,11 @@ export default {
   statusOnline: "Bussin'",
   statusStandby: "On Ice",
   statusOffline: "Retired W",
+
+  cvDownload: "Yoink the File",
+  cvNoFiles: "No CV dropped yet, no cap.",
+  cvEnterCode: "Enter the code to peep this CV, bestie.",
+  cvInvalidCode: "Wrong code, massive L. Try again.",
+  cvAccessPlaceholder: "The secret code",
+  cvViewButton: "Peep the CV",
 };

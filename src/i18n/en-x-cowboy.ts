@@ -50,4 +50,11 @@ export default {
   statusOnline: "Ridin'",
   statusStandby: "Holdin' Up",
   statusOffline: "Roped In",
+
+  cvDownload: "Round Up the File",
+  cvNoFiles: "No resume's been posted on the board yet, partner.",
+  cvEnterCode: "Whisper the passcode to lay eyes on this here resume.",
+  cvInvalidCode: "Wrong passcode, stranger. Try again.",
+  cvAccessPlaceholder: "The passcode",
+  cvViewButton: "Take a Look",
 };

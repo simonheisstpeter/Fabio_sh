@@ -49,4 +49,11 @@ export default {
   statusOnline: "Live",
   statusStandby: "On Hold",
   statusOffline: "Deprecated",
+
+  cvDownload: "Retrieve Asset",
+  cvNoFiles: "No CV documentation has been uploaded to the system.",
+  cvEnterCode: "Enter your authorization code to access the CV document.",
+  cvInvalidCode: "Authorization code rejected. Please retry.",
+  cvAccessPlaceholder: "Authorization code",
+  cvViewButton: "Access Document",
 };

@@ -49,4 +49,11 @@ export default {
   statusOnline: "Online",
   statusOffline: "Offline",
   statusStandby: "Pausiert",
+
+  cvDownload: "Herunterladen",
+  cvNoFiles: "Noch kein Lebenslauf hochgeladen.",
+  cvEnterCode: "Gib den Zugangscode ein, um den Lebenslauf zu sehen.",
+  cvInvalidCode: "Ungültiger Zugangscode. Bitte versuche es erneut.",
+  cvAccessPlaceholder: "Zugangscode",
+  cvViewButton: "Lebenslauf anzeigen",
 };

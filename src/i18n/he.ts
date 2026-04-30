@@ -49,4 +49,11 @@ export default {
   statusOnline: "מחובר",
   statusOffline: "לא מחובר",
   statusStandby: "בהמתנה",
+
+  cvDownload: "הורדה",
+  cvNoFiles: "עדיין לא הועלה קורות חיים.",
+  cvEnterCode: "הזן את קוד הגישה כדי לצפות בקורות חיים.",
+  cvInvalidCode: "קוד גישה שגוי. אנא נסה שוב.",
+  cvAccessPlaceholder: "קוד גישה",
+  cvViewButton: "צפה בקורות חיים",
 };

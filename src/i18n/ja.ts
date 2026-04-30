@@ -49,4 +49,11 @@ export default {
   statusOnline: "オンライン",
   statusOffline: "オフライン",
   statusStandby: "スタンバイ",
+
+  cvDownload: "ダウンロード",
+  cvNoFiles: "まだCVがアップロードされていません。",
+  cvEnterCode: "このCVを閲覧するにはアクセスコードを入力してください。",
+  cvInvalidCode: "無効なアクセスコードです。もう一度お試しください。",
+  cvAccessPlaceholder: "アクセスコード",
+  cvViewButton: "CVを表示",
 };

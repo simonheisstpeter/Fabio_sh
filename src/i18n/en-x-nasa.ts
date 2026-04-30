@@ -50,4 +50,11 @@ export default {
   statusOnline: "Mission Active",
   statusStandby: "Standby Mode",
   statusOffline: "Mission Complete",
+
+  cvDownload: "Extract Payload",
+  cvNoFiles: "Mission dossier not yet uploaded to the system.",
+  cvEnterCode: "Enter authorization code to access mission dossier.",
+  cvInvalidCode: "Authorization rejected. Re-enter credentials.",
+  cvAccessPlaceholder: "Authorization code",
+  cvViewButton: "Access Dossier",
 };

@@ -49,4 +49,11 @@ export default {
   statusOnline: "Rete",
   statusStandby: "Atendostato",
   statusOffline: "Eksterrete",
+
+  cvDownload: "Elŝuti",
+  cvNoFiles: "Neniu CV estas ankoraŭ alŝutita.",
+  cvEnterCode: "Enigu la alirkodon por vidi ĉi tiun CV.",
+  cvInvalidCode: "Nevalida alirkodo. Bonvolu reprovi.",
+  cvAccessPlaceholder: "Alirkodo",
+  cvViewButton: "Vidi CV",
 };

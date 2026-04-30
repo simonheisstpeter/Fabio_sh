@@ -50,4 +50,11 @@ export default {
   statusOnline: "在线",
   statusOffline: "离线",
   statusStandby: "待机",
+
+  cvDownload: "下载",
+  cvNoFiles: "尚未上传任何简历。",
+  cvEnterCode: "输入访问代码以查看此简历。",
+  cvInvalidCode: "访问代码无效，请重试。",
+  cvAccessPlaceholder: "访问代码",
+  cvViewButton: "查看简历",
 };

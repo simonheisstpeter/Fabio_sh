@@ -49,4 +49,11 @@ export default {
   statusOnline: "Online",
   statusOffline: "Offline",
   statusStandby: "Em pausa",
+
+  cvDownload: "Baixar",
+  cvNoFiles: "Nenhum CV foi enviado ainda.",
+  cvEnterCode: "Insira o código de acesso para ver este CV.",
+  cvInvalidCode: "Código de acesso inválido. Por favor, tente novamente.",
+  cvAccessPlaceholder: "Código de acesso",
+  cvViewButton: "Ver CV",
 };

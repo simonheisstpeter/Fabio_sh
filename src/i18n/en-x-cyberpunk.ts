@@ -49,4 +49,11 @@ export default {
   statusOnline: "Active",
   statusStandby: "Suspended",
   statusOffline: "Flatlined",
+
+  cvDownload: "Rip Data",
+  cvNoFiles: "No data file jacked in yet.",
+  cvEnterCode: "Enter the access key to jack into this file.",
+  cvInvalidCode: "Access denied. Wrong key. Try again.",
+  cvAccessPlaceholder: "Access key",
+  cvViewButton: "Jack In",
 };

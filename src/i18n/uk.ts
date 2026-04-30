@@ -49,4 +49,11 @@ export default {
   statusOnline: "Онлайн",
   statusOffline: "Офлайн",
   statusStandby: "На паузі",
+
+  cvDownload: "Завантажити",
+  cvNoFiles: "CV ще не завантажено.",
+  cvEnterCode: "Введіть код доступу для перегляду CV.",
+  cvInvalidCode: "Невірний код доступу. Будь ласка, спробуйте ще раз.",
+  cvAccessPlaceholder: "Код доступу",
+  cvViewButton: "Переглянути CV",
 };

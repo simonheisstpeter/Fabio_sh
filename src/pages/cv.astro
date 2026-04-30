@@ -1,6 +1,10 @@
 ---
 import Layout from '../components/Layout.astro';
 import { getCvSecretByValue, getCvFiles } from '../lib/db';
+import { getTranslations } from '../i18n/index';
+
+const locale = Astro.currentLocale ?? 'de';
+const t = getTranslations(locale);
 
 const secret = Astro.cookies.get('cv_secret')?.value ?? '';
 const validSecret = secret ? getCvSecretByValue(secret) : null;
@@ -13,7 +17,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
 <Layout title="CV – fabio.sh" description="Fabio Gschweidl – CV">
   <div class="container mx-auto py-24 md:py-36 px-4 md:px-12 min-h-[80vh] flex flex-col">
     {hasAccess ? (
-      <div class="flex flex-col flex-1 gap-6">
+      <section class="flex flex-col flex-1 gap-6">
         <div class="flex items-center justify-between flex-wrap gap-4">
           <h1 class="text-4xl font-andesNeueMedium">CV</h1>
           <div class="flex items-center gap-3 flex-wrap">
@@ -40,7 +44,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
               </svg>
-              Download
+              {t.cvDownload}
             </a>
           </div>
         </div>
@@ -54,24 +58,24 @@ const hasError = Astro.url.searchParams.get('error') === '1';
             title="CV"
           />
         ) : (
-          <p class="text-white/50">No CV has been uploaded yet.</p>
+          <p class="text-white/50">{t.cvNoFiles}</p>
         )}
-      </div>
+      </section>
     ) : (
-      <div class="flex flex-col items-center justify-center flex-1 gap-8">
+      <section class="flex flex-col items-center justify-center flex-1 gap-8">
         <div class="w-full max-w-sm">
           <h1 class="text-4xl font-andesNeueMedium mb-2">CV</h1>
-          <p class="text-white/50 mb-8 text-sm">Enter the access code to view this CV.</p>
+          <p class="text-white/50 mb-8 text-sm">{t.cvEnterCode}</p>
 
           {hasError && (
-            <p class="text-red-400 text-sm mb-4">Invalid access code. Please try again.</p>
+            <p class="text-red-400 text-sm mb-4">{t.cvInvalidCode}</p>
           )}
 
           <form method="POST" action="/api/cv/access" class="flex flex-col gap-4">
             <input
               type="text"
               name="secret"
-              placeholder="Access code"
+              placeholder={t.cvAccessPlaceholder}
               autocomplete="off"
               autofocus
               required
@@ -81,11 +85,11 @@ const hasError = Astro.url.searchParams.get('error') === '1';
               type="submit"
               class="w-full bg-white text-black py-3 rounded-lg text-sm font-medium hover:bg-white/90 transition-colors cursor-pointer"
             >
-              View CV
+              {t.cvViewButton}
             </button>
           </form>
         </div>
-      </div>
+      </section>
     )}
   </div>
 </Layout>

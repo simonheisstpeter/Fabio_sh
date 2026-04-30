@@ -5,6 +5,7 @@ User-agent: *
 Allow: /
 Disallow: /test
 Disallow: /admin
+Disallow: /cv
 
 Sitemap: ${sitemapURL.href}
 `;

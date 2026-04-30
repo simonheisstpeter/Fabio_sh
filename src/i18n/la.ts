@@ -49,4 +49,11 @@ export default {
   statusOnline: "Online",
   statusStandby: "In Expectatione",
   statusOffline: "Offline",
+
+  cvDownload: "Depone",
+  cvNoFiles: "Nullum CV adhuc adlatum est.",
+  cvEnterCode: "Codicem accessus intra ut hoc CV videas.",
+  cvInvalidCode: "Codex accessus invalidus. Quaeso iterum conare.",
+  cvAccessPlaceholder: "Codex accessus",
+  cvViewButton: "CV videre",
 };
