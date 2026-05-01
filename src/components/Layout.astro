@@ -4,6 +4,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { getTranslations, LOCALES, LOCALE_LABELS } from "../i18n/index";
 import Footer from "./Footer.astro";
 import Loader from "./Loader.astro";
+import SkipLink from "./SkipLink.astro";
 import ScrollToTop from "./ScrollToTop.astro";
 import "../styles/globals.css";
 
@@ -106,7 +107,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
     <body
         class="cursor-fabiosh min-h-screen bg-darkDotsGray text-white font-andesNeueLight relative"
     >
-        <a href="#main-content" class="skip-link">to Main</a>
+        <SkipLink />
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
             >top</a
         >
@@ -275,6 +276,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 
         <!-- Language switcher script (progressive: enhances <select> navigation) -->
         <script>
+            import consoleMessage from "../lib/fun/console-message";
+            import titleAnimation from "../lib/fun/title-animation";
+
             function initLangSelect(id: string) {
                 const sel = document.getElementById(
                     id,
@@ -290,64 +294,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                 initLangSelect("lang-select");
                 initLangSelect("lang-select-mobile");
             });
+
+            consoleMessage();
+            titleAnimation();
         </script>
     </body>
 </html>
-
-<style>
-    .beta-ribbon {
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        bottom: 0;
-        left: 0;
-        width: 140px;
-        height: 30px;
-        overflow: hidden;
-        z-index: 1003;
-        pointer-events: none;
-        border-radius: 0 8px 0 8px;
-        border: 1px solid #10b981;
-        border-left: 0;
-        border-bottom: 0;
-        background: rgba(144, 144, 144, 0.2);
-        box-shadow: 0 0 10px rgba(177, 177, 177, 0.5);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-
-        span {
-            text-align: center;
-            font-family: monospace;
-            font-size: 0.62rem;
-            font-weight: 900;
-            letter-spacing: 0.12em;
-            color: #10b981;
-            text-shadow:
-                0 0 6px #10b981,
-                0 0 12px #10b981;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-    }
-
-    .skip-link {
-        position: absolute;
-        top: -100%;
-        left: 1rem;
-        background: #10b981;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        font-weight: bold;
-        z-index: 9999;
-        transition: top 0.2s ease;
-        text-decoration: none;
-        border-radius: 0 0 8px 8px;
-    }
-
-    .skip-link:focus {
-        top: 0;
-        outline: 2px solid white;
-        outline-offset: -4px;
-    }
-</style>

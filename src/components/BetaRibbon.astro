@@ -1,0 +1,42 @@
+<!-- Beta ribbon -->
+<div class="beta-ribbon" aria-hidden="true">
+    <span>BETA Version</span>
+</div>
+
+<style>
+    .beta-ribbon {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 0;
+        left: 0;
+        width: 140px;
+        height: 30px;
+        overflow: hidden;
+        z-index: 1003;
+        pointer-events: none;
+        border-radius: 0 8px 0 8px;
+        border: 1px solid #10b981;
+        border-left: 0;
+        border-bottom: 0;
+        background: rgba(144, 144, 144, 0.2);
+        box-shadow: 0 0 10px rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+
+        span {
+            text-align: center;
+            font-family: monospace;
+            font-size: 0.62rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            color: #10b981;
+            text-shadow:
+                0 0 6px #10b981,
+                0 0 12px #10b981;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+    }
+</style>
