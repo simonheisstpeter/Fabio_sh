@@ -102,6 +102,28 @@ const stats = db
         <h2
             class="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider"
         >
+            Backup
+        </h2>
+        <ul class="flex gap-3 flex-wrap items-center">
+            <li>
+                <a
+                    href="/api/admin/db-backup"
+                    class="bg-gray-800 text-gray-200 px-5 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors"
+                >
+                    Download Database
+                </a>
+            </li>
+        </ul>
+        <p class="text-xs text-gray-500 mt-2">
+            Downloads a consistent snapshot of the SQLite database using the
+            online backup API.
+        </p>
+    </div>
+
+    <div class="mt-8 border-t border-[#222] pt-6">
+        <h2
+            class="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider"
+        >
             LLMs / GEO
         </h2>
         <ul class="flex gap-3 flex-wrap items-center">

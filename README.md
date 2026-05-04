@@ -10,3 +10,10 @@ npm run dev
 yarn dev
 ```
 2025
+
+## Backup
+npm run backup
+# Backing up /app/db/fabio.db → /app/backups/fabio-2026-05-04T14-30-00.db
+# Done — 312.0 KB
+
+scp user@your-vps:/app/backups/fabio-2026-05-04T14-30-00.db .
