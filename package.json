@@ -9,7 +9,8 @@
     "astro": "astro",
     "clean": "rm -rf node_modules && rm package-lock.json && npm i",
     "seed": "node src/lib/seed.js",
-    "backup": "node src/lib/backup.js"
+    "backup": "node src/lib/backup.js",
+    "reset-admin": "node src/lib/reset-admin.js"
   },
   "dependencies": {
     "@astrojs/node": "^10.1.0",
