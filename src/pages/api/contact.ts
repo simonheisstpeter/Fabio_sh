@@ -1,13 +1,13 @@
 import type { APIRoute } from 'astro';
-import type { Database } from 'better-sqlite3';
+import type { DatabaseSync } from 'node:sqlite';
 import { getDb, hashIp } from '../../lib/db';
 
 type Stmts = {
-  checkRate: ReturnType<Database['prepare']>;
-  incrementRate: ReturnType<Database['prepare']>;
-  resetRate: ReturnType<Database['prepare']>;
-  insertRate: ReturnType<Database['prepare']>;
-  insertSubmission: ReturnType<Database['prepare']>;
+  checkRate: ReturnType<DatabaseSync['prepare']>;
+  incrementRate: ReturnType<DatabaseSync['prepare']>;
+  resetRate: ReturnType<DatabaseSync['prepare']>;
+  insertRate: ReturnType<DatabaseSync['prepare']>;
+  insertSubmission: ReturnType<DatabaseSync['prepare']>;
 };
 let _stmts: Stmts | null = null;
 function stmts(): Stmts {

@@ -2,9 +2,6 @@ import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
 import { LOCALES, DEFAULT_LOCALE } from "./src/i18n/locales.js";
-import sitemap from "@astrojs/sitemap";
-
-import compressor from "astro-compressor";
 
 export default defineConfig({
   output: "server",
@@ -61,5 +58,5 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "hover",
   },
-  integrations: [sitemap(), compressor()],
+  integrations: [],
 });

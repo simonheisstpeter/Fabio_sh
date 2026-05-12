@@ -5,7 +5,7 @@ import { readFileSync, unlinkSync } from 'fs';
 import { getDb } from '../../../lib/db';
 import { validateSession } from '../../../lib/admin-auth';
 
-export const GET: APIRoute = async ({ cookies }) => {
+export const GET: APIRoute = ({ cookies }) => {
   if (!validateSession(cookies)) {
     return new Response(null, { status: 302, headers: { Location: '/admin/login' } });
   }
@@ -14,7 +14,7 @@ export const GET: APIRoute = async ({ cookies }) => {
   const tmpPath = join(tmpdir(), `fabio-backup-${Date.now()}.db`);
 
   try {
-    await db.backup(tmpPath);
+    db.exec(`VACUUM INTO '${tmpPath}'`);
     const buffer = readFileSync(tmpPath);
     const date = new Date().toISOString().slice(0, 10);
 

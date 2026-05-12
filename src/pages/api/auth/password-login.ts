@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import bcrypt from 'bcryptjs';
+import { verifyPassword, DUMMY_HASH } from '../../../lib/password';
 import { getDb, hashIp } from '../../../lib/db';
 import { createSession } from '../../../lib/admin-auth';
 import { jsonError, jsonOk } from '../../../lib/response';
@@ -40,9 +40,8 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
     .prepare('SELECT email, hash FROM admin_password WHERE id = 1')
     .get() as { email: string; hash: string } | undefined;
 
-  // Always run bcrypt to prevent timing attacks
-  const dummyHash = '$2b$12$invalidhashfortimingnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn';
-  const valid = await bcrypt.compare(password, cred?.hash ?? dummyHash);
+  // Always run scrypt to prevent timing attacks
+  const valid = await verifyPassword(password, cred?.hash ?? DUMMY_HASH);
 
   if (!valid || cred?.email !== email) {
     db.prepare(

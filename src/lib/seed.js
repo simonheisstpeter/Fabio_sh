@@ -4,7 +4,7 @@
  * After running, you can delete this file and utils/projectsData.js.
  */
 
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { mkdirSync } from 'fs';
@@ -15,8 +15,8 @@ const dbPath = join(dbDir, 'fabio.db');
 
 mkdirSync(dbDir, { recursive: true });
 
-const db = new Database(dbPath);
-db.pragma('journal_mode = WAL');
+const db = new DatabaseSync(dbPath);
+db.exec('PRAGMA journal_mode = WAL');
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS projects (
@@ -405,11 +405,9 @@ const insert = db.prepare(`
      @categories, @published, @finished, @online, @image, @url, @languages)
 `);
 
-const insertMany = db.transaction((rows) => {
-  for (const row of rows) insert.run(row);
-});
-
-insertMany(projects);
+db.exec('BEGIN');
+for (const row of projects) insert.run(row);
+db.exec('COMMIT');
 
 console.log(`✅ Seeded ${projects.length} projects into ${dbPath}`);
 db.close();

@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import { mkdirSync, statSync } from 'fs';
 import { join } from 'path';
 
@@ -10,10 +10,10 @@ mkdirSync(backupsDir, { recursive: true });
 const ts = new Date().toISOString().replace(/:/g, '-').slice(0, 19);
 const outPath = join(backupsDir, `fabio-${ts}.db`);
 
-const db = new Database(dbPath, { readonly: true });
+const db = new DatabaseSync(dbPath, { readOnly: true });
 
 console.log(`Backing up ${dbPath} → ${outPath}`);
-await db.backup(outPath);
+db.exec(`VACUUM INTO '${outPath}'`);
 db.close();
 
 const { size } = statSync(outPath);

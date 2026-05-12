@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import bcrypt from 'bcryptjs';
+import { hashPassword } from '../../../lib/password';
 import { getDb } from '../../../lib/db';
 import { validateSession } from '../../../lib/admin-auth';
 
@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return new Response(null, { status: 302, headers: { Location: '/admin/register?error=short' } });
   }
 
-  const hash = await bcrypt.hash(password, 12);
+  const hash = await hashPassword(password);
   db.prepare('INSERT INTO admin_password (id, email, hash) VALUES (1, ?, ?)').run(email, hash);
 
   return new Response(null, { status: 302, headers: { Location: '/admin/register?pw=set' } });

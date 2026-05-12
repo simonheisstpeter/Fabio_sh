@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import { join } from 'path';
 import { createHash } from 'node:crypto';
 
@@ -29,20 +29,20 @@ export type CvLang = (typeof CV_LANGS)[number];
 
 const dbPath = process.env.DATABASE_PATH ?? join(process.cwd(), 'db/fabio.db');
 
-let _db: Database.Database | null = null;
+let _db: DatabaseSync | null = null;
 
-export function getDb(): Database.Database {
+export function getDb(): DatabaseSync {
   if (_db) return _db;
 
-  _db = new Database(dbPath);
+  _db = new DatabaseSync(dbPath);
 
-  _db.pragma('journal_mode = WAL');
-  _db.pragma('foreign_keys = ON');
-  _db.pragma('synchronous = NORMAL');   // safe with WAL; better write throughput
-  _db.pragma('cache_size = -4000');     // 4 MB page cache
-  _db.pragma('temp_store = memory');    // temp tables/indices in RAM
-  _db.pragma('mmap_size = 67108864');   // 64 MB memory-mapped reads
-  _db.pragma('busy_timeout = 5000');    // wait up to 5 s before SQLITE_BUSY
+  _db.exec('PRAGMA journal_mode = WAL');
+  _db.exec('PRAGMA foreign_keys = ON');
+  _db.exec('PRAGMA synchronous = NORMAL');   // safe with WAL; better write throughput
+  _db.exec('PRAGMA cache_size = -4000');     // 4 MB page cache
+  _db.exec('PRAGMA temp_store = memory');    // temp tables/indices in RAM
+  _db.exec('PRAGMA mmap_size = 67108864');   // 64 MB memory-mapped reads
+  _db.exec('PRAGMA busy_timeout = 5000');    // wait up to 5 s before SQLITE_BUSY
 
   initSchema(_db);
   migrateCvFiles(_db);
@@ -51,7 +51,7 @@ export function getDb(): Database.Database {
 
 // ── Schema ─────────────────────────────────────────────────────────────────
 
-function migrateCvFiles(db: Database.Database) {
+function migrateCvFiles(db: DatabaseSync) {
   const cols = db.prepare('PRAGMA table_info(cv_files)').all() as { name: string }[];
   if (cols.length > 0 && !cols.some((c) => c.name === 'lang')) {
     db.exec('DROP TABLE cv_files');
@@ -65,7 +65,7 @@ function migrateCvFiles(db: Database.Database) {
   }
 }
 
-function initSchema(db: Database.Database) {
+function initSchema(db: DatabaseSync) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS projects (
       id            TEXT PRIMARY KEY,
