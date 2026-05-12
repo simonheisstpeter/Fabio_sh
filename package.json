@@ -18,7 +18,8 @@
     "@astrojs/node": "^10.1.0",
     "@simplewebauthn/browser": "^13.3.0",
     "@simplewebauthn/server": "^13.3.0",
-    "astro": "^6.3.1"
+    "astro": "^6.3.1",
+    "astro-mail-obfuscation": "^2.3.4"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",

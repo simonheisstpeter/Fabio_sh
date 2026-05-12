@@ -30,9 +30,12 @@ const footerLinks = [
     class="container mx-auto select-none font-andesNeueLight my-20 flex justify-between px-4 md:px-12"
 >
     <div>
-        <p class="text-sm text-white/60">{t.contactEMail}</p>
+        <p class="text-sm text-white/60" data-obfuscation="0">
+            {t.contactEMail}
+        </p>
         <a
             href={`mailto:${email}`}
+            data-obfuscation="0"
             class="transition-colors hover:text-emerald-400 text-white duration-200"
         >
             {email}

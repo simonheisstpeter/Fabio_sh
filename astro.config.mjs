@@ -3,6 +3,8 @@ import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
 import { LOCALES, DEFAULT_LOCALE } from "./src/i18n/locales.js";
 
+import mailObfuscation from "astro-mail-obfuscation";
+
 export default defineConfig({
   output: "server",
   adapter: node({ mode: "standalone" }),
@@ -58,5 +60,5 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "hover",
   },
-  integrations: [],
+  integrations: [mailObfuscation()],
 });
