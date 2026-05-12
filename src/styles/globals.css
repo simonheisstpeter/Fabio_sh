@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -19,28 +19,52 @@
 
   --cursor-fabiosh: url(/f.cur), pointer;
 
-  --font-andesNeueMedium: 'AndesNeueMedium', sans-serif;
-  --font-andesNeueLight: 'AndesNeueLight', sans-serif;
+  --font-andesNeueMedium: "AndesNeueMedium", sans-serif;
+  --font-andesNeueLight: "AndesNeueLight", sans-serif;
 
   @keyframes loaderSmall {
-    0%   { transform: translateX(-10px); }
-    50%  { transform: translateX(10px); }
-    100% { transform: translateX(-10px); }
+    0% {
+      transform: translateX(-10px);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(-10px);
+    }
   }
   @keyframes loaderRetourSmall {
-    0%   { transform: translateX(10px); }
-    50%  { transform: translateX(-10px); }
-    100% { transform: translateX(10px); }
+    0% {
+      transform: translateX(10px);
+    }
+    50% {
+      transform: translateX(-10px);
+    }
+    100% {
+      transform: translateX(10px);
+    }
   }
   @keyframes loaderBig {
-    0%   { transform: translateX(-80px); }
-    50%  { transform: translateX(80px); }
-    100% { transform: translateX(-80px); }
+    0% {
+      transform: translateX(-80px);
+    }
+    50% {
+      transform: translateX(80px);
+    }
+    100% {
+      transform: translateX(-80px);
+    }
   }
   @keyframes loaderRetourBig {
-    0%   { transform: translateX(80px); }
-    50%  { transform: translateX(-80px); }
-    100% { transform: translateX(80px); }
+    0% {
+      transform: translateX(80px);
+    }
+    50% {
+      transform: translateX(-80px);
+    }
+    100% {
+      transform: translateX(80px);
+    }
   }
   @keyframes fade {
     0% {
@@ -53,8 +77,12 @@
     }
   }
   @keyframes bgFade {
-    0%   { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
 
@@ -80,14 +108,14 @@
 
   /* Font declarations */
   @font-face {
-    font-family: 'AndesNeueMedium';
-    src: url('/fonts/AndesNeue-Medium.woff2') format('woff2');
+    font-family: "AndesNeueMedium";
+    src: url("/fonts/AndesNeue-Medium.woff2") format("woff2");
     font-weight: 500;
     font-display: swap;
   }
   @font-face {
-    font-family: 'AndesNeueLight';
-    src: url('/fonts/AndesNeue-Light.woff2') format('woff2');
+    font-family: "AndesNeueLight";
+    src: url("/fonts/AndesNeue-Light.woff2") format("woff2");
     font-weight: 300;
     font-display: swap;
   }

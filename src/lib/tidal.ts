@@ -17,8 +17,8 @@ export type TidalTrack = {
 let cache: { track: TidalTrack | null; expiresAt: number } | null = null;
 
 // Known Tidal web client token (public, used by many unofficial clients)
-const TIDAL_TOKEN = 'CzET4vdadNUFQ5JU';
-const TIDAL_API = 'https://api.tidal.com/v1';
+const TIDAL_TOKEN = "CzET4vdadNUFQ5JU";
+const TIDAL_API = "https://api.tidal.com/v1";
 
 type TidalSession = { sessionId: string; userId: number; countryCode: string };
 
@@ -34,11 +34,11 @@ async function authenticate(): Promise<TidalSession> {
   const mail = import.meta.env.TIDAL_MAIL ?? process.env.TIDAL_MAIL;
   const password = import.meta.env.TIDAL_PASSWORD ?? process.env.TIDAL_PASSWORD;
 
-  if (!mail || !password) throw new Error('TIDAL_MAIL / TIDAL_PASSWORD not set');
+  if (!mail || !password) throw new Error("TIDAL_MAIL / TIDAL_PASSWORD not set");
 
   const res = await fetchWithTimeout(`${TIDAL_API}/login/username?token=${TIDAL_TOKEN}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Tidal-Token': TIDAL_TOKEN },
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Tidal-Token": TIDAL_TOKEN },
     body: JSON.stringify({ username: mail, password }),
   });
 
@@ -53,8 +53,8 @@ async function fetchLastPlayed(session: TidalSession): Promise<TidalTrack | null
     `${TIDAL_API}/users/${session.userId}/playbacksessions?limit=1&countryCode=${session.countryCode}`,
     {
       headers: {
-        'X-Tidal-SessionId': session.sessionId,
-        'X-Tidal-Token': TIDAL_TOKEN,
+        "X-Tidal-SessionId": session.sessionId,
+        "X-Tidal-Token": TIDAL_TOKEN,
       },
     },
   );
@@ -75,15 +75,13 @@ async function fetchLastPlayed(session: TidalSession): Promise<TidalTrack | null
   const item = data?.items?.[0]?.track;
   if (!item) return null;
 
-  const coverId = item.album?.cover?.replace(/-/g, '/');
-  const coverUrl = coverId
-    ? `https://resources.tidal.com/images/${coverId}/320x320.jpg`
-    : null;
+  const coverId = item.album?.cover?.replace(/-/g, "/");
+  const coverUrl = coverId ? `https://resources.tidal.com/images/${coverId}/320x320.jpg` : null;
 
   return {
     title: item.title,
-    artist: item.artists?.map((a) => a.name).join(', ') ?? '',
-    album: item.album?.title ?? '',
+    artist: item.artists?.map((a) => a.name).join(", ") ?? "",
+    album: item.album?.title ?? "",
     coverUrl,
     trackUrl: item.url ?? null,
   };
@@ -100,7 +98,7 @@ export async function getLastPlayed(): Promise<TidalTrack | null> {
     cache = { track, expiresAt: now + 30_000 };
     return track;
   } catch (err) {
-    console.error('[tidal] getLastPlayed failed:', err instanceof Error ? err.message : err);
+    console.error("[tidal] getLastPlayed failed:", err instanceof Error ? err.message : err);
     // Graceful fallback — cache null for 10 s to avoid retry spam
     cache = { track: null, expiresAt: now + 10_000 };
     return null;

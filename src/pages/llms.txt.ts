@@ -23,11 +23,7 @@ export const GET: APIRoute = () => {
     for (const p of current) {
       const desc = p.description.en?.trim();
       const descSuffix = desc ? `: ${desc}` : "";
-      lines.push(
-        p.url
-          ? `- [${p.title}](${p.url})${descSuffix}`
-          : `- ${p.title}${descSuffix}`,
-      );
+      lines.push(p.url ? `- [${p.title}](${p.url})${descSuffix}` : `- ${p.title}${descSuffix}`);
       if (p.categories.length > 0) {
         lines.push(`  Technologies: ${p.categories.join(", ")}`);
       }
@@ -40,11 +36,7 @@ export const GET: APIRoute = () => {
     for (const p of finished) {
       const desc = p.description.en?.trim();
       const descSuffix = desc ? `: ${desc}` : "";
-      lines.push(
-        p.url
-          ? `- [${p.title}](${p.url})${descSuffix}`
-          : `- ${p.title}${descSuffix}`,
-      );
+      lines.push(p.url ? `- [${p.title}](${p.url})${descSuffix}` : `- ${p.title}${descSuffix}`);
       if (p.categories.length > 0) {
         lines.push(`  Technologies: ${p.categories.join(", ")}`);
       }

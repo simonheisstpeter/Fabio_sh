@@ -5,23 +5,26 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "clean": "rm -rf node_modules && rm package-lock.json && npm i",
     "seed": "node src/lib/seed.js",
     "backup": "node src/lib/backup.js",
-    "reset-admin": "node src/lib/reset-admin.js"
+    "reset-admin": "node src/lib/reset-admin.js",
+    "fmt": "oxfmt"
   },
   "dependencies": {
     "@astrojs/node": "^10.1.0",
     "@simplewebauthn/browser": "^13.3.0",
     "@simplewebauthn/server": "^13.3.0",
-    "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.3.1",
-    "tailwindcss": "^4.3.0"
+    "astro": "^6.3.1"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
     "@types/node": "^25.7.0",
+    "oxfmt": "^0.49.0",
+    "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3"
   }
 }

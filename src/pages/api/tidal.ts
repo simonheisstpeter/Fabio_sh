@@ -1,5 +1,5 @@
-import type { APIRoute } from 'astro';
-import { getLastPlayed } from '../../lib/tidal';
+import type { APIRoute } from "astro";
+import { getLastPlayed } from "../../lib/tidal";
 
 /**
  * GET /api/tidal
@@ -12,14 +12,14 @@ export const GET: APIRoute = async () => {
     return new Response(JSON.stringify({ track }), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=30, s-maxage=30',
+        "Content-Type": "application/json",
+        "Cache-Control": "public, max-age=30, s-maxage=30",
       },
     });
   } catch {
     return new Response(JSON.stringify({ track: null }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 };

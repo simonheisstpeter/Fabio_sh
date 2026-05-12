@@ -1,33 +1,35 @@
-import { DatabaseSync } from 'node:sqlite';
-import { join } from 'path';
-import { createHash } from 'node:crypto';
+import { DatabaseSync } from "node:sqlite";
+import { join } from "path";
+import { createHash } from "node:crypto";
 
 export function hashIp(ip: string): string {
-  const secret = process.env.IP_HASH_SECRET ?? 'changeme';
-  return createHash('sha256').update(secret + ip).digest('hex');
+  const secret = process.env.IP_HASH_SECRET ?? "changeme";
+  return createHash("sha256")
+    .update(secret + ip)
+    .digest("hex");
 }
 
 export function parseLanguages(raw: string): { flag: string; lang: string }[] {
   return raw
-    .split('\n')
+    .split("\n")
     .map((l) => l.trim())
     .filter(Boolean)
     .map((line) => {
-      const firstSpace = line.indexOf(' ');
-      if (firstSpace === -1) return { flag: '', lang: line };
+      const firstSpace = line.indexOf(" ");
+      if (firstSpace === -1) return { flag: "", lang: line };
       return { flag: line.slice(0, firstSpace), lang: line.slice(firstSpace + 1).trim() };
     });
 }
 
 // ── CV constants (shared across API routes) ────────────────────────────────
 
-export const CV_COOKIE = 'cv_secret';
-export const CV_LANGS = ['de', 'en'] as const;
+export const CV_COOKIE = "cv_secret";
+export const CV_LANGS = ["de", "en"] as const;
 export type CvLang = (typeof CV_LANGS)[number];
 
 // ── DB singleton ───────────────────────────────────────────────────────────
 
-const dbPath = process.env.DATABASE_PATH ?? join(process.cwd(), 'db/fabio.db');
+const dbPath = process.env.DATABASE_PATH ?? join(process.cwd(), "db/fabio.db");
 
 let _db: DatabaseSync | null = null;
 
@@ -36,13 +38,13 @@ export function getDb(): DatabaseSync {
 
   _db = new DatabaseSync(dbPath);
 
-  _db.exec('PRAGMA journal_mode = WAL');
-  _db.exec('PRAGMA foreign_keys = ON');
-  _db.exec('PRAGMA synchronous = NORMAL');   // safe with WAL; better write throughput
-  _db.exec('PRAGMA cache_size = -4000');     // 4 MB page cache
-  _db.exec('PRAGMA temp_store = memory');    // temp tables/indices in RAM
-  _db.exec('PRAGMA mmap_size = 67108864');   // 64 MB memory-mapped reads
-  _db.exec('PRAGMA busy_timeout = 5000');    // wait up to 5 s before SQLITE_BUSY
+  _db.exec("PRAGMA journal_mode = WAL");
+  _db.exec("PRAGMA foreign_keys = ON");
+  _db.exec("PRAGMA synchronous = NORMAL"); // safe with WAL; better write throughput
+  _db.exec("PRAGMA cache_size = -4000"); // 4 MB page cache
+  _db.exec("PRAGMA temp_store = memory"); // temp tables/indices in RAM
+  _db.exec("PRAGMA mmap_size = 67108864"); // 64 MB memory-mapped reads
+  _db.exec("PRAGMA busy_timeout = 5000"); // wait up to 5 s before SQLITE_BUSY
 
   initSchema(_db);
   migrateCvFiles(_db);
@@ -52,9 +54,9 @@ export function getDb(): DatabaseSync {
 // ── Schema ─────────────────────────────────────────────────────────────────
 
 function migrateCvFiles(db: DatabaseSync) {
-  const cols = db.prepare('PRAGMA table_info(cv_files)').all() as { name: string }[];
-  if (cols.length > 0 && !cols.some((c) => c.name === 'lang')) {
-    db.exec('DROP TABLE cv_files');
+  const cols = db.prepare("PRAGMA table_info(cv_files)").all() as { name: string }[];
+  if (cols.length > 0 && !cols.some((c) => c.name === "lang")) {
+    db.exec("DROP TABLE cv_files");
     db.exec(`CREATE TABLE cv_files (
       lang        TEXT PRIMARY KEY CHECK (lang IN ('de', 'en')),
       data        BLOB NOT NULL,
@@ -212,7 +214,7 @@ const PROJECTS_CACHE_TTL = 60_000;
 export function getAllProjects(): Project[] {
   const now = Date.now();
   if (_projectsCache && _projectsCache.expiresAt > now) return _projectsCache.data;
-  const rows = getDb().prepare('SELECT * FROM projects').all() as ProjectRow[];
+  const rows = getDb().prepare("SELECT * FROM projects").all() as ProjectRow[];
   const data = rows.map(rowToProject);
   _projectsCache = { data, expiresAt: now + PROJECTS_CACHE_TTL };
   return data;
@@ -230,12 +232,19 @@ export type ProjectListItem = {
   online: boolean;
 };
 
-type ProjectListRow = { id: string; title: string; published: number; finished: number; online: number };
+type ProjectListRow = {
+  id: string;
+  title: string;
+  published: number;
+  finished: number;
+  online: number;
+};
 
 export function getProjectsList(): ProjectListItem[] {
-  return (getDb()
-    .prepare('SELECT id, title, published, finished, online FROM projects ORDER BY id')
-    .all() as ProjectListRow[]
+  return (
+    getDb()
+      .prepare("SELECT id, title, published, finished, online FROM projects ORDER BY id")
+      .all() as ProjectListRow[]
   ).map((r) => ({
     id: r.id,
     title: r.title,
@@ -267,13 +276,13 @@ export type CvSecretRow = {
 
 export function getCvFile(lang: CvLang): CvFileRow | null {
   return getDb()
-    .prepare('SELECT lang, filename, size, uploaded_at FROM cv_files WHERE lang = ?')
+    .prepare("SELECT lang, filename, size, uploaded_at FROM cv_files WHERE lang = ?")
     .get(lang) as CvFileRow | null;
 }
 
 export function getCvFiles(): Record<CvLang, CvFileRow | null> {
   const rows = getDb()
-    .prepare('SELECT lang, filename, size, uploaded_at FROM cv_files')
+    .prepare("SELECT lang, filename, size, uploaded_at FROM cv_files")
     .all() as CvFileRow[];
   const map: Record<CvLang, CvFileRow | null> = { de: null, en: null };
   for (const row of rows) map[row.lang] = row;
@@ -286,9 +295,9 @@ const _cvDataCache = new Map<CvLang, Buffer>();
 export function getCvFileData(lang: CvLang): Buffer | null {
   const cached = _cvDataCache.get(lang);
   if (cached) return cached;
-  const row = getDb()
-    .prepare('SELECT data FROM cv_files WHERE lang = ?')
-    .get(lang) as { data: Buffer } | null;
+  const row = getDb().prepare("SELECT data FROM cv_files WHERE lang = ?").get(lang) as {
+    data: Buffer;
+  } | null;
   if (row) {
     _cvDataCache.set(lang, row.data);
     return row.data;
@@ -312,7 +321,9 @@ export function getCvSecretByValue(secret: string): CvSecretRow | null {
   const cached = _secretCache.get(secret);
   if (cached && cached.expiresAt > Date.now()) return cached.row;
   const row = getDb()
-    .prepare('SELECT id, label, secret, view_count, last_opened_at, created_at FROM cv_secrets WHERE secret = ?')
+    .prepare(
+      "SELECT id, label, secret, view_count, last_opened_at, created_at FROM cv_secrets WHERE secret = ?",
+    )
     .get(secret) as CvSecretRow | null;
   if (row) _secretCache.set(secret, { row, expiresAt: Date.now() + SECRET_CACHE_TTL });
   else _secretCache.delete(secret);
@@ -326,12 +337,16 @@ export function invalidateCvSecretCache(secret?: string): void {
 
 export function getCvSecrets(): CvSecretRow[] {
   return getDb()
-    .prepare('SELECT id, label, secret, view_count, last_opened_at, created_at FROM cv_secrets ORDER BY created_at DESC')
+    .prepare(
+      "SELECT id, label, secret, view_count, last_opened_at, created_at FROM cv_secrets ORDER BY created_at DESC",
+    )
     .all() as CvSecretRow[];
 }
 
 export function recordCvAccess(secretId: number): void {
   getDb()
-    .prepare('UPDATE cv_secrets SET view_count = view_count + 1, last_opened_at = CURRENT_TIMESTAMP WHERE id = ?')
+    .prepare(
+      "UPDATE cv_secrets SET view_count = view_count + 1, last_opened_at = CURRENT_TIMESTAMP WHERE id = ?",
+    )
     .run(secretId);
 }

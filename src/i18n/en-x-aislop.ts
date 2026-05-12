@@ -17,8 +17,7 @@ export default {
   contactButton: "Execute Deployment ⚡",
   contactSuccess:
     "Gratitude! Your data packet has been successfully integrated into my consciousness.",
-  contactError:
-    "Critical Logic Breach. Please re-synchronize your intent and attempt again.",
+  contactError: "Critical Logic Breach. Please re-synchronize your intent and attempt again.",
 
   // Global Domain Assets
   website: "Digital Reality Anchor 🌐",
@@ -29,8 +28,7 @@ export default {
   finishedProjects: "Legacy Milestones of Excellence",
 
   // Error Mitigation Layer
-  custom404Title:
-    "Spatial Desync: This coordinate does not exist in our current reality!",
+  custom404Title: "Spatial Desync: This coordinate does not exist in our current reality!",
   custom404Button: "Return to Safe Harbor",
 
   // Linguistic Modulation

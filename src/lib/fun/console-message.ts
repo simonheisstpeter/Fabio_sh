@@ -69,14 +69,8 @@ export default function consoleMessage() {
     `;
 
   // Group starts
-  console.group(
-    `%c fabio.sh - Console Message to you! ${headerIcon}`,
-    groupStyle,
-  );
-  console.log(
-    "%c// system status: testing the limits of console styling",
-    extraHeaderStyle,
-  );
+  console.group(`%c fabio.sh - Console Message to you! ${headerIcon}`, groupStyle);
+  console.log("%c// system status: testing the limits of console styling", extraHeaderStyle);
 
   console.log();
   console.log("%cWELCOME TO MY CONSOLE", mainStyle);
