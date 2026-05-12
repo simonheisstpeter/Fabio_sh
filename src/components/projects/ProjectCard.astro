@@ -29,7 +29,7 @@ const hasImage = !project.finished && project.published && project.image;
         data-categories={JSON.stringify(project.categories)}
         tabindex="0"
     >
-        {
+        <!--  {
             hasImage && (
                 <picture class="block max-h-62.5 overflow-hidden rounded-t-md">
                     <img
@@ -45,7 +45,9 @@ const hasImage = !project.finished && project.published && project.image;
             )
         }
 
-        {!hasImage && <div class="h-1 rounded-t-md" />}
+        {!hasImage && <div class="h-1 rounded-t-md" />}-->
+
+        <div class="h-1 rounded-t-md"></div>
 
         <div class="rounded-b-md bg-[#1d1d1f] p-4 text-sm flex flex-col flex-1">
             <ProjectStatus
@@ -62,13 +64,13 @@ const hasImage = !project.finished && project.published && project.image;
                 )
             }
 
-            <span class="mb-2 block text-gray-400">
+            <ul class="m-0 mb-2 block text-gray-400">
                 {
                     project.languages.map((language) => (
                         <ProjectLanguages language={language} />
                     ))
                 }
-            </span>
+            </ul>
 
             {
                 project.url && (
@@ -93,13 +95,13 @@ const hasImage = !project.finished && project.published && project.image;
                 )
             }
 
-            <div class="mt-auto pt-2 flex flex-wrap gap-1">
+            <ul class="m-0 mt-auto p-0 pt-2 flex flex-wrap gap-1">
                 {
                     project.categories.map((category) => (
                         <ProjectCategories category={category} />
                     ))
                 }
-            </div>
+            </ul>
         </div>
     </article>
 </li>
