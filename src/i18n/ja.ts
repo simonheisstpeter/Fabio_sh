@@ -37,6 +37,12 @@ export default {
   mediakitLoader: "ローダー",
 
   aboutTitle: "私について",
+  aboutBio: "Fabio Gschweidl, デジタルメディア、IT、そして最新のWebインフラに携わり、オーストリアを拠点に活動しています。",
+  aboutSkills: "SvelteKit、Angular、Node.js、Go、Drupal、API、サーバー管理の経験があり、セルフホスティングやオープンWebテクノロジーに強い関心を持っています。アクセシビリティ、相互運用性、ATProto、コミュニティ主導の開発、オープンプロトコル、そしてe18eのような取り組みに情熱を注いでいます。",
+  aboutFanatic: "改善狂かもしれません。",
+  aboutCv: "詳細や履歴書はこちら",
+  aboutHobbies: "開発の外では、自分のサウンドシステムと思慮深いリスニング体験が大好きで、Tom SelleckやJean-Paul Belmondoが出演する作品には特に目がありません。",
+  aboutTidalIntro: "下には、何か再生されているときに現在聴いているものを表示するオーディオプレーヤーがあります。",
 
   scrollTop: "トップへ戻る",
 

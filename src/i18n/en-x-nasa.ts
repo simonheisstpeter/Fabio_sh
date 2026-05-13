@@ -38,6 +38,12 @@ export default {
   mediakitLoader: "System Boot Sequence",
 
   aboutTitle: "Subject Biography",
+  aboutBio: "Fabio Gschweidl, Mission Specialist in Digital Media, Information Technology and Modern Web Infrastructure. Currently stationed in Austria.",
+  aboutSkills: "Technical proficiencies include SvelteKit, Angular, Node.js, Go, Drupal, API systems and systems administration. Mission parameters include self-hosted deployments and open web advocacy. Committed to accessibility, interoperability, ATProto, collaborative development and the e18e initiative.",
+  aboutFanatic: "Classified: Possible improvement compulsion.",
+  aboutCv: "Full mission briefing and CV accessible at",
+  aboutHobbies: "During off-mission periods, engaged with high-fidelity audio systems and critical listening exercises. Also monitoring all transmissions featuring Tom Selleck or Jean-Paul Belmondo.",
+  aboutTidalIntro: "Audio telemetry feed below provides real-time monitoring of current playback, active whenever a transmission is detected.",
 
   scrollTop: "Ascend to Zenith",
 

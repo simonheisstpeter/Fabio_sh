@@ -37,6 +37,12 @@ export default {
   mediakitLoader: "Loader",
 
   aboutTitle: "Über mich",
+  aboutBio: "Fabio Gschweidl, tätig in digitalen Medien, IT und moderner Webinfrastruktur, ansässig in Österreich.",
+  aboutSkills: "Erfahrung mit SvelteKit, Angular, Node.js, Go, Drupal, APIs und Sysadmin-Tätigkeiten, mit starkem Interesse an Self-Hosting und offenen Webtechnologien. Begeistert von Barrierefreiheit, Interoperabilität, ATProto, gemeinschaftsgetriebener Entwicklung, offenen Protokollen und Initiativen wie e18e.",
+  aboutFanatic: "Könnte ein Verbesserungsfanatiker sein.",
+  aboutCv: "Weitere Details oder meinen Lebenslauf unter",
+  aboutHobbies: "Abseits der Entwicklung absolut begeistert von meiner Stereoanlage und bewussten Hörerlebnissen – sowie von allem, was Tom Selleck oder Jean-Paul Belmondo zeigt.",
+  aboutTidalIntro: "Darunter findest du den Audioplayer mit dem, was ich gerade höre – wann immer etwas läuft.",
 
   scrollTop: "Nach oben scrollen",
 

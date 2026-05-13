@@ -37,6 +37,12 @@ export default {
   mediakitLoader: "Buffering",
 
   aboutTitle: "Profile Data",
+  aboutBio: "Fabio Gschweidl, jacking into digital media, IT and modern net infrastructure from the Austrian sprawl.",
+  aboutSkills: "Wired for SvelteKit, Angular, Node.js, Go, Drupal and sysadmin ops. Running self-hosted rigs and open protocols. Patched into accessibility, interop, ATProto and the e18e collective.",
+  aboutFanatic: "Might have an upgrade addiction.",
+  aboutCv: "Full dossier and CV at",
+  aboutHobbies: "Off the clock, running my sound rig hot and absorbing anything featuring Tom Selleck or Jean-Paul Belmondo on the holo.",
+  aboutTidalIntro: "The audio feed below streams what I'm currently jacked into, live whenever the signal is hot.",
 
   scrollTop: "Jack to top",
 

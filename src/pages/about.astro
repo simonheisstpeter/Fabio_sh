@@ -9,6 +9,18 @@ const t = getTranslations(locale);
 
 // Fetch Tidal last-played server-side (with graceful fallback)
 const track = await getLastPlayed();
+
+/*
+Fabio Gschweidl — working across digital media, IT and modern web infrastructure, based in Austria.
+.
+Experience includes SvelteKit, Angular, Node.js, Go, Drupal, APIs and sysadmin work, with a strong interest in self-hosting and open web technologies. Passionate about accessibility, interoperability, ATProto, community-driven development, open protocols and initiatives like e18e.
+Might be an improvement fanatic.
+
+More details or my CV under "/cv"
+
+Outside of development, absolutely fond of my sound system and thoughtful listening experiences, along with any material featuring Tom Selleck or Jean-Paul Belmondo.
+
+Below, you’ll find the audio player showing what I’m currently listening to — whenever something is playing.*/
 ---
 
 <Layout
@@ -20,17 +32,34 @@ const track = await getLastPlayed();
             {t.aboutTitle}
         </h1>
 
-        <p
-            class="font-andesNeueLight text-xl text-white/80 mb-8 max-w-2xl"
-            data-obfuscation="0"
-        >
-            Fabio Gschweidl &mdash; digital media &amp; IT, based in Austria.
+        <p class="font-andesNeueLight text-xl text-white/80 mb-6 max-w-2xl">
+            {t.aboutBio}
+        </p>
+
+        <p class="font-andesNeueLight text-base text-white/60 mb-4 max-w-2xl">
+            {t.aboutSkills}
+        </p>
+
+        <p class="font-andesNeueLight text-base text-white/60 mb-6 max-w-2xl italic">
+            {t.aboutFanatic}
+        </p>
+
+        <p class="font-andesNeueLight text-base text-white/60 mb-6 max-w-2xl">
+            {t.aboutCv} <a href="/cv" class="text-emerald-400 hover:underline">/cv</a>
+        </p>
+
+        <p class="font-andesNeueLight text-base text-white/60 mb-6 max-w-2xl">
+            {t.aboutHobbies}
         </p>
 
         <hr class="border-white/10 my-12" />
 
+        <p class="font-andesNeueLight text-sm text-white/40 mb-8 max-w-xl">
+            {t.aboutTidalIntro}
+        </p>
+
         <!-- Tidal now playing -->
-        <section aria-labelledby="tidal-heading" class="mt-12">
+        <section aria-labelledby="tidal-heading" class="mt-4">
             <h2 id="tidal-heading" class="text-2xl font-andesNeueMedium mb-6">
                 Tidal - {track ? t.nowPlaying : t.notPlaying}
             </h2>

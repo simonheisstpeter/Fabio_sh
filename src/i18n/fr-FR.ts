@@ -37,6 +37,12 @@ export default {
   mediakitLoader: "Chargement",
 
   aboutTitle: "À propos de moi",
+  aboutBio: "Fabio Gschweidl, actif dans les médias numériques, l'informatique et l'infrastructure web moderne, basé en Autriche.",
+  aboutSkills: "Expérience avec SvelteKit, Angular, Node.js, Go, Drupal, les API et l'administration système, avec un fort intérêt pour l'auto-hébergement et les technologies web ouvertes. Passionné par l'accessibilité, l'interopérabilité, ATProto, le développement communautaire, les protocoles ouverts et les initiatives comme e18e.",
+  aboutFanatic: "Pourrait être un fanatique de l'amélioration.",
+  aboutCv: "Plus de détails ou mon CV sous",
+  aboutHobbies: "En dehors du développement, absolument passionné par ma chaîne hi-fi et les expériences d'écoute réfléchies, ainsi que par tout ce qui met en scène Tom Selleck ou Jean-Paul Belmondo.",
+  aboutTidalIntro: "Ci-dessous, vous trouverez le lecteur audio affichant ce que j'écoute actuellement, dès qu'il y a quelque chose en lecture.",
 
   scrollTop: "Remonter en haut",
 

@@ -37,6 +37,12 @@ export default {
   mediakitLoader: "Load",
 
   aboutTitle: "About",
+  aboutBio: "Digital media. IT. Web. Austria.",
+  aboutSkills: "SvelteKit. Angular. Node.js. Go. Self-hosting. Open web. e18e.",
+  aboutFanatic: "Improvement fanatic.",
+  aboutCv: "CV at",
+  aboutHobbies: "Sound system. Tom Selleck. Jean-Paul Belmondo.",
+  aboutTidalIntro: "Currently playing:",
 
   scrollTop: "Top",
 

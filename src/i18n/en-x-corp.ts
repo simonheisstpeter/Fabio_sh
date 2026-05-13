@@ -37,6 +37,12 @@ export default {
   mediakitLoader: "Loading Indicator",
 
   aboutTitle: "Individual Overview",
+  aboutBio: "Fabio Gschweidl, a results-driven digital media and IT professional leveraging modern web infrastructure, operating out of Austria.",
+  aboutSkills: "Core competencies span SvelteKit, Angular, Node.js, Go, Drupal, APIs and infrastructure management, with a strategic focus on self-hosted solutions and open web ecosystems. Deeply invested in accessibility, interoperability, ATProto, community-led development, open protocols and synergistic initiatives like e18e.",
+  aboutFanatic: "Passionate about continuous improvement and optimisation.",
+  aboutCv: "Full credentials and CV available at",
+  aboutHobbies: "Outside of core deliverables, I leverage my audiophile setup for high-quality listening sessions and am an avid consumer of Tom Selleck and Jean-Paul Belmondo content.",
+  aboutTidalIntro: "The real-time audio engagement widget below surfaces my current listening activity, whenever I am actively streaming.",
 
   scrollTop: "Return to Top",
 

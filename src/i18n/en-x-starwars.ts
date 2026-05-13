@@ -37,6 +37,12 @@ export default {
   mediakitLoader: "System Loading",
 
   aboutTitle: "Archive Data",
+  aboutBio: "Fabio Gschweidl, serving the digital galaxy across media, IT and web infrastructure, hailing from the Austrian sector.",
+  aboutSkills: "Trained in the ways of SvelteKit, Angular, Node.js, Go, Drupal and the sysadmin arts. Strong in the open-source Force, accessible, interoperable, ATProto-aligned, and a defender of e18e.",
+  aboutFanatic: "Perhaps an improvement Jedi.",
+  aboutCv: "More intel or my datapad at",
+  aboutHobbies: "Away from the terminal, deeply devoted to my sound array and holofilms featuring Tom Selleck or Jean-Paul Belmondo.",
+  aboutTidalIntro: "The holonet audio feed below shows what I am currently tuned into, whenever a transmission is active.",
 
   scrollTop: "Return to Top",
 

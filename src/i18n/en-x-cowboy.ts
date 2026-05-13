@@ -38,6 +38,12 @@ export default {
   mediakitLoader: "Loading the Wagon",
 
   aboutTitle: "The Man in Black",
+  aboutBio: "Fabio Gschweidl, ridin' through digital media, IT and web infrastructure, settled in the Austrian plains.",
+  aboutSkills: "Wrangled experience with SvelteKit, Angular, Node.js, Go, Drupal, APIs and sysadmin duties. Got a strong hankerin' for self-hosting and open web trails. Passionate about accessibility, ATProto and open protocol roundups like e18e.",
+  aboutFanatic: "Might be a tad improvement-obsessed, partner.",
+  aboutCv: "More details or my CV over yonder at",
+  aboutHobbies: "When I ain't developin', I'm mighty fond of my sound rig and a good listen, alongside anything with Tom Selleck or Jean-Paul Belmondo.",
+  aboutTidalIntro: "Down below, y'all'll find the audio player showin' what I'm currently listenin' to, whenever somethin's playin'.",
 
   scrollTop: "Back to the Peak",
 
