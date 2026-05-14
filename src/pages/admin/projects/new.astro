@@ -2,6 +2,7 @@
 import AdminLayout from '../../../components/AdminLayout.astro';
 import { LOCALES } from '../../../i18n/index';
 import { getAllProjects } from '../../../lib/db';
+import { LANGUAGES } from '../../../lib/languages';
 
 const allCategories = [...new Set(getAllProjects().flatMap(p => p.categories))].sort();
 ---
@@ -50,9 +51,16 @@ const allCategories = [...new Set(getAllProjects().flatMap(p => p.categories))].
         </div>
       </div>
       <div>
-        <label for="languages" class="block text-xs text-gray-400 mb-1">Languages (flag + name per line)</label>
-        <textarea id="languages" name="languages" rows="4" placeholder="🇩🇪 German&#10;🇺🇸 English"
-          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono"></textarea>
+        <label class="block text-xs text-gray-400 mb-1">Languages</label>
+        <div id="lang-tags" class="flex flex-wrap gap-1.5">
+          {LANGUAGES.map(l => (
+            <button type="button" data-flag={l.flag} data-lang={l.lang}
+              class="lang-tag px-2 py-0.5 rounded border border-gray-700 text-xs text-gray-400 bg-[#1a1a1a] hover:border-emerald-500 hover:text-emerald-400 transition-colors cursor-pointer">
+              {l.flag} {l.lang}
+            </button>
+          ))}
+        </div>
+        <input type="hidden" name="languages" id="languages-input" />
       </div>
     </div>
 
@@ -104,6 +112,26 @@ const allCategories = [...new Set(getAllProjects().flatMap(p => p.categories))].
       if (!lines.includes(cat)) {
         ta.value = lines.length ? lines.join('\n') + '\n' + cat : cat;
       }
+    });
+  });
+
+  const langInput = document.getElementById('languages-input') as HTMLInputElement;
+  function syncLangInput() {
+    const selected = [...document.querySelectorAll<HTMLButtonElement>('.lang-tag[data-selected]')];
+    langInput.value = selected.map(b => `${b.dataset.flag} ${b.dataset.lang}`).join('\n');
+  }
+  document.querySelectorAll<HTMLButtonElement>('.lang-tag').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.hasAttribute('data-selected')) {
+        btn.removeAttribute('data-selected');
+        btn.classList.remove('border-emerald-500', 'text-emerald-400', 'bg-emerald-950');
+        btn.classList.add('border-gray-700', 'text-gray-400');
+      } else {
+        btn.setAttribute('data-selected', '');
+        btn.classList.add('border-emerald-500', 'text-emerald-400', 'bg-emerald-950');
+        btn.classList.remove('border-gray-700', 'text-gray-400');
+      }
+      syncLangInput();
     });
   });
 </script>

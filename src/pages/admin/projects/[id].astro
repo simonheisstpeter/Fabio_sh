@@ -7,6 +7,7 @@ import {
     type ProjectRow,
 } from "../../../lib/db";
 import { LOCALES } from "../../../i18n/index";
+import { LANGUAGES } from "../../../lib/languages";
 
 const { id } = Astro.params;
 const db = getDb();
@@ -18,7 +19,7 @@ if (!row) return Astro.redirect("/admin/projects");
 
 const p = rowToProject(row);
 
-const langText = p.languages.map((l) => `${l.flag} ${l.lang}`).join("\n");
+const selectedLangs = new Set(p.languages.map((l) => `${l.flag} ${l.lang}`));
 const catText = p.categories.join("\n");
 const allCategories = [
     ...new Set(getAllProjects().flatMap((p) => p.categories)),
@@ -110,16 +111,21 @@ const allCategories = [
                 </div>
             </div>
             <div>
-                <label for="languages" class="block text-xs text-gray-400 mb-1"
-                    >Languages (flag + name per line)</label
-                >
-                <textarea
-                    id="languages"
-                    name="languages"
-                    rows="4"
-                    class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono"
-                    >{langText}</textarea
-                >
+                <label class="block text-xs text-gray-400 mb-1">Languages</label>
+                <div id="lang-tags" class="flex flex-wrap gap-1.5">
+                    {LANGUAGES.map(l => {
+                        const active = selectedLangs.has(`${l.flag} ${l.lang}`);
+                        return (
+                            <button type="button" data-flag={l.flag} data-lang={l.lang}
+                                data-selected={active ? '' : undefined}
+                                class={`lang-tag px-2 py-0.5 rounded border text-xs transition-colors cursor-pointer ${active ? 'border-emerald-500 text-emerald-400 bg-emerald-950' : 'border-gray-700 text-gray-400 bg-[#1a1a1a] hover:border-emerald-500 hover:text-emerald-400'}`}>
+                                {l.flag} {l.lang}
+                            </button>
+                        );
+                    })}
+                </div>
+                <input type="hidden" name="languages" id="languages-input"
+                    value={p.languages.map(l => `${l.flag} ${l.lang}`).join('\n')} />
             </div>
         </div>
 
@@ -224,4 +230,24 @@ const allCategories = [
                 }
             });
         });
+
+    const langInput = document.getElementById("languages-input") as HTMLInputElement;
+    function syncLangInput() {
+        const selected = [...document.querySelectorAll<HTMLButtonElement>(".lang-tag[data-selected]")];
+        langInput.value = selected.map(b => `${b.dataset.flag} ${b.dataset.lang}`).join("\n");
+    }
+    document.querySelectorAll<HTMLButtonElement>(".lang-tag").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            if (btn.hasAttribute("data-selected")) {
+                btn.removeAttribute("data-selected");
+                btn.classList.remove("border-emerald-500", "text-emerald-400", "bg-emerald-950");
+                btn.classList.add("border-gray-700", "text-gray-400");
+            } else {
+                btn.setAttribute("data-selected", "");
+                btn.classList.add("border-emerald-500", "text-emerald-400", "bg-emerald-950");
+                btn.classList.remove("border-gray-700", "text-gray-400");
+            }
+            syncLangInput();
+        });
+    });
 </script>
