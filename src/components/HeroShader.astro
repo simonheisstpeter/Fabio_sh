@@ -1,0 +1,150 @@
+<canvas
+  id="bg-shader-canvas"
+  style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 2s ease;"
+></canvas>
+
+<script>
+  const canvas = document.getElementById('bg-shader-canvas') as HTMLCanvasElement;
+  const gl = canvas.getContext('webgl2');
+  if (!gl) throw new Error('WebGL2 not supported');
+
+  const vert = `#version 300 es
+out vec2 vUv;
+void main() {
+  vec2 pos = vec2(float(gl_VertexID & 1) * 2.0, float((gl_VertexID >> 1) & 1) * 2.0);
+  vUv = pos;
+  gl_Position = vec4(pos * 2.0 - 1.0, 0.0, 1.0);
+}`;
+
+  const frag = `#version 300 es
+precision highp float;
+in vec2 vUv;
+uniform float uTime;
+uniform vec2 uRes;
+out vec4 fragColor;
+
+// ---- Bayer 8×8 ----
+float bayer8(ivec2 p) {
+  int x = p.x & 7; int y = p.y & 7;
+  int B[64];
+  B[0]=0;B[1]=32;B[2]=8;B[3]=40;B[4]=2;B[5]=34;B[6]=10;B[7]=42;
+  B[8]=48;B[9]=16;B[10]=56;B[11]=24;B[12]=50;B[13]=18;B[14]=58;B[15]=26;
+  B[16]=12;B[17]=44;B[18]=4;B[19]=36;B[20]=14;B[21]=46;B[22]=6;B[23]=38;
+  B[24]=60;B[25]=28;B[26]=52;B[27]=20;B[28]=62;B[29]=30;B[30]=54;B[31]=22;
+  B[32]=3;B[33]=35;B[34]=11;B[35]=43;B[36]=1;B[37]=33;B[38]=9;B[39]=41;
+  B[40]=51;B[41]=19;B[42]=59;B[43]=27;B[44]=49;B[45]=17;B[46]=57;B[47]=25;
+  B[48]=15;B[49]=47;B[50]=7;B[51]=39;B[52]=13;B[53]=45;B[54]=5;B[55]=37;
+  B[56]=63;B[57]=31;B[58]=55;B[59]=23;B[60]=61;B[61]=29;B[62]=53;B[63]=21;
+  return float(B[y * 8 + x]) / 64.0;
+}
+
+// ---- Value noise + FBM ----
+float hash(vec2 p) {
+  p = fract(p * vec2(127.1, 311.7));
+  return fract((p.x + p.y + p.x * p.y) * 43758.5453);
+}
+float vnoise(vec2 p) {
+  vec2 i = floor(p); vec2 f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(
+    mix(hash(i),           hash(i + vec2(1,0)), u.x),
+    mix(hash(i+vec2(0,1)), hash(i + vec2(1,1)), u.x),
+    u.y);
+}
+float fbm(vec2 p) {
+  float v = 0.0, a = 0.5;
+  mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+  for (int i = 0; i < 5; i++) {
+    v += a * vnoise(p);
+    p  = rot * p * 2.1 + vec2(1.7, 9.2);
+    a *= 0.5;
+  }
+  return v;
+}
+
+void main() {
+  // Aspect-correct UV so shapes aren't stretched
+  vec2 uv = vUv;
+  float aspect = uRes.x / uRes.y;
+  uv.x *= aspect;
+
+  float t = uTime * 0.09;
+
+  // Three overlapping FBM fields drifting at different speeds/directions
+  float f1 = fbm(uv * 1.4 + vec2( t * 0.40,  t * 0.22));
+  float f2 = fbm(uv * 2.8 - vec2( t * 0.28, -t * 0.35) + vec2(f1 * 0.6));
+  float f3 = fbm(uv * 0.9 + vec2(-t * 0.15,  t * 0.18) + vec2(f2 * 0.4));
+
+  // Domain-warped composite — gives fluid, unpredictable shapes
+  float val = fbm(uv * 1.8 + vec2(f2, f3) * 0.9 + t * 0.12);
+
+  // Remap: bias toward dark with pockets of brightness
+  val = pow(clamp(val, 0.0, 1.0), 1.6);
+
+  // ---- 1-bit Bayer dither ----
+  // Compare val against the Bayer threshold → pure black or pure white
+  ivec2 px = ivec2(gl_FragCoord.xy);
+  float thr = bayer8(px);
+  float dithered = step(thr, val);
+
+  // Dark base matches site's darkDotsGray (~#111614), white pixels fully white
+  vec3 color = mix(vec3(0.067, 0.086, 0.078), vec3(1.0), dithered);
+
+  fragColor = vec4(color, 1.0);
+}`;
+
+  function compile(type: number, src: string) {
+    const s = gl!.createShader(type)!;
+    gl!.shaderSource(s, src);
+    gl!.compileShader(s);
+    return s;
+  }
+
+  const prog = gl.createProgram()!;
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  const uTime = gl.getUniformLocation(prog, 'uTime');
+  const uRes  = gl.getUniformLocation(prog, 'uRes');
+  gl.bindVertexArray(gl.createVertexArray());
+
+  function resize() {
+    const w = Math.round(window.innerWidth  * devicePixelRatio);
+    const h = Math.round(window.innerHeight * devicePixelRatio);
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+      gl!.viewport(0, 0, w, h);
+    }
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  let raf = 0;
+  let firstFrame = true;
+  const start = performance.now();
+
+  function draw() {
+    if (!document.hidden) {
+      resize();
+      gl!.uniform1f(uTime, (performance.now() - start) / 1000);
+      gl!.uniform2f(uRes, canvas.width, canvas.height);
+      gl!.drawArrays(gl!.TRIANGLES, 0, 3);
+      if (firstFrame) {
+        firstFrame = false;
+        requestAnimationFrame(() => { canvas.style.opacity = '1'; });
+      }
+    }
+    raf = requestAnimationFrame(draw);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(raf);
+    else draw();
+  });
+
+  draw();
+</script>

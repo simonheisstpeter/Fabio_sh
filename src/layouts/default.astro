@@ -7,6 +7,7 @@ import Footer from "../components/Footer.astro";
 import Loader from "../components/Loader.astro";
 import SkipLink from "../components/SkipLink.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
+import BgShader from "../components/HeroShader.astro";
 import "../styles/globals.css";
 
 interface Props {
@@ -128,11 +129,13 @@ const NavLinks = [
     <body
         class="cursor-fabiosh min-h-screen bg-darkDotsGray text-white font-andesNeueLight relative"
     >
+        <BgShader />
         <SkipLink />
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
             >top</a
         >
 
+        <div style="position:relative;z-index:1;">
         <BetaRibbon />
 
         <!-- Mobile nav -->
@@ -276,6 +279,7 @@ const NavLinks = [
 
         <ScrollToTop label={t.scrollTop} />
         <Footer locale={locale} t={t} />
+        </div>
 
         <!-- Language switcher script (progressive: enhances <select> navigation) -->
         <script>
