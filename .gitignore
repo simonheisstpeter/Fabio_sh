@@ -44,5 +44,5 @@ yarn-error.log*
 .vercel
 .env
 
-.claude
+.claude/*
 
