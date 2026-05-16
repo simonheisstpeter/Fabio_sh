@@ -37,12 +37,13 @@ export default {
   mediakitLoader: "Laddar",
 
   aboutTitle: "Om mig",
-  aboutBio: "Fabio Gschweidl, verksam inom digitala medier, IT och modern webbinfrastruktur, baserad i Österrike.",
-  aboutSkills: "Erfarenhet av SvelteKit, Angular, Node.js, Go, Drupal, API:er och systemadministration, med ett starkt intresse för self-hosting och öppna webbteknologier. Passionerad för tillgänglighet, interoperabilitet, ATProto, gemenskapsstyrd utveckling, öppna protokoll och initiativ som e18e.",
-  aboutFanatic: "Kanske en förbättringsfanatiker.",
-  aboutCv: "Mer information eller mitt CV under",
-  aboutHobbies: "Utanför utvecklingen, absolut förtjust i mitt ljudsystem och genomtänkta lyssnarupplevelser, samt allt med Tom Selleck eller Jean-Paul Belmondo.",
-  aboutTidalIntro: "Nedan hittar du ljudspelaren som visar vad jag lyssnar på just nu, när något spelas.",
+  aboutBio:
+    "Fabio Gschweidl, baserad i Österrike, verksam inom ett brett spektrum av ämnen inom digitala medier, webbinfrastruktur och mjukvaruutveckling.",
+  aboutBody:
+    "Från frontend-ramverk och backend-tjänster till systemadministration, öppna protokoll och self-hosting, projektavsnittet ger en bra bild av var jag har lagt min tid. Passionerad för prestanda, tillgänglighet, interoperabilitet och gemenskapsstyrd utveckling. Utanför koden: hifi-ljud, Tom Selleck, Jean-Paul Belmondo.",
+  aboutCv: "Mer information på projektsidan, där kategorierna ger en bra överblick över de ämnen som behandlas.",
+  aboutTidalIntro:
+    "Nedan hittar du ljudspelaren som visar vad jag lyssnar på just nu, när något spelas.",
 
   scrollTop: "Scrolla till toppen",
 

@@ -38,12 +38,11 @@ export default {
   mediakitLoader: "加载器",
 
   aboutTitle: "关于我",
-  aboutBio: "Fabio Gschweidl, 从事数字媒体、IT 和现代网络基础设施，驻奥地利。",
-  aboutSkills: "具有 SvelteKit、Angular、Node.js、Go、Drupal、API 和系统管理的经验，对自托管和开放网络技术有浓厚兴趣。热衷于可访问性、互操作性、ATProto、社区驱动开发、开放协议以及 e18e 等倡议。",
-  aboutFanatic: "可能是个改进狂。",
-  aboutCv: "更多详情或我的简历请访问",
-  aboutHobbies: "在开发之外，对我的音响系统和用心的聆听体验情有独钟，以及一切有 Tom Selleck 或 Jean-Paul Belmondo 的内容。",
-  aboutTidalIntro: "在下方，您会找到音频播放器，显示我当前正在听的内容——只要有音乐在播放。",
+  aboutBio: "Fabio Gschweidl, 驻奥地利，在数字媒体、网络基础设施和软件开发的广泛领域工作。",
+  aboutBody:
+    "从前端框架和后端服务到系统管理、开放协议和自托管，项目部分很好地反映了我所花费时间的方向。热衷于性能、可访问性、互操作性和社区驱动的开发。代码之外：发烧级音响、Tom Selleck、Jean-Paul Belmondo。",
+  aboutCv: "更多详情请查看项目页面，分类标签可以清晰呈现涉及的主题范围。",
+  aboutTidalIntro: "在下方，您会找到音频播放器，显示我当前正在听的内容，只要有音乐在播放。",
 
   scrollTop: "返回顶部",
 

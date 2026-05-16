@@ -37,12 +37,13 @@ export default {
   mediakitLoader: "Ŝargado",
 
   aboutTitle: "Pri mi",
-  aboutBio: "Fabio Gschweidl, laborante en cifereca amaskomunikado, IT kaj moderna reta infrastrukturo, bazita en Aŭstrio.",
-  aboutSkills: "Sperto kun SvelteKit, Angular, Node.js, Go, Drupal, API-oj kaj sistemadministrado, kun forta intereso pri memhospitado kaj malfermaj retteknologioj. Pasianta pri alirebleco, interoperabileco, ATProto, komunuma disvolviĝo, malfermaj protokoloj kaj iniciatoj kiel e18e.",
-  aboutFanatic: "Eble frenezulo pri plibonigo.",
-  aboutCv: "Pli da detaloj aŭ mia CV sub",
-  aboutHobbies: "Ekster la disvolviĝo, absolute amanto de mia sonkomplekso kaj pensema aŭskulta sperto, same kiel ĉio rilatanta al Tom Selleck aŭ Jean-Paul Belmondo.",
-  aboutTidalIntro: "Malsupre vi trovos la aŭdludioludilon montranta kion mi nune aŭskultas, ĉiufoje kiam io ludas.",
+  aboutBio:
+    "Fabio Gschweidl, bazita en Aŭstrio, laborante pri larĝa gamo da temoj en cifereca amaskomunikado, reta infrastrukturo kaj programaro.",
+  aboutBody:
+    "De fasado-kadroj kaj dorsa servoj ĝis sistemadministrado, malfermaj protokoloj kaj memhospitado, la projekta sekcio bone montras kie mi pasigis mian tempon. Pasianta pri efikeco, alirebleco, interoperabileco kaj komunuma disvolviĝo. Ekster kodo: hifi-audio, Tom Selleck, Jean-Paul Belmondo.",
+  aboutCv: "Pli da detaloj sur la projektpaĝo, kie la kategorioj donas bonan superrigardon de la traktitaj temoj.",
+  aboutTidalIntro:
+    "Malsupre vi trovos la aŭdludioludilon montranta kion mi nune aŭskultas, ĉiufoje kiam io ludas.",
 
   scrollTop: "Rulumi supren",
 

@@ -1,5 +1,5 @@
 ---
-import Layout from "../components/Layout.astro";
+import Layout from "../layouts/default.astro";
 import Loader from "../components/Loader.astro";
 import { getTranslations } from "../i18n/index";
 import { getLastPlayed } from "../lib/tidal";
@@ -32,27 +32,17 @@ Below, you’ll find the audio player showing what I’m currently listening to 
             {t.aboutTitle}
         </h1>
 
-        <p class="font-andesNeueLight text-xl text-white/80 mb-6 max-w-2xl">
+        <p class="font-andesNeueMedium text-2xl text-white/90 mb-6 max-w-2xl">
             {t.aboutBio}
         </p>
 
-        <p class="font-andesNeueLight text-base text-white/60 mb-4 max-w-2xl">
-            {t.aboutSkills}
+        <p class="font-andesNeueLight text-base text-white/55 mb-8 max-w-2xl leading-relaxed">
+            {t.aboutBody}
         </p>
 
-        <p class="font-andesNeueLight text-base text-white/60 mb-6 max-w-2xl italic">
-            {t.aboutFanatic}
+        <p class="font-andesNeueLight text-sm text-white/40 mb-16 max-w-xl">
+            {t.aboutCv} <a href={locale === 'de' ? '/projects' : `/${locale}/projects`} class="text-emerald-400 hover:underline">/projects</a>
         </p>
-
-        <p class="font-andesNeueLight text-base text-white/60 mb-6 max-w-2xl">
-            {t.aboutCv} <a href="/cv" class="text-emerald-400 hover:underline">/cv</a>
-        </p>
-
-        <p class="font-andesNeueLight text-base text-white/60 mb-6 max-w-2xl">
-            {t.aboutHobbies}
-        </p>
-
-        <hr class="border-white/10 my-12" />
 
         <p class="font-andesNeueLight text-sm text-white/40 mb-8 max-w-xl">
             {t.aboutTidalIntro}

@@ -37,12 +37,13 @@ export default {
   mediakitLoader: "System Loading",
 
   aboutTitle: "Archive Data",
-  aboutBio: "Fabio Gschweidl, serving the digital galaxy across media, IT and web infrastructure, hailing from the Austrian sector.",
-  aboutSkills: "Trained in the ways of SvelteKit, Angular, Node.js, Go, Drupal and the sysadmin arts. Strong in the open-source Force, accessible, interoperable, ATProto-aligned, and a defender of e18e.",
-  aboutFanatic: "Perhaps an improvement Jedi.",
-  aboutCv: "More intel or my datapad at",
-  aboutHobbies: "Away from the terminal, deeply devoted to my sound array and holofilms featuring Tom Selleck or Jean-Paul Belmondo.",
-  aboutTidalIntro: "The holonet audio feed below shows what I am currently tuned into, whenever a transmission is active.",
+  aboutBio:
+    "Fabio Gschweidl, hailing from the Austrian sector, trained across many disciplines of digital media, web infrastructure, and the coding arts.",
+  aboutBody:
+    "From the frontend plains to the backend depths, through sysadmin campaigns, open protocol alliances, and self-hosted outposts, the projects archive reveals where the Force has guided me. Committed to accessibility, interoperability, and the Rebel cause of community-driven development. Away from the terminal: sonic meditation, Tom Selleck holofilms, Jean-Paul Belmondo archives.",
+  aboutCv: "Further intel in the Holoprojects archive. The mission categories reveal the full scope.",
+  aboutTidalIntro:
+    "The holonet audio feed below shows what I am currently tuned into, whenever a transmission is active.",
 
   scrollTop: "Return to Top",
 

@@ -32,32 +32,41 @@ const navLink =
                 >fabio.sh admin</a
             >
             <nav class="flex gap-6 flex-1">
-                <a
+                <ul class="flex gap-6 list-none m-0 p-0">
+                    <li>   <a
                     href="/admin"
                     aria-current={path === "/admin" ? "page" : undefined}
                     class={navLink}>Dashboard</a
-                >
-                <a
+                ></li>
+                    <li>  <a
                     href="/admin/projects"
                     aria-current={path.startsWith("/admin/projects")
                         ? "page"
                         : undefined}
                     class={navLink}>Projects</a
-                >
-                <a
+                ></li>
+                    <li>   <a
+                    href="/admin/courses"
+                    aria-current={path.startsWith("/admin/courses")
+                        ? "page"
+                        : undefined}
+                    class={navLink}>Courses</a
+                ></li>
+                    <li>  <a
                     href="/admin/submissions"
                     aria-current={path.startsWith("/admin/submissions")
                         ? "page"
                         : undefined}
                     class={navLink}>Submissions</a
-                >
-                <a
+                ></li>
+                    <li>     <a
                     href="/admin/cv"
                     aria-current={path.startsWith("/admin/cv")
                         ? "page"
                         : undefined}
                     class={navLink}>CV</a
-                >
+                ></li>
+                </ul>
             </nav>
             <form action="/api/auth/logout" method="POST" class="ml-auto">
                 <button

@@ -147,9 +147,31 @@ function initSchema(db: DatabaseSync) {
       created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE INDEX IF NOT EXISTS idx_projects_pub_fin ON projects(published, finished);
-    CREATE INDEX IF NOT EXISTS idx_sessions_expires  ON admin_sessions(expires_at);
-    CREATE INDEX IF NOT EXISTS idx_submissions_at    ON contact_submissions(submitted_at DESC);
+    CREATE TABLE IF NOT EXISTS courses (
+      id               TEXT PRIMARY KEY,
+      title            TEXT NOT NULL,
+      platform         TEXT NOT NULL DEFAULT '',
+      status           TEXT NOT NULL DEFAULT 'not_started'
+                       CHECK (status IN ('not_started','in_progress','completed')),
+      progress         INTEGER NOT NULL DEFAULT 0 CHECK (progress BETWEEN 0 AND 100),
+      topics           TEXT NOT NULL DEFAULT '[]',
+      url              TEXT NOT NULL DEFAULT '',
+      start_date       TEXT NOT NULL DEFAULT '',
+      end_date         TEXT NOT NULL DEFAULT '',
+      certificate      BLOB,
+      certificate_name TEXT NOT NULL DEFAULT '',
+      notes            TEXT NOT NULL DEFAULT '',
+      published        INTEGER NOT NULL DEFAULT 0,
+      sort_order       INTEGER NOT NULL DEFAULT 0,
+      created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_projects_pub_fin  ON projects(published, finished);
+    CREATE INDEX IF NOT EXISTS idx_sessions_expires   ON admin_sessions(expires_at);
+    CREATE INDEX IF NOT EXISTS idx_submissions_at     ON contact_submissions(submitted_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_courses_pub_sort   ON courses(published, sort_order, created_at);
+    CREATE INDEX IF NOT EXISTS idx_courses_status     ON courses(status);
+    CREATE INDEX IF NOT EXISTS idx_courses_platform   ON courses(platform);
   `);
 }
 
@@ -252,6 +274,97 @@ export function getProjectsList(): ProjectListItem[] {
     finished: Boolean(r.finished),
     online: Boolean(r.online),
   }));
+}
+
+// ── Course types & helpers ─────────────────────────────────────────────────
+
+export type CourseStatus = "not_started" | "in_progress" | "completed";
+
+export type CourseRow = {
+  id: string;
+  title: string;
+  platform: string;
+  status: string;
+  progress: number;
+  topics: string;
+  url: string;
+  start_date: string;
+  end_date: string;
+  certificate: Uint8Array | null;
+  certificate_name: string;
+  notes: string;
+  published: number;
+  sort_order: number;
+  created_at: string;
+};
+
+export type Course = {
+  id: string;
+  title: string;
+  platform: string;
+  status: CourseStatus;
+  progress: number;
+  topics: string[];
+  url: string;
+  startDate: string;
+  endDate: string;
+  hasCertificate: boolean;
+  certificateName: string;
+  notes: string;
+  published: boolean;
+  sortOrder: number;
+  createdAt: string;
+};
+
+export function rowToCourse(row: CourseRow): Course {
+  return {
+    id: row.id,
+    title: row.title,
+    platform: row.platform,
+    status: row.status as CourseStatus,
+    progress: row.progress,
+    topics: JSON.parse(row.topics),
+    url: row.url,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    hasCertificate: row.certificate !== null && row.certificate !== undefined,
+    certificateName: row.certificate_name,
+    notes: row.notes,
+    published: Boolean(row.published),
+    sortOrder: row.sort_order,
+    createdAt: row.created_at,
+  };
+}
+
+let _coursesCache: { data: Course[]; expiresAt: number } | null = null;
+const COURSES_CACHE_TTL = 60_000;
+
+export function getAllCourses(): Course[] {
+  const now = Date.now();
+  if (_coursesCache && _coursesCache.expiresAt > now) return _coursesCache.data;
+  const rows = getDb()
+    .prepare("SELECT * FROM courses ORDER BY sort_order, created_at")
+    .all() as CourseRow[];
+  const data = rows.map(rowToCourse);
+  _coursesCache = { data, expiresAt: now + COURSES_CACHE_TTL };
+  return data;
+}
+
+export function invalidateCoursesCache(): void {
+  _coursesCache = null;
+}
+
+export function getCourse(id: string): Course | null {
+  const row = getDb().prepare("SELECT * FROM courses WHERE id = ?").get(id) as
+    | CourseRow
+    | undefined;
+  return row ? rowToCourse(row) : null;
+}
+
+export function getCourseRaw(id: string): CourseRow | null {
+  return (
+    (getDb().prepare("SELECT * FROM courses WHERE id = ?").get(id) as CourseRow | undefined) ?? null
+  );
 }
 
 // ── CV types ───────────────────────────────────────────────────────────────

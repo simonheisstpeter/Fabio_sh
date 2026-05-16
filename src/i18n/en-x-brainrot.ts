@@ -38,12 +38,13 @@ export default {
   mediakitLoader: "Loading the Simulation",
 
   aboutTitle: "My Origin Story",
-  aboutBio: "Fabio Gschweidl, no cap doing digital media, IT and web infra stuff, based in Austria fr fr.",
-  aboutSkills: "Lowkey ate SvelteKit, Angular, Node.js, Go, Drupal and sysadmin. Bussin at self-hosting and open web. Passionate about accessibility, ATProto and e18e (it's giving open source vibes).",
-  aboutFanatic: "Might be an improvement glazer ngl.",
-  aboutCv: "More deets or my CV at",
-  aboutHobbies: "When I'm not coding, I'm absolutely unhinged about my sound system, and anything with Tom Selleck or Jean-Paul Belmondo hits different.",
-  aboutTidalIntro: "The audio player below shows what I'm currently listening to, slay, whenever something is playing.",
+  aboutBio:
+    "Fabio Gschweidl, based in Austria fr fr, cooked across so many different topics in digital media, web infra and software dev no cap.",
+  aboutBody:
+    "Frontend, backend, sysadmin, open protocols, self-hosting, the projects page is lowkey the lore. Passionate about performance, accessibility, interop and community dev (it's giving open source slay). Off the clock: sound system unhinged era, Tom Selleck and Jean-Paul Belmondo hit different.",
+  aboutCv: "more details on the projects page no cap, the categories literally show everything fr fr.",
+  aboutTidalIntro:
+    "The audio player below shows what I'm currently listening to, slay, whenever something is playing.",
 
   scrollTop: "Double Jump to Top",
 

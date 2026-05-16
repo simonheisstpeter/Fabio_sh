@@ -37,12 +37,13 @@ export default {
   mediakitLoader: "Loader",
 
   aboutTitle: "Sobre mim",
-  aboutBio: "Fabio Gschweidl, atuando em mídia digital, TI e infraestrutura web moderna, baseado na Áustria.",
-  aboutSkills: "Com experiência em SvelteKit, Angular, Node.js, Go, Drupal, APIs e administração de sistemas, com grande interesse em self-hosting e tecnologias web abertas. Apaixonado por acessibilidade, interoperabilidade, ATProto, desenvolvimento comunitário, protocolos abertos e iniciativas como e18e.",
-  aboutFanatic: "Pode ser um fanático por melhorias.",
-  aboutCv: "Mais detalhes ou meu CV em",
-  aboutHobbies: "Fora do desenvolvimento, absolutamente apaixonado pelo meu sistema de som e experiências de audição reflexivas, junto com qualquer material com Tom Selleck ou Jean-Paul Belmondo.",
-  aboutTidalIntro: "Abaixo, você encontrará o player de áudio mostrando o que estou ouvindo, sempre que algo estiver tocando.",
+  aboutBio:
+    "Fabio Gschweidl, baseado na Áustria, atuando em uma ampla variedade de tópicos em mídia digital, infraestrutura web e desenvolvimento de software.",
+  aboutBody:
+    "De frameworks frontend e serviços backend a administração de sistemas, protocolos abertos e self-hosting, a seção de projetos dá uma boa ideia de onde passei meu tempo. Apaixonado por performance, acessibilidade, interoperabilidade e desenvolvimento comunitário. Fora do código: áudio hi-fi, Tom Selleck, Jean-Paul Belmondo.",
+  aboutCv: "Mais detalhes na página de projetos, onde as categorias dão uma boa visão geral dos temas abordados.",
+  aboutTidalIntro:
+    "Abaixo, você encontrará o player de áudio mostrando o que estou ouvindo, sempre que algo estiver tocando.",
 
   scrollTop: "Voltar ao topo",
 

@@ -47,12 +47,13 @@ export default {
 
   // Self-Actualization Node
   aboutTitle: "The Human Component Behind the Code",
-  aboutBio: "Fabio Gschweidl, leveraging cutting-edge digital media, IT and next-generation web infrastructure synergies, operating from Austria.",
-  aboutSkills: "Equipped with a robust tech stack including SvelteKit, Angular, Node.js, Go, Drupal and API integrations. Disrupting the self-hosting space and championing open web paradigms. Committed to accessibility, interoperability, ATProto, community-driven innovation and the e18e ecosystem.",
-  aboutFanatic: "Passionate continuous-improvement thought leader.",
-  aboutCv: "Access my full portfolio and CV at",
-  aboutHobbies: "Outside of my innovation journey, deeply passionate about my sound ecosystem and curated listening experiences, as well as legacy cinematic content featuring Tom Selleck and Jean-Paul Belmondo.",
-  aboutTidalIntro: "The AI-powered audio intelligence widget below surfaces my real-time listening data, activated whenever content is streaming.",
+  aboutBio:
+    "Fabio Gschweidl, a multidisciplinary digital media and software development thought leader operating across a diverse topic portfolio from Austria.",
+  aboutBody:
+    "Holistically spanning frontend innovation ecosystems, backend value delivery pipelines, infrastructure optimization, open protocol disruption, and self-hosting paradigm shifts, the projects section unlocks the full stakeholder journey. Deeply passionate about accessibility, interoperability, and community-driven synergies. Outside the innovation loop: curated audio ecosystems, Tom Selleck content, Jean-Paul Belmondo legacy cinema.",
+  aboutCv: "For more details, the projects page features a comprehensive category taxonomy that provides an excellent overview of all domains explored.",
+  aboutTidalIntro:
+    "The AI-powered audio intelligence widget below surfaces my real-time listening data, activated whenever content is streaming.",
 
   // Gravity Reversal
   scrollTop: "Ascend to the Zenith",

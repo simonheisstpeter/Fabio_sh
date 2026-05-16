@@ -2,9 +2,11 @@
 import { ClientRouter } from "astro:transitions";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getTranslations, LOCALES, LOCALE_LABELS } from "../i18n/index";
-import Footer from "./Footer.astro";
-import Loader from "./Loader.astro";
-import ScrollToTop from "./ScrollToTop.astro";
+import BetaRibbon from "../components/BetaRibbon.astro";
+import Footer from "../components/Footer.astro";
+import Loader from "../components/Loader.astro";
+import SkipLink from "../components/SkipLink.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
 import "../styles/globals.css";
 
 interface Props {
@@ -39,6 +41,26 @@ const isHome =
 
 const siteUrl = "https://fabio.sh";
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const NavLinks = [
+    {
+        href: getRelativeLocaleUrl(locale, "/"),
+        text: t.menuHome,
+        mobileOnly: true,
+    },
+    {
+        href: getRelativeLocaleUrl(locale, "/projects"),
+        text: t.menuProjects,
+    },
+    {
+        href: getRelativeLocaleUrl(locale, "/about"),
+        text: t.menuAbout,
+    },
+    {
+        href: getRelativeLocaleUrl(locale, "/contact"),
+        text: t.menuContact,
+    },
+];
 ---
 
 <!doctype html>
@@ -106,15 +128,12 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
     <body
         class="cursor-fabiosh min-h-screen bg-darkDotsGray text-white font-andesNeueLight relative"
     >
-        <a href="#main-content" class="skip-link">to Main</a>
+        <SkipLink />
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
             >top</a
         >
 
-        <!-- Beta ribbon -->
-        <div class="beta-ribbon" aria-hidden="true">
-            <span>BETA Version</span>
-        </div>
+        <BetaRibbon />
 
         <!-- Mobile nav -->
         <nav
@@ -156,26 +175,20 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                     <nav
                         class="grid grid-cols-1 text-2xl gap-6 font-andesNeueMedium"
                     >
-                        <a
-                            href={getRelativeLocaleUrl(locale, "/")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
-                            >{t.menuHome}</a
-                        >
-                        <a
-                            href={getRelativeLocaleUrl(locale, "/projects")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
-                            >{t.menuProjects}</a
-                        >
-                        <a
-                            href={getRelativeLocaleUrl(locale, "/about")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
-                            >{t.menuAbout}</a
-                        >
-                        <a
-                            href={getRelativeLocaleUrl(locale, "/contact")}
-                            class="py-2 hover:text-emerald-400 transition duration-200"
-                            >{t.menuContact}</
-                        >
+                        <ul>
+                            {
+                                NavLinks.map((a) => (
+                                    <li>
+                                        <a
+                                            href={a.href}
+                                            class="py-2 hover:text-emerald-400 transition duration-200"
+                                        >
+                                            {a.text}
+                                        </a>
+                                    </li>
+                                ))
+                            }
+                        </ul>
 
                         <div class="mt-4">
                             <select
@@ -215,54 +228,45 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                     <Loader />
                 </a>
 
-                <div
+                <ul
                     class="flex items-center gap-6 font-andesNeueLight text-sm tracking-wide"
                 >
-                    <a
-                        href={getRelativeLocaleUrl(locale, "/projects")}
-                        aria-current={Astro.url.pathname.includes("/projects")
-                            ? "page"
-                            : undefined}
-                        class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
-                    >
-                        {t.menuProjects}
-                    </a>
-                    <a
-                        href={getRelativeLocaleUrl(locale, "/about")}
-                        aria-current={Astro.url.pathname.includes("/about")
-                            ? "page"
-                            : undefined}
-                        class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
-                    >
-                        {t.menuAbout}
-                    </a>
-                    <a
-                        href={getRelativeLocaleUrl(locale, "/contact")}
-                        aria-current={Astro.url.pathname.includes("/contact")
-                            ? "page"
-                            : undefined}
-                        class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
-                    >
-                        {t.menuContact}
-                    </a>
-
-                    <select
-                        id="lang-select"
-                        aria-label={t.languageSelect}
-                        class="bg-transparent text-white tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
-                    >
-                        {
-                            LOCALES.map((l) => (
-                                <option
-                                    value={getPathForLocale(l)}
-                                    selected={l === locale}
+                    {
+                        NavLinks.filter((link) => !link.mobileOnly).map((link) => (
+                            <li>
+                                <a
+                                    href={link.href}
+                                    aria-current={
+                                        Astro.url.pathname === link.href
+                                            ? "page"
+                                            : undefined
+                                    }
+                                    class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
                                 >
-                                    {LOCALE_LABELS[l]}
-                                </option>
-                            ))
-                        }
-                    </select>
-                </div>
+                                    {link.text}
+                                </a>
+                            </li>
+                        ))
+                    }
+                    <li>
+                        <select
+                            id="lang-select"
+                            aria-label={t.languageSelect}
+                            class="bg-transparent text-white tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
+                        >
+                            {
+                                LOCALES.map((l) => (
+                                    <option
+                                        value={getPathForLocale(l)}
+                                        selected={l === locale}
+                                    >
+                                        {LOCALE_LABELS[l]}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </li>
+                </ul>
             </nav>
         </header>
 
@@ -275,6 +279,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 
         <!-- Language switcher script (progressive: enhances <select> navigation) -->
         <script>
+            import consoleMessage from "../lib/fun/console-message";
+            import titleAnimation from "../lib/fun/title-animation";
+
             function initLangSelect(id: string) {
                 const sel = document.getElementById(
                     id,
@@ -285,69 +292,26 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
                     if (sel.value) window.location.href = sel.value;
                 });
             }
+
+            function initMobileLangSelect(id: string) {
+                const sel = document.getElementById(
+                    id,
+                ) as HTMLSelectElement | null;
+                if (!sel) return;
+                // Prevent click/touch from bubbling to <details> and toggling it closed
+                sel.addEventListener("click", (e) => e.stopPropagation());
+                sel.addEventListener("touchend", (e) => e.stopPropagation());
+                initLangSelect(id);
+            }
+
             // astro:page-load fires on both initial load and after every View Transition
             document.addEventListener("astro:page-load", () => {
                 initLangSelect("lang-select");
-                initLangSelect("lang-select-mobile");
+                initMobileLangSelect("lang-select-mobile");
             });
+
+            consoleMessage();
+            titleAnimation();
         </script>
     </body>
 </html>
-
-<style>
-    .beta-ribbon {
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        bottom: 0;
-        left: 0;
-        width: 140px;
-        height: 30px;
-        overflow: hidden;
-        z-index: 1003;
-        pointer-events: none;
-        border-radius: 0 8px 0 8px;
-        border: 1px solid #10b981;
-        border-left: 0;
-        border-bottom: 0;
-        background: rgba(144, 144, 144, 0.2);
-        box-shadow: 0 0 10px rgba(177, 177, 177, 0.5);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-
-        span {
-            text-align: center;
-            font-family: monospace;
-            font-size: 0.62rem;
-            font-weight: 900;
-            letter-spacing: 0.12em;
-            color: #10b981;
-            text-shadow:
-                0 0 6px #10b981,
-                0 0 12px #10b981;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-    }
-
-    .skip-link {
-        position: absolute;
-        top: -100%;
-        left: 1rem;
-        background: #10b981;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        font-weight: bold;
-        z-index: 9999;
-        transition: top 0.2s ease;
-        text-decoration: none;
-        border-radius: 0 0 8px 8px;
-    }
-
-    .skip-link:focus {
-        top: 0;
-        outline: 2px solid white;
-        outline-offset: -4px;
-    }
-</style>

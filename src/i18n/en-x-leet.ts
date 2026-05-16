@@ -37,11 +37,11 @@ export default {
   mediakitLoader: "L04d3r",
 
   aboutTitle: "4b0u7 M3",
-  aboutBio: "F4b10 G5chw31dl, w0rk1ng 4cr055 d1g1t4l m3d14, 1T 4nd m0d3rn w3b 1nfr45tructur3, b453d 1n 4u5tr14.",
-  aboutSkills: "3xp3r13nc3 1nclud35 5v3lt3K1t, 4ngul4r, N0d3.j5, G0, Drup4l, 4P15 4nd 5y54dm1n w0rk. P4551on4t3 4b0u7 4cc355, 1nt3r0p, 4TPr0t0, 0p3n pr0t0c0l5 4nd 3183.",
-  aboutFanatic: "M1ght b3 4n 1mpr0v3m3nt f4n4t1c.",
-  aboutCv: "M0r3 d3t41l5 0r my CV 4t",
-  aboutHobbies: "0ut51d3 0f d3v, 4b50lut3ly f0nd 0f my 50und 5y5t3m 4nd 4ny m4t3r14l w1th T0m 53ll3ck 0r J34n-P4ul B3lm0nd0.",
+  aboutBio:
+    "F4b10 G5chw31dl, b453d 1n 4u5tr14, w0rk1ng 4cr055 m4ny d1ff3r3nt t0p1c5 1n d1g1t4l m3d14, w3b 1nfr4 4nd 50ftw4r3 d3v.",
+  aboutBody:
+    "Fr0m fr0nt3nd fr4m3w0rkz 4nd b4ck3nd 53rv1c35 t0 5y54dm1n, 0p3n pr0t0c0l5 4nd 53lf-h05t1ng, ch3ck th3 pr0j3ct5 53ct10n f0r pr00f. P4551on4t3 4b0u7 p3rf0rm4nc3, 4cc355, 1nt3r0p 4nd c0mmun1ty d3v. 0ff-cl0ck: h1-f1 4ud10, T0m 53ll3ck, J34n-P4ul B3lm0nd0.",
+  aboutCv: "M0r3 d3t41lz 0n teh pr0j3ctz p4g3, c4t3g0ri3z g1v3 u teh b1g p1ctur3.",
   aboutTidalIntro: "B3l0w y0u'll f1nd th3 4ud10 pl4y3r 5h0w1ng wh4t 1'm curr3ntly l15t3n1ng t0.",
 
   scrollTop: "5cr011 70 70p",

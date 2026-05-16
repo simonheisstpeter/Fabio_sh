@@ -1,0 +1,81 @@
+---
+import AdminLayout from '../../../components/AdminLayout.astro';
+import { getAllCourses } from '../../../lib/db';
+
+const courses = getAllCourses();
+
+const STATUS_LABEL: Record<string, string> = {
+  not_started: 'Not Started',
+  in_progress: 'In Progress',
+  completed: 'Completed',
+};
+const STATUS_CLASS: Record<string, string> = {
+  not_started: 'text-gray-400 bg-gray-800',
+  in_progress: 'text-amber-400 bg-amber-950',
+  completed: 'text-emerald-400 bg-emerald-950',
+};
+---
+
+<AdminLayout title="Courses">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-gray-50">Courses</h1>
+    <a href="/admin/courses/new"
+      class="bg-emerald-500 text-white px-4 py-2 rounded-lg no-underline text-sm font-medium hover:bg-emerald-600 transition-colors">
+      + New Course
+    </a>
+  </div>
+
+  {courses.length === 0 ? (
+    <p class="text-gray-500 text-sm">No courses yet. <a href="/admin/courses/new" class="text-emerald-400">Add your first one.</a></p>
+  ) : (
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="text-left text-xs text-gray-500 border-b border-[#222]">
+            <th class="pb-3 pr-4 font-medium">Title</th>
+            <th class="pb-3 pr-4 font-medium">Platform</th>
+            <th class="pb-3 pr-4 font-medium">Status</th>
+            <th class="pb-3 pr-4 font-medium">Progress</th>
+            <th class="pb-3 pr-4 font-medium">Cert</th>
+            <th class="pb-3 pr-4 font-medium">Pub</th>
+            <th class="pb-3 font-medium">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {courses.map(c => (
+            <tr class="border-b border-[#1a1a1a] hover:bg-[#111] transition-colors">
+              <td class="py-3 pr-4 text-gray-100 font-medium">{c.title}</td>
+              <td class="py-3 pr-4 text-gray-400">{c.platform || '—'}</td>
+              <td class="py-3 pr-4">
+                <span class={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_CLASS[c.status]}`}>
+                  {STATUS_LABEL[c.status]}
+                </span>
+              </td>
+              <td class="py-3 pr-4 text-gray-400">{c.progress}%</td>
+              <td class="py-3 pr-4">
+                {c.hasCertificate
+                  ? <span class="text-emerald-400 text-xs">✓</span>
+                  : <span class="text-gray-700 text-xs">—</span>}
+              </td>
+              <td class="py-3 pr-4">
+                {c.published
+                  ? <span class="text-emerald-400 text-xs">✓</span>
+                  : <span class="text-gray-700 text-xs">—</span>}
+              </td>
+              <td class="py-3">
+                <div class="flex gap-3">
+                  <a href={`/admin/courses/${c.id}`} class="text-gray-400 hover:text-emerald-400 transition-colors text-xs no-underline">Edit</a>
+                  <form action={`/api/admin/courses/${c.id}`} method="POST"
+                    onsubmit="return confirm('Delete this course?')">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button type="submit" class="text-gray-600 hover:text-red-400 transition-colors text-xs bg-transparent border-0 cursor-pointer p-0">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</AdminLayout>

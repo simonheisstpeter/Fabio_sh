@@ -1,0 +1,153 @@
+---
+import AdminLayout from '../../../components/AdminLayout.astro';
+import { getDb, getCourse, getAllCourses, type CourseRow } from '../../../lib/db';
+
+const { id } = Astro.params;
+const course = getCourse(id!);
+if (!course) return Astro.redirect('/admin/courses');
+
+const allCourses = getAllCourses();
+const allPlatforms = [...new Set(allCourses.map(c => c.platform).filter(Boolean))].sort();
+const allTopics = [...new Set(allCourses.flatMap(c => c.topics))].sort();
+
+const topicsText = course.topics.join('\n');
+---
+
+<AdminLayout title={`Edit: ${course.title}`}>
+  <div class="flex items-center gap-3 mb-6">
+    <h1 class="text-2xl font-semibold text-gray-50 mb-0">Edit Course</h1>
+    <code class="text-xs text-gray-500 bg-[#1a1a1a] px-2 py-0.5 rounded">{course.id}</code>
+  </div>
+
+  <form action={`/api/admin/courses/${course.id}`} method="POST" enctype="multipart/form-data" class="max-w-2xl">
+    <input type="hidden" name="_method" value="PUT" />
+
+    <div class="mb-4">
+      <label for="title" class="block text-xs text-gray-400 mb-1">Title</label>
+      <input id="title" name="title" type="text" required value={course.title}
+        class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="platform" class="block text-xs text-gray-400 mb-1">Platform</label>
+        <input id="platform" name="platform" type="text" value={course.platform}
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+        <div class="mt-2 flex flex-wrap gap-1">
+          {allPlatforms.map(p => (
+            <button type="button" class="platform-suggest px-2 py-0.5 rounded text-xs bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700 border border-neutral-700 transition-colors" data-val={p}>
+              {p}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label for="status" class="block text-xs text-gray-400 mb-1">Status</label>
+        <select id="status" name="status"
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors">
+          <option value="not_started" selected={course.status === 'not_started'}>Not Started</option>
+          <option value="in_progress" selected={course.status === 'in_progress'}>In Progress</option>
+          <option value="completed" selected={course.status === 'completed'}>Completed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="topics" class="block text-xs text-gray-400 mb-1">Topics (one per line)</label>
+      <textarea id="topics" name="topics" rows="3"
+        class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono"
+        >{topicsText}</textarea>
+      <div class="mt-2 flex flex-wrap gap-1">
+        {allTopics.map(t => (
+          <button type="button" class="topic-suggest px-2 py-0.5 rounded text-xs bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700 border border-neutral-700 transition-colors" data-val={t}>
+            {t}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="progress" class="block text-xs text-gray-400 mb-1">Progress (%)</label>
+        <input id="progress" name="progress" type="number" min="0" max="100" value={course.progress}
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+      <div>
+        <label for="url" class="block text-xs text-gray-400 mb-1">URL</label>
+        <input id="url" name="url" type="text" value={course.url}
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label for="start_date" class="block text-xs text-gray-400 mb-1">Start Date</label>
+        <input id="start_date" name="start_date" type="date" value={course.startDate}
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+      <div>
+        <label for="end_date" class="block text-xs text-gray-400 mb-1">End Date</label>
+        <input id="end_date" name="end_date" type="date" value={course.endDate}
+          class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors" />
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="notes" class="block text-xs text-gray-400 mb-1">Notes</label>
+      <textarea id="notes" name="notes" rows="3"
+        class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm resize-y outline-none focus:border-emerald-400 transition-colors font-sans"
+        >{course.notes}</textarea>
+    </div>
+
+    <div class="mb-4">
+      <label for="certificate" class="block text-xs text-gray-400 mb-1">Certificate (PDF, JPG, PNG — max 10 MB)</label>
+      {course.hasCertificate && (
+        <div class="mb-2 flex items-center gap-3">
+          <span class="text-xs text-gray-400">Current: <span class="text-emerald-400">{course.certificateName}</span></span>
+          <a href={`/api/courses/${course.id}/certificate`} target="_blank"
+            class="text-xs text-gray-500 hover:text-emerald-400 transition-colors no-underline">Download</a>
+          <label class="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer">
+            <input type="checkbox" name="remove_certificate" value="1" class="accent-red-500" />
+            Remove certificate
+          </label>
+        </div>
+      )}
+      <input id="certificate" name="certificate" type="file" accept=".pdf,.jpg,.jpeg,.png"
+        class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors file:mr-3 file:bg-neutral-700 file:text-gray-200 file:border-0 file:rounded file:px-2 file:py-1 file:text-xs file:cursor-pointer" />
+    </div>
+
+    <div class="flex gap-6 mb-6">
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name="published" value="1" checked={course.published} class="accent-emerald-500" />
+        Published
+      </label>
+    </div>
+
+    <div class="flex gap-3">
+      <button type="submit" class="bg-emerald-500 text-white px-6 py-2 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors">
+        Save Changes
+      </button>
+      <a href="/admin/courses" class="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
+        Cancel
+      </a>
+    </div>
+  </form>
+</AdminLayout>
+
+<script>
+  const platformInput = document.getElementById('platform') as HTMLInputElement;
+  document.querySelectorAll<HTMLButtonElement>('.platform-suggest').forEach(btn => {
+    btn.addEventListener('click', () => { platformInput.value = btn.dataset.val ?? ''; });
+  });
+
+  const topicsTA = document.getElementById('topics') as HTMLTextAreaElement;
+  document.querySelectorAll<HTMLButtonElement>('.topic-suggest').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.dataset.val ?? '';
+      const lines = topicsTA.value.split('\n').map(l => l.trim()).filter(Boolean);
+      if (!lines.includes(val)) {
+        topicsTA.value = lines.length ? lines.join('\n') + '\n' + val : val;
+      }
+    });
+  });
+</script>

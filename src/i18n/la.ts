@@ -37,11 +37,11 @@ export default {
   mediakitLoader: "Onus",
 
   aboutTitle: "De me",
-  aboutBio: "Fabio Gschweidl, in mediis digitalibus, IT et nova infrastructura interretiali laborat, Austriae habitans.",
-  aboutSkills: "Experientia in SvelteKit, Angular, Node.js, Go, Drupal, APIs et cura systematum, magno studio in artes interretiales apertas. Studiosus accessibilitatis, interoperabilitatis, ATProto, progressionis communitariae et inceptorum ut e18e.",
-  aboutFanatic: "Forsitan emendationis fanaticus est.",
-  aboutCv: "Plura vel curriculum vitae sub",
-  aboutHobbies: "Extra programmationem, systemati sonorum meo et auditionibus cogitatis valde addictus, necnon omnibus quae Tom Selleck vel Jean-Paul Belmondo continent.",
+  aboutBio:
+    "Fabio Gschweidl, Austriae habitans, in multis rebus mediorum digitalium, infrastructurae interretialis et programmationis versatus.",
+  aboutBody:
+    "Ab instrumentis prima facie et servitiis dorsi usque ad curam systematum, protocolla aperta et hospitationem privatam, sectio proiectorum bene ostendit ubi tempus posui. Studiosus efficientiae, accessibilitatis, interoperabilitatis et progressionis communitariae. Extra codicem: audio praestans, Tom Selleck, Jean-Paul Belmondo.",
+  aboutCv: "Plura in pagina projectorum, ubi categoriae bonam rerum tractatarum summam praebent.",
   aboutTidalIntro: "Infra musicae lusor ostendet quid nunc auscultem, quotiens aliquid canit.",
 
   scrollTop: "Ad summum revertere",

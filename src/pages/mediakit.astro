@@ -1,5 +1,5 @@
 ---
-import Layout from '../components/Layout.astro';
+import Layout from '../layouts/default.astro';
 import Loader from '../components/Loader.astro';
 import { getTranslations } from '../i18n/index';
 
@@ -57,18 +57,20 @@ const colors = [
       >
         {t.mediakitColors}
       </h2>
-      <div class="md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
+      <ul class="md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
         {colors.map(({ name, hex, class: cls }) => (
-          <button
-            class="copy-btn text-center bg-transparent border-0 cursor-pointer group p-0"
-            data-copy={hex}
-          >
-            <div class={`h-20 w-20 mx-auto ${cls} rounded-full mb-4 transition-transform duration-200 group-hover:scale-105`}></div>
-            <span class="block text-sm">{name}</span>
-            <span class="block text-xs text-emerald-500 font-mono mt-1">{hex}</span>
-          </button>
+          <li>
+            <button
+              class="copy-btn text-center bg-transparent border-0 cursor-pointer group p-0"
+              data-copy={hex}
+            >
+              <div class={`h-20 w-20 mx-auto ${cls} rounded-full mb-4 transition-transform duration-200 group-hover:scale-105`}></div>
+              <span class="block text-sm">{name}</span>
+              <span class="block text-xs text-emerald-500 font-mono mt-1">{hex}</span>
+            </button>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
 
     <!-- Cursor -->
