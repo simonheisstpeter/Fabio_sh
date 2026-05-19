@@ -7,10 +7,13 @@ import {
   CV_LANGS,
   type CvLang,
 } from "../../../lib/db";
+import { validateSession } from "../../../lib/admin-auth";
 
 export const GET: APIRoute = ({ cookies, url }) => {
   const secret = cookies.get(CV_COOKIE)?.value;
-  if (!secret || !getCvSecretByValue(secret)) {
+  const authorized =
+    validateSession(cookies) || (!!secret && !!getCvSecretByValue(secret));
+  if (!authorized) {
     return new Response("Unauthorized", { status: 401 });
   }
 

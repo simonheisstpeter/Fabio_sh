@@ -2,6 +2,7 @@
 import Layout from '../layouts/default.astro';
 import { getCvSecretByValue, getCvFiles } from '../lib/db';
 import { getTranslations } from '../i18n/index';
+import { validateSession } from '../lib/admin-auth';
 
 const locale = Astro.currentLocale ?? 'de';
 const t = getTranslations(locale);
@@ -10,7 +11,7 @@ const secret = Astro.cookies.get('cv_secret')?.value ?? '';
 const validSecret = secret ? getCvSecretByValue(secret) : null;
 const cvFiles = getCvFiles();
 
-const hasAccess = Boolean(validSecret);
+const hasAccess = Boolean(validSecret) || validateSession(Astro.cookies);
 const hasError = Astro.url.searchParams.get('error') === '1';
 ---
 
