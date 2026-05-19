@@ -3,28 +3,32 @@ import { validateSession } from "./lib/admin-auth";
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/register"];
 
-const CSP = [
-  "default-src 'none'",
-  "script-src 'self'",
-  "style-src 'self'",
-  "font-src 'self'",
-  "img-src 'self' data:",
-  "connect-src 'self'",
-  "frame-src 'self'",
-  "frame-ancestors 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "object-src 'none'",
-].join("; ");
+function buildCSP(frameAncestors: "'none'" | "'self'") {
+  return [
+    "default-src 'none'",
+    "script-src 'self'",
+    "style-src 'self'",
+    "font-src 'self'",
+    "img-src 'self' data:",
+    "connect-src 'self'",
+    "frame-src 'self'",
+    `frame-ancestors ${frameAncestors}`,
+    "base-uri 'self'",
+    "form-action 'self'",
+    "object-src 'none'",
+  ].join("; ");
+}
 
-const SECURITY_HEADERS: Record<string, string> = {
-  "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-  "X-Content-Type-Options":    "nosniff",
-  "X-Frame-Options":           "DENY",
-  "Referrer-Policy":           "strict-origin-when-cross-origin",
-  "Permissions-Policy":        "camera=(), microphone=(), geolocation=()",
-  "Content-Security-Policy":   CSP,
-};
+function makeSecurityHeaders(frameAncestors: "'none'" | "'self'") {
+  return {
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "X-Content-Type-Options":    "nosniff",
+    "X-Frame-Options":           frameAncestors === "'self'" ? "SAMEORIGIN" : "DENY",
+    "Referrer-Policy":           "strict-origin-when-cross-origin",
+    "Permissions-Policy":        "camera=(), microphone=(), geolocation=()",
+    "Content-Security-Policy":   buildCSP(frameAncestors),
+  };
+}
 
 export const onRequest = defineMiddleware(async ({ url, cookies, redirect }, next) => {
   const pathname = url.pathname;
@@ -51,8 +55,12 @@ export const onRequest = defineMiddleware(async ({ url, cookies, redirect }, nex
   const status =
     response.status === 302 && !response.headers.get("location") ? 200 : response.status;
 
+  // /api/cv/file is served inside a same-origin <iframe> — allow self-framing only there
+  const frameAncestors = pathname === "/api/cv/file" ? "'self'" : "'none'";
+  const securityHeaders = makeSecurityHeaders(frameAncestors);
+
   const headers = new Headers(response.headers);
-  for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
+  for (const [k, v] of Object.entries(securityHeaders)) {
     headers.set(k, v);
   }
 
