@@ -3,6 +3,27 @@ import { validateSession } from "./lib/admin-auth";
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/register"];
 
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
+  "img-src 'self' data:",
+  "connect-src 'self'",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
+
+const SECURITY_HEADERS: Record<string, string> = {
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+  "X-Content-Type-Options":    "nosniff",
+  "X-Frame-Options":           "DENY",
+  "Referrer-Policy":           "strict-origin-when-cross-origin",
+  "Permissions-Policy":        "camera=(), microphone=(), geolocation=()",
+  "Content-Security-Policy":   CSP,
+};
+
 export const onRequest = defineMiddleware(async ({ url, cookies, redirect }, next) => {
   const pathname = url.pathname;
 
@@ -24,11 +45,14 @@ export const onRequest = defineMiddleware(async ({ url, cookies, redirect }, nex
 
   const response = await next();
 
-  // Astro SSR i18n fallback emits 302 with body but no Location header.
-  // Convert to 200 so browsers and crawlers treat it as a normal page.
-  if (response.status === 302 && !response.headers.get("location")) {
-    return new Response(response.body, { status: 200, headers: response.headers });
+  // Fix Astro SSR i18n 302-with-no-Location bug + inject security headers on all responses
+  const status =
+    response.status === 302 && !response.headers.get("location") ? 200 : response.status;
+
+  const headers = new Headers(response.headers);
+  for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
+    headers.set(k, v);
   }
 
-  return response;
+  return new Response(response.body, { status, headers });
 });
