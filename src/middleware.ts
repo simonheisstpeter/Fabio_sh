@@ -4,15 +4,17 @@ import { validateSession } from "./lib/admin-auth";
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/register"];
 
 const CSP = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline'",
+  "default-src 'none'",
+  "script-src 'self'",
+  "style-src 'self'",
   "font-src 'self'",
   "img-src 'self' data:",
   "connect-src 'self'",
+  "frame-src 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
+  "object-src 'none'",
 ].join("; ");
 
 const SECURITY_HEADERS: Record<string, string> = {

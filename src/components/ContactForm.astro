@@ -61,6 +61,8 @@ const {
             method="POST"
             novalidate
             class="space-y-8 text-white"
+            data-success={t.contactSuccess}
+            data-error={t.contactError}
         >
             <!-- Honeypot -->
             <div aria-hidden="true" class="hidden">
@@ -168,17 +170,18 @@ const {
     </div>
 </div>
 
-<script define:vars={{ successMsg: t.contactSuccess, errorMsg: t.contactError }}
->
-    // Keep your existing JS logic here, just ensure IDs match
-    const form = document.getElementById("contact-form");
-    const tsInput = document.getElementById("form-ts");
-    const submitBtn = document.getElementById("contact-submit");
+<script>
+    const form = document.getElementById("contact-form") as HTMLFormElement | null;
+    const tsInput = document.getElementById("form-ts") as HTMLInputElement | null;
+    const submitBtn = document.getElementById("contact-submit") as HTMLButtonElement | null;
     const feedback = document.getElementById("form-feedback");
 
     if (tsInput) tsInput.value = String(Date.now());
 
     if (form && submitBtn && feedback) {
+        const successMsg = form.dataset.success ?? "";
+        const errorMsg   = form.dataset.error ?? "";
+
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             submitBtn.disabled = true;

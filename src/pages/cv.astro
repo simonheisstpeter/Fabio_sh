@@ -56,6 +56,8 @@ const hasError = Astro.url.searchParams.get('error') === '1';
             class="w-full flex-1 rounded-lg border border-white/10"
             style="min-height: 80vh;"
             title="CV"
+            data-has-de={cvFiles.de ? "1" : ""}
+            data-has-en={cvFiles.en ? "1" : ""}
           />
         ) : (
           <p class="text-white/50">{t.cvNoFiles}</p>
@@ -96,15 +98,17 @@ const hasError = Astro.url.searchParams.get('error') === '1';
 </Layout>
 
 {hasAccess && (
-  <script define:vars={{ hasDE: Boolean(cvFiles.de), hasEN: Boolean(cvFiles.en) }}>
-    const frame = document.getElementById('cv-frame');
-    const downloadBtn = document.getElementById('download-btn');
-    const tabs = document.querySelectorAll('.lang-tab');
+  <script>
+    const frame       = document.getElementById('cv-frame') as HTMLIFrameElement | null;
+    const downloadBtn = document.getElementById('download-btn') as HTMLAnchorElement | null;
+    const tabs        = document.querySelectorAll<HTMLButtonElement>('.lang-tab');
 
-    // Pick initial lang: prefer de if available, else en
+    const hasDE = Boolean(frame?.dataset.hasDe);
+    const hasEN = Boolean(frame?.dataset.hasEn);
+
     let activeLang = hasDE ? 'de' : 'en';
 
-    function applyLang(lang) {
+    function applyLang(lang: string) {
       activeLang = lang;
       if (frame) frame.src = `/api/cv/file?lang=${lang}`;
       if (downloadBtn) downloadBtn.href = `/api/cv/file?lang=${lang}`;
@@ -117,7 +121,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
     }
 
     tabs.forEach((tab) => {
-      const lang = tab.dataset.lang;
+      const lang = tab.dataset.lang ?? '';
       const available = lang === 'de' ? hasDE : hasEN;
       if (available) {
         tab.addEventListener('click', () => applyLang(lang));
