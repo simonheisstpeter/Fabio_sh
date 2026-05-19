@@ -14,6 +14,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    build: { assetsInlineLimit: 0 },
   },
   i18n: {
     defaultLocale: DEFAULT_LOCALE,

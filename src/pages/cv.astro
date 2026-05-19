@@ -54,7 +54,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
             id="cv-frame"
             src="/api/cv/file?lang=de"
             class="w-full flex-1 rounded-lg border border-white/10"
-            style="min-height: 80vh;"
+            class="min-h-[80vh]"
             title="CV"
             data-has-de={cvFiles.de ? "1" : ""}
             data-has-en={cvFiles.en ? "1" : ""}

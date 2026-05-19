@@ -12,7 +12,7 @@ const displayIndex = String(index + 1).padStart(2, "0");
 <li class="list-none">
     <article
         class="group relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-white/8 hover:border-emerald-500/30 animate-fadeIn_2200"
-        style={`animation-delay: ${index * 150}ms`}
+        data-delay={String(index * 150)}
     >
         <!-- Decorative Background Glow -->
         <div
@@ -43,3 +43,9 @@ const displayIndex = String(index + 1).padStart(2, "0");
         </div>
     </article>
 </li>
+
+<script>
+document.querySelectorAll<HTMLElement>('[data-delay]').forEach((el) => {
+  el.style.animationDelay = el.dataset.delay + 'ms';
+});
+</script>

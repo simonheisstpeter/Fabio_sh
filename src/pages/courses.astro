@@ -93,7 +93,7 @@ const STATUS_LABEL: Record<string, string> = {
 
                       <div class="flex items-center gap-2">
                         <div class="flex-1 bg-[#1a1a1a] rounded-full h-1.5">
-                          <div class="bg-emerald-500 h-1.5 rounded-full transition-all" style={`width:${c.progress}%`}></div>
+                          <div class="bg-emerald-500 h-1.5 rounded-full transition-all" data-progress={String(c.progress)}></div>
                         </div>
                         <span class="text-xs text-gray-500 shrink-0">{c.progress}%</span>
                       </div>
@@ -145,6 +145,10 @@ const STATUS_LABEL: Record<string, string> = {
 </Layout>
 
 <script>
+  document.querySelectorAll<HTMLElement>('[data-progress]').forEach((el) => {
+    el.style.width = el.dataset.progress + '%';
+  });
+
   const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
   const cards = document.querySelectorAll<HTMLElement>('.course-card');
   const groups = document.querySelectorAll<HTMLElement>('.platform-group');
