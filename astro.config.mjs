@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
 import { LOCALES, DEFAULT_LOCALE } from "./src/i18n/locales.js";
++ import umami from "@yeskunall/astro-umami";
 
 import mailObfuscation from "astro-mail-obfuscation";
 
@@ -61,5 +62,8 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "hover",
   },
-  integrations: [mailObfuscation()],
+  integrations: [
+    mailObfuscation(), +
+    umami({ id: "4f1d5a2c-5469-40c9-9eed-a54468d434c5" })
+  ],
 });
