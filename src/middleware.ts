@@ -6,11 +6,11 @@ const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/register"];
 function buildCSP(frameAncestors: "'none'" | "'self'") {
   return [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://diedigitale.at",
+    "script-src 'self' 'unsafe-inline' https://analytics.diedigitale.at",
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self' data:",
     "img-src 'self' data: https://images.unsplash.com https://*.googleusercontent.com",
-    "connect-src 'self' https://diedigitale.at",
+    "connect-src 'self' https://analytics.diedigitale.at",
     "frame-src 'self'",
     `frame-ancestors ${frameAncestors}`,
     "base-uri 'self'",
