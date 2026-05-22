@@ -5,12 +5,12 @@ const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/register"];
 
 function buildCSP(frameAncestors: "'none'" | "'self'") {
   return [
-    "default-src 'none'",
-    "script-src 'self' 'https://diedigitale.at'",
-    "style-src 'self'",
-    "font-src 'self'",
-    "img-src 'self' data:",
-    "connect-src 'self' 'https://diedigitale.at'",
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' https://diedigitale.at",
+    "style-src 'self' 'unsafe-inline'",
+    "font-src 'self' data:",
+    "img-src 'self' data: https://images.unsplash.com https://*.googleusercontent.com",
+    "connect-src 'self' https://diedigitale.at",
     "frame-src 'self'",
     `frame-ancestors ${frameAncestors}`,
     "base-uri 'self'",
@@ -18,7 +18,6 @@ function buildCSP(frameAncestors: "'none'" | "'self'") {
     "object-src 'none'",
   ].join("; ");
 }
-
 function makeSecurityHeaders(frameAncestors: "'none'" | "'self'") {
   return {
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
