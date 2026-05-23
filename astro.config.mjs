@@ -64,6 +64,6 @@ export default defineConfig({
   },
   integrations: [
     mailObfuscation(),
-    +umami({ id: "4f1d5a2c-5469-40c9-9eed-a54468d434c5", doNotTrack: true }),
+    umami({ id: "4f1d5a2c-5469-40c9-9eed-a54468d434c5", doNotTrack: true }),
   ],
 });
