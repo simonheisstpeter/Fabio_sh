@@ -1,0 +1,353 @@
+Schritt 1: Landkarte zeichnen
+  - Prüfe die Angabe nach dem internen Subnetz (10.11.12.0/24 oder 172.16.6.0/24).
+  - Identifiziere das externe Interface (ens33 oder ens34) und das interne Interface.
+  - Notiere dir feste IPs (z. B. GW=.1, Web=.2, DNS=.3, Mail=.4).
+
+Schritt 2: Gateway isoliert aufbauen
+  - Netplan-Konfiguration für beide Interfaces schreiben, anwenden und testen.
+  - IP-Forwarding aktivieren.
+
+Schritt 3: Interne Server konfigurieren
+  - Statische Netplan-Konfig auf den Servern einrichten (via zeigt IMMER auf internes GW).
+  - Ping-Tests zu 8.8.8.8 durchführen (Internet-Konnektivität verifizieren).
+
+Schritt 4: Kerndienste installieren & testen
+  - Bind9, Postfix, Dovecot, Apache2 oder DHCP je nach Gruppenangabe aufbauen.
+  - Status sofort mit 'systemctl status <dienst>' prüfen.
+
+Schritt 5: Firewall-Dokumentation (Textdatei)
+  - Regeln sauber in das verlangte Textfile schreiben (nicht live ausführen!).
+
+
+-------------------------------------------------------------------------------
+2. INFRASCHADEN: HOSTNAMES, PASSWÖRTER & NETPLAN
+-------------------------------------------------------------------------------
+Auf JEDER Maschine als Erstes ausführen (Beispiel für DNS-Server):
+  $ sudo hostnamectl set-hostname dnsserver
+  $ passwd csdc  # Neues Passwort setzen (nicht mehr campus09 nutzen!)
+
+Datei-Pfad für Netzwerk: /etc/netplan/50-cloud-init.yaml
+
+ACHTUNG: Keine TABS verwenden, nur Leerzeichen!
+
+A) Gateway-Muster (2 Interfaces - Beispiel aus Gruppe 05-A):
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens34: # EXTERN (FH-Netz / Internet)
+      addresses:
+        - 10.10.0.4/24
+      routes:
+        - to: default
+          via: 10.10.0.3
+      nameservers:
+        addresses: [8.8.8.8, 9.9.9.9]
+    ens33: # INTERN (Labornetz-Schnittstelle)
+      addresses:
+        - 172.16.6.1/24
+
+B) Interne Server-Struktur (Haben nur EIN Interface, z. B. ens33):
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      addresses:
+        - 172.16.6.2/24 # Eigene statische IP
+      routes:
+        - to: default
+          via: 172.16.6.1 # Zeigt auf die INTERNE IP des Gateways!
+      nameservers:
+        addresses: [172.16.6.2] # Lokaler DNS-Server (oder 8.8.8.8 / 1.1.1.1)
+
+Netzwerk-Befehle:
+  $ sudo netplan try
+  $ sudo netplan apply
+  $ ip a  # Kontrollieren, ob IPs korrekt gebunden sind
+
+
+-------------------------------------------------------------------------------
+3. SERVER-AUFBAU & L7-DIENSTE-KONFIGURATION
+-------------------------------------------------------------------------------
+
+A) WEBSERVER (Apache2 & Virtual Hosts)
+-------------------------------------------------------------------------------
+Installation:
+  $ sudo apt update && sudo apt install apache2 -y
+  $ sudo systemctl enable --now apache2
+
+Virtual Host Verzeichnisse & Testseiten anlegen:
+  $ sudo mkdir -p /var/www/www.ant.lab
+  $ sudo mkdir -p /var/www/mobile.ant.lab
+  $ echo "<h1>WWW Seite</h1>" | sudo tee /var/www/www.ant.lab/index.html
+  $ echo "<h1>Mobile Seite</h1>" | sudo tee /var/www/mobile.ant.lab/index.html
+
+Konfiguration für vHost 1 (/etc/apache2/sites-available/www.ant.lab.conf):
+<VirtualHost *:80>
+    ServerName www.ant.lab
+    DocumentRoot /var/www/www.ant.lab
+    ErrorLog ${APACHE_LOG_DIR}/www_error.log
+    CustomLog ${APACHE_LOG_DIR}/www_access.log combined
+</VirtualHost>
+
+Konfiguration für vHost 2 (/etc/apache2/sites-available/mobile.ant.lab.conf):
+<VirtualHost *:80>
+    ServerName mobile.ant.lab
+    DocumentRoot /var/www/mobile.ant.lab
+</VirtualHost>
+
+Aktivieren & Apache neu laden:
+  $ sudo a2ensite www.ant.lab.conf
+  $ sudo a2ensite mobile.ant.lab.conf
+  $ sudo rm /etc/apache2/sites-enabled/000-default.conf # Konflikte vermeiden
+  $ sudo apache2ctl configtest  # Muss 'Syntax OK' ausgeben
+  $ sudo systemctl restart apache2
+
+
+B) ISC-DHCP-SERVER (Klassisch)
+-------------------------------------------------------------------------------
+Installation:
+  $ sudo apt update && sudo apt install isc-dhcp-server -y
+
+Interface festlegen in: /etc/default/isc-dhcp-server
+  INTERFACESv4="ens33"
+
+Konfig-Muster (/etc/dhcp/dhcpd.conf):
+subnet 172.16.6.0 netmask 255.255.255.0 {
+  range 172.16.6.100 172.16.6.200;       # Pool exkludiert Server-IPs
+  option routers 172.16.6.1;             # Internes GW
+  option domain-name-servers 172.16.6.2; # Interner DNS
+  option domain-name "net.lab";
+}
+
+Aktivieren:
+  $ sudo systemctl enable --now isc-dhcp-server
+
+
+C) KEA DHCP4 SERVER (Modern / JSON-Format)
+-------------------------------------------------------------------------------
+Installation:
+  $ sudo apt update && sudo apt install kea-dhcp4-server -y
+
+Konfig-Muster (/etc/kea/kea-dhcp4.conf) - Auf Kommas und geschlossene Klammern achten!
+{
+"Dhcp4": {
+    "interfaces-config": {
+        "interfaces": [ "ens19" ] # Internes Interface am GW
+    },
+    "lease-database": {
+        "type": "memfile",
+        "lfc-interval": 3600
+    },
+    "valid-lifetime": 600,
+    "max-valid-lifetime": 7200,
+    "subnet4": [
+        {
+            "id": 1,
+            "subnet": "10.11.12.0/24",
+            "pools": [
+                { "pool": "10.11.12.100 - 10.11.12.200" }
+            ],
+            "option-data": [
+                { "name": "routers", "data": "10.11.12.1" },
+                { "name": "domain-name-servers", "data": "10.11.12.3" },
+                { "name": "domain-name", "data": "ant.lab." }
+            ],
+            "reservations": [
+                {
+                    "hw-address": "bc:24:11:aa:bb:cc", # MAC des Clients auslesen via 'ip a'
+                    "ip-address": "10.11.12.150"
+                }
+            ]
+        }
+    ]
+}
+}
+
+Aktivieren:
+  $ sudo systemctl restart kea-dhcp4-server
+
+
+D) BIND9 (DNS-Zonen-Setup)
+-------------------------------------------------------------------------------
+Installation:
+  $ sudo apt update && sudo apt install bind9 bind9utils bind9-doc -y
+
+In /etc/bind/named.conf.local Zonen deklarieren:
+zone "ant.lab" {
+    type master;
+    file "/etc/bind/db.ant.lab";
+};
+zone "12.11.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.10.11.12";
+};
+
+Optionen anpassen für Forwarding (/etc/bind/named.conf.options):
+forwarders {
+    8.8.8.8;
+    9.9.9.9;
+};
+recursion yes;
+
+Zonen-Datei Muster (/etc/bind/db.ant.lab) - GOLDENE PUNKT-REGEL BEACHTEN!
+$TTL 604800
+@   IN  SOA  ns.ant.lab. root.ant.lab. (2 604800 86400 2419200 604800)
+@   IN  NS   ns.ant.lab.
+@   IN  MX   10 mail.ant.lab.
+
+ns     IN  A  10.11.12.3
+www    IN  A  10.11.12.2
+mobile IN  A  10.11.12.2
+mail   IN  A  10.11.12.4
+gw     IN  A  10.11.12.1
+
+Aktivieren & Prüfen:
+  $ sudo named-checkconf -z
+  $ sudo systemctl restart bind9
+
+
+E) POSTFIX & DOVECOT (Mailserver-Tweaks)
+-------------------------------------------------------------------------------
+Installation:
+  $ sudo apt install postfix dovecot-imapd -y
+  # Dialog-Auswahl: "Internet Site" -> System Mail Name: ant.lab (oder net.lab)
+
+1. Postfix /etc/postfix/main.cf am Ende ergänzen (Maildir-Format erzwingen):
+   home_mailbox = Maildir/
+
+2. Dovecot /etc/dovecot/conf.d/10-mail.conf:
+   mail_location = maildir:~/Maildir # mbox zeile mit # auskommentieren!
+
+3. Dovecot Plaintext erlauben (/etc/dovecot/dovecot.conf):
+   disable_plaintext_auth = no
+
+4. SSL deaktivieren (/etc/dovecot/conf.d/10-ssl.conf):
+   ssl = no
+
+Dienste aktivieren & User für Thunderbird anlegen:
+  $ sudo systemctl restart postfix dovecot
+  $ sudo adduser mia  # Passwort vergeben (z.B. campus09)
+  $ sudo adduser max
+
+Ohne-DNS-Szenario / Hosts-Eintrag am Client:
+Falls laut Angabe kein DNS existiert, MUSS am Client die /etc/hosts editiert werden:
+  10.11.12.2  mail.ant.lab  ant.lab
+
+
+F) NGINX REVERSE PROXY CONFIG
+-------------------------------------------------------------------------------
+Eintrag in /etc/nginx/sites-available/reverseproxy:
+server {
+    listen 80;
+    server_name neta1.gschweidlfabio.neta.csdc.hcw;
+    location / {
+        proxy_pass http://192.168.28.2;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+Symlink setzen & testen:
+  $ sudo ln -s /etc/nginx/sites-available/reverseproxy /etc/nginx/sites-enabled/
+  $ sudo rm /etc/nginx/sites-enabled/default
+  $ sudo nginx -t
+  $ sudo systemctl restart nginx
+
+
+G) NEXTCLOUD SETUP TWEAKS
+-------------------------------------------------------------------------------
+MariaDB vorbereiten:
+  $ sudo mariadb -u root
+  CREATE DATABASE nextcloud;
+  CREATE USER nc_user@localhost IDENTIFIED BY 'campus10campus';
+  GRANT ALL PRIVILEGES ON nextcloud.* TO nc_user@localhost;
+  FLUSH PRIVILEGES;
+  exit
+
+Rechte setzen nach Entpacken in /var/www/html:
+  $ sudo chown -R www-data:www-data /var/www/html/nextcloud
+  $ sudo chmod -R 755 /var/www/html/nextcloud
+
+
+-------------------------------------------------------------------------------
+4. IPTABLES FIREWALL (STATEFUL INSPECTION TEXTFILE TEMPLATE)
+-------------------------------------------------------------------------------
+Erstelle die Datei mit: nano firewall-text.sh (Nur zum Abgeben!)
+
+```bash
+#!/bin/bash
+# --- 1. VARIABLEN DEFINIEREN ---
+EXT_IF="ens33"            # Externes Interface (oder ens34)
+INT_NET="10.11.12.0/24"   # Internes Subnetz (oder 172.16.6.0/24)
+EXT_IP="192.168.80.3"     # Statische externe IP deines Gateways
+WEB_IP="10.11.12.2"       # IP des Webservers
+DNS_IP="10.11.12.3"       # IP des DNS-Servers
+MAIL_IP="10.11.12.4"      # IP des Mailservers
+
+# --- 2. FLUSH & RESET ---
+iptables -F
+iptables -X
+iptables -t nat -F
+
+# --- 3. DEFAULT POLICIES (DROP) ---
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# --- 4. LOOPBACK & STATE TRACKING ---
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# --- 5. FREIGABEN FÜR INTERNE HOSTS (FORWARD) ---
+iptables -A FORWARD -p tcp -d $WEB_IP --dport 80 -j ACCEPT
+iptables -A FORWARD -p udp -d $DNS_IP --dport 53 -j ACCEPT
+iptables -A FORWARD -p tcp -d $DNS_IP --dport 53 -j ACCEPT
+iptables -A FORWARD -p tcp -d $MAIL_IP --dport 25 -j ACCEPT
+
+# --- 6. AUSGEHENDER TRAFFIC RESTRIKTIONEN ---
+# Variante A (Gruppe 04-A, 04-B, 05-A): Nur HTTPS ins Internet erlaubt
+iptables -A FORWARD -s $INT_NET -p tcp --dport 443 -j ACCEPT
+
+# Variante B (Gruppe 05-B): Nur SSH ins Internet erlaubt
+# iptables -A FORWARD -s $INT_NET -p tcp --dport 22 -j ACCEPT
+
+# --- 7. NAT / ROUTING (POSTROUTING MIT SAUBEREM SNAT) ---
+iptables -t nat -A POSTROUTING -s $INT_NET -o $EXT_IF -j SNAT --to-source $EXT_IP
+
+# --- 8. PORT-FORWARDING / INCOMING (PREROUTING / DNAT) ---
+iptables -t nat -A PREROUTING -i $EXT_IF -d $EXT_IP -p tcp --dport 80 -j DNAT --to-destination $WEB_IP:80
+WIRESHARK BEWEISFÜHRUNG (DISPLAY-FILTER QUICK REFERENCE)
+
+HTTP-Traffic nachweisen:
+Filter: http -> Achte auf "GET / HTTP/1.1" vom Client und "200 OK" vom Server.
+
+DNS-Traffic nachweisen:
+Filter: dns -> Zeigt "Standard query A www.ant.lab" und die Antwort mit der IP.
+
+DHCP-Vergabe nachweisen:
+Filter: bootp -> Such nach dem klassischen DORA-4-Way-Handshake:
+
+DHCP Discover | 2. DHCP Offer | 3. DHCP Request | 4. DHCP Ack
+
+E-Mail-Verkehr nachweisen:
+Filter: smtp || imap -> SMTP protokolliert das Senden, IMAP das Lesen.
+
+FEHLERSUCHE & DIAGNOSE-COMMANDS
+
+Dienste-Status prüfen:
+$ sudo systemctl status bind9
+$ sudo systemctl status apache2
+$ sudo systemctl status postfix
+
+Live-Logs mitschreiben (Hilft extrem bei Fehlern während der Ausführung!):
+$ sudo tail -f /var/log/mail.log     # E-Mail Debugging
+$ sudo tail -f /var/log/syslog       # System- & DHCP-Logs
+$ sudo journalctl -xeu kea-dhcp4-server # KEA dediziert prüfen
+
+Netzwerk-Zustand validieren:
+$ ip a        # IPs gebunden?
+$ ip route    | Gibt es ein "default via "?
+$ ping -c 3 8.8.8.8
