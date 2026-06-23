@@ -2,7 +2,7 @@
 FROM node:26.1-alpine3.22 AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --no-fund
+RUN npm ci --no-fund --force
 COPY . .
 RUN npm run build && npm prune --omit=dev
 
