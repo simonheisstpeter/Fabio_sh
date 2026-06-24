@@ -1,13 +1,13 @@
 # ── Build stage ─────────────────────────────────
-FROM node:26.1-alpine3.22 AS builder
+FROM node:26.3-alpine3.24 AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --no-fund --force
+RUN npm ci --no-fund
 COPY . .
 RUN npm run build && npm prune --omit=dev
 
 # ── Runtime stage ───────────────────────────────
-FROM node:26.1-alpine3.22 AS runner
+FROM node:26.3-alpine3.24 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 

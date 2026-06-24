@@ -1,9 +1,9 @@
-import { LIST_OF_EMOJIS } from "./emojis";
+import { LIST_OF_EMOJIS, LIST_OF_EMOJIS_LENGTH } from "./emojis";
 
 function randomEmojis(count: number): string {
   return Array.from(
     { length: count },
-    () => LIST_OF_EMOJIS[Math.floor(Math.random() * LIST_OF_EMOJIS.length)],
+    () => LIST_OF_EMOJIS[Math.floor(Math.random() * LIST_OF_EMOJIS_LENGTH)],
   ).join("");
 }
 
@@ -69,8 +69,14 @@ export default function consoleMessage() {
     `;
 
   // Group starts
-  console.group(`%c fabio.sh - Console Message to you! ${headerIcon}`, groupStyle);
-  console.log("%c// system status: testing the limits of console styling", extraHeaderStyle);
+  console.group(
+    `%c fabio.sh - Console Message to you! ${headerIcon}`,
+    groupStyle,
+  );
+  console.log(
+    "%c// system status: testing the limits of console styling",
+    extraHeaderStyle,
+  );
 
   console.log();
   console.log("%cWELCOME TO MY CONSOLE", mainStyle);

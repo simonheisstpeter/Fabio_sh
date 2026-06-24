@@ -30,6 +30,6 @@ const LIST_OF_EMOJIS = [
   "🦎",
 ];
 
-const arrayLength = LIST_OF_EMOJIS.length;
+const LIST_OF_EMOJIS_LENGTH = LIST_OF_EMOJIS.length;
 
-export { LIST_OF_EMOJIS, arrayLength };
+export { LIST_OF_EMOJIS, LIST_OF_EMOJIS_LENGTH };

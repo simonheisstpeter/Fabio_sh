@@ -17,7 +17,10 @@ export function parseLanguages(raw: string): { flag: string; lang: string }[] {
     .map((line) => {
       const firstSpace = line.indexOf(" ");
       if (firstSpace === -1) return { flag: "", lang: line };
-      return { flag: line.slice(0, firstSpace), lang: line.slice(firstSpace + 1).trim() };
+      return {
+        flag: line.slice(0, firstSpace),
+        lang: line.slice(firstSpace + 1).trim(),
+      };
     });
 }
 
@@ -54,7 +57,9 @@ export function getDb(): DatabaseSync {
 // ── Schema ─────────────────────────────────────────────────────────────────
 
 function migrateCvFiles(db: DatabaseSync) {
-  const cols = db.prepare("PRAGMA table_info(cv_files)").all() as { name: string }[];
+  const cols = db.prepare("PRAGMA table_info(cv_files)").all() as {
+    name: string;
+  }[];
   if (cols.length > 0 && !cols.some((c) => c.name === "lang")) {
     db.exec("DROP TABLE cv_files");
     db.exec(`CREATE TABLE cv_files (
@@ -235,7 +240,8 @@ const PROJECTS_CACHE_TTL = 60_000;
 
 export function getAllProjects(): Project[] {
   const now = Date.now();
-  if (_projectsCache && _projectsCache.expiresAt > now) return _projectsCache.data;
+  if (_projectsCache && _projectsCache.expiresAt > now)
+    return _projectsCache.data;
   const rows = getDb().prepare("SELECT * FROM projects").all() as ProjectRow[];
   const data = rows.map(rowToProject);
   _projectsCache = { data, expiresAt: now + PROJECTS_CACHE_TTL };
@@ -265,7 +271,9 @@ type ProjectListRow = {
 export function getProjectsList(): ProjectListItem[] {
   return (
     getDb()
-      .prepare("SELECT id, title, published, finished, online FROM projects ORDER BY id")
+      .prepare(
+        "SELECT id, title, published, finished, online FROM projects ORDER BY id",
+      )
       .all() as ProjectListRow[]
   ).map((r) => ({
     id: r.id,
@@ -278,7 +286,7 @@ export function getProjectsList(): ProjectListItem[] {
 
 // ── Course types & helpers ─────────────────────────────────────────────────
 
-export type CourseStatus = "not_started" | "in_progress" | "completed";
+type CourseStatus = "not_started" | "in_progress" | "completed";
 
 export type CourseRow = {
   id: string;
@@ -316,7 +324,7 @@ export type Course = {
   createdAt: string;
 };
 
-export function rowToCourse(row: CourseRow): Course {
+function rowToCourse(row: CourseRow): Course {
   return {
     id: row.id,
     title: row.title,
@@ -361,11 +369,11 @@ export function getCourse(id: string): Course | null {
   return row ? rowToCourse(row) : null;
 }
 
-export function getCourseRaw(id: string): CourseRow | null {
-  return (
-    (getDb().prepare("SELECT * FROM courses WHERE id = ?").get(id) as CourseRow | undefined) ?? null
-  );
-}
+// function getCourseRaw(id: string): CourseRow | null {
+//   return (
+//     (getDb().prepare("SELECT * FROM courses WHERE id = ?").get(id) as CourseRow | undefined) ?? null
+//   );
+// }
 
 // ── CV types ───────────────────────────────────────────────────────────────
 
@@ -389,7 +397,9 @@ export type CvSecretRow = {
 
 export function getCvFile(lang: CvLang): CvFileRow | null {
   return getDb()
-    .prepare("SELECT lang, filename, size, uploaded_at FROM cv_files WHERE lang = ?")
+    .prepare(
+      "SELECT lang, filename, size, uploaded_at FROM cv_files WHERE lang = ?",
+    )
     .get(lang) as CvFileRow | null;
 }
 
@@ -408,7 +418,9 @@ const _cvDataCache = new Map<CvLang, Buffer>();
 export function getCvFileData(lang: CvLang): Buffer | null {
   const cached = _cvDataCache.get(lang);
   if (cached) return cached;
-  const row = getDb().prepare("SELECT data FROM cv_files WHERE lang = ?").get(lang) as {
+  const row = getDb()
+    .prepare("SELECT data FROM cv_files WHERE lang = ?")
+    .get(lang) as {
     data: Buffer;
   } | null;
   if (row) {
@@ -438,7 +450,8 @@ export function getCvSecretByValue(secret: string): CvSecretRow | null {
       "SELECT id, label, secret, view_count, last_opened_at, created_at FROM cv_secrets WHERE secret = ?",
     )
     .get(secret) as CvSecretRow | null;
-  if (row) _secretCache.set(secret, { row, expiresAt: Date.now() + SECRET_CACHE_TTL });
+  if (row)
+    _secretCache.set(secret, { row, expiresAt: Date.now() + SECRET_CACHE_TTL });
   else _secretCache.delete(secret);
   return row;
 }
