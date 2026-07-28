@@ -57,6 +57,10 @@ const NavLinks = [
         text: t.menuAbout,
     },
     {
+        href: getRelativeLocaleUrl(locale, "/social"),
+        text: t.menuSocial,
+    },
+    {
         href: getRelativeLocaleUrl(locale, "/contact"),
         text: t.menuContact,
     },
@@ -134,7 +138,7 @@ const NavLinks = [
     </head>
 
     <body
-        class="cursor-fabiosh min-h-screen bg-darkDotsGray text-white font-andesNeueLight relative"
+        class="cursor-fabiosh min-h-screen bg-canvas text-fg font-andesNeueLight relative"
     >
         <SkipLink />
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
@@ -145,7 +149,7 @@ const NavLinks = [
 
         <!-- Mobile nav -->
         <nav
-            class="fixed top-0 z-20 w-full bg-darkDotsGray/95 backdrop-blur-sm md:hidden"
+            class="fixed top-0 z-20 w-full bg-canvas/95 backdrop-blur-sm md:hidden"
             aria-label={t.menuHome}
         >
             <details class="group">
@@ -202,7 +206,7 @@ const NavLinks = [
                             <select
                                 id="lang-select-mobile"
                                 aria-label={t.languageSelect}
-                                class="bg-transparent text-white text-lg tracking-wide border border-white/20 rounded-md px-3 py-1"
+                                class="bg-transparent text-fg text-lg tracking-wide border border-edge rounded-md px-3 py-1"
                             >
                                 {
                                     LOCALES.map((l) => (
@@ -260,7 +264,7 @@ const NavLinks = [
                         <select
                             id="lang-select"
                             aria-label={t.languageSelect}
-                            class="bg-transparent text-white tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
+                            class="bg-transparent text-fg tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
                         >
                             {
                                 LOCALES.map((l) => (

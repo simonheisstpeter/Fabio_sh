@@ -2,6 +2,7 @@ export default {
   menuHome: "Domus",
   menuProjects: "Proiecta",
   menuAbout: "De me",
+  menuSocial: "Socialia",
   menuContact: "Contactus",
 
   name: "Fabio",
@@ -64,9 +65,9 @@ export default {
   cvViewButton: "CV videre",
 
   socialTitle: "Socialia",
-  socialIntro: "Novissimae meae scriptiones in Bluesky — recta ex servitore meo proprio allatae, sine infrastructura Bluesky.",
-  socialHostedOn: "Ipse hospitatus in",
+  socialIntro: "Novissimae scriptiones meae — recta ex servitore meo.",
   socialViewProfile: "Plenum profilum in Bluesky videre",
   socialEmpty: "Nullae adhuc scriptiones.",
   socialError: "Fluxus nunc legi non potuit.",
+  socialAlsoOn: "Rationes aliae",
 };

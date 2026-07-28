@@ -2,6 +2,7 @@ export default {
   menuHome: "Hem",
   menuProjects: "Projekt",
   menuAbout: "Om mig",
+  menuSocial: "Socialt",
   menuContact: "Kontakt",
 
   name: "Fabio",
@@ -65,9 +66,9 @@ export default {
   cvViewButton: "Visa CV",
 
   socialTitle: "Socialt",
-  socialIntro: "Mina senaste inlägg på Bluesky — hämtade direkt från min egen server, utan att gå via Blueskys infrastruktur.",
-  socialHostedOn: "Egen server på",
+  socialIntro: "Mina senaste inlägg — direkt från min egen server.",
   socialViewProfile: "Visa hela profilen på Bluesky",
   socialEmpty: "Inga inlägg än.",
   socialError: "Flödet kunde inte laddas just nu.",
+  socialAlsoOn: "Fler konton",
 };

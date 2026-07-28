@@ -2,6 +2,7 @@ export default {
   menuHome: "HQ",
   menuProjects: "Ops",
   menuAbout: "Profile",
+  menuSocial: "The Feed",
   menuContact: "Ping",
 
   name: "Fabio",
@@ -65,9 +66,9 @@ export default {
   cvViewButton: "Jack In",
 
   socialTitle: "The Feed",
-  socialIntro: "Latest transmissions from Bluesky — pulled raw off my own node, no corpo relay in the middle.",
-  socialHostedOn: "Node running on",
+  socialIntro: "Latest transmissions — straight off my own node.",
   socialViewProfile: "Jack into the full profile",
   socialEmpty: "No transmissions yet.",
   socialError: "Signal lost. Feed unreachable.",
+  socialAlsoOn: "Other handles",
 };

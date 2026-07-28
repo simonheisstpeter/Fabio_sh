@@ -2,6 +2,7 @@ export default {
   menuHome: "Home Dashboard",
   menuProjects: "Project Portfolio",
   menuAbout: "About the Individual",
+  menuSocial: "Social Presence",
   menuContact: "Contact Channel",
 
   name: "Fabio",
@@ -65,9 +66,9 @@ export default {
   cvViewButton: "Access Document",
 
   socialTitle: "Social Presence",
-  socialIntro: "My latest thought leadership on Bluesky, surfaced directly from my owned infrastructure without third-party intermediation.",
-  socialHostedOn: "Independently hosted on",
+  socialIntro: "My latest updates, sourced directly from my own infrastructure.",
   socialViewProfile: "View complete profile on Bluesky",
   socialEmpty: "No content published at this time.",
   socialError: "Feed retrieval is currently unavailable.",
+  socialAlsoOn: "Additional Accounts",
 };

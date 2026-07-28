@@ -2,6 +2,7 @@ export default {
   menuHome: "Main Hub",
   menuProjects: "Holoprojects",
   menuAbout: "Archive",
+  menuSocial: "Transmissions",
   menuContact: "Communications",
 
   name: "Fabio",
@@ -65,9 +66,9 @@ export default {
   cvViewButton: "Access Dossier",
 
   socialTitle: "Transmissions",
-  socialIntro: "My latest dispatches on Bluesky — relayed straight from my own outpost, bypassing the central network.",
-  socialHostedOn: "Outpost stationed at",
+  socialIntro: "My latest dispatches — straight from my own outpost.",
   socialViewProfile: "View the full dossier on Bluesky",
   socialEmpty: "No dispatches yet.",
   socialError: "The transmission could not be received.",
+  socialAlsoOn: "Other identities",
 };

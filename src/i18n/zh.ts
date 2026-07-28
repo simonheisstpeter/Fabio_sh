@@ -2,6 +2,7 @@ export default {
   menuHome: "首页",
   menuProjects: "项目",
   menuAbout: "关于我",
+  menuSocial: "社交",
   menuContact: "联系",
 
   // 法比欧 (Fǎ bǐ ōu) 贡施维德 (Gòng shī wéi dé)
@@ -64,9 +65,9 @@ export default {
   cvViewButton: "查看简历",
 
   socialTitle: "社交",
-  socialIntro: "我在 Bluesky 上的最新动态 —— 直接从我自己的服务器加载，不经过 Bluesky 的基础设施。",
-  socialHostedOn: "自建服务器：",
+  socialIntro: "我最近的动态，直接来自我自己的服务器。",
   socialViewProfile: "在 Bluesky 上查看完整资料",
   socialEmpty: "暂无动态。",
   socialError: "目前无法加载动态。",
+  socialAlsoOn: "更多账号",
 };

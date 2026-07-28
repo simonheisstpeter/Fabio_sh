@@ -3,6 +3,7 @@ export default {
   menuHome: "The Homestead",
   menuProjects: "Cattle Drive",
   menuAbout: "The Drifter",
+  menuSocial: "Town Square",
   menuContact: "The Telegraph",
 
   name: "Fabio",
@@ -66,9 +67,9 @@ export default {
   cvViewButton: "Take a Look",
 
   socialTitle: "The Town Square",
-  socialIntro: "My latest word from Bluesky — carried straight off my own homestead, no middleman ridin' between us.",
-  socialHostedOn: "Homestead sits at",
+  socialIntro: "My latest word — straight off my own homestead.",
   socialViewProfile: "Mosey on over to the full profile",
   socialEmpty: "Ain't posted nothin' yet.",
   socialError: "Couldn't fetch the feed just now, partner.",
+  socialAlsoOn: "Other handles",
 };

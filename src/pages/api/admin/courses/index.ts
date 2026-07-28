@@ -2,15 +2,7 @@ import type { APIRoute } from "astro";
 import { getDb, invalidateCoursesCache } from "../../../../lib/db";
 import { jsonError } from "../../../../lib/response";
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
-
-function checkMagicBytes(buf: Buffer): boolean {
-  if (buf.length < 4) return false;
-  if (buf.slice(0, 4).toString("binary") === "%PDF") return true;
-  if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return true;
-  if (buf.slice(0, 4).toString("binary") === "\x89PNG") return true;
-  return false;
-}
+import { readUploadedFile } from "../../../../lib/upload";
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   const form = await request.formData();
@@ -36,16 +28,10 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     .map((t) => t.trim())
     .filter(Boolean);
 
-  let certBuffer: Buffer | null = null;
-  let certName = "";
-  const certFile = form.get("certificate") as File | null;
-  if (certFile && certFile.size > 0) {
-    if (certFile.size > MAX_FILE_SIZE) return jsonError("Certificate too large (max 10 MB)", 400);
-    const buf = Buffer.from(await certFile.arrayBuffer());
-    if (!checkMagicBytes(buf)) return jsonError("Unsupported file type (PDF, JPG, PNG only)", 400);
-    certBuffer = buf;
-    certName = certFile.name;
-  }
+  const upload = await readUploadedFile(form.get("certificate") as File | null);
+  if (upload && !upload.ok) return jsonError(upload.error, 400);
+  const certBuffer = upload?.ok ? upload.buffer : null;
+  const certName = upload?.ok ? upload.name : "";
 
   try {
     getDb()

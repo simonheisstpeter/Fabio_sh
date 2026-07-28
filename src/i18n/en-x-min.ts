@@ -2,6 +2,7 @@ export default {
   menuHome: "Home",
   menuProjects: "Proj",
   menuAbout: "About",
+  menuSocial: "Social",
   menuContact: "Contact",
 
   name: "Fabio",
@@ -62,9 +63,9 @@ export default {
   cvViewButton: "View",
 
   socialTitle: "Social",
-  socialIntro: "Latest posts. Served from my own server.",
-  socialHostedOn: "Hosted on",
+  socialIntro: "Latest posts. My own server.",
   socialViewProfile: "Full profile",
   socialEmpty: "No posts.",
   socialError: "Feed unavailable.",
+  socialAlsoOn: "More",
 };

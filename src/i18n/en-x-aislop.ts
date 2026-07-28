@@ -3,6 +3,7 @@ export default {
   menuHome: "Global Origin Nexus 🚀",
   menuProjects: "Scalable Innovation Portfolio 📂",
   menuAbout: "The Narrative Evolution of Me 🧬",
+  menuSocial: "Social Hub",
   menuContact: "Strategic Synergy Interface 📞",
 
   // Identity Bio-Tokens
@@ -76,9 +77,9 @@ export default {
   cvViewButton: "Unlock Value Document",
 
   socialTitle: "Social Engagement Hub",
-  socialIntro: "My latest value-additive posts on Bluesky, seamlessly surfaced from my self-owned infrastructure stack without third-party dependency friction.",
-  socialHostedOn: "Autonomously hosted on",
+  socialIntro: "My latest content, natively surfaced from my own stack.",
   socialViewProfile: "Explore the Full Profile Experience on Bluesky",
   socialEmpty: "No content assets published yet.",
   socialError: "Feed synergization temporarily unavailable.",
+  socialAlsoOn: "Additional Account Presence",
 };

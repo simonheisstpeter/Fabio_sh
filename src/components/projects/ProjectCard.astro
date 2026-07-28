@@ -24,7 +24,7 @@ const hasImage = !project.finished && project.published && project.image;
 
 <li>
     <article
-        class="project-card relative cursor-fabiosh rounded-md border border-gray-700 shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-[#1d1d1f] flex flex-col"
+        class="project-card relative cursor-fabiosh rounded-md border border-divider shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-surface flex flex-col"
         data-title={project.title.toLowerCase()}
         data-categories={JSON.stringify(project.categories)}
         tabindex="0"
@@ -49,7 +49,7 @@ const hasImage = !project.finished && project.published && project.image;
 
         <div class="h-1 rounded-t-md"></div>
 
-        <div class="rounded-b-md bg-[#1d1d1f] p-4 text-sm flex flex-col flex-1">
+        <div class="rounded-b-md bg-surface p-4 text-sm flex flex-col flex-1">
             <ProjectStatus
                 title={project.title}
                 online={project.online}
@@ -58,13 +58,13 @@ const hasImage = !project.finished && project.published && project.image;
 
             {
                 description && (
-                    <p class="mb-2 text-gray-100 font-andesNeueLight">
+                    <p class="mb-2 text-fg font-andesNeueLight">
                         {description}
                     </p>
                 )
             }
 
-            <ul class="m-0 mb-2 block text-gray-400">
+            <ul class="m-0 mb-2 block text-muted2">
                 {
                     project.languages.map((language) => (
                         <ProjectLanguages language={language} />

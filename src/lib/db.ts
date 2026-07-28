@@ -1,6 +1,7 @@
 import { DatabaseSync } from "node:sqlite";
 import { join } from "path";
 import { createHash } from "node:crypto";
+import { runMigrations } from "./migrate-runner.js";
 
 export function hashIp(ip: string): string {
   const secret = process.env.IP_HASH_SECRET ?? "changeme";
@@ -49,149 +50,23 @@ export function getDb(): DatabaseSync {
   _db.exec("PRAGMA mmap_size = 67108864"); // 64 MB memory-mapped reads
   _db.exec("PRAGMA busy_timeout = 5000"); // wait up to 5 s before SQLITE_BUSY
 
-  initSchema(_db);
-  migrateCvFiles(_db);
+  // Schema is owned entirely by the versioned migration runner. It records what
+  // it applies in `schema_migrations`, snapshots the DB first, and is a no-op
+  // once up to date — so booting a fresh container migrates prod automatically.
+  runMigrations(_db, { dbPath, log: (msg) => console.log(msg) });
+
   return _db;
 }
 
 // ── Schema ─────────────────────────────────────────────────────────────────
-
-function migrateCvFiles(db: DatabaseSync) {
-  const cols = db.prepare("PRAGMA table_info(cv_files)").all() as {
-    name: string;
-  }[];
-  if (cols.length > 0 && !cols.some((c) => c.name === "lang")) {
-    db.exec("DROP TABLE cv_files");
-    db.exec(`CREATE TABLE cv_files (
-      lang        TEXT PRIMARY KEY CHECK (lang IN ('de', 'en')),
-      data        BLOB NOT NULL,
-      filename    TEXT NOT NULL,
-      size        INTEGER NOT NULL,
-      uploaded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    )`);
-  }
-}
-
-function initSchema(db: DatabaseSync) {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS projects (
-      id            TEXT PRIMARY KEY,
-      title         TEXT NOT NULL,
-      desc_de       TEXT NOT NULL DEFAULT '',
-      desc_en       TEXT NOT NULL DEFAULT '',
-      desc_es       TEXT NOT NULL DEFAULT '',
-      desc_it       TEXT NOT NULL DEFAULT '',
-      desc_ja       TEXT NOT NULL DEFAULT '',
-      desc_pt       TEXT NOT NULL DEFAULT '',
-      categories    TEXT NOT NULL DEFAULT '[]',
-      published     INTEGER NOT NULL DEFAULT 0,
-      finished      INTEGER NOT NULL DEFAULT 0,
-      online        INTEGER NOT NULL DEFAULT 0,
-      image         TEXT NOT NULL DEFAULT '',
-      url           TEXT NOT NULL DEFAULT '',
-      languages     TEXT NOT NULL DEFAULT '[]'
-    );
-
-    CREATE TABLE IF NOT EXISTS contact_submissions (
-      id            INTEGER PRIMARY KEY AUTOINCREMENT,
-      name          TEXT NOT NULL,
-      email         TEXT NOT NULL,
-      message       TEXT NOT NULL,
-      ip_hash       TEXT NOT NULL DEFAULT '',
-      submitted_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS rate_limits (
-      ip_hash       TEXT PRIMARY KEY,
-      count         INTEGER NOT NULL DEFAULT 1,
-      window_start  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS webauthn_credentials (
-      credential_id  TEXT PRIMARY KEY,
-      public_key     TEXT NOT NULL,
-      counter        INTEGER NOT NULL DEFAULT 0,
-      device_type    TEXT,
-      backed_up      INTEGER NOT NULL DEFAULT 0,
-      transports     TEXT,
-      created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS admin_password (
-      id      INTEGER PRIMARY KEY CHECK (id = 1),
-      email   TEXT NOT NULL,
-      hash    TEXT NOT NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS admin_sessions (
-      token       TEXT PRIMARY KEY,
-      expires_at  DATETIME NOT NULL,
-      created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS login_attempts (
-      ip_hash      TEXT PRIMARY KEY,
-      count        INTEGER NOT NULL DEFAULT 1,
-      window_start DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS cv_files (
-      lang        TEXT PRIMARY KEY CHECK (lang IN ('de', 'en')),
-      data        BLOB NOT NULL,
-      filename    TEXT NOT NULL,
-      size        INTEGER NOT NULL,
-      uploaded_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS cv_secrets (
-      id             INTEGER PRIMARY KEY AUTOINCREMENT,
-      label          TEXT NOT NULL,
-      secret         TEXT UNIQUE NOT NULL,
-      view_count     INTEGER NOT NULL DEFAULT 0,
-      last_opened_at DATETIME,
-      created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS courses (
-      id               TEXT PRIMARY KEY,
-      title            TEXT NOT NULL,
-      platform         TEXT NOT NULL DEFAULT '',
-      status           TEXT NOT NULL DEFAULT 'not_started'
-                       CHECK (status IN ('not_started','in_progress','completed')),
-      progress         INTEGER NOT NULL DEFAULT 0 CHECK (progress BETWEEN 0 AND 100),
-      topics           TEXT NOT NULL DEFAULT '[]',
-      url              TEXT NOT NULL DEFAULT '',
-      start_date       TEXT NOT NULL DEFAULT '',
-      end_date         TEXT NOT NULL DEFAULT '',
-      certificate      BLOB,
-      certificate_name TEXT NOT NULL DEFAULT '',
-      notes            TEXT NOT NULL DEFAULT '',
-      published        INTEGER NOT NULL DEFAULT 0,
-      sort_order       INTEGER NOT NULL DEFAULT 0,
-      created_at       TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_projects_pub_fin  ON projects(published, finished);
-    CREATE INDEX IF NOT EXISTS idx_sessions_expires   ON admin_sessions(expires_at);
-    CREATE INDEX IF NOT EXISTS idx_submissions_at     ON contact_submissions(submitted_at DESC);
-    CREATE INDEX IF NOT EXISTS idx_courses_pub_sort   ON courses(published, sort_order, created_at);
-    CREATE INDEX IF NOT EXISTS idx_courses_status     ON courses(status);
-    CREATE INDEX IF NOT EXISTS idx_courses_platform   ON courses(platform);
-  `);
-}
+// Table definitions and all schema changes live in `migrations.js`, applied by
+// `migrate-runner.js`. Nothing here creates or alters tables.
 
 // ── Project types & helpers ────────────────────────────────────────────────
 
 export type ProjectRow = {
   id: string;
   title: string;
-  desc_de: string;
-  desc_en: string;
-  desc_es: string;
-  desc_it: string;
-  desc_ja: string;
-  desc_pt: string;
-  categories: string;
   published: number;
   finished: number;
   online: number;
@@ -213,19 +88,16 @@ export type Project = {
   languages: { lang: string; flag: string }[];
 };
 
-export function rowToProject(row: ProjectRow): Project {
+export function rowToProject(
+  row: ProjectRow,
+  description: Record<string, string> = {},
+  categories: string[] = [],
+): Project {
   return {
     id: row.id,
     title: row.title,
-    description: {
-      de: row.desc_de,
-      en: row.desc_en,
-      es: row.desc_es,
-      it: row.desc_it,
-      ja: row.desc_ja,
-      pt: row.desc_pt,
-    },
-    categories: JSON.parse(row.categories),
+    description,
+    categories,
     published: Boolean(row.published),
     finished: Boolean(row.finished),
     online: Boolean(row.online),
@@ -238,18 +110,159 @@ export function rowToProject(row: ProjectRow): Project {
 let _projectsCache: { data: Project[]; expiresAt: number } | null = null;
 const PROJECTS_CACHE_TTL = 60_000;
 
+/**
+ * Three queries — projects, all translations, all categories — stitched in
+ * memory. Deliberately not a per-project lookup: that would be N+1.
+ */
 export function getAllProjects(): Project[] {
   const now = Date.now();
-  if (_projectsCache && _projectsCache.expiresAt > now)
-    return _projectsCache.data;
-  const rows = getDb().prepare("SELECT * FROM projects").all() as ProjectRow[];
-  const data = rows.map(rowToProject);
+  if (_projectsCache && _projectsCache.expiresAt > now) return _projectsCache.data;
+
+  const db = getDb();
+  const rows = db.prepare("SELECT * FROM projects").all() as ProjectRow[];
+
+  const descriptions = new Map<string, Record<string, string>>();
+  for (const t of db
+    .prepare("SELECT project_id, locale, description FROM project_translations")
+    .all() as { project_id: string; locale: string; description: string }[]) {
+    (descriptions.get(t.project_id) ?? descriptions.set(t.project_id, {}).get(t.project_id)!)[
+      t.locale
+    ] = t.description;
+  }
+
+  const categories = new Map<string, string[]>();
+  for (const c of db
+    .prepare("SELECT project_id, category FROM project_categories ORDER BY category")
+    .all() as { project_id: string; category: string }[]) {
+    (categories.get(c.project_id) ?? categories.set(c.project_id, []).get(c.project_id)!).push(
+      c.category,
+    );
+  }
+
+  const data = rows.map((r) =>
+    rowToProject(r, descriptions.get(r.id) ?? {}, categories.get(r.id) ?? []),
+  );
   _projectsCache = { data, expiresAt: now + PROJECTS_CACHE_TTL };
   return data;
 }
 
+/** Single project with its relations — for the admin edit page. */
+export function getProject(id: string): Project | null {
+  const db = getDb();
+  const row = db.prepare("SELECT * FROM projects WHERE id = ?").get(id) as
+    | ProjectRow
+    | undefined;
+  if (!row) return null;
+
+  const description: Record<string, string> = {};
+  for (const t of db
+    .prepare("SELECT locale, description FROM project_translations WHERE project_id = ?")
+    .all(id) as { locale: string; description: string }[]) {
+    description[t.locale] = t.description;
+  }
+
+  const categories = (
+    db
+      .prepare("SELECT category FROM project_categories WHERE project_id = ? ORDER BY category")
+      .all(id) as { category: string }[]
+  ).map((c) => c.category);
+
+  return rowToProject(row, description, categories);
+}
+
 export function invalidateProjectsCache(): void {
   _projectsCache = null;
+}
+
+export type ProjectInput = {
+  id: string;
+  title: string;
+  /** Any locale key; empty values are not stored. */
+  description: Record<string, string>;
+  categories: string[];
+  published: boolean;
+  finished: boolean;
+  online: boolean;
+  image: string;
+  url: string;
+  languages: { lang: string; flag: string }[];
+};
+
+/**
+ * Writes a project and its relations as one unit — shared by create and update
+ * so the column list lives in exactly one place. Child rows are replaced
+ * wholesale, which is simplest and correct for the handful of rows involved.
+ */
+export function saveProject(input: ProjectInput, mode: "insert" | "update"): void {
+  const db = getDb();
+
+  db.exec("BEGIN IMMEDIATE");
+  try {
+    if (mode === "insert") {
+      db.prepare(
+        `INSERT INTO projects (id, title, published, finished, online, image, url, languages)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      ).run(
+        input.id,
+        input.title,
+        input.published ? 1 : 0,
+        input.finished ? 1 : 0,
+        input.online ? 1 : 0,
+        input.image,
+        input.url,
+        JSON.stringify(input.languages),
+      );
+    } else {
+      const info = db
+        .prepare(
+          `UPDATE projects SET title = ?, published = ?, finished = ?, online = ?,
+                               image = ?, url = ?, languages = ?
+           WHERE id = ?`,
+        )
+        .run(
+          input.title,
+          input.published ? 1 : 0,
+          input.finished ? 1 : 0,
+          input.online ? 1 : 0,
+          input.image,
+          input.url,
+          JSON.stringify(input.languages),
+          input.id,
+        );
+      if (info.changes === 0) throw new NotFoundError(`Project "${input.id}" not found`);
+    }
+
+    db.prepare("DELETE FROM project_translations WHERE project_id = ?").run(input.id);
+    const insertTranslation = db.prepare(
+      "INSERT INTO project_translations (project_id, locale, description) VALUES (?, ?, ?)",
+    );
+    for (const [locale, description] of Object.entries(input.description)) {
+      if (description.trim()) insertTranslation.run(input.id, locale, description);
+    }
+
+    db.prepare("DELETE FROM project_categories WHERE project_id = ?").run(input.id);
+    const insertCategory = db.prepare(
+      "INSERT OR IGNORE INTO project_categories (project_id, category) VALUES (?, ?)",
+    );
+    for (const category of input.categories) {
+      if (category.trim()) insertCategory.run(input.id, category.trim());
+    }
+
+    db.exec("COMMIT");
+  } catch (err) {
+    db.exec("ROLLBACK");
+    throw err;
+  }
+
+  invalidateProjectsCache();
+}
+
+export class NotFoundError extends Error {}
+
+export function deleteProject(id: string): void {
+  // project_translations / project_categories cascade via FK.
+  getDb().prepare("DELETE FROM projects WHERE id = ?").run(id);
+  invalidateProjectsCache();
 }
 
 export type ProjectListItem = {
@@ -306,6 +319,19 @@ export type CourseRow = {
   created_at: string;
 };
 
+/**
+ * Same as CourseRow but with the certificate BLOB replaced by a flag.
+ * Certificates can be 10 MB each, so list queries must never select the blob —
+ * they only ever need to know whether one exists.
+ */
+type CourseListRow = Omit<CourseRow, "certificate"> & { has_certificate: number };
+
+const COURSE_LIST_COLUMNS = `
+  id, title, platform, status, progress, topics, url, start_date, end_date,
+  certificate IS NOT NULL AS has_certificate, certificate_name, notes,
+  published, sort_order, created_at
+`;
+
 export type Course = {
   id: string;
   title: string;
@@ -324,7 +350,7 @@ export type Course = {
   createdAt: string;
 };
 
-function rowToCourse(row: CourseRow): Course {
+function rowToCourse(row: CourseListRow): Course {
   return {
     id: row.id,
     title: row.title,
@@ -335,7 +361,7 @@ function rowToCourse(row: CourseRow): Course {
     url: row.url,
     startDate: row.start_date,
     endDate: row.end_date,
-    hasCertificate: row.certificate !== null && row.certificate !== undefined,
+    hasCertificate: Boolean(row.has_certificate),
     certificateName: row.certificate_name,
     notes: row.notes,
     published: Boolean(row.published),
@@ -351,8 +377,8 @@ export function getAllCourses(): Course[] {
   const now = Date.now();
   if (_coursesCache && _coursesCache.expiresAt > now) return _coursesCache.data;
   const rows = getDb()
-    .prepare("SELECT * FROM courses ORDER BY sort_order, created_at")
-    .all() as CourseRow[];
+    .prepare(`SELECT ${COURSE_LIST_COLUMNS} FROM courses ORDER BY sort_order, created_at`)
+    .all() as CourseListRow[];
   const data = rows.map(rowToCourse);
   _coursesCache = { data, expiresAt: now + COURSES_CACHE_TTL };
   return data;
@@ -363,9 +389,9 @@ export function invalidateCoursesCache(): void {
 }
 
 export function getCourse(id: string): Course | null {
-  const row = getDb().prepare("SELECT * FROM courses WHERE id = ?").get(id) as
-    | CourseRow
-    | undefined;
+  const row = getDb()
+    .prepare(`SELECT ${COURSE_LIST_COLUMNS} FROM courses WHERE id = ?`)
+    .get(id) as CourseListRow | undefined;
   return row ? rowToCourse(row) : null;
 }
 

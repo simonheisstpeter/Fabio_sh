@@ -3,6 +3,7 @@ export default {
   menuHome: "Ground Control",
   menuProjects: "Active Payloads",
   menuAbout: "Bio-Data / Crew Profile",
+  menuSocial: "Comms",
   menuContact: "Communication Uplink",
 
   name: "Commander Fabio",
@@ -66,9 +67,9 @@ export default {
   cvViewButton: "Access Dossier",
 
   socialTitle: "Comms Log",
-  socialIntro: "Latest transmissions on Bluesky — downlinked directly from my own ground station, bypassing external relay networks.",
-  socialHostedOn: "Ground station at",
+  socialIntro: "Latest transmissions — downlinked from my own ground station.",
   socialViewProfile: "Access full crew profile on Bluesky",
   socialEmpty: "No transmissions logged.",
   socialError: "Downlink failed. Feed unavailable.",
+  socialAlsoOn: "Additional Accounts",
 };

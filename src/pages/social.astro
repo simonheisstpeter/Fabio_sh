@@ -4,15 +4,23 @@ import { getTranslations } from "../i18n/index";
 import {
     getSocialFeed,
     ATPROTO_DID,
-    ATPROTO_PDS,
     BSKY_PROFILE_URL,
+    CACHE_TTL_MS,
 } from "../lib/atproto";
 
 const locale = Astro.currentLocale ?? "de";
 const t = getTranslations(locale);
 
-// Read straight from the self-hosted PDS (5-minute in-memory cache).
+// Read straight from the self-hosted PDS (stale-while-revalidate memory cache).
 const feed = await getSocialFeed();
+
+// Let browsers and any upstream proxy reuse the rendered page. max-age mirrors
+// the server-side fresh window; SWR lets a cache serve instantly while it
+// revalidates. Nothing here is per-visitor, so `public` is safe.
+Astro.response.headers.set(
+    "Cache-Control",
+    `public, max-age=${CACHE_TTL_MS / 1000}, stale-while-revalidate=1800`,
+);
 
 // Joke locales (en-x-cowboy, …) are valid BCP-47 but may not resolve in Intl.
 function formatDate(iso: string): string {
@@ -29,78 +37,129 @@ function formatDate(iso: string): string {
 }
 ---
 
-<Layout title={`${t.socialTitle} – fabio.sh`} description={t.socialIntro}>
+<Layout
+    title={`ATProto ${t.socialTitle} – fabio.sh`}
+    description={t.socialIntro}
+>
     <div class="container mx-auto py-24 md:py-36 px-4 md:px-12">
-        <h1 class="text-5xl font-andesNeueMedium mb-20 animate-fadeIn_2000">
-            {t.socialTitle}
-        </h1>
-
-        <p
-            class="font-andesNeueLight text-base text-white/55 mb-4 max-w-2xl leading-relaxed"
+        <div
+            class="grid gap-12 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16 lg:items-start"
         >
-            {t.socialIntro}
-        </p>
+            <!-- Sticky intro column. `items-start` on the grid is what stops
+                 this stretching to full row height, which would kill sticky. -->
+            <aside class="lg:sticky lg:top-12">
+                <h1
+                    class="text-4xl font-andesNeueMedium mb-8 animate-fadeIn_2000"
+                >
+                    <span class="text-emerald-400">ATProto</span>{" "}{t.socialTitle}
+                </h1>
 
-        <p class="font-andesNeueLight text-sm text-white/40 mb-16 max-w-2xl">
-            {t.socialHostedOn}{" "}
-            <a
-                href={ATPROTO_PDS}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-emerald-400 hover:underline">at.fabio.sh</a
-            >
-            <span class="block mt-1 font-mono text-xs text-white/25 break-all"
-                >{ATPROTO_DID}</span
-            >
-        </p>
-
-        {
-            feed ? (
-                <section aria-labelledby="feed-heading" class="max-w-2xl">
-                    <h2 id="feed-heading" class="sr-only">
-                        {t.socialTitle}
-                    </h2>
-
-                    <header class="flex items-center gap-4 mb-12">
+                {feed?.profile && (
+                    <div class="flex items-center gap-4 mb-8">
                         {feed.profile.avatar && (
-                            <img
-                                src={feed.profile.avatar}
-                                alt={feed.profile.displayName}
-                                width="64"
-                                height="64"
-                                loading="lazy"
-                                decoding="async"
-                                class="h-16 w-16 rounded-full object-cover shrink-0"
-                            />
+                            <span class="img-frame h-14 w-14 shrink-0 rounded-full">
+                                <img
+                                    src={feed.profile.avatar}
+                                    alt={feed.profile.displayName}
+                                    width="56"
+                                    height="56"
+                                    loading="eager"
+                                    fetchpriority="high"
+                                    decoding="async"
+                                    class="h-14 w-14 rounded-full object-cover"
+                                />
+                            </span>
                         )}
                         <div class="flex flex-col gap-0.5">
-                            <span class="text-lg font-andesNeueMedium">
+                            <span class="font-andesNeueMedium">
                                 {feed.profile.displayName}
                             </span>
                             <a
                                 href={BSKY_PROFILE_URL}
                                 target="_blank"
                                 rel="me noopener noreferrer"
-                                class="text-sm text-white/60 hover:text-emerald-400 transition-colors duration-200"
+                                class="text-sm text-muted1 hover:text-emerald-400 transition-colors duration-200"
                             >
                                 @{feed.profile.handle} ↗
                             </a>
                         </div>
-                    </header>
+                    </div>
+                )}
+
+                <p
+                    class="font-andesNeueLight text-base text-muted1 mb-2 leading-relaxed"
+                >
+                    {t.socialIntro}
+                </p>
+
+                <p class="font-mono text-xs text-muted3 break-all">
+                    {ATPROTO_DID}
+                </p>
+
+                <a
+                    href={BSKY_PROFILE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-6 inline-block text-sm text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                >
+                    {t.socialViewProfile} ↗
+                </a>
+
+                {
+                    feed && feed.apps.length > 0 && (
+                        <div class="mt-8 border-t border-divider pt-6">
+                            <h2 class="text-xs uppercase tracking-widest text-muted3 mb-3">
+                                {t.socialAlsoOn}
+                            </h2>
+                            <ul class="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                                {feed.apps.map((app) => (
+                                    <li>
+                                        {app.url ? (
+                                            <a
+                                                href={app.url}
+                                                target="_blank"
+                                                rel="me noopener noreferrer"
+                                                title={app.namespace}
+                                                class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                                            >
+                                                {app.name} ↗
+                                            </a>
+                                        ) : (
+                                            <span
+                                                title={app.namespace}
+                                                class="text-muted2"
+                                            >
+                                                {app.name}
+                                            </span>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )
+                }
+            </aside>
+
+            {
+            feed ? (
+                <section aria-labelledby="feed-heading" class="max-w-2xl">
+                    <h2 id="feed-heading" class="sr-only">
+                        {t.socialTitle}
+                    </h2>
 
                     {feed.posts.length === 0 ? (
-                        <p class="text-white/40 font-andesNeueLight">
+                        <p class="text-muted2 font-andesNeueLight">
                             {t.socialEmpty}
                         </p>
                     ) : (
                         <ol class="flex flex-col gap-10">
                             {feed.posts.map((post) => (
-                                <li class="border-t border-white/10 pt-6">
+                                <li class="border-t border-divider pt-6">
                                     <a
                                         href={post.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="text-xs text-white/40 hover:text-emerald-400 transition-colors duration-200"
+                                        class="text-xs text-muted2 hover:text-emerald-400 transition-colors duration-200"
                                     >
                                         <time datetime={post.createdAt}>
                                             {formatDate(post.createdAt)}
@@ -108,7 +167,7 @@ function formatDate(iso: string): string {
                                     </a>
 
                                     {post.text && (
-                                        <p class="mt-3 whitespace-pre-wrap font-andesNeueLight text-white/90 leading-relaxed">
+                                        <p class="mt-3 whitespace-pre-wrap font-andesNeueLight text-fg leading-relaxed">
                                             {post.text}
                                         </p>
                                     )}
@@ -116,15 +175,28 @@ function formatDate(iso: string): string {
                                     {post.images.length > 0 && (
                                         <div class="mt-4 grid gap-3 sm:grid-cols-2">
                                             {post.images.map((img) => (
-                                                <img
-                                                    src={img.url}
-                                                    alt={img.alt}
-                                                    width={img.aspectRatio?.width}
-                                                    height={img.aspectRatio?.height}
-                                                    loading="lazy"
-                                                    decoding="async"
-                                                    class="w-full rounded-md border border-white/10"
-                                                />
+                                                <span
+                                                    class="img-frame block w-full overflow-hidden rounded-md border border-divider"
+                                                    style={
+                                                        img.aspectRatio
+                                                            ? `aspect-ratio:${img.aspectRatio.width}/${img.aspectRatio.height}`
+                                                            : undefined
+                                                    }
+                                                >
+                                                    <img
+                                                        src={img.url}
+                                                        alt={img.alt}
+                                                        width={
+                                                            img.aspectRatio?.width
+                                                        }
+                                                        height={
+                                                            img.aspectRatio?.height
+                                                        }
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        class="h-full w-full object-cover"
+                                                    />
+                                                </span>
                                             ))}
                                         </div>
                                     )}
@@ -133,18 +205,113 @@ function formatDate(iso: string): string {
                         </ol>
                     )}
 
-                    <a
-                        href={BSKY_PROFILE_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="mt-12 inline-block text-sm text-white/60 hover:text-emerald-400 transition-colors duration-200"
-                    >
-                        {t.socialViewProfile} ↗
-                    </a>
                 </section>
             ) : (
-                <p class="text-white/40 font-andesNeueLight">{t.socialError}</p>
+                <p class="text-muted2 font-andesNeueLight">{t.socialError}</p>
             )
-        }
+            }
+        </div>
     </div>
+
+    <!-- The shimmer is cleared by JS on image load, so without JS the images
+         must be shown unconditionally rather than staying at opacity 0. -->
+    <noscript>
+        <style>
+            .img-frame img {
+                opacity: 1 !important;
+            }
+            .img-frame::after {
+                content: none !important;
+            }
+        </style>
+    </noscript>
 </Layout>
+
+<script>
+    // Blobs come off the PDS unresized (a few hundred KB to ~1.8 MB each), so
+    // the shimmer is genuinely visible. Swap it out once each image decodes.
+    function initImageSkeletons() {
+        for (const frame of document.querySelectorAll<HTMLElement>(".img-frame")) {
+            const img = frame.querySelector("img");
+            if (!img) continue;
+
+            const done = () => frame.classList.add("is-loaded");
+
+            // Cached images may already be complete before this runs.
+            if (img.complete && img.naturalWidth > 0) {
+                done();
+                continue;
+            }
+            img.addEventListener("load", done, { once: true });
+            // On error the alt text shows — don't shimmer forever.
+            img.addEventListener("error", done, { once: true });
+        }
+    }
+
+    // Fires on first load and after every View Transition.
+    document.addEventListener("astro:page-load", initImageSkeletons);
+</script>
+
+<style>
+    /* Alt text styling for images that fail to load. */
+    .img-frame img {
+        font-style: italic;
+        font-size: 10px;
+    }
+
+    .img-frame {
+        position: relative;
+        background-color: var(--color-surface);
+    }
+
+    .img-frame::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+            90deg,
+            transparent 0%,
+            var(--color-raised) 50%,
+            transparent 100%
+        );
+        background-size: 200% 100%;
+        animation: social-shimmer 1.4s infinite linear;
+        pointer-events: none;
+    }
+
+    /* Fade the image in over the shimmer, then drop the shimmer entirely. */
+    .img-frame img {
+        opacity: 0;
+        transition: opacity 0.35s ease;
+    }
+    .img-frame.is-loaded img {
+        opacity: 1;
+    }
+    .img-frame.is-loaded {
+        background-color: transparent;
+    }
+    .img-frame.is-loaded::after {
+        content: none;
+    }
+
+    @keyframes social-shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    /* globals.css already neutralises animation under reduced motion; make sure
+       the placeholder still disappears rather than sitting there statically. */
+    @media (prefers-reduced-motion: reduce) {
+        .img-frame::after {
+            animation: none;
+            background-image: none;
+        }
+        .img-frame img {
+            transition: none;
+        }
+    }
+</style>

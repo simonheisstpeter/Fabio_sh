@@ -28,7 +28,7 @@ const {
     </div>
 
     <div
-        class="relative overflow-hidden rounded-3xl border border-white/10 p-8 md:p-12 backdrop-blur-xs"
+        class="relative overflow-hidden rounded-3xl border border-divider p-8 md:p-12 backdrop-blur-xs"
     >
         {
             sent && (
@@ -60,7 +60,7 @@ const {
             action={action}
             method="POST"
             novalidate
-            class="space-y-8 text-white"
+            class="space-y-8 text-fg"
             data-success={t.contactSuccess}
             data-error={t.contactError}
         >
@@ -86,7 +86,7 @@ const {
                         name="name"
                         required
                         placeholder="John Doe"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/8 focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
+                        class="w-full bg-surface border border-edge rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-raised focus:ring-4 focus:ring-emerald-500/5 placeholder:text-muted3"
                     />
                 </div>
 
@@ -105,7 +105,7 @@ const {
                         name="email"
                         required
                         placeholder="hello@example.com"
-                        class="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/8 focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20"
+                        class="w-full bg-surface border border-edge rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-raised focus:ring-4 focus:ring-emerald-500/5 placeholder:text-muted3"
                     />
                 </div>
             </div>
@@ -125,7 +125,7 @@ const {
                     required
                     rows="5"
                     placeholder={`${t.contactMessage}...`}
-                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-white/8 focus:ring-4 focus:ring-emerald-500/5 placeholder:text-white/20 resize-none"
+                    class="w-full bg-surface border border-edge rounded-xl px-4 py-4 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-raised focus:ring-4 focus:ring-emerald-500/5 placeholder:text-muted3 resize-none"
                 ></textarea>
             </div>
 
@@ -142,7 +142,7 @@ const {
                 <button
                     type="submit"
                     id="contact-submit"
-                    class="group relative w-full md:w-auto px-10 py-4 bg-emerald-500 text-darkDotsGray font-andesNeueMedium rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="group relative w-full md:w-auto px-10 py-4 bg-emerald-500 text-canvas font-andesNeueMedium rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <span
                         class="relative z-10 flex items-center justify-center gap-2"

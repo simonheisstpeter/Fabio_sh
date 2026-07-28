@@ -23,7 +23,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
           <h1 class="text-4xl font-andesNeueMedium">CV</h1>
           <div class="flex items-center gap-3 flex-wrap">
             <!-- Language tabs -->
-            <div id="lang-tabs" class="flex rounded-lg border border-white/10 overflow-hidden text-sm">
+            <div id="lang-tabs" class="flex rounded-lg border border-edge overflow-hidden text-sm">
               <button
                 data-lang="de"
                 class="lang-tab px-4 py-1.5 transition-colors"
@@ -31,7 +31,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
               >Deutsch</button>
               <button
                 data-lang="en"
-                class="lang-tab px-4 py-1.5 border-l border-white/10 transition-colors"
+                class="lang-tab px-4 py-1.5 border-l border-edge transition-colors"
                 class:list={[cvFiles.en ? '' : 'opacity-40 cursor-not-allowed']}
               >English</button>
             </div>
@@ -54,21 +54,21 @@ const hasError = Astro.url.searchParams.get('error') === '1';
           <iframe
             id="cv-frame"
             src="/api/cv/file?lang=de"
-            class="w-full flex-1 rounded-lg border border-white/10"
+            class="w-full flex-1 rounded-lg border border-divider"
             class="min-h-[80vh]"
             title="CV"
             data-has-de={cvFiles.de ? "1" : ""}
             data-has-en={cvFiles.en ? "1" : ""}
           />
         ) : (
-          <p class="text-white/50">{t.cvNoFiles}</p>
+          <p class="text-muted1">{t.cvNoFiles}</p>
         )}
       </section>
     ) : (
       <section class="flex flex-col items-center justify-center flex-1 gap-8">
         <div class="w-full max-w-sm">
           <h1 class="text-4xl font-andesNeueMedium mb-2">CV</h1>
-          <p class="text-white/50 mb-8 text-sm">{t.cvEnterCode}</p>
+          <p class="text-muted1 mb-8 text-sm">{t.cvEnterCode}</p>
 
           {hasError && (
             <p class="text-red-400 text-sm mb-4">{t.cvInvalidCode}</p>
@@ -83,7 +83,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
               autofocus
 
               required
-              class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 transition-colors text-sm"
+              class="w-full bg-surface border border-edge rounded-lg px-4 py-3 text-fg placeholder:text-muted3 focus:outline-none focus:border-edge transition-colors text-sm"
             />
             <button
               type="submit"
@@ -117,7 +117,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
         const isActive = tab.dataset.lang === lang;
         tab.classList.toggle('bg-white', isActive);
         tab.classList.toggle('text-black', isActive);
-        tab.classList.toggle('text-white/60', !isActive);
+        tab.classList.toggle('text-muted1', !isActive);
       });
     }
 

@@ -2,6 +2,7 @@ export default {
   menuHome: "בית",
   menuProjects: "פרויקטים",
   menuAbout: "עליי",
+  menuSocial: "חברתי",
   menuContact: "צור קשר",
 
   name: "פאביו",
@@ -63,9 +64,9 @@ export default {
   cvViewButton: "צפה בקורות חיים",
 
   socialTitle: "חברתי",
-  socialIntro: "הפוסטים האחרונים שלי ב-Bluesky — נטענים ישירות מהשרת שלי, בלי לעבור דרך התשתית של Bluesky.",
-  socialHostedOn: "מתארח בעצמי על",
+  socialIntro: "הפוסטים האחרונים שלי — ישירות מהשרת שלי.",
   socialViewProfile: "צפייה בפרופיל המלא ב-Bluesky",
   socialEmpty: "אין עדיין פוסטים.",
   socialError: "לא ניתן לטעון את הפיד כרגע.",
+  socialAlsoOn: "חשבונות נוספים",
 };

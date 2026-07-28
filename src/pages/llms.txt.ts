@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getAllProjects } from "../lib/db";
+import { ATPROTO_DID, ATPROTO_HANDLE, BSKY_PROFILE_URL } from "../lib/atproto";
 
 export const GET: APIRoute = () => {
   const projects = getAllProjects();
@@ -45,6 +46,15 @@ export const GET: APIRoute = () => {
   }
 
   lines.push(
+    "## Social / AT Protocol",
+    "",
+    `Fabio is on the AT Protocol as @${ATPROTO_HANDLE} (${ATPROTO_DID}), running a`,
+    "self-hosted Personal Data Server. The feed at https://fabio.sh/social is read",
+    "directly from that server rather than through the Bluesky AppView.",
+    "",
+    `- [Bluesky profile](${BSKY_PROFILE_URL})`,
+    "- [Tangled profile](https://tangled.sh/@fabio.sh)",
+    "",
     "## Contact",
     "",
     "Reach Fabio via the contact form at https://fabio.sh/contact",
@@ -54,6 +64,8 @@ export const GET: APIRoute = () => {
     "- [Home](https://fabio.sh)",
     "- [Projects](https://fabio.sh/projects)",
     "- [About](https://fabio.sh/about)",
+    "- [Social](https://fabio.sh/social)",
+    "- [Courses](https://fabio.sh/courses)",
     "- [Contact](https://fabio.sh/contact)",
     "- [Media Kit](https://fabio.sh/mediakit)",
   );

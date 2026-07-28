@@ -13,7 +13,9 @@
     "backup": "node src/lib/backup.js",
     "reset-admin": "node src/lib/reset-admin.js",
     "fmt": "oxfmt",
-    "knip": "knip"
+    "knip": "knip",
+    "migrate": "node src/lib/migrate.js up",
+    "migrate:status": "node src/lib/migrate.js status"
   },
   "dependencies": {
     "@astrojs/node": "^11.0.2",
@@ -22,7 +24,6 @@
     "astro": "^7.1.4",
     "astro-mail-obfuscation": "^2.3.4"
   },
-
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.1.2",

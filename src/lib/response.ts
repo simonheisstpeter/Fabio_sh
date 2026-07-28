@@ -7,3 +7,8 @@ export function jsonError(message: string, status = 422): Response {
 export function jsonOk(data: unknown = { ok: true }): Response {
   return new Response(JSON.stringify(data), { headers: JSON_HEADERS });
 }
+
+/** Post/Redirect/Get after a form submission. */
+export function redirectTo(path: string, status = 302): Response {
+  return new Response(null, { status, headers: { Location: path } });
+}

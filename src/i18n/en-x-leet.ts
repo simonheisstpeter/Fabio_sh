@@ -2,6 +2,7 @@ export default {
   menuHome: "H0m3",
   menuProjects: "Pr0j3c75",
   menuAbout: "4b0u7 M3",
+  menuSocial: "50c14l",
   menuContact: "C0n74c7",
 
   name: "F4b10",
@@ -64,9 +65,9 @@ export default {
   cvViewButton: "V13w CV",
 
   socialTitle: "50c14l",
-  socialIntro: "My l47357 p0575 0n 8lu35ky — l04d3d 57r41gh7 fr0m my 0wn 53rv3r, n0 8lu35ky 1nfr457ruc7ur3.",
-  socialHostedOn: "53lf-h0573d 0n",
+  socialIntro: "my l47357 p0575 — 57r41gh7 0ff my 0wn 53rv3r.",
   socialViewProfile: "V13w full pr0f1l3 0n 8lu35ky",
   socialEmpty: "N0 p0575 y37.",
   socialError: "F33d f41l3d 70 l04d.",
+  socialAlsoOn: "m0r3 4cc0un75",
 };

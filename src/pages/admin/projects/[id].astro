@@ -1,23 +1,13 @@
 ---
 import AdminLayout from "../../../components/AdminLayout.astro";
-import {
-    getDb,
-    getAllProjects,
-    rowToProject,
-    type ProjectRow,
-} from "../../../lib/db";
+import { getAllProjects, getProject } from "../../../lib/db";
 import { LOCALES } from "../../../i18n/index";
 import { LANGUAGES } from "../../../lib/languages";
 
 const { id } = Astro.params;
-const db = getDb();
-const row = db.prepare("SELECT * FROM projects WHERE id = ?").get(id) as
-    | ProjectRow
-    | undefined;
+const p = getProject(id!);
 
-if (!row) return Astro.redirect("/admin/projects");
-
-const p = rowToProject(row);
+if (!p) return Astro.redirect("/admin/projects");
 
 const selectedLangs = new Set(p.languages.map((l) => `${l.flag} ${l.lang}`));
 const catText = p.categories.join("\n");
@@ -76,7 +66,7 @@ const allCategories = [
                                 rows="3"
                                 class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-sans"
                             >
-                                {p.description[lang]}
+                                {p.description[lang] ?? ""}
                             </textarea>
                         </div>
                     ))

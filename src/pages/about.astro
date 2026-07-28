@@ -32,19 +32,19 @@ Below, you’ll find the audio player showing what I’m currently listening to 
             {t.aboutTitle}
         </h1>
 
-        <p class="font-andesNeueMedium text-2xl text-white/90 mb-6 max-w-2xl">
+        <p class="font-andesNeueMedium text-2xl text-fg mb-6 max-w-2xl">
             {t.aboutBio}
         </p>
 
-        <p class="font-andesNeueLight text-base text-white/55 mb-8 max-w-2xl leading-relaxed">
+        <p class="font-andesNeueLight text-base text-muted1 mb-8 max-w-2xl leading-relaxed">
             {t.aboutBody}
         </p>
 
-        <p class="font-andesNeueLight text-sm text-white/40 mb-16 max-w-xl">
+        <p class="font-andesNeueLight text-sm text-muted2 mb-16 max-w-xl">
             {t.aboutCv} <a href={locale === 'de' ? '/projects' : `/${locale}/projects`} class="text-emerald-400 hover:underline">/projects</a>
         </p>
 
-        <p class="font-andesNeueLight text-sm text-white/40 mb-8 max-w-xl">
+        <p class="font-andesNeueLight text-sm text-muted2 mb-8 max-w-xl">
             {t.aboutTidalIntro}
         </p>
 
@@ -83,7 +83,7 @@ Below, you’ll find the audio player showing what I’m currently listening to 
                             <span class="text-emerald-400 font-andesNeueMedium">
                                 {track.artist}
                             </span>
-                            <span class="text-sm text-white/60">
+                            <span class="text-sm text-muted1">
                                 {track.album}
                             </span>
                             {track.trackUrl && (
@@ -91,7 +91,7 @@ Below, you’ll find the audio player showing what I’m currently listening to 
                                     href={track.trackUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="mt-4 inline-flex items-center gap-2 text-sm text-white/60 hover:text-emerald-400 transition duration-200"
+                                    class="mt-4 inline-flex items-center gap-2 text-sm text-muted1 hover:text-emerald-400 transition duration-200"
                                 >
                                     Open on Tidal
                                     <svg
@@ -109,7 +109,7 @@ Below, you’ll find the audio player showing what I’m currently listening to 
                         </div>
                     </div>
                 ) : (
-                    <div class="flex items-center gap-4 text-white/40">
+                    <div class="flex items-center gap-4 text-muted2">
                         <Loader />
                         <span class="font-andesNeueLight">{t.notPlaying}</span>
                     </div>

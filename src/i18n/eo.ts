@@ -2,6 +2,7 @@ export default {
   menuHome: "Hejmo",
   menuProjects: "Projektoj",
   menuAbout: "Pri mi",
+  menuSocial: "Socia",
   menuContact: "Kontakto",
 
   name: "Fabio",
@@ -65,9 +66,9 @@ export default {
   cvViewButton: "Vidi CV",
 
   socialTitle: "Socia",
-  socialIntro: "Miaj lastaj afiŝoj en Bluesky — ŝargitaj rekte de mia propra servilo, sen trairi la infrastrukturon de Bluesky.",
-  socialHostedOn: "Mem-gastigita ĉe",
+  socialIntro: "Miaj lastaj afiŝoj — rekte de mia propra servilo.",
   socialViewProfile: "Vidi plenan profilon en Bluesky",
   socialEmpty: "Ankoraŭ neniuj afiŝoj.",
   socialError: "La fluo ne povis esti ŝargita nun.",
+  socialAlsoOn: "Pliaj kontoj",
 };

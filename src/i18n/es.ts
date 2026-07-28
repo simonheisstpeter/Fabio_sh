@@ -2,6 +2,7 @@ export default {
   menuHome: "Inicio",
   menuProjects: "Proyectos",
   menuAbout: "Sobre mí",
+  menuSocial: "Social",
   menuContact: "Contacto",
 
   name: "Fabio",
@@ -65,9 +66,9 @@ export default {
   cvViewButton: "Ver CV",
 
   socialTitle: "Social",
-  socialIntro: "Mis últimas publicaciones en Bluesky, cargadas directamente desde mi propio servidor, sin pasar por la infraestructura de Bluesky.",
-  socialHostedOn: "Alojado por mí en",
+  socialIntro: "Mis últimas publicaciones, directamente desde mi propio servidor.",
   socialViewProfile: "Ver perfil completo en Bluesky",
   socialEmpty: "Aún no hay publicaciones.",
   socialError: "No se pudo cargar el feed en este momento.",
+  socialAlsoOn: "Más cuentas",
 };

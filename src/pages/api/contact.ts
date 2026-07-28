@@ -1,26 +1,16 @@
 import type { APIRoute } from "astro";
 import type { DatabaseSync } from "node:sqlite";
-import { getDb, hashIp } from "../../lib/db";
+import { getDb } from "../../lib/db";
+import { checkRateLimit, purgeStaleRateLimits, rateLimitKeyFor } from "../../lib/rate-limit";
 
 type Stmts = {
-  checkRate: ReturnType<DatabaseSync["prepare"]>;
-  incrementRate: ReturnType<DatabaseSync["prepare"]>;
-  resetRate: ReturnType<DatabaseSync["prepare"]>;
-  insertRate: ReturnType<DatabaseSync["prepare"]>;
   insertSubmission: ReturnType<DatabaseSync["prepare"]>;
 };
 let _stmts: Stmts | null = null;
 function stmts(): Stmts {
   if (_stmts) return _stmts;
-  const db = getDb();
   _stmts = {
-    checkRate: db.prepare("SELECT count, window_start FROM rate_limits WHERE ip_hash = ?"),
-    incrementRate: db.prepare("UPDATE rate_limits SET count = count + 1 WHERE ip_hash = ?"),
-    resetRate: db.prepare(
-      "UPDATE rate_limits SET count = 1, window_start = CURRENT_TIMESTAMP WHERE ip_hash = ?",
-    ),
-    insertRate: db.prepare("INSERT INTO rate_limits (ip_hash) VALUES (?)"),
-    insertSubmission: db.prepare(
+    insertSubmission: getDb().prepare(
       "INSERT INTO contact_submissions (name, email, message, ip_hash) VALUES (?, ?, ?, ?)",
     ),
   };
@@ -31,14 +21,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RATE_LIMIT = 3; // max submissions
 const RATE_WINDOW = 3600; // per hour (seconds)
 const MIN_SUBMIT_MS = 3000; // min 3 s between page load and submit
-
-function getClientIp(request: Request): string {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    request.headers.get("x-real-ip") ??
-    "unknown"
-  );
-}
 
 function silentOk(): Response {
   // Silently accept (honeypot / timing) — do NOT reveal we discarded it
@@ -87,32 +69,16 @@ export const POST: APIRoute = async ({ request }) => {
     return errorResponse("Message must be 10–2000 characters");
   }
 
-  // ── 4. Rate limiting (SQLite) ─────────────────────────────────────────────
-  const ip = getClientIp(request);
-  const ipHash = hashIp(ip);
+  // ── 4. Rate limiting (single atomic UPSERT — see lib/rate-limit.ts) ───────
+  const ipHash = rateLimitKeyFor(request);
 
-  const s = stmts();
-
-  const existing = s.checkRate.get(ipHash) as { count: number; window_start: string } | undefined;
-
-  if (existing) {
-    const windowStart = new Date(existing.window_start + "Z").getTime();
-    const elapsed = (Date.now() - windowStart) / 1000;
-
-    if (elapsed < RATE_WINDOW) {
-      if (existing.count >= RATE_LIMIT) {
-        return errorResponse("Too many submissions. Please try again later.", 429);
-      }
-      s.incrementRate.run(ipHash);
-    } else {
-      s.resetRate.run(ipHash);
-    }
-  } else {
-    s.insertRate.run(ipHash);
+  if (!checkRateLimit(ipHash, RATE_LIMIT, RATE_WINDOW).allowed) {
+    return errorResponse("Too many submissions. Please try again later.", 429);
   }
 
   // ── 5. Store submission ───────────────────────────────────────────────────
-  s.insertSubmission.run(name, email, message, ipHash);
+  stmts().insertSubmission.run(name, email, message, ipHash);
+  purgeStaleRateLimits();
 
   // ── 6. Respond ────────────────────────────────────────────────────────────
   // If the request accepts JSON (JS-enhanced), return JSON.

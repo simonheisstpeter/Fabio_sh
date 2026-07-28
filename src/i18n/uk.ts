@@ -2,6 +2,7 @@ export default {
   menuHome: "Головна",
   menuProjects: "Проєкти",
   menuAbout: "Про мене",
+  menuSocial: "Соцмережі",
   menuContact: "Контакт",
 
   name: "Фабыо", // Фабыо (Фабыо) Гсчвэыдл (Гсчвэыдл)
@@ -64,9 +65,9 @@ export default {
   cvViewButton: "Переглянути CV",
 
   socialTitle: "Соцмережі",
-  socialIntro: "Мої останні дописи у Bluesky — завантажені напряму з мого власного сервера, без інфраструктури Bluesky.",
-  socialHostedOn: "Власний хостинг на",
+  socialIntro: "Мої останні дописи — просто з мого власного сервера.",
   socialViewProfile: "Переглянути повний профіль у Bluesky",
   socialEmpty: "Дописів ще немає.",
   socialError: "Не вдалося завантажити стрічку зараз.",
+  socialAlsoOn: "Інші акаунти",
 };

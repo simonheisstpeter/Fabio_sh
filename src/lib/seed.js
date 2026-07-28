@@ -8,6 +8,7 @@ import { DatabaseSync } from "node:sqlite";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { mkdirSync } from "fs";
+import { runMigrations } from "./migrate-runner.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dbDir = join(__dirname, "../../db");
@@ -18,40 +19,9 @@ mkdirSync(dbDir, { recursive: true });
 const db = new DatabaseSync(dbPath);
 db.exec("PRAGMA journal_mode = WAL");
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS projects (
-    id            TEXT PRIMARY KEY,
-    title         TEXT NOT NULL,
-    desc_de       TEXT DEFAULT '',
-    desc_en       TEXT DEFAULT '',
-    desc_es       TEXT DEFAULT '',
-    desc_it       TEXT DEFAULT '',
-    desc_ja       TEXT DEFAULT '',
-    desc_pt       TEXT DEFAULT '',
-    categories    TEXT NOT NULL DEFAULT '[]',
-    published     INTEGER NOT NULL DEFAULT 0,
-    finished      INTEGER NOT NULL DEFAULT 0,
-    online        INTEGER NOT NULL DEFAULT 0,
-    image         TEXT DEFAULT '',
-    url           TEXT DEFAULT '',
-    languages     TEXT NOT NULL DEFAULT '[]'
-  );
-
-  CREATE TABLE IF NOT EXISTS contact_submissions (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
-    name          TEXT NOT NULL,
-    email         TEXT NOT NULL,
-    message       TEXT NOT NULL,
-    ip_hash       TEXT,
-    submitted_at  DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE IF NOT EXISTS rate_limits (
-    ip_hash       TEXT PRIMARY KEY,
-    count         INTEGER NOT NULL DEFAULT 1,
-    window_start  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );
-`);
+// Schema is owned by the migration runner — this script no longer declares
+// tables, so it can't drift from the real schema the way it used to.
+runMigrations(db, { dbPath, log: (msg) => console.log(msg) });
 
 const projects = [
   {
@@ -656,18 +626,47 @@ const projects = [
   },
 ];
 
-const insert = db.prepare(`
+const insertProject = db.prepare(`
   INSERT OR REPLACE INTO projects
-    (id, title, desc_de, desc_en, desc_es, desc_it, desc_ja, desc_pt,
-     categories, published, finished, online, image, url, languages)
+    (id, title, published, finished, online, image, url, languages)
   VALUES
-    (@id, @title, @desc_de, @desc_en, @desc_es, @desc_it, @desc_ja, @desc_pt,
-     @categories, @published, @finished, @online, @image, @url, @languages)
+    (@id, @title, @published, @finished, @online, @image, @url, @languages)
 `);
+const clearTranslations = db.prepare("DELETE FROM project_translations WHERE project_id = ?");
+const clearCategories = db.prepare("DELETE FROM project_categories WHERE project_id = ?");
+const insertTranslation = db.prepare(
+  "INSERT OR REPLACE INTO project_translations (project_id, locale, description) VALUES (?, ?, ?)",
+);
+const insertCategory = db.prepare(
+  "INSERT OR IGNORE INTO project_categories (project_id, category) VALUES (?, ?)",
+);
 
-db.exec("BEGIN");
-for (const row of projects) insert.run(row);
-db.exec("COMMIT");
+const LOCALES = ["de", "en", "es", "it", "ja", "pt"];
+
+db.exec("BEGIN IMMEDIATE");
+try {
+  for (const row of projects) {
+    const { id, title, published, finished, online, image, url, languages } = row;
+    insertProject.run({ id, title, published, finished, online, image, url, languages });
+
+    clearTranslations.run(id);
+    for (const locale of LOCALES) {
+      const description = row[`desc_${locale}`] ?? "";
+      if (description.trim()) insertTranslation.run(id, locale, description);
+    }
+
+    clearCategories.run(id);
+    for (const category of JSON.parse(row.categories || "[]")) {
+      if (typeof category === "string" && category.trim()) {
+        insertCategory.run(id, category.trim());
+      }
+    }
+  }
+  db.exec("COMMIT");
+} catch (err) {
+  db.exec("ROLLBACK");
+  throw err;
+}
 
 console.log(`✅ Seeded ${projects.length} projects into ${dbPath}`);
 db.close();

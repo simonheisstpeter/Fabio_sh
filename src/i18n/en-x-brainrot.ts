@@ -3,6 +3,7 @@ export default {
   menuHome: "The Spawn Point",
   menuProjects: "The Grindset / Major W’s",
   menuAbout: "The Lore",
+  menuSocial: "Socials",
   menuContact: "Send a DM (No Ghosting)",
 
   name: "Fabio (The Main Character)",
@@ -66,9 +67,9 @@ export default {
   cvViewButton: "Peep the CV",
 
   socialTitle: "The Socials",
-  socialIntro: "My latest posts on Bluesky, straight from my own server no cap. Fully self hosted, we don't do middlemen here.",
-  socialHostedOn: "Cooking on my own server at",
+  socialIntro: "My latest posts, straight off my own server.",
   socialViewProfile: "Peep the whole profile on Bluesky",
   socialEmpty: "No posts yet, it's giving empty.",
   socialError: "Feed's not loading rn, massive L.",
+  socialAlsoOn: "More accounts",
 };

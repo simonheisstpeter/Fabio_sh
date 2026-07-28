@@ -13,24 +13,26 @@
   --animate-loaderSmall: loaderSmall 4s ease-in-out infinite;
   --animate-loaderRetourSmall: loaderRetourSmall 4s ease-in-out infinite;
 
-  /* Surfaces — lifted off pure black to avoid halation against white text. */
-  --color-base: #0e1013;
+  /* Surfaces — lifted off pure black to avoid halation against white text.
+     Named `canvas` rather than `base` because `text-base` is already a
+     Tailwind font-size utility and would collide. */
+  --color-canvas: #0e1013;
   --color-surface: #16191d;
   --color-raised: #1e2227;
 
-  /* Borders — divider is decorative, borderStrong meets WCAG 1.4.11 (3:1)
-     and is required on control boundaries such as form fields. */
+  /* Borders — divider is decorative; edge meets WCAG 1.4.11 (3:1) and is
+     required on control boundaries such as form fields. */
   --color-divider: #2a2f36;
-  --color-borderStrong: #697280;
+  --color-edge: #697280;
 
-  /* Text ramp — every tier clears 4.5:1 on base, surface and raised. */
+  /* Text ramp — every tier clears 4.5:1 on canvas, surface and raised. */
   --color-fg: #f2f4f6;
   --color-muted1: #c2c8d0;
   --color-muted2: #9aa2ad;
   --color-muted3: #8a939e;
 
   /* Alias kept so any straggling `bg-darkDotsGray` still resolves. */
-  --color-darkDotsGray: var(--color-base);
+  --color-darkDotsGray: var(--color-canvas);
   --color-loaderAlpha: rgb(56 109 241 / 0.05);
   --color-loaderBorder: rgb(255 255 255 / 0.1);
 
@@ -141,7 +143,7 @@
   body {
     padding: 0;
     margin: 0;
-    background-color: var(--color-base);
+    background-color: var(--color-canvas);
     color: var(--color-fg);
   }
 
@@ -156,22 +158,18 @@
 
   /* Global focus style */
   :focus-visible {
-    outline: 2px solid #34d399;
+    outline: 2px solid var(--color-emerald-400);
     outline-offset: 4px;
     border-radius: 2px;
   }
 }
 
-@utility dots {
-  background-color: #f8f8ff;
-  opacity: 1;
-  background-image: radial-gradient(#d7d7d7 0.85px, #f8f8ff 0.85px);
-  background-size: 17px 17px;
-}
-
 @utility dotsDark {
-  background-color: #1f1f1f;
+  background-color: var(--color-canvas);
   opacity: 1;
-  background-image: radial-gradient(#1f1e1e 0.85px, #030303 0.85px);
+  background-image: radial-gradient(
+    var(--color-divider) 0.85px,
+    var(--color-canvas) 0.85px
+  );
   background-size: 17px 17px;
 }

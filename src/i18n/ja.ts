@@ -2,6 +2,7 @@ export default {
   menuHome: "ホーム",
   menuProjects: "プロジェクト",
   menuAbout: "私について",
+  menuSocial: "ソーシャル",
   menuContact: "お問い合わせ",
 
   name: "ファビオ",
@@ -65,9 +66,9 @@ export default {
   cvViewButton: "CVを表示",
 
   socialTitle: "ソーシャル",
-  socialIntro: "Bluesky での最近の投稿です。Bluesky のインフラを経由せず、自分のサーバーから直接読み込んでいます。",
-  socialHostedOn: "セルフホスト先：",
+  socialIntro: "最近の投稿を、自分のサーバーから直接。",
   socialViewProfile: "Bluesky でプロフィール全体を見る",
   socialEmpty: "まだ投稿はありません。",
   socialError: "現在フィードを読み込めませんでした。",
+  socialAlsoOn: "その他のアカウント",
 };

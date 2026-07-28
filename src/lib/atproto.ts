@@ -11,8 +11,10 @@
 
 export const ATPROTO_DID = "did:plc:ip4symhldu6klwmx6c2gso66";
 export const ATPROTO_HANDLE = "fabio.sh";
-export const ATPROTO_PDS = "https://at.fabio.sh";
 export const BSKY_PROFILE_URL = `https://bsky.app/profile/${ATPROTO_HANDLE}`;
+
+/** Kept module-private: the PDS host is deliberately not surfaced in markup. */
+const ATPROTO_PDS = "https://at.fabio.sh";
 
 export type FeedImage = {
   url: string;
@@ -34,23 +36,44 @@ export type FeedProfile = {
   handle: string;
   description: string;
   avatar: string | null;
-  pdsUrl: string;
+};
+
+export type AtprotoApp = {
+  /** NSID authority, e.g. "sh.tangled" */
+  namespace: string;
+  /** Friendly name if known, otherwise the derived domain. */
+  name: string;
+  /** Profile/app link, when one is known. */
+  url: string | null;
+  /** How many lexicons of this app the repo holds. */
+  collections: number;
 };
 
 export type SocialFeed = {
   profile: FeedProfile;
   posts: FeedPost[];
+  apps: AtprotoApp[];
 };
 
 const FETCH_TIMEOUT_MS = 6_000;
-const CACHE_TTL_MS = 5 * 60_000;
+
+/** How long a cached feed is served without any revalidation. */
+export const CACHE_TTL_MS = 5 * 60_000;
+/** Beyond FRESH, the feed is still served instantly but refreshed in the
+ *  background — so a visitor never waits on the PDS just because a TTL rolled
+ *  over. Only past this window do we block on a fetch. */
+const STALE_TTL_MS = 60 * 60_000;
 const ERROR_CACHE_TTL_MS = 30_000;
 
 /** listRecords caps at 100. Most records are replies, so over-fetch and filter. */
 const RECORD_FETCH_LIMIT = 100;
 const MAX_POSTS = 20;
 
-let cache: { feed: SocialFeed | null; expiresAt: number } | null = null;
+type CacheEntry = { feed: SocialFeed | null; freshUntil: number; staleUntil: number };
+let cache: CacheEntry | null = null;
+
+/** Dedupes concurrent refreshes so a burst of traffic yields one PDS fetch. */
+let inFlight: Promise<SocialFeed | null> | null = null;
 
 function fetchWithTimeout(url: string): Promise<Response> {
   const controller = new AbortController();
@@ -58,8 +81,39 @@ function fetchWithTimeout(url: string): Promise<Response> {
   return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
 }
 
+/** Base32 CIDv1. Anchored, so a CID can never smuggle a path or host. */
+const CID_RE = /^ba[a-z2-7]{20,78}$/;
+
+/** Same-origin URL — the PDS host stays out of the markup. See /api/blob. */
 function blobUrl(cid: string): string {
-  return `${ATPROTO_PDS}/xrpc/com.atproto.sync.getBlob?did=${ATPROTO_DID}&cid=${cid}`;
+  return `/api/blob?cid=${encodeURIComponent(cid)}`;
+}
+
+/**
+ * Streams a blob from the PDS. `cid` is user-controlled (it arrives as a query
+ * param), so it is validated against CID_RE and interpolated into a fixed
+ * host + path — never used to build an arbitrary URL.
+ */
+export async function fetchBlob(
+  cid: string,
+): Promise<{ body: ArrayBuffer; contentType: string } | null> {
+  if (!CID_RE.test(cid)) return null;
+
+  try {
+    const res = await fetchWithTimeout(
+      `${ATPROTO_PDS}/xrpc/com.atproto.sync.getBlob?did=${ATPROTO_DID}&cid=${cid}`,
+    );
+    if (!res.ok) return null;
+
+    const contentType = res.headers.get("content-type") ?? "application/octet-stream";
+    // Only ever hand back images; the PDS holds other blob types too.
+    if (!contentType.startsWith("image/")) return null;
+
+    return { body: await res.arrayBuffer(), contentType };
+  } catch (err) {
+    console.error("[atproto] fetchBlob failed:", err instanceof Error ? err.message : err);
+    return null;
+  }
 }
 
 type BlobRef = { ref?: { $link?: string } };
@@ -113,8 +167,62 @@ async function fetchProfile(): Promise<FeedProfile> {
     handle: ATPROTO_HANDLE,
     description: v.description ?? "",
     avatar: avatarCid ? blobUrl(avatarCid) : null,
-    pdsUrl: ATPROTO_PDS,
   };
+}
+
+/**
+ * Apps this identity is present on, derived from the lexicons in the repo.
+ *
+ * An NSID authority is a reversed domain (`sh.tangled` -> tangled.sh), so an
+ * unknown app still yields a sensible label without any hardcoding — start
+ * using a new atproto app and it shows up here on its own.
+ */
+const KNOWN_APPS: Record<string, { name: string; profile?: (handle: string) => string; url?: string }> = {
+  "app.bsky": { name: "Bluesky", profile: (h) => `https://bsky.app/profile/${h}` },
+  "sh.tangled": { name: "Tangled", profile: (h) => `https://tangled.sh/@${h}` },
+  "com.luminframe": { name: "Luminframe", url: "https://luminframe.com" },
+  "vote.pedro": { name: "Pedro" },
+};
+
+/** Protocol plumbing, not an app anyone visits. */
+const INFRA_NAMESPACES = new Set(["com.atproto"]);
+
+function namespaceToDomain(ns: string): string {
+  return ns.split(".").reverse().join(".");
+}
+
+async function fetchApps(): Promise<AtprotoApp[]> {
+  const res = await fetchWithTimeout(
+    `${ATPROTO_PDS}/xrpc/com.atproto.repo.describeRepo?repo=${ATPROTO_DID}`,
+  );
+  if (!res.ok) throw new Error(`describeRepo failed: ${res.status}`);
+
+  const data = (await res.json()) as { collections?: string[] };
+
+  // Group lexicons by their authority (first two NSID segments).
+  const counts = new Map<string, number>();
+  for (const nsid of data.collections ?? []) {
+    const parts = nsid.split(".");
+    if (parts.length < 3) continue;
+    const ns = `${parts[0]}.${parts[1]}`;
+    if (INFRA_NAMESPACES.has(ns)) continue;
+    counts.set(ns, (counts.get(ns) ?? 0) + 1);
+  }
+
+  const apps: AtprotoApp[] = [];
+  for (const [namespace, collections] of counts) {
+    const known = KNOWN_APPS[namespace];
+    apps.push({
+      namespace,
+      name: known?.name ?? namespaceToDomain(namespace),
+      url: known?.profile?.(ATPROTO_HANDLE) ?? known?.url ?? null,
+      collections,
+    });
+  }
+
+  // Busiest app first, then alphabetical for a stable order.
+  apps.sort((a, b) => b.collections - a.collections || a.name.localeCompare(b.name));
+  return apps;
 }
 
 async function fetchPosts(): Promise<FeedPost[]> {
@@ -154,19 +262,63 @@ async function fetchPosts(): Promise<FeedPost[]> {
   return posts.slice(0, MAX_POSTS);
 }
 
+function refresh(): Promise<SocialFeed | null> {
+  // Collapse parallel callers onto one fetch.
+  inFlight ??= (async () => {
+    try {
+      const [profile, posts, apps] = await Promise.all([
+        fetchProfile(),
+        fetchPosts(),
+        fetchApps(),
+      ]);
+      const feed: SocialFeed = { profile, posts, apps };
+      const now = Date.now();
+      cache = {
+        feed,
+        freshUntil: now + CACHE_TTL_MS,
+        staleUntil: now + STALE_TTL_MS,
+      };
+      return feed;
+    } catch (err) {
+      console.error("[atproto] getSocialFeed failed:", err instanceof Error ? err.message : err);
+      const now = Date.now();
+      // Keep serving the last good feed if we have one — a PDS blip should not
+      // blank the page. Otherwise negative-cache briefly to avoid retry spam.
+      if (cache?.feed) {
+        cache = { ...cache, freshUntil: now + ERROR_CACHE_TTL_MS };
+        return cache.feed;
+      }
+      cache = {
+        feed: null,
+        freshUntil: now + ERROR_CACHE_TTL_MS,
+        staleUntil: now + ERROR_CACHE_TTL_MS,
+      };
+      return null;
+    } finally {
+      inFlight = null;
+    }
+  })();
+
+  return inFlight;
+}
+
+/**
+ * Stale-while-revalidate: fresh hits return immediately, stale hits return the
+ * cached feed immediately and refresh in the background, and only a cold or
+ * fully-expired cache blocks on the PDS.
+ */
 export async function getSocialFeed(): Promise<SocialFeed | null> {
   const now = Date.now();
-  if (cache && cache.expiresAt > now) return cache.feed;
 
-  try {
-    const [profile, posts] = await Promise.all([fetchProfile(), fetchPosts()]);
-    const feed: SocialFeed = { profile, posts };
-    cache = { feed, expiresAt: now + CACHE_TTL_MS };
-    return feed;
-  } catch (err) {
-    console.error("[atproto] getSocialFeed failed:", err instanceof Error ? err.message : err);
-    // Short negative cache so a PDS blip doesn't turn into retry spam.
-    cache = { feed: null, expiresAt: now + ERROR_CACHE_TTL_MS };
-    return null;
+  if (cache) {
+    if (now < cache.freshUntil) return cache.feed;
+
+    if (now < cache.staleUntil) {
+      // Don't await — the visitor gets the stale copy now.
+      void refresh();
+      return cache.feed;
+    }
   }
+
+  return refresh();
 }
