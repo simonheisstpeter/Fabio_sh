@@ -73,6 +73,7 @@ export type ProjectRow = {
   image: string;
   url: string;
   languages: string;
+  created_at: string;
 };
 
 export type Project = {
@@ -86,6 +87,7 @@ export type Project = {
   image: string;
   url: string;
   languages: { lang: string; flag: string }[];
+  createdAt: string;
 };
 
 export function rowToProject(
@@ -104,6 +106,7 @@ export function rowToProject(
     image: row.image,
     url: row.url,
     languages: JSON.parse(row.languages),
+    createdAt: row.created_at,
   };
 }
 
@@ -199,9 +202,12 @@ export function saveProject(input: ProjectInput, mode: "insert" | "update"): voi
   db.exec("BEGIN IMMEDIATE");
   try {
     if (mode === "insert") {
+      // No DB-level default (node:sqlite rejects non-constant ALTER TABLE
+      // defaults, so the column was added bare) — every insert path must
+      // supply created_at itself.
       db.prepare(
-        `INSERT INTO projects (id, title, published, finished, online, image, url, languages)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO projects (id, title, published, finished, online, image, url, languages, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       ).run(
         input.id,
         input.title,
@@ -211,6 +217,7 @@ export function saveProject(input: ProjectInput, mode: "insert" | "update"): voi
         input.image,
         input.url,
         JSON.stringify(input.languages),
+        new Date().toISOString(),
       );
     } else {
       const info = db

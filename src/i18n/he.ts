@@ -52,6 +52,10 @@ export default {
   filterAll: "הכל",
   filterMore: "עוד מסננים",
 
+  sortLabel: "מיון:",
+  sortRecent: "החדשים ביותר",
+  sortAlpha: "A–Z",
+
   statusOnline: "מחובר",
   statusOffline: "לא מחובר",
   statusStandby: "בהמתנה",

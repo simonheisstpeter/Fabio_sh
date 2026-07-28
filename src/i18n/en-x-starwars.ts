@@ -54,6 +54,10 @@ export default {
   filterAll: "All",
   filterMore: "more filters, you seek",
 
+  sortLabel: "Sort:",
+  sortRecent: "Newest in the galaxy",
+  sortAlpha: "A to Z, young Padawan",
+
   statusOnline: "In Service",
   statusStandby: "Deferred",
   statusOffline: "Decommissioned",

@@ -53,6 +53,10 @@ export default {
   filterAll: "4ll",
   filterMore: "m04r f1lt3rz",
 
+  sortLabel: "50r7:",
+  sortRecent: "n3w3s7",
+  sortAlpha: "4-z",
+
   statusOnline: "0nl1n3",
   statusStandby: "574ndb¥",
   statusOffline: "0ffl1n3",

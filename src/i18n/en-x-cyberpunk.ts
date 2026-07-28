@@ -54,6 +54,10 @@ export default {
   filterAll: "All",
   filterMore: "more filters.exe",
 
+  sortLabel: "sort.exe:",
+  sortRecent: "latest_build",
+  sortAlpha: "a-z.sort",
+
   statusOnline: "Active",
   statusStandby: "Suspended",
   statusOffline: "Flatlined",

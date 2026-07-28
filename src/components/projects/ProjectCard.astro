@@ -22,34 +22,36 @@ const description =
 const hasImage = !project.finished && project.published && project.image;
 ---
 
-<li>
+<li
+    class="project-item"
+    data-title={project.title.toLowerCase()}
+    data-description={description.toLowerCase()}
+    data-categories={JSON.stringify(project.categories)}
+    data-created={project.createdAt}
+>
     <article
-        class="project-card relative cursor-fabiosh rounded-md border border-divider shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-surface flex flex-col"
-        data-title={project.title.toLowerCase()}
-        data-categories={JSON.stringify(project.categories)}
+        class="relative cursor-fabiosh rounded-md border border-divider shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-surface flex flex-col h-full"
         tabindex="0"
     >
-        <!--  {
-            hasImage && (
-                <picture class="block max-h-62.5 overflow-hidden rounded-t-md">
+        {
+            hasImage ? (
+                <picture class="block max-h-80 overflow-hidden rounded-t-md">
                     <img
                         src={project.image}
-                        width="400"
-                        height="200"
+                        width="800"
+                        height="400"
                         alt={project.title}
                         loading="lazy"
                         decoding="async"
-                        class="max-h-55 w-full bg-white rounded-t-md object-cover grayscale duration-200 hover:grayscale-0"
+                        class="max-h-80 w-full bg-white rounded-t-md object-cover grayscale duration-200 hover:grayscale-0"
                     />
                 </picture>
+            ) : (
+                <div class="h-1 rounded-t-md" />
             )
         }
 
-        {!hasImage && <div class="h-1 rounded-t-md" />}-->
-
-        <div class="h-1 rounded-t-md"></div>
-
-        <div class="rounded-b-md bg-surface p-4 text-sm flex flex-col flex-1">
+        <div class="rounded-b-md bg-surface p-6 text-sm flex flex-col flex-1 gap-1">
             <ProjectStatus
                 title={project.title}
                 online={project.online}
@@ -58,7 +60,7 @@ const hasImage = !project.finished && project.published && project.image;
 
             {
                 description && (
-                    <p class="mb-2 text-fg font-andesNeueLight">
+                    <p class="mb-2 text-base text-fg font-andesNeueLight leading-relaxed">
                         {description}
                     </p>
                 )

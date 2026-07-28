@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/default.astro";
 import ProjectCard from "../components/projects/ProjectCard.astro";
+import ProjectRow from "../components/projects/ProjectRow.astro";
 import CategoryButton from "../components/CategoryButton.astro";
 
 import { getTranslations } from "../i18n/index";
@@ -31,14 +32,33 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             {t.menuProjects}
         </h1>
 
-        <!-- Search + category filters -->
+        <!-- Search + category filters + sort -->
         <div class="mb-12 flex flex-col gap-4">
-            <input
-                id="project-search"
-                type="search"
-                placeholder={t.searchPlaceholder}
-                class="w-full max-w-md rounded-lg bg-surface border border-edge px-4 py-2 text-sm text-fg placeholder-muted3 focus:outline-none focus:border-emerald-400 transition-colors"
-            />
+            <div class="flex flex-wrap items-center gap-4">
+                <input
+                    id="project-search"
+                    type="search"
+                    placeholder={t.searchPlaceholder}
+                    class="w-full max-w-md rounded-lg bg-surface border border-edge px-4 py-2 text-sm text-fg placeholder-muted3 focus:outline-none focus:border-emerald-400 transition-colors"
+                />
+
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="text-muted3">{t.sortLabel}</span>
+                    <button
+                        data-sort="recent"
+                        class="sort-btn border border-emerald-400 text-emerald-400 px-3 py-1 rounded-full transition-colors"
+                    >
+                        {t.sortRecent}
+                    </button>
+                    <button
+                        data-sort="alpha"
+                        class="sort-btn border border-divider text-muted2 hover:border-edge hover:text-fg px-3 py-1 rounded-full transition-colors"
+                    >
+                        {t.sortAlpha}
+                    </button>
+                </div>
+            </div>
+
             <div class="grid gap-2">
                 <ul class="flex flex-wrap gap-2 row-gap-3">
                     <li>
@@ -75,7 +95,10 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             >
                 {t.currentProjects}
             </h2>
-            <ul class="grid grid-cols-1 gap-6 lg:grid-cols-3 xl:grid-cols-4">
+            <ul
+                data-sortable
+                class="grid grid-cols-1 gap-8 lg:grid-cols-2"
+            >
                 {
                     currentProjects.map((project) => (
                         <ProjectCard project={project} locale={locale} t={t} />
@@ -89,15 +112,13 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             <h2 id="upcoming-heading" class="mb-6 text-lg font-andesNeueMedium">
                 {t.upcomingProjects}
             </h2>
-            <ul
-                class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5"
-            >
+            <ol data-sortable class="flex flex-col">
                 {
                     upcomingProjects.map((project) => (
-                        <ProjectCard project={project} locale={locale} t={t} />
+                        <ProjectRow project={project} locale={locale} t={t} />
                     ))
                 }
-            </ul>
+            </ol>
         </section>
 
         <!-- Finished -->
@@ -105,15 +126,13 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             <h2 id="finished-heading" class="mb-6 text-lg font-andesNeueMedium">
                 {t.finishedProjects}
             </h2>
-            <ul
-                class="grid grid-cols-1 gap-6 opacity-50 duration-200 hover:opacity-100 lg:grid-cols-3 xl:grid-cols-5"
-            >
+            <ol data-sortable class="flex flex-col">
                 {
                     finishedProjects.map((project) => (
-                        <ProjectCard project={project} locale={locale} t={t} />
+                        <ProjectRow project={project} locale={locale} t={t} />
                     ))
                 }
-            </ul>
+            </ol>
         </section>
     </div>
 
@@ -123,23 +142,35 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
         ) as HTMLInputElement | null;
         const filterBtns =
             document.querySelectorAll<HTMLButtonElement>(".filter-btn");
-        const cards = document.querySelectorAll<HTMLElement>(".project-card");
+        const sortBtns =
+            document.querySelectorAll<HTMLButtonElement>(".sort-btn");
+        const items = document.querySelectorAll<HTMLElement>(".project-item");
+        const sortables =
+            document.querySelectorAll<HTMLElement>("[data-sortable]");
         const sections =
             document.querySelectorAll<HTMLElement>("[data-section]");
 
         let activeCategory = "";
         let searchTerm = "";
+        let activeSort: "recent" | "alpha" = "recent";
 
         function applyFilters() {
-            cards.forEach((card) => {
+            items.forEach((item) => {
                 const categories: string[] = JSON.parse(
-                    card.dataset.categories ?? "[]",
+                    item.dataset.categories ?? "[]",
                 );
-                const title = card.dataset.title ?? "";
+                const title = item.dataset.title ?? "";
+                const description = item.dataset.description ?? "";
                 const matchesCategory =
                     !activeCategory || categories.includes(activeCategory);
-                const matchesSearch = !searchTerm || title.includes(searchTerm);
-                card.classList.toggle(
+                const matchesSearch =
+                    !searchTerm ||
+                    title.includes(searchTerm) ||
+                    description.includes(searchTerm) ||
+                    categories.some((c) =>
+                        c.toLowerCase().includes(searchTerm),
+                    );
+                item.classList.toggle(
                     "hidden",
                     !(matchesCategory && matchesSearch),
                 );
@@ -147,9 +178,30 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
 
             sections.forEach((section) => {
                 const hasVisible =
-                    section.querySelectorAll(".project-card:not(.hidden)")
+                    section.querySelectorAll(".project-item:not(.hidden)")
                         .length > 0;
                 section.classList.toggle("hidden", !hasVisible);
+            });
+        }
+
+        function applySort() {
+            sortables.forEach((container) => {
+                const children = Array.from(
+                    container.querySelectorAll<HTMLElement>(":scope > .project-item"),
+                );
+                children.sort((a, b) => {
+                    if (activeSort === "alpha") {
+                        return (a.dataset.title ?? "").localeCompare(
+                            b.dataset.title ?? "",
+                        );
+                    }
+                    return (
+                        (b.dataset.created ?? "").localeCompare(
+                            a.dataset.created ?? "",
+                        ) || (a.dataset.title ?? "").localeCompare(b.dataset.title ?? "")
+                    );
+                });
+                for (const child of children) container.appendChild(child);
             });
         }
 
@@ -173,6 +225,26 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                 applyFilters();
             });
         });
+
+        sortBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                activeSort = (btn.dataset.sort ?? "recent") as
+                    | "recent"
+                    | "alpha";
+                sortBtns.forEach((b) => {
+                    const isActive = b === btn;
+                    b.classList.toggle("border-emerald-400", isActive);
+                    b.classList.toggle("text-emerald-400", isActive);
+                    b.classList.toggle("border-divider", !isActive);
+                    b.classList.toggle("text-muted2", !isActive);
+                });
+                applySort();
+            });
+        });
+
+        // Server-rendered order is DB order, not "recent" — sort once up front
+        // so the initially-active "recent" button matches what's on screen.
+        applySort();
     </script>
 
     <script>

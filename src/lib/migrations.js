@@ -233,6 +233,26 @@ export const MIGRATIONS = [
       db.exec("ALTER TABLE projects DROP COLUMN categories");
     },
   },
+
+  {
+    id: 4,
+    name: "projects_add_created_at",
+    up(db) {
+      if (columns(db, "projects").includes("created_at")) return;
+
+      // node:sqlite rejects ALTER TABLE ADD COLUMN with any non-constant
+      // DEFAULT — including CURRENT_TIMESTAMP — so the column is added bare
+      // (nullable) and backfilled explicitly. Existing rows have no real
+      // creation date; rather than inventing false precision (e.g. staggered
+      // synthetic dates), every pre-existing project gets the migration's run
+      // time — "recently added" sort is a real signal for anything created
+      // from here on, and a stable no-op tiebreak for the historical batch.
+      db.exec("ALTER TABLE projects ADD COLUMN created_at TEXT");
+      db.prepare("UPDATE projects SET created_at = ? WHERE created_at IS NULL").run(
+        new Date().toISOString(),
+      );
+    },
+  },
 ];
 
 export const LATEST_MIGRATION_ID = MIGRATIONS.reduce((max, m) => Math.max(max, m.id), 0);

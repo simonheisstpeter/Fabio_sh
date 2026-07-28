@@ -54,6 +54,10 @@ export default {
   filterAll: "Ĉiuj",
   filterMore: "pli da filtriloj",
 
+  sortLabel: "Ordigi:",
+  sortRecent: "Plej novaj",
+  sortAlpha: "A–Z",
+
   statusOnline: "Rete",
   statusStandby: "Atendostato",
   statusOffline: "Eksterrete",

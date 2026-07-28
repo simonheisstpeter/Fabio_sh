@@ -54,6 +54,10 @@ export default {
   filterAll: "Tutti",
   filterMore: "più filtri",
 
+  sortLabel: "Ordina:",
+  sortRecent: "Recenti",
+  sortAlpha: "A–Z",
+
   statusOnline: "Online",
   statusOffline: "Offline",
   statusStandby: "In pausa",

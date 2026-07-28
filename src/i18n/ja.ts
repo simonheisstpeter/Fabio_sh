@@ -54,6 +54,10 @@ export default {
   filterAll: "すべて",
   filterMore: "フィルターをもっと表示",
 
+  sortLabel: "並び替え:",
+  sortRecent: "新着順",
+  sortAlpha: "A–Z",
+
   statusOnline: "オンライン",
   statusOffline: "オフライン",
   statusStandby: "スタンバイ",

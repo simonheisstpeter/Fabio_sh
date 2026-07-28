@@ -53,6 +53,10 @@ export default {
   filterAll: "Усі",
   filterMore: "більше фільтрів",
 
+  sortLabel: "Сортувати:",
+  sortRecent: "Нові",
+  sortAlpha: "A–Z",
+
   statusOnline: "Онлайн",
   statusOffline: "Офлайн",
   statusStandby: "На паузі",

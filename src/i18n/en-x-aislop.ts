@@ -65,6 +65,10 @@ export default {
   filterAll: "All",
   filterMore: "additional filtration parameters",
 
+  sortLabel: "Sort by:",
+  sortRecent: "Freshly shipped",
+  sortAlpha: "A–Z",
+
   statusOnline: "Deployed 🚀",
   statusStandby: "In the Pipeline",
   statusOffline: "Deprecated",

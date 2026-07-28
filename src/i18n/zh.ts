@@ -53,6 +53,10 @@ export default {
   filterAll: "全部",
   filterMore: "更多筛选",
 
+  sortLabel: "排序:",
+  sortRecent: "最新",
+  sortAlpha: "A–Z",
+
   statusOnline: "在线",
   statusOffline: "离线",
   statusStandby: "待机",

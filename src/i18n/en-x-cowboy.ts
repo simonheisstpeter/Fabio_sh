@@ -55,6 +55,10 @@ export default {
   filterAll: "All",
   filterMore: "more filters, partner",
 
+  sortLabel: "Sort:",
+  sortRecent: "Freshest catch",
+  sortAlpha: "A to Z, partner",
+
   statusOnline: "Ridin'",
   statusStandby: "Holdin' Up",
   statusOffline: "Roped In",

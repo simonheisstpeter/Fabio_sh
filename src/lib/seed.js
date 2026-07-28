@@ -628,9 +628,9 @@ const projects = [
 
 const insertProject = db.prepare(`
   INSERT OR REPLACE INTO projects
-    (id, title, published, finished, online, image, url, languages)
+    (id, title, published, finished, online, image, url, languages, created_at)
   VALUES
-    (@id, @title, @published, @finished, @online, @image, @url, @languages)
+    (@id, @title, @published, @finished, @online, @image, @url, @languages, @created_at)
 `);
 const clearTranslations = db.prepare("DELETE FROM project_translations WHERE project_id = ?");
 const clearCategories = db.prepare("DELETE FROM project_categories WHERE project_id = ?");
@@ -643,11 +643,23 @@ const insertCategory = db.prepare(
 
 const LOCALES = ["de", "en", "es", "it", "ja", "pt"];
 
+const seededAt = new Date().toISOString();
+
 db.exec("BEGIN IMMEDIATE");
 try {
   for (const row of projects) {
     const { id, title, published, finished, online, image, url, languages } = row;
-    insertProject.run({ id, title, published, finished, online, image, url, languages });
+    insertProject.run({
+      id,
+      title,
+      published,
+      finished,
+      online,
+      image,
+      url,
+      languages,
+      created_at: seededAt,
+    });
 
     clearTranslations.run(id);
     for (const locale of LOCALES) {

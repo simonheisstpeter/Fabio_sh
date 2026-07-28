@@ -55,6 +55,10 @@ export default {
   filterAll: "All",
   filterMore: "extended filter set",
 
+  sortLabel: "Sort by:",
+  sortRecent: "Latest launch",
+  sortAlpha: "Alphabetical",
+
   statusOnline: "Mission Active",
   statusStandby: "Standby Mode",
   statusOffline: "Mission Complete",

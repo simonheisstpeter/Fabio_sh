@@ -53,6 +53,10 @@ export default {
   filterAll: "Omnia",
   filterMore: "plura filtra",
 
+  sortLabel: "Ordinare:",
+  sortRecent: "Recentissima",
+  sortAlpha: "A–Z",
+
   statusOnline: "Online",
   statusStandby: "In Expectatione",
   statusOffline: "Offline",
