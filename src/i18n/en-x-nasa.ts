@@ -64,4 +64,11 @@ export default {
   cvInvalidCode: "Authorization rejected. Re-enter credentials.",
   cvAccessPlaceholder: "Authorization code",
   cvViewButton: "Access Dossier",
+
+  socialTitle: "Comms Log",
+  socialIntro: "Latest transmissions on Bluesky — downlinked directly from my own ground station, bypassing external relay networks.",
+  socialHostedOn: "Ground station at",
+  socialViewProfile: "Access full crew profile on Bluesky",
+  socialEmpty: "No transmissions logged.",
+  socialError: "Downlink failed. Feed unavailable.",
 };

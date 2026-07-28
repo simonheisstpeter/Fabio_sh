@@ -64,4 +64,11 @@ export default {
   cvInvalidCode: "Wrong code, massive L. Try again.",
   cvAccessPlaceholder: "The secret code",
   cvViewButton: "Peep the CV",
+
+  socialTitle: "The Socials",
+  socialIntro: "My latest posts on Bluesky, straight from my own server no cap. Fully self hosted, we don't do middlemen here.",
+  socialHostedOn: "Cooking on my own server at",
+  socialViewProfile: "Peep the whole profile on Bluesky",
+  socialEmpty: "No posts yet, it's giving empty.",
+  socialError: "Feed's not loading rn, massive L.",
 };

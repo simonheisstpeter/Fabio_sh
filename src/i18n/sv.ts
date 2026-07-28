@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Ogiltig åtkomstkod. Försök igen.",
   cvAccessPlaceholder: "Åtkomstkod",
   cvViewButton: "Visa CV",
+
+  socialTitle: "Socialt",
+  socialIntro: "Mina senaste inlägg på Bluesky — hämtade direkt från min egen server, utan att gå via Blueskys infrastruktur.",
+  socialHostedOn: "Egen server på",
+  socialViewProfile: "Visa hela profilen på Bluesky",
+  socialEmpty: "Inga inlägg än.",
+  socialError: "Flödet kunde inte laddas just nu.",
 };

@@ -62,4 +62,11 @@ export default {
   cvInvalidCode: "1nv4l1d 4cc355 c0d3. 7ry 4g41n.",
   cvAccessPlaceholder: "4cc355 c0d3",
   cvViewButton: "V13w CV",
+
+  socialTitle: "50c14l",
+  socialIntro: "My l47357 p0575 0n 8lu35ky — l04d3d 57r41gh7 fr0m my 0wn 53rv3r, n0 8lu35ky 1nfr457ruc7ur3.",
+  socialHostedOn: "53lf-h0573d 0n",
+  socialViewProfile: "V13w full pr0f1l3 0n 8lu35ky",
+  socialEmpty: "N0 p0575 y37.",
+  socialError: "F33d f41l3d 70 l04d.",
 };

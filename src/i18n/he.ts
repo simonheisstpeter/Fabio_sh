@@ -61,4 +61,11 @@ export default {
   cvInvalidCode: "קוד גישה שגוי. אנא נסה שוב.",
   cvAccessPlaceholder: "קוד גישה",
   cvViewButton: "צפה בקורות חיים",
+
+  socialTitle: "חברתי",
+  socialIntro: "הפוסטים האחרונים שלי ב-Bluesky — נטענים ישירות מהשרת שלי, בלי לעבור דרך התשתית של Bluesky.",
+  socialHostedOn: "מתארח בעצמי על",
+  socialViewProfile: "צפייה בפרופיל המלא ב-Bluesky",
+  socialEmpty: "אין עדיין פוסטים.",
+  socialError: "לא ניתן לטעון את הפיד כרגע.",
 };

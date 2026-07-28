@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Ungültiger Zugangscode. Bitte versuche es erneut.",
   cvAccessPlaceholder: "Zugangscode",
   cvViewButton: "Lebenslauf anzeigen",
+
+  socialTitle: "Social",
+  socialIntro: "Meine letzten Beiträge auf Bluesky – direkt von meinem eigenen Server geladen, ohne Umweg über die Bluesky-Infrastruktur.",
+  socialHostedOn: "Selbst gehostet auf",
+  socialViewProfile: "Vollständiges Profil auf Bluesky ansehen",
+  socialEmpty: "Noch keine Beiträge.",
+  socialError: "Der Feed konnte gerade nicht geladen werden.",
 };

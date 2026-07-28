@@ -62,4 +62,11 @@ export default {
   cvInvalidCode: "Невірний код доступу. Будь ласка, спробуйте ще раз.",
   cvAccessPlaceholder: "Код доступу",
   cvViewButton: "Переглянути CV",
+
+  socialTitle: "Соцмережі",
+  socialIntro: "Мої останні дописи у Bluesky — завантажені напряму з мого власного сервера, без інфраструктури Bluesky.",
+  socialHostedOn: "Власний хостинг на",
+  socialViewProfile: "Переглянути повний профіль у Bluesky",
+  socialEmpty: "Дописів ще немає.",
+  socialError: "Не вдалося завантажити стрічку зараз.",
 };

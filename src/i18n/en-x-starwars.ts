@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Clearance code rejected. Try again, you must.",
   cvAccessPlaceholder: "Clearance code",
   cvViewButton: "Access Dossier",
+
+  socialTitle: "Transmissions",
+  socialIntro: "My latest dispatches on Bluesky — relayed straight from my own outpost, bypassing the central network.",
+  socialHostedOn: "Outpost stationed at",
+  socialViewProfile: "View the full dossier on Bluesky",
+  socialEmpty: "No dispatches yet.",
+  socialError: "The transmission could not be received.",
 };

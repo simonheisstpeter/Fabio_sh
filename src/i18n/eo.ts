@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Nevalida alirkodo. Bonvolu reprovi.",
   cvAccessPlaceholder: "Alirkodo",
   cvViewButton: "Vidi CV",
+
+  socialTitle: "Socia",
+  socialIntro: "Miaj lastaj afiŝoj en Bluesky — ŝargitaj rekte de mia propra servilo, sen trairi la infrastrukturon de Bluesky.",
+  socialHostedOn: "Mem-gastigita ĉe",
+  socialViewProfile: "Vidi plenan profilon en Bluesky",
+  socialEmpty: "Ankoraŭ neniuj afiŝoj.",
+  socialError: "La fluo ne povis esti ŝargita nun.",
 };

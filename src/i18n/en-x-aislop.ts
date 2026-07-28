@@ -74,4 +74,11 @@ export default {
   cvInvalidCode: "Authentication vector rejected. Please re-attempt synergization.",
   cvAccessPlaceholder: "Authentication token",
   cvViewButton: "Unlock Value Document",
+
+  socialTitle: "Social Engagement Hub",
+  socialIntro: "My latest value-additive posts on Bluesky, seamlessly surfaced from my self-owned infrastructure stack without third-party dependency friction.",
+  socialHostedOn: "Autonomously hosted on",
+  socialViewProfile: "Explore the Full Profile Experience on Bluesky",
+  socialEmpty: "No content assets published yet.",
+  socialError: "Feed synergization temporarily unavailable.",
 };

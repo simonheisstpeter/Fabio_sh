@@ -60,4 +60,11 @@ export default {
   cvInvalidCode: "Wrong code.",
   cvAccessPlaceholder: "Code",
   cvViewButton: "View",
+
+  socialTitle: "Social",
+  socialIntro: "Latest posts. Served from my own server.",
+  socialHostedOn: "Hosted on",
+  socialViewProfile: "Full profile",
+  socialEmpty: "No posts.",
+  socialError: "Feed unavailable.",
 };

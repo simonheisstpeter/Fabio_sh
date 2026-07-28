@@ -13,7 +13,24 @@
   --animate-loaderSmall: loaderSmall 4s ease-in-out infinite;
   --animate-loaderRetourSmall: loaderRetourSmall 4s ease-in-out infinite;
 
-  --color-darkDotsGray: #030303;
+  /* Surfaces — lifted off pure black to avoid halation against white text. */
+  --color-base: #0e1013;
+  --color-surface: #16191d;
+  --color-raised: #1e2227;
+
+  /* Borders — divider is decorative, borderStrong meets WCAG 1.4.11 (3:1)
+     and is required on control boundaries such as form fields. */
+  --color-divider: #2a2f36;
+  --color-borderStrong: #697280;
+
+  /* Text ramp — every tier clears 4.5:1 on base, surface and raised. */
+  --color-fg: #f2f4f6;
+  --color-muted1: #c2c8d0;
+  --color-muted2: #9aa2ad;
+  --color-muted3: #8a939e;
+
+  /* Alias kept so any straggling `bg-darkDotsGray` still resolves. */
+  --color-darkDotsGray: var(--color-base);
   --color-loaderAlpha: rgb(56 109 241 / 0.05);
   --color-loaderBorder: rgb(255 255 255 / 0.1);
 
@@ -103,7 +120,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--color-divider, currentcolor);
   }
 
   /* Font declarations */
@@ -124,8 +141,8 @@
   body {
     padding: 0;
     margin: 0;
-    background-color: #030303;
-    color: white;
+    background-color: var(--color-base);
+    color: var(--color-fg);
   }
 
   a {

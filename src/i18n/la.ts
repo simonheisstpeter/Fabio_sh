@@ -62,4 +62,11 @@ export default {
   cvInvalidCode: "Codex accessus invalidus. Quaeso iterum conare.",
   cvAccessPlaceholder: "Codex accessus",
   cvViewButton: "CV videre",
+
+  socialTitle: "Socialia",
+  socialIntro: "Novissimae meae scriptiones in Bluesky — recta ex servitore meo proprio allatae, sine infrastructura Bluesky.",
+  socialHostedOn: "Ipse hospitatus in",
+  socialViewProfile: "Plenum profilum in Bluesky videre",
+  socialEmpty: "Nullae adhuc scriptiones.",
+  socialError: "Fluxus nunc legi non potuit.",
 };

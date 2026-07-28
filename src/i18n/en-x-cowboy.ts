@@ -64,4 +64,11 @@ export default {
   cvInvalidCode: "Wrong passcode, stranger. Try again.",
   cvAccessPlaceholder: "The passcode",
   cvViewButton: "Take a Look",
+
+  socialTitle: "The Town Square",
+  socialIntro: "My latest word from Bluesky — carried straight off my own homestead, no middleman ridin' between us.",
+  socialHostedOn: "Homestead sits at",
+  socialViewProfile: "Mosey on over to the full profile",
+  socialEmpty: "Ain't posted nothin' yet.",
+  socialError: "Couldn't fetch the feed just now, partner.",
 };

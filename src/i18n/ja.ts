@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "無効なアクセスコードです。もう一度お試しください。",
   cvAccessPlaceholder: "アクセスコード",
   cvViewButton: "CVを表示",
+
+  socialTitle: "ソーシャル",
+  socialIntro: "Bluesky での最近の投稿です。Bluesky のインフラを経由せず、自分のサーバーから直接読み込んでいます。",
+  socialHostedOn: "セルフホスト先：",
+  socialViewProfile: "Bluesky でプロフィール全体を見る",
+  socialEmpty: "まだ投稿はありません。",
+  socialError: "現在フィードを読み込めませんでした。",
 };

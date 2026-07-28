@@ -62,4 +62,11 @@ export default {
   cvInvalidCode: "访问代码无效，请重试。",
   cvAccessPlaceholder: "访问代码",
   cvViewButton: "查看简历",
+
+  socialTitle: "社交",
+  socialIntro: "我在 Bluesky 上的最新动态 —— 直接从我自己的服务器加载，不经过 Bluesky 的基础设施。",
+  socialHostedOn: "自建服务器：",
+  socialViewProfile: "在 Bluesky 上查看完整资料",
+  socialEmpty: "暂无动态。",
+  socialError: "目前无法加载动态。",
 };

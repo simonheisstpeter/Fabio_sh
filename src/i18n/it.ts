@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Codice di accesso non valido. Riprova.",
   cvAccessPlaceholder: "Codice di accesso",
   cvViewButton: "Visualizza CV",
+
+  socialTitle: "Social",
+  socialIntro: "I miei ultimi post su Bluesky, caricati direttamente dal mio server, senza passare per l'infrastruttura di Bluesky.",
+  socialHostedOn: "Self-hosted su",
+  socialViewProfile: "Vedi il profilo completo su Bluesky",
+  socialEmpty: "Ancora nessun post.",
+  socialError: "Impossibile caricare il feed in questo momento.",
 };

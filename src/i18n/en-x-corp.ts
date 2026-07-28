@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Authorization code rejected. Please retry.",
   cvAccessPlaceholder: "Authorization code",
   cvViewButton: "Access Document",
+
+  socialTitle: "Social Presence",
+  socialIntro: "My latest thought leadership on Bluesky, surfaced directly from my owned infrastructure without third-party intermediation.",
+  socialHostedOn: "Independently hosted on",
+  socialViewProfile: "View complete profile on Bluesky",
+  socialEmpty: "No content published at this time.",
+  socialError: "Feed retrieval is currently unavailable.",
 };

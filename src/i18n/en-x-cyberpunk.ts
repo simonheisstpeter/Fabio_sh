@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Access denied. Wrong key. Try again.",
   cvAccessPlaceholder: "Access key",
   cvViewButton: "Jack In",
+
+  socialTitle: "The Feed",
+  socialIntro: "Latest transmissions from Bluesky — pulled raw off my own node, no corpo relay in the middle.",
+  socialHostedOn: "Node running on",
+  socialViewProfile: "Jack into the full profile",
+  socialEmpty: "No transmissions yet.",
+  socialError: "Signal lost. Feed unreachable.",
 };

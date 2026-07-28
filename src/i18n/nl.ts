@@ -63,4 +63,11 @@ export default {
   cvInvalidCode: "Ongeldige toegangscode. Probeer het opnieuw.",
   cvAccessPlaceholder: "Toegangscode",
   cvViewButton: "CV bekijken",
+
+  socialTitle: "Sociaal",
+  socialIntro: "Mijn laatste berichten op Bluesky — rechtstreeks geladen vanaf mijn eigen server, zonder tussenkomst van de infrastructuur van Bluesky.",
+  socialHostedOn: "Zelf gehost op",
+  socialViewProfile: "Volledig profiel bekijken op Bluesky",
+  socialEmpty: "Nog geen berichten.",
+  socialError: "De feed kon nu niet worden geladen.",
 };
