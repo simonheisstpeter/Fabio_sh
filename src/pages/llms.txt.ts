@@ -5,7 +5,6 @@ import { ATPROTO_DID, ATPROTO_HANDLE, BSKY_PROFILE_URL } from "../lib/atproto";
 export const GET: APIRoute = () => {
   const projects = getAllProjects();
   const published = projects.filter((p) => p.published);
-
   const current = published.filter((p) => !p.finished);
   const finished = published.filter((p) => p.finished);
 
