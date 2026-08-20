@@ -1,6 +1,6 @@
 {
   "name": "fabio-sh",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -18,17 +18,17 @@
     "migrate:status": "node src/lib/migrate.js status"
   },
   "dependencies": {
-    "@astrojs/node": "^11.0.3",
+    "@astrojs/node": "^11.1.4",
     "@simplewebauthn/browser": "^13.3.0",
     "@simplewebauthn/server": "^13.3.1",
-    "astro": "^7.1.6",
-    "astro-mail-obfuscation": "^2.3.4"
+    "astro": "^7.2.4",
+    "astro-mail-obfuscation": "^3.0.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "@types/node": "^26.1.2",
-    "knip": "^6.31.0",
-    "oxfmt": "^0.62.0",
+    "@types/node": "^26.2.0",
+    "knip": "^6.32.2",
+    "oxfmt": "^0.64.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   }

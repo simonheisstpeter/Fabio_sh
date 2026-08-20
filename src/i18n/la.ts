@@ -70,7 +70,7 @@ export default {
 
   socialTitle: "Socialia",
   socialIntro: "Novissimae scriptiones meae — recta ex servitore meo.",
-  socialViewProfile: "Plenum profilum in Bluesky videre",
+  socialViewProfile: "Plenum profilum videre",
   socialEmpty: "Nullae adhuc scriptiones.",
   socialError: "Fluxus nunc legi non potuit.",
   socialAlsoOn: "Rationes aliae",

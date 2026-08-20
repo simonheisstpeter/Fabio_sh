@@ -145,7 +145,7 @@ const NavLinks = [
             >top</a
         >
 
-        <BetaRibbon />
+        <!-- <BetaRibbon /> -->
 
         <!-- Mobile nav -->
         <nav
@@ -183,17 +183,17 @@ const NavLinks = [
                     </svg>
                 </summary>
 
-                <div class="dotsDark h-screen pt-24 text-center">
+                <div class="dotsDark h-screen pt-24 pl-8 text-left">
                     <nav
-                        class="grid grid-cols-1 text-2xl gap-6 font-andesNeueMedium"
+                        class="grid grid-cols-1 text-3xl gap-6 font-andesNeueMedium"
                     >
-                        <ul>
+                        <ul class="flex flex-col gap-4">
                             {
                                 NavLinks.map((a) => (
                                     <li>
                                         <a
                                             href={a.href}
-                                            class="py-2 hover:text-emerald-400 transition duration-200"
+                                            class="py-4 hover:text-emerald-400 transition duration-200"
                                         >
                                             {a.text}
                                         </a>

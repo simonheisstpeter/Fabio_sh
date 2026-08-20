@@ -70,7 +70,7 @@ export default {
 
   socialTitle: "社交",
   socialIntro: "我最近的动态，直接来自我自己的服务器。",
-  socialViewProfile: "在 Bluesky 上查看完整资料",
+  socialViewProfile: "查看完整资料",
   socialEmpty: "暂无动态。",
   socialError: "目前无法加载动态。",
   socialAlsoOn: "更多账号",

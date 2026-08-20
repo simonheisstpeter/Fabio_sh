@@ -1,6 +1,7 @@
 ---
 import type { Translations } from "../i18n/index";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { MU_SOCIAL_PROFILE_URL } from "../lib/atproto";
 
 interface Props {
     locale: string;
@@ -46,8 +47,17 @@ const footerLinks = [
         </a>
 
         <a
-            href={getRelativeLocaleUrl(locale, "/social")}
+            href={MU_SOCIAL_PROFILE_URL}
+            target="_blank"
+            rel="me noopener noreferrer"
             class="mt-3 flex items-center gap-1.5 text-sm text-muted1 transition-colors duration-200 hover:text-emerald-400"
+        >
+            mu.social
+        </a>
+
+        <a
+            href={getRelativeLocaleUrl(locale, "/social")}
+            class="mt-2 flex items-center gap-1.5 text-sm text-muted1 transition-colors duration-200 hover:text-emerald-400"
         >
             <svg
                 viewBox="0 0 568 501"

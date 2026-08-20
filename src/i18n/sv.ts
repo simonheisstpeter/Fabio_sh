@@ -71,7 +71,7 @@ export default {
 
   socialTitle: "Socialt",
   socialIntro: "Mina senaste inlägg — direkt från min egen server.",
-  socialViewProfile: "Visa hela profilen på Bluesky",
+  socialViewProfile: "Visa hela profilen",
   socialEmpty: "Inga inlägg än.",
   socialError: "Flödet kunde inte laddas just nu.",
   socialAlsoOn: "Fler konton",

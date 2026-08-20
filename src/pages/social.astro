@@ -5,6 +5,8 @@ import {
     getSocialFeed,
     ATPROTO_DID,
     BSKY_PROFILE_URL,
+    MU_SOCIAL_PROFILE_URL,
+    SIFA_ID_URL,
     CACHE_TTL_MS,
 } from "../lib/atproto";
 
@@ -76,15 +78,27 @@ function formatDate(iso: string): string {
                             <div class="flex flex-col gap-0.5">
                                 <span class="font-andesNeueMedium">
                                     {feed.profile.displayName}
+                                    <br />
+                                    @{feed.profile.handle}
                                 </span>
-                                <a
-                                    href={BSKY_PROFILE_URL}
-                                    target="_blank"
-                                    rel="me noopener noreferrer"
-                                    class="text-sm text-muted1 hover:text-emerald-400 transition-colors duration-200"
-                                >
-                                    @{feed.profile.handle} ↗
-                                </a>
+                                {/* <div class="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm text-muted1">
+                                    <a
+                                        href={MU_SOCIAL_PROFILE_URL}
+                                        target="_blank"
+                                        rel="me noopener noreferrer"
+                                        class="hover:text-emerald-400 transition-colors duration-200"
+                                    >
+                                        mu.social ↗
+                                    </a>
+                                    <a
+                                        href={BSKY_PROFILE_URL}
+                                        target="_blank"
+                                        rel="me noopener noreferrer"
+                                        class="hover:text-emerald-400 transition-colors duration-200"
+                                    >
+                                        bsky.app ↗
+                                    </a>
+                                </div> */}
                             </div>
                         </div>
                     )
@@ -100,14 +114,38 @@ function formatDate(iso: string): string {
                     {ATPROTO_DID}
                 </p>
 
-                <a
-                    href={BSKY_PROFILE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="mt-6 inline-block text-sm text-muted1 hover:text-emerald-400 transition-colors duration-200"
-                >
-                    {t.socialViewProfile} ↗
-                </a>
+                <div class="mt-6">
+                    <p class="text-sm text-muted1">
+                        {t.socialViewProfile}
+                    </p>
+                    <div class="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                        <a
+                            href={MU_SOCIAL_PROFILE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                        >
+                            mu.social ↗
+                        </a>
+                        <a
+                            href={BSKY_PROFILE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                        >
+                            bsky ↗
+                        </a>
+                        <a
+                            href={SIFA_ID_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                        >
+                            sifa.id ↗
+                        </a>
+
+                    </div>
+                </div>
 
                 {
                     feed && feed.apps.length > 0 && (
@@ -205,6 +243,62 @@ function formatDate(iso: string): string {
                                                     </span>
                                                 ))}
                                             </div>
+                                        )}
+
+                                        {post.video && (
+                                            <video
+                                                controls
+                                                preload="none"
+                                                aria-label={post.video.alt}
+                                                width={post.video.aspectRatio?.width}
+                                                height={post.video.aspectRatio?.height}
+                                                style={
+                                                    post.video.aspectRatio
+                                                        ? `aspect-ratio:${post.video.aspectRatio.width}/${post.video.aspectRatio.height}`
+                                                        : undefined
+                                                }
+                                                class="mt-4 w-full max-w-full rounded-md border border-divider"
+                                            >
+                                                <source src={post.video.url} />
+                                            </video>
+                                        )}
+
+                                        {post.externalLink && (
+                                            <a
+                                                href={post.externalLink.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="mt-4 flex overflow-hidden rounded-md border border-divider transition-colors duration-200 hover:border-emerald-400"
+                                            >
+                                                {post.externalLink.thumbUrl && (
+                                                    <img
+                                                        src={post.externalLink.thumbUrl}
+                                                        alt=""
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        class="h-24 w-24 shrink-0 object-cover"
+                                                    />
+                                                )}
+                                                <span class="flex min-w-0 flex-col justify-center gap-1 px-4 py-3">
+                                                    <span class="truncate text-sm font-andesNeueMedium text-fg">
+                                                        {post.externalLink.title || post.externalLink.url}
+                                                    </span>
+                                                    <span class="truncate text-xs text-muted2">
+                                                        {new URL(post.externalLink.url).hostname}
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        )}
+
+                                        {post.quotedPostUrl && (
+                                            <a
+                                                href={post.quotedPostUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="mt-4 inline-block text-xs text-muted2 hover:text-emerald-400 transition-colors duration-200"
+                                            >
+                                                Quoted post ↗
+                                            </a>
                                         )}
                                     </li>
                                 ))}

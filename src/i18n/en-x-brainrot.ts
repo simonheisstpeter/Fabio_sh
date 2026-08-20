@@ -72,7 +72,7 @@ export default {
 
   socialTitle: "The Socials",
   socialIntro: "My latest posts, straight off my own server.",
-  socialViewProfile: "Peep the whole profile on Bluesky",
+  socialViewProfile: "Peep the whole profile",
   socialEmpty: "No posts yet, it's giving empty.",
   socialError: "Feed's not loading rn, massive L.",
   socialAlsoOn: "More accounts",

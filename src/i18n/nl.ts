@@ -71,7 +71,7 @@ export default {
 
   socialTitle: "Sociaal",
   socialIntro: "Mijn laatste berichten — rechtstreeks van m'n eigen server.",
-  socialViewProfile: "Volledig profiel bekijken op Bluesky",
+  socialViewProfile: "Volledig profiel bekijken",
   socialEmpty: "Nog geen berichten.",
   socialError: "De feed kon nu niet worden geladen.",
   socialAlsoOn: "Meer accounts",

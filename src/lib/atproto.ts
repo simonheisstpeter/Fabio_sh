@@ -12,11 +12,26 @@
 export const ATPROTO_DID = "did:plc:ip4symhldu6klwmx6c2gso66";
 export const ATPROTO_HANDLE = "fabio.sh";
 export const BSKY_PROFILE_URL = `https://bsky.app/profile/${ATPROTO_HANDLE}`;
+export const MU_SOCIAL_PROFILE_URL = `https://mu.social/profile/${ATPROTO_HANDLE}`;
+export const SIFA_ID_URL = `https://sifa.id/p/${ATPROTO_HANDLE}`;
 
 /** Kept module-private: the PDS host is deliberately not surfaced in markup. */
 const ATPROTO_PDS = "https://at.fabio.sh";
 
 export type FeedImage = {
+  url: string;
+  alt: string;
+  aspectRatio: { width: number; height: number } | null;
+};
+
+export type FeedExternalLink = {
+  url: string;
+  title: string;
+  description: string;
+  thumbUrl: string | null;
+};
+
+export type FeedVideo = {
   url: string;
   alt: string;
   aspectRatio: { width: number; height: number } | null;
@@ -29,6 +44,16 @@ export type FeedPost = {
   text: string;
   createdAt: string;
   images: FeedImage[];
+  externalLink: FeedExternalLink | null;
+  video: FeedVideo | null;
+  /** Permalink of a quoted post, if this post embeds one. Always points at
+   *  bsky.app since the quoted account isn't necessarily this site's owner. */
+  quotedPostUrl: string | null;
+};
+
+export type FeedStatus = {
+  emoji: string;
+  createdAt: string;
 };
 
 export type FeedProfile = {
@@ -53,6 +78,7 @@ export type SocialFeed = {
   profile: FeedProfile;
   posts: FeedPost[];
   apps: AtprotoApp[];
+  status: FeedStatus | null;
 };
 
 const FETCH_TIMEOUT_MS = 6_000;
@@ -106,8 +132,8 @@ export async function fetchBlob(
     if (!res.ok) return null;
 
     const contentType = res.headers.get("content-type") ?? "application/octet-stream";
-    // Only ever hand back images; the PDS holds other blob types too.
-    if (!contentType.startsWith("image/")) return null;
+    // Only ever hand back images/video; the PDS holds other blob types too.
+    if (!contentType.startsWith("image/") && !contentType.startsWith("video/")) return null;
 
     return { body: await res.arrayBuffer(), contentType };
   } catch (err) {
@@ -123,16 +149,25 @@ function blobCid(blob: unknown): string | null {
   return typeof link === "string" ? link : null;
 }
 
-/** Pulls images out of `embed.images` and the media half of `recordWithMedia`. */
-function extractImages(embed: unknown): FeedImage[] {
-  const e = embed as { $type?: string; images?: unknown[]; media?: unknown } | undefined;
-  if (!e) return [];
+type ExtractedEmbed = {
+  images: FeedImage[];
+  externalLink: FeedExternalLink | null;
+  video: FeedVideo | null;
+  quotedPostUrl: string | null;
+};
 
-  if (e.$type === "app.bsky.embed.recordWithMedia") return extractImages(e.media);
-  if (e.$type !== "app.bsky.embed.images" || !Array.isArray(e.images)) return [];
+const EMPTY_EMBED: ExtractedEmbed = {
+  images: [],
+  externalLink: null,
+  video: null,
+  quotedPostUrl: null,
+};
+
+function extractImages(images: unknown): FeedImage[] {
+  if (!Array.isArray(images)) return [];
 
   const out: FeedImage[] = [];
-  for (const raw of e.images) {
+  for (const raw of images) {
     const img = raw as { image?: unknown; alt?: string; aspectRatio?: unknown };
     const cid = blobCid(img.image);
     if (!cid) continue;
@@ -146,6 +181,67 @@ function extractImages(embed: unknown): FeedImage[] {
     });
   }
   return out;
+}
+
+function extractExternalLink(external: unknown): FeedExternalLink | null {
+  const e = external as { uri?: string; title?: string; description?: string; thumb?: unknown } | undefined;
+  if (!e || typeof e.uri !== "string") return null;
+
+  const thumbCid = blobCid(e.thumb);
+  return {
+    url: e.uri,
+    title: typeof e.title === "string" ? e.title : "",
+    description: typeof e.description === "string" ? e.description : "",
+    thumbUrl: thumbCid ? blobUrl(thumbCid) : null,
+  };
+}
+
+function extractVideo(e: { video?: unknown; alt?: string; aspectRatio?: unknown }): FeedVideo | null {
+  const cid = blobCid(e.video);
+  if (!cid) return null;
+
+  const ar = e.aspectRatio as { width?: number; height?: number } | undefined;
+  return {
+    url: blobUrl(cid),
+    alt: typeof e.alt === "string" ? e.alt : "",
+    aspectRatio: ar?.width && ar?.height ? { width: ar.width, height: ar.height } : null,
+  };
+}
+
+/** `at://did/collection/rkey` -> a bsky.app permalink for any account. */
+function quotedPostUrlFromUri(uri: unknown): string | null {
+  if (typeof uri !== "string") return null;
+  const match = uri.match(/^at:\/\/(did:[^/]+)\/app\.bsky\.feed\.post\/([^/]+)$/);
+  if (!match) return null;
+  return `https://bsky.app/profile/${match[1]}/post/${match[2]}`;
+}
+
+/** Pulls the displayable parts out of a post's embed union, whatever shape it is. */
+function extractEmbed(embed: unknown): ExtractedEmbed {
+  const e = embed as { $type?: string; images?: unknown; external?: unknown; video?: unknown; alt?: string; aspectRatio?: unknown; record?: unknown; media?: unknown } | undefined;
+  if (!e) return EMPTY_EMBED;
+
+  switch (e.$type) {
+    case "app.bsky.embed.images":
+      return { ...EMPTY_EMBED, images: extractImages(e.images) };
+    case "app.bsky.embed.external":
+      return { ...EMPTY_EMBED, externalLink: extractExternalLink(e.external) };
+    case "app.bsky.embed.video":
+      return { ...EMPTY_EMBED, video: extractVideo(e) };
+    case "app.bsky.embed.record": {
+      const record = e.record as { uri?: unknown } | undefined;
+      return { ...EMPTY_EMBED, quotedPostUrl: quotedPostUrlFromUri(record?.uri) };
+    }
+    case "app.bsky.embed.recordWithMedia": {
+      const record = e.record as { record?: { uri?: unknown } } | undefined;
+      return {
+        ...extractEmbed(e.media),
+        quotedPostUrl: quotedPostUrlFromUri(record?.record?.uri),
+      };
+    }
+    default:
+      return EMPTY_EMBED;
+  }
 }
 
 async function fetchProfile(): Promise<FeedProfile> {
@@ -182,6 +278,10 @@ const KNOWN_APPS: Record<string, { name: string; profile?: (handle: string) => s
   "sh.tangled": { name: "Tangled", profile: (h) => `https://tangled.sh/@${h}` },
   "com.luminframe": { name: "Luminframe", url: "https://luminframe.com" },
   "vote.pedro": { name: "Pedro" },
+  "com.whtwnd": { name: "WhiteWind", profile: (h) => `https://whtwnd.com/${h}` },
+  "pub.leaflet": { name: "Leaflet" },
+  "events.smokesignal": { name: "Smoke Signal" },
+  "xyz.statusphere": { name: "Statusphere" },
 };
 
 /** Protocol plumbing, not an app anyone visits. */
@@ -248,12 +348,13 @@ async function fetchPosts(): Promise<FeedPost[]> {
     const rkey = record.uri.split("/").pop();
     if (!rkey) continue;
 
+    const embed = extractEmbed(v.embed);
     posts.push({
       rkey,
       url: `${BSKY_PROFILE_URL}/post/${rkey}`,
       text: typeof v.text === "string" ? v.text : "",
       createdAt: typeof v.createdAt === "string" ? v.createdAt : "",
-      images: extractImages(v.embed),
+      ...embed,
     });
   }
 
@@ -262,16 +363,47 @@ async function fetchPosts(): Promise<FeedPost[]> {
   return posts.slice(0, MAX_POSTS);
 }
 
+/**
+ * Latest Statusphere status (xyz.statusphere.status), if the user has one.
+ * Not every atproto identity uses Statusphere, so an empty repo is expected
+ * and simply yields `null` rather than an error.
+ */
+async function fetchStatus(): Promise<FeedStatus | null> {
+  const url =
+    `${ATPROTO_PDS}/xrpc/com.atproto.repo.listRecords` +
+    `?repo=${ATPROTO_DID}&collection=xyz.statusphere.status&limit=1`;
+
+  try {
+    const res = await fetchWithTimeout(url);
+    if (!res.ok) return null;
+
+    const data = (await res.json()) as {
+      records?: Array<{ value?: { status?: string; createdAt?: string } }>;
+    };
+    const record = data.records?.[0]?.value;
+    if (!record || typeof record.status !== "string") return null;
+
+    return {
+      emoji: record.status,
+      createdAt: typeof record.createdAt === "string" ? record.createdAt : "",
+    };
+  } catch (err) {
+    console.error("[atproto] fetchStatus failed:", err instanceof Error ? err.message : err);
+    return null;
+  }
+}
+
 function refresh(): Promise<SocialFeed | null> {
   // Collapse parallel callers onto one fetch.
   inFlight ??= (async () => {
     try {
-      const [profile, posts, apps] = await Promise.all([
+      const [profile, posts, apps, status] = await Promise.all([
         fetchProfile(),
         fetchPosts(),
         fetchApps(),
+        fetchStatus(),
       ]);
-      const feed: SocialFeed = { profile, posts, apps };
+      const feed: SocialFeed = { profile, posts, apps, status };
       const now = Date.now();
       cache = {
         feed,

@@ -71,7 +71,7 @@ export default {
 
   socialTitle: "Socia",
   socialIntro: "Miaj lastaj afiŝoj — rekte de mia propra servilo.",
-  socialViewProfile: "Vidi plenan profilon en Bluesky",
+  socialViewProfile: "Vidi plenan profilon",
   socialEmpty: "Ankoraŭ neniuj afiŝoj.",
   socialError: "La fluo ne povis esti ŝargita nun.",
   socialAlsoOn: "Pliaj kontoj",

@@ -82,7 +82,7 @@ export default {
 
   socialTitle: "Social Engagement Hub",
   socialIntro: "My latest content, natively surfaced from my own stack.",
-  socialViewProfile: "Explore the Full Profile Experience on Bluesky",
+  socialViewProfile: "Explore the Full Profile Experience",
   socialEmpty: "No content assets published yet.",
   socialError: "Feed synergization temporarily unavailable.",
   socialAlsoOn: "Additional Account Presence",

@@ -71,7 +71,7 @@ export default {
 
   socialTitle: "ソーシャル",
   socialIntro: "最近の投稿を、自分のサーバーから直接。",
-  socialViewProfile: "Bluesky でプロフィール全体を見る",
+  socialViewProfile: "プロフィール全体を見る",
   socialEmpty: "まだ投稿はありません。",
   socialError: "現在フィードを読み込めませんでした。",
   socialAlsoOn: "その他のアカウント",

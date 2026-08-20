@@ -3,12 +3,32 @@ import Layout from "../layouts/default.astro";
 import Loader from "../components/Loader.astro";
 import { getTranslations } from "../i18n/index";
 import { getLastPlayed } from "../lib/tidal";
+import { getSocialFeed } from "../lib/atproto";
 
 const locale = Astro.currentLocale ?? "de";
 const t = getTranslations(locale);
 
 // Fetch Tidal last-played server-side (with graceful fallback)
 const track = await getLastPlayed();
+
+// Reuses the same cached feed /social reads from — costs nothing extra once
+// either page has warmed the cache. `status` is null if there's no
+// Statusphere record, which is the common case and not an error.
+const feed = await getSocialFeed();
+const status = feed?.status ?? null;
+
+function formatStatusDate(iso: string): string {
+    if (!iso) return "";
+    try {
+        return new Date(iso).toLocaleDateString(locale, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    } catch {
+        return new Date(iso).toISOString().slice(0, 10);
+    }
+}
 
 /*
 Fabio Gschweidl — working across digital media, IT and modern web infrastructure, based in Austria.
@@ -116,5 +136,25 @@ Below, you’ll find the audio player showing what I’m currently listening to 
                 )
             }
         </section>
+
+        {
+            status && (
+                <section aria-labelledby="status-heading" class="mt-16">
+                    <h2 id="status-heading" class="text-2xl font-andesNeueMedium mb-6">
+                        Status
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl" aria-hidden="true">
+                            {status.emoji}
+                        </span>
+                        {status.createdAt && (
+                            <time datetime={status.createdAt} class="text-sm text-muted1">
+                                {formatStatusDate(status.createdAt)}
+                            </time>
+                        )}
+                    </div>
+                </section>
+            )
+        }
     </div>
 </Layout>

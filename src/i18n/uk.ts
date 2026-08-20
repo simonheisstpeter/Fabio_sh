@@ -70,7 +70,7 @@ export default {
 
   socialTitle: "Соцмережі",
   socialIntro: "Мої останні дописи — просто з мого власного сервера.",
-  socialViewProfile: "Переглянути повний профіль у Bluesky",
+  socialViewProfile: "Переглянути повний профіль",
   socialEmpty: "Дописів ще немає.",
   socialError: "Не вдалося завантажити стрічку зараз.",
   socialAlsoOn: "Інші акаунти",

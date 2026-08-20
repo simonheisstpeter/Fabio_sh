@@ -71,7 +71,7 @@ export default {
 
   socialTitle: "Social",
   socialIntro: "Mis últimas publicaciones, directamente desde mi propio servidor.",
-  socialViewProfile: "Ver perfil completo en Bluesky",
+  socialViewProfile: "Ver perfil completo",
   socialEmpty: "Aún no hay publicaciones.",
   socialError: "No se pudo cargar el feed en este momento.",
   socialAlsoOn: "Más cuentas",

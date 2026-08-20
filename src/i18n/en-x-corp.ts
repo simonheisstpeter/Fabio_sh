@@ -71,7 +71,7 @@ export default {
 
   socialTitle: "Social Presence",
   socialIntro: "My latest updates, sourced directly from my own infrastructure.",
-  socialViewProfile: "View complete profile on Bluesky",
+  socialViewProfile: "View complete profile",
   socialEmpty: "No content published at this time.",
   socialError: "Feed retrieval is currently unavailable.",
   socialAlsoOn: "Additional Accounts",

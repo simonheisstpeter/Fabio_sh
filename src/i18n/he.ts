@@ -69,7 +69,7 @@ export default {
 
   socialTitle: "חברתי",
   socialIntro: "הפוסטים האחרונים שלי — ישירות מהשרת שלי.",
-  socialViewProfile: "צפייה בפרופיל המלא ב-Bluesky",
+  socialViewProfile: "צפייה בפרופיל המלא",
   socialEmpty: "אין עדיין פוסטים.",
   socialError: "לא ניתן לטעון את הפיד כרגע.",
   socialAlsoOn: "חשבונות נוספים",

@@ -72,7 +72,7 @@ export default {
 
   socialTitle: "Comms Log",
   socialIntro: "Latest transmissions — downlinked from my own ground station.",
-  socialViewProfile: "Access full crew profile on Bluesky",
+  socialViewProfile: "Access full crew profile",
   socialEmpty: "No transmissions logged.",
   socialError: "Downlink failed. Feed unavailable.",
   socialAlsoOn: "Additional Accounts",
