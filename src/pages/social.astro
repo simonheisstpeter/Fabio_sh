@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/default.astro";
+import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
 import { getTranslations } from "../i18n/index";
 import {
     getSocialFeed,
@@ -117,25 +118,25 @@ function formatDate(iso: string): string {
                             href={MU_SOCIAL_PROFILE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                            class="inline-flex items-center gap-1 text-muted1 hover:text-emerald-400 transition-colors duration-200"
                         >
-                            mu.social ↗
+                            mu.social <ExternalLinkIcon />
                         </a>
                         <a
                             href={BSKY_PROFILE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                            class="inline-flex items-center gap-1 text-muted1 hover:text-emerald-400 transition-colors duration-200"
                         >
-                            bsky ↗
+                            bsky <ExternalLinkIcon />
                         </a>
                         <a
                             href={SIFA_ID_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                            class="inline-flex items-center gap-1 text-muted1 hover:text-emerald-400 transition-colors duration-200"
                         >
-                            sifa.id ↗
+                            sifa.id <ExternalLinkIcon />
                         </a>
 
                     </div>
@@ -156,9 +157,9 @@ function formatDate(iso: string): string {
                                                 target="_blank"
                                                 rel="me noopener noreferrer"
                                                 title={app.namespace}
-                                                class="text-muted1 hover:text-emerald-400 transition-colors duration-200"
+                                                class="inline-flex items-center gap-1 text-muted1 hover:text-emerald-400 transition-colors duration-200"
                                             >
-                                                {app.name} ↗
+                                                {app.name} <ExternalLinkIcon />
                                             </a>
                                         ) : (
                                             <span
@@ -289,9 +290,9 @@ function formatDate(iso: string): string {
                                                 href={post.quotedPostUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="mt-4 inline-block text-xs text-muted2 hover:text-emerald-400 transition-colors duration-200"
+                                                class="mt-4 inline-flex items-center gap-1 text-xs text-muted2 hover:text-emerald-400 transition-colors duration-200"
                                             >
-                                                Quoted post ↗
+                                                Quoted post <ExternalLinkIcon />
                                             </a>
                                         )}
                                     </li>

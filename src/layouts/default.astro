@@ -145,17 +145,17 @@ const NavLinks = [
             >top</a
         >
 
-        <!-- <BetaRibbon /> -->
-
         <!-- Mobile nav -->
         <nav
             class="fixed top-0 z-20 w-full bg-canvas/95 backdrop-blur-sm md:hidden"
             aria-label={t.menuHome}
         >
-            <details class="group">
+            <details id="mobile-menu" class="group">
                 <summary
                     class="flex items-center justify-end px-6 py-4 list-none cursor-pointer select-none"
                     aria-label="Toggle Menu"
+                    aria-controls="mobile-menu-panel"
+                    aria-expanded="false"
                 >
                     <!-- Hamburger icon (visible when closed) -->
                     <svg
@@ -185,28 +185,29 @@ const NavLinks = [
 
                 <div class="dotsDark h-screen pt-24 pl-8 text-left">
                     <nav
+                        id="mobile-menu-panel"
                         class="grid grid-cols-1 text-3xl gap-6 font-andesNeueMedium"
                     >
-                        <ul class="flex flex-col gap-4">
-                            {
-                                NavLinks.map((a) => (
-                                    <li>
-                                        <a
-                                            href={a.href}
-                                            class="py-4 hover:text-emerald-400 transition duration-200"
-                                        >
-                                            {a.text}
-                                        </a>
-                                    </li>
-                                ))
-                            }
-                        </ul>
+                        <div>
+                            <ul class="flex flex-col gap-4">
+                                {
+                                    NavLinks.map((a) => (
+                                        <li>
+                                            <a
+                                                href={a.href}
+                                                class="py-4 hover:text-emerald-400 transition duration-200"
+                                            >
+                                                {a.text}
+                                            </a>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
 
-                        <div class="mt-4">
                             <select
                                 id="lang-select-mobile"
                                 aria-label={t.languageSelect}
-                                class="bg-transparent text-fg text-lg tracking-wide border border-edge rounded-md px-3 py-1"
+                                class="mt-4 bg-transparent text-fg text-lg tracking-wide border border-edge rounded-md px-3 py-1"
                             >
                                 {
                                     LOCALES.map((l) => (
@@ -225,69 +226,73 @@ const NavLinks = [
             </details>
         </nav>
 
-        <!-- Desktop nav -->
-        <header class="hidden md:block">
-            <nav
-                class="flex items-start justify-between pr-10 pt-10"
-                aria-label="Main navigation"
-            >
-                <a
-                    href={getRelativeLocaleUrl(locale, "/")}
-                    aria-current={isHome ? "page" : undefined}
-                    aria-label={t.menuHome}
-                    class="ml-6"
-                >
-                    <Loader />
-                </a>
+        <div id="page-content">
+            <!-- <BetaRibbon /> -->
 
-                <ul
-                    class="flex items-center gap-6 font-andesNeueLight text-sm tracking-wide"
+            <!-- Desktop nav -->
+            <header class="hidden md:block">
+                <nav
+                    class="flex items-start justify-between pr-10 pt-10"
+                    aria-label="Main navigation"
                 >
-                    {
-                        NavLinks.filter((link) => !link.mobileOnly).map((link) => (
-                            <li>
-                                <a
-                                    href={link.href}
-                                    aria-current={
-                                        Astro.url.pathname === link.href
-                                            ? "page"
-                                            : undefined
-                                    }
-                                    class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
-                                >
-                                    {link.text}
-                                </a>
-                            </li>
-                        ))
-                    }
-                    <li>
-                        <select
-                            id="lang-select"
-                            aria-label={t.languageSelect}
-                            class="bg-transparent text-fg tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
-                        >
-                            {
-                                LOCALES.map((l) => (
-                                    <option
-                                        value={getPathForLocale(l)}
-                                        selected={l === locale}
+                    <a
+                        href={getRelativeLocaleUrl(locale, "/")}
+                        aria-current={isHome ? "page" : undefined}
+                        aria-label={t.menuHome}
+                        class="ml-6"
+                    >
+                        <Loader />
+                    </a>
+
+                    <ul
+                        class="flex items-center gap-6 font-andesNeueLight text-sm tracking-wide"
+                    >
+                        {
+                            NavLinks.filter((link) => !link.mobileOnly).map((link) => (
+                                <li>
+                                    <a
+                                        href={link.href}
+                                        aria-current={
+                                            Astro.url.pathname === link.href
+                                                ? "page"
+                                                : undefined
+                                        }
+                                        class="transition-colors duration-200 hover:text-emerald-400 aria-[current=page]:text-emerald-400"
                                     >
-                                        {LOCALE_LABELS[l]}
-                                    </option>
-                                ))
-                            }
-                        </select>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+                                        {link.text}
+                                    </a>
+                                </li>
+                            ))
+                        }
+                        <li>
+                            <select
+                                id="lang-select"
+                                aria-label={t.languageSelect}
+                                class="bg-transparent text-fg tracking-wide border-none cursor-pointer hover:text-emerald-400 transition duration-200"
+                            >
+                                {
+                                    LOCALES.map((l) => (
+                                        <option
+                                            value={getPathForLocale(l)}
+                                            selected={l === locale}
+                                        >
+                                            {LOCALE_LABELS[l]}
+                                        </option>
+                                    ))
+                                }
+                            </select>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
 
-        <main id="main-content" class="font-andesNeueLight">
-            <slot />
-        </main>
+            <main id="main-content" class="font-andesNeueLight">
+                <slot />
+            </main>
 
-        <ScrollToTop label={t.scrollTop} />
-        <Footer locale={locale} t={t} />
+            <ScrollToTop label={t.scrollTop} />
+            <Footer locale={locale} t={t} />
+        </div>
 
         <!-- Language switcher script (progressive: enhances <select> navigation) -->
         <script>
@@ -316,10 +321,73 @@ const NavLinks = [
                 initLangSelect(id);
             }
 
+            // Traps focus inside the open mobile menu: the rest of the page is
+            // made `inert` while it's open (so Tab simply can't reach it), and
+            // Tab/Shift+Tab wrap between the toggle button and the panel's last
+            // focusable item so keyboard users can't tab out of an open menu.
+            function initMobileMenuTrap() {
+                const details = document.getElementById(
+                    "mobile-menu",
+                ) as HTMLDetailsElement | null;
+                const summary = details?.querySelector("summary");
+                const panel = document.getElementById("mobile-menu-panel");
+                const pageContent = document.getElementById("page-content");
+                if (!details || !summary || !panel || details.dataset.trapInit)
+                    return;
+                details.dataset.trapInit = "1";
+
+                function focusable(): HTMLElement[] {
+                    return [
+                        summary!,
+                        ...panel!.querySelectorAll<HTMLElement>("a[href], select"),
+                    ];
+                }
+
+                details.addEventListener("toggle", () => {
+                    summary!.setAttribute(
+                        "aria-expanded",
+                        String(details!.open),
+                    );
+
+                    if (details!.open) {
+                        pageContent?.setAttribute("inert", "");
+                        focusable()[1]?.focus();
+                    } else {
+                        pageContent?.removeAttribute("inert");
+                    }
+                });
+
+                details.addEventListener("keydown", (e) => {
+                    if (!details!.open) return;
+
+                    if (e.key === "Escape") {
+                        e.preventDefault();
+                        details!.open = false;
+                        summary!.focus();
+                        return;
+                    }
+
+                    if (e.key !== "Tab") return;
+
+                    const items = focusable();
+                    const first = items[0];
+                    const last = items[items.length - 1];
+
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                });
+            }
+
             // astro:page-load fires on both initial load and after every View Transition
             document.addEventListener("astro:page-load", () => {
                 initLangSelect("lang-select");
                 initMobileLangSelect("lang-select-mobile");
+                initMobileMenuTrap();
             });
 
             consoleMessage();
