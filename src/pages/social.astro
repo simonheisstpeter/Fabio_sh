@@ -3,7 +3,6 @@ import Layout from "../layouts/default.astro";
 import { getTranslations } from "../i18n/index";
 import {
     getSocialFeed,
-    ATPROTO_DID,
     BSKY_PROFILE_URL,
     MU_SOCIAL_PROFILE_URL,
     SIFA_ID_URL,
@@ -47,9 +46,8 @@ function formatDate(iso: string): string {
         <div
             class="grid gap-12 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16 lg:items-start"
         >
-            <!-- Sticky intro column. `items-start` on the grid is what stops
-                 this stretching to full row height, which would kill sticky. -->
-            <aside class="lg:sticky lg:top-12">
+        
+            <aside class="min-w-0 lg:sticky lg:top-12">
                 <h1
                     class="text-4xl font-andesNeueMedium mb-8 animate-fadeIn_2000"
                 >
@@ -108,10 +106,6 @@ function formatDate(iso: string): string {
                     class="font-andesNeueLight text-base text-muted1 mb-2 leading-relaxed"
                 >
                     {t.socialIntro}
-                </p>
-
-                <p class="font-mono text-xs text-muted3 break-all">
-                    {ATPROTO_DID}
                 </p>
 
                 <div class="mt-6">
@@ -184,7 +178,7 @@ function formatDate(iso: string): string {
 
             {
                 feed ? (
-                    <section aria-labelledby="feed-heading" class="max-w-2xl">
+                    <section aria-labelledby="feed-heading" class="min-w-0 max-w-2xl">
                         <h2 id="feed-heading" class="sr-only">
                             {t.socialTitle}
                         </h2>
