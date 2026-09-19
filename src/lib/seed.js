@@ -11,17 +11,29 @@ import { mkdirSync } from "fs";
 import { runMigrations } from "./migrate-runner.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbDir = join(__dirname, "../../db");
-const dbPath = join(dbDir, "fabio.db");
+const dbPath = process.env.DATABASE_PATH ?? join(__dirname, "../../db/fabio.db");
+const dbDir = dirname(dbPath);
 
 mkdirSync(dbDir, { recursive: true });
 
 const db = new DatabaseSync(dbPath);
 db.exec("PRAGMA journal_mode = WAL");
+db.exec("PRAGMA foreign_keys = ON");
 
 // Schema is owned by the migration runner — this script no longer declares
 // tables, so it can't drift from the real schema the way it used to.
 runMigrations(db, { dbPath, log: (msg) => console.log(msg) });
+
+// The seed uses INSERT OR REPLACE, so on a live DB it would silently overwrite
+// projects edited through the admin. Make that an explicit choice.
+const existing = /** @type {{ n: number }} */ (db.prepare("SELECT COUNT(*) n FROM projects").get()).n;
+if (existing > 0 && !process.argv.includes("--force")) {
+  console.error(
+    `Refusing to seed: ${dbPath} already has ${existing} project(s). ` +
+      "Re-run with --force to overwrite them with the seed data.",
+  );
+  process.exit(1);
+}
 
 const projects = [
   {

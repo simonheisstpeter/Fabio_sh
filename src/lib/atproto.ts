@@ -9,6 +9,8 @@
  * not exist at the PDS level, so they are not displayed.
  */
 
+import { fetchWithTimeout } from "./http";
+
 export const ATPROTO_DID = "did:plc:ip4symhldu6klwmx6c2gso66";
 export const ATPROTO_HANDLE = "fabio.sh";
 export const BSKY_PROFILE_URL = `https://bsky.app/profile/${ATPROTO_HANDLE}`;
@@ -18,26 +20,26 @@ export const SIFA_ID_URL = `https://sifa.id/p/${ATPROTO_HANDLE}`;
 /** Kept module-private: the PDS host is deliberately not surfaced in markup. */
 const ATPROTO_PDS = "https://at.fabio.sh";
 
-export type FeedImage = {
+type FeedImage = {
   url: string;
   alt: string;
   aspectRatio: { width: number; height: number } | null;
 };
 
-export type FeedExternalLink = {
+type FeedExternalLink = {
   url: string;
   title: string;
   description: string;
   thumbUrl: string | null;
 };
 
-export type FeedVideo = {
+type FeedVideo = {
   url: string;
   alt: string;
   aspectRatio: { width: number; height: number } | null;
 };
 
-export type FeedPost = {
+type FeedPost = {
   /** rkey — used as the stable list key and to build the bsky.app permalink */
   rkey: string;
   url: string;
@@ -51,19 +53,19 @@ export type FeedPost = {
   quotedPostUrl: string | null;
 };
 
-export type FeedStatus = {
+type FeedStatus = {
   emoji: string;
   createdAt: string;
 };
 
-export type FeedProfile = {
+type FeedProfile = {
   displayName: string;
   handle: string;
   description: string;
   avatar: string | null;
 };
 
-export type AtprotoApp = {
+type AtprotoApp = {
   /** NSID authority, e.g. "sh.tangled" */
   namespace: string;
   /** Friendly name if known, otherwise the derived domain. */
@@ -82,6 +84,8 @@ export type SocialFeed = {
 };
 
 const FETCH_TIMEOUT_MS = 6_000;
+/** Blobs are streamed, so cap what we're willing to relay for one request. */
+const MAX_BLOB_BYTES = 30 * 1024 * 1024;
 
 /** How long a cached feed is served without any revalidation. */
 export const CACHE_TTL_MS = 5 * 60_000;
@@ -101,10 +105,20 @@ let cache: CacheEntry | null = null;
 /** Dedupes concurrent refreshes so a burst of traffic yields one PDS fetch. */
 let inFlight: Promise<SocialFeed | null> | null = null;
 
-function fetchWithTimeout(url: string): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+const pdsFetch = (url: string) => fetchWithTimeout(url, FETCH_TIMEOUT_MS);
+
+/** Errors the stream once more than `max` bytes have passed through. */
+function capStream(body: ReadableStream<Uint8Array>, max: number): ReadableStream<Uint8Array> {
+  let seen = 0;
+  return body.pipeThrough(
+    new TransformStream<Uint8Array, Uint8Array>({
+      transform(chunk, controller) {
+        seen += chunk.byteLength;
+        if (seen > max) controller.error(new Error("blob exceeds size cap"));
+        else controller.enqueue(chunk);
+      },
+    }),
+  );
 }
 
 /** Base32 CIDv1. Anchored, so a CID can never smuggle a path or host. */
@@ -122,20 +136,31 @@ function blobUrl(cid: string): string {
  */
 export async function fetchBlob(
   cid: string,
-): Promise<{ body: ArrayBuffer; contentType: string } | null> {
+): Promise<{ body: ReadableStream<Uint8Array>; contentType: string } | null> {
   if (!CID_RE.test(cid)) return null;
 
   try {
-    const res = await fetchWithTimeout(
+    const res = await pdsFetch(
       `${ATPROTO_PDS}/xrpc/com.atproto.sync.getBlob?did=${ATPROTO_DID}&cid=${cid}`,
     );
-    if (!res.ok) return null;
+    if (!res.ok || !res.body) return null;
 
     const contentType = res.headers.get("content-type") ?? "application/octet-stream";
     // Only ever hand back images/video; the PDS holds other blob types too.
-    if (!contentType.startsWith("image/") && !contentType.startsWith("video/")) return null;
+    if (!contentType.startsWith("image/") && !contentType.startsWith("video/")) {
+      await res.body.cancel();
+      return null;
+    }
 
-    return { body: await res.arrayBuffer(), contentType };
+    // Refuse anything over the cap up front instead of buffering it.
+    const length = res.headers.get("content-length");
+    if (length && Number(length) > MAX_BLOB_BYTES) {
+      await res.body.cancel();
+      return null;
+    }
+
+    // No Content-Length (chunked) slips past the check above, so count as it streams.
+    return { body: capStream(res.body, MAX_BLOB_BYTES), contentType };
   } catch (err) {
     console.error("[atproto] fetchBlob failed:", err instanceof Error ? err.message : err);
     return null;
@@ -249,7 +274,7 @@ async function fetchProfile(): Promise<FeedProfile> {
     `${ATPROTO_PDS}/xrpc/com.atproto.repo.getRecord` +
     `?repo=${ATPROTO_DID}&collection=app.bsky.actor.profile&rkey=self`;
 
-  const res = await fetchWithTimeout(url);
+  const res = await pdsFetch(url);
   if (!res.ok) throw new Error(`getRecord(profile) failed: ${res.status}`);
 
   const data = (await res.json()) as {
@@ -292,7 +317,7 @@ function namespaceToDomain(ns: string): string {
 }
 
 async function fetchApps(): Promise<AtprotoApp[]> {
-  const res = await fetchWithTimeout(
+  const res = await pdsFetch(
     `${ATPROTO_PDS}/xrpc/com.atproto.repo.describeRepo?repo=${ATPROTO_DID}`,
   );
   if (!res.ok) throw new Error(`describeRepo failed: ${res.status}`);
@@ -330,7 +355,7 @@ async function fetchPosts(): Promise<FeedPost[]> {
     `${ATPROTO_PDS}/xrpc/com.atproto.repo.listRecords` +
     `?repo=${ATPROTO_DID}&collection=app.bsky.feed.post&limit=${RECORD_FETCH_LIMIT}`;
 
-  const res = await fetchWithTimeout(url);
+  const res = await pdsFetch(url);
   if (!res.ok) throw new Error(`listRecords(posts) failed: ${res.status}`);
 
   const data = (await res.json()) as {
@@ -374,7 +399,7 @@ async function fetchStatus(): Promise<FeedStatus | null> {
     `?repo=${ATPROTO_DID}&collection=xyz.statusphere.status&limit=1`;
 
   try {
-    const res = await fetchWithTimeout(url);
+    const res = await pdsFetch(url);
     if (!res.ok) return null;
 
     const data = (await res.json()) as {

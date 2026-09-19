@@ -1,0 +1,161 @@
+---
+/**
+ * Create/edit form for a project. Pass `project` to edit, omit it to create —
+ * the admin `new` and `[id]` pages used to carry two near-identical copies.
+ */
+import { LOCALES } from '../i18n/index';
+import { getAllProjects, type Project } from '../lib/db';
+import { LANGUAGES } from '../lib/languages';
+
+interface Props {
+  project?: Project;
+}
+
+const { project } = Astro.props;
+const editing = Boolean(project);
+
+const allCategories = [...new Set(getAllProjects().flatMap((p) => p.categories))].sort();
+const flagged = (l: { flag: string; lang: string }) => `${l.flag} ${l.lang}`;
+const selectedLangs = new Set((project?.languages ?? []).map(flagged));
+
+const field =
+  'w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors';
+const label = 'block text-xs text-gray-400 mb-1';
+
+const FLAGS = [
+  ['published', 'Published'],
+  ['finished', 'Finished'],
+  ['online', 'Online'],
+] as const;
+---
+
+<form
+  action={editing ? `/api/admin/projects/${project!.id}` : '/api/admin/projects'}
+  method="POST"
+  class="max-w-2xl"
+>
+  {editing && <input type="hidden" name="_method" value="PUT" />}
+
+  <div class:list={['gap-4 mb-4', editing ? '' : 'grid grid-cols-2']}>
+    {!editing && (
+      <div>
+        <label for="id" class={label}>ID (slug)</label>
+        <input id="id" name="id" type="text" required pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, hyphens" class={field} />
+      </div>
+    )}
+    <div>
+      <label for="title" class={label}>Title</label>
+      <input id="title" name="title" type="text" required value={project?.title} class={field} />
+    </div>
+  </div>
+
+  <details class="mb-4">
+    <summary class="cursor-pointer text-sm text-gray-400 mb-3 select-none">Descriptions (by language)</summary>
+    <div class="grid gap-3 mt-3">
+      {LOCALES.map((lang) => (
+        <div>
+          <label for={`desc_${lang}`} class="block text-xs text-gray-600 mb-1">{lang.toUpperCase()}</label>
+          <textarea id={`desc_${lang}`} name={`desc_${lang}`} rows="3"
+            class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-sans">{project?.description[lang] ?? ''}</textarea>
+        </div>
+      ))}
+    </div>
+  </details>
+
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div>
+      <label for="categories" class={label}>Categories (one per line)</label>
+      <textarea id="categories" name="categories" rows="4" placeholder="Web&#10;TypeScript&#10;Open Source"
+        class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono">{project?.categories.join('\n')}</textarea>
+      <div class="mt-2 flex flex-wrap gap-1">
+        {allCategories.map((cat) => (
+          <button type="button" class="cat-suggest px-2 py-0.5 rounded text-xs bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700 border border-neutral-700 transition-colors" data-cat={cat}>
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+    <div>
+      <label class={label}>Languages</label>
+      <div id="lang-tags" class="flex flex-wrap gap-1.5">
+        {LANGUAGES.map((l) => {
+          const active = selectedLangs.has(flagged(l));
+          return (
+            <button type="button" data-flag={l.flag} data-lang={l.lang}
+              data-selected={active ? '' : undefined}
+              class:list={[
+                'lang-tag px-2 py-0.5 rounded border text-xs transition-colors cursor-pointer',
+                active
+                  ? 'border-emerald-500 text-emerald-400 bg-emerald-950'
+                  : 'border-gray-700 text-gray-400 bg-[#1a1a1a] hover:border-emerald-500 hover:text-emerald-400',
+              ]}>
+              {l.flag} {l.lang}
+            </button>
+          );
+        })}
+      </div>
+      <input type="hidden" name="languages" id="languages-input"
+        value={(project?.languages ?? []).map(flagged).join('\n')} />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div>
+      <label for="image" class={label}>Image path (e.g. /meta_pic.png)</label>
+      <input id="image" name="image" type="text" value={project?.image} class={field} />
+    </div>
+    <div>
+      <label for="url" class={label}>URL</label>
+      <input id="url" name="url" type="text" value={project?.url} class={field} />
+    </div>
+  </div>
+
+  <div class="flex gap-6 mb-6">
+    {FLAGS.map(([name, text]) => (
+      <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+        <input type="checkbox" name={name} value="1" checked={project?.[name]} class="accent-emerald-500" />
+        {text}
+      </label>
+    ))}
+  </div>
+
+  <div class="flex gap-3">
+    <button type="submit" class="bg-emerald-500 text-white px-6 py-2 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors">
+      {editing ? 'Save Changes' : 'Create Project'}
+    </button>
+    <a href="/admin/projects" class="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
+      Cancel
+    </a>
+  </div>
+</form>
+
+<script>
+  const ta = document.getElementById('categories') as HTMLTextAreaElement;
+  document.querySelectorAll<HTMLButtonElement>('.cat-suggest').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat ?? '';
+      const lines = ta.value.split('\n').map((l) => l.trim()).filter(Boolean);
+      if (!lines.includes(cat)) {
+        ta.value = lines.length ? lines.join('\n') + '\n' + cat : cat;
+      }
+    });
+  });
+
+  const langInput = document.getElementById('languages-input') as HTMLInputElement;
+  function syncLangInput() {
+    const selected = [...document.querySelectorAll<HTMLButtonElement>('.lang-tag[data-selected]')];
+    langInput.value = selected.map((b) => `${b.dataset.flag} ${b.dataset.lang}`).join('\n');
+  }
+  document.querySelectorAll<HTMLButtonElement>('.lang-tag').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const on = !btn.hasAttribute('data-selected');
+      btn.toggleAttribute('data-selected', on);
+      btn.classList.toggle('border-emerald-500', on);
+      btn.classList.toggle('text-emerald-400', on);
+      btn.classList.toggle('bg-emerald-950', on);
+      btn.classList.toggle('border-gray-700', !on);
+      btn.classList.toggle('text-gray-400', !on);
+      syncLangInput();
+    });
+  });
+</script>

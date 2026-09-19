@@ -5,6 +5,8 @@
  * ⚠️  Uses Tidal's unofficial internal API. May break if Tidal changes endpoints.
  */
 
+import { fetchWithTimeout } from "./http";
+
 export type TidalTrack = {
   title: string;
   artist: string;
@@ -24,11 +26,8 @@ type TidalSession = { sessionId: string; userId: number; countryCode: string };
 
 const FETCH_TIMEOUT_MS = 5_000;
 
-function fetchWithTimeout(url: string, init?: RequestInit): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-  return fetch(url, { ...init, signal: controller.signal }).finally(() => clearTimeout(timer));
-}
+const tidalFetch = (url: string, init?: RequestInit) =>
+  fetchWithTimeout(url, FETCH_TIMEOUT_MS, init);
 
 async function authenticate(): Promise<TidalSession> {
   const mail = import.meta.env.TIDAL_MAIL ?? process.env.TIDAL_MAIL;
@@ -36,7 +35,7 @@ async function authenticate(): Promise<TidalSession> {
 
   if (!mail || !password) throw new Error("TIDAL_MAIL / TIDAL_PASSWORD not set");
 
-  const res = await fetchWithTimeout(`${TIDAL_API}/login/username?token=${TIDAL_TOKEN}`, {
+  const res = await tidalFetch(`${TIDAL_API}/login/username?token=${TIDAL_TOKEN}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Tidal-Token": TIDAL_TOKEN },
     body: JSON.stringify({ username: mail, password }),
@@ -49,7 +48,7 @@ async function authenticate(): Promise<TidalSession> {
 async function fetchLastPlayed(session: TidalSession): Promise<TidalTrack | null> {
   // Tidal does not have a public "currently playing" endpoint.
   // We fetch recent tracks from the user's playback history.
-  const res = await fetchWithTimeout(
+  const res = await tidalFetch(
     `${TIDAL_API}/users/${session.userId}/playbacksessions?limit=1&countryCode=${session.countryCode}`,
     {
       headers: {
@@ -87,20 +86,28 @@ async function fetchLastPlayed(session: TidalSession): Promise<TidalTrack | null
   };
 }
 
-export async function getLastPlayed(): Promise<TidalTrack | null> {
-  const now = Date.now();
+/** Concurrent callers on a cache miss share one login + fetch. */
+let inFlight: Promise<TidalTrack | null> | null = null;
 
-  if (cache && cache.expiresAt > now) return cache.track;
-
+async function refresh(): Promise<TidalTrack | null> {
   try {
     const session = await authenticate();
     const track = await fetchLastPlayed(session);
-    cache = { track, expiresAt: now + 30_000 };
+    cache = { track, expiresAt: Date.now() + 30_000 };
     return track;
   } catch (err) {
     console.error("[tidal] getLastPlayed failed:", err instanceof Error ? err.message : err);
     // Graceful fallback — cache null for 10 s to avoid retry spam
-    cache = { track: null, expiresAt: now + 10_000 };
+    cache = { track: null, expiresAt: Date.now() + 10_000 };
     return null;
+  } finally {
+    inFlight = null;
   }
+}
+
+export function getLastPlayed(): Promise<TidalTrack | null> {
+  if (cache && cache.expiresAt > Date.now()) return Promise.resolve(cache.track);
+  // Without this, every visitor arriving during a cache miss would log into
+  // Tidal separately with the real account credentials.
+  return (inFlight ??= refresh());
 }

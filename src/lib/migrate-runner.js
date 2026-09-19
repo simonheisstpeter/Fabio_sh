@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, rmSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { MIGRATIONS } from "./migrations.js";
 
@@ -71,7 +71,20 @@ function backupBeforeMigrating(db, dbPath) {
 
   // Escape single quotes — the path is ours, but VACUUM INTO takes a literal.
   db.exec(`VACUUM INTO '${target.replace(/'/g, "''")}'`);
+  pruneBackups(dir);
   return target;
+}
+
+/** Snapshots would otherwise pile up forever, one per migration. */
+const KEEP_BACKUPS = 5;
+
+function pruneBackups(dir) {
+  // ISO timestamps in the name sort chronologically.
+  const stale = readdirSync(dir)
+    .filter((f) => f.startsWith("pre-migration-") && f.endsWith(".db"))
+    .sort()
+    .slice(0, -KEEP_BACKUPS);
+  for (const f of stale) rmSync(join(dir, f), { force: true });
 }
 
 /**

@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro";
 import { getDb, getCvSecrets } from "../../../../../lib/db";
-import { jsonError, jsonOk } from "../../../../../lib/response";
+import { jsonError, jsonOk, redirectTo } from "../../../../../lib/response";
 
 export const GET: APIRoute = () => jsonOk(getCvSecrets());
 
-export const POST: APIRoute = async ({ request, redirect }) => {
+export const POST: APIRoute = async ({ request }) => {
   const form = await request.formData();
   const label = String(form.get("label") ?? "").trim();
   const secret = String(form.get("secret") ?? "").trim();
@@ -15,8 +15,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   try {
     getDb().prepare("INSERT INTO cv_secrets (label, secret) VALUES (?, ?)").run(label, secret);
   } catch (err: unknown) {
-    return jsonError(err instanceof Error ? err.message : "DB error", 409);
+    if (err instanceof Error && /UNIQUE/i.test(err.message)) {
+      return jsonError("That secret is already in use", 409);
+    }
+    console.error("cv secret insert failed:", err);
+    return jsonError("Could not save secret", 500);
   }
 
-  return redirect("/admin/cv");
+  return redirectTo("/admin/cv");
 };

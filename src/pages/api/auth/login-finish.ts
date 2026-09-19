@@ -1,27 +1,26 @@
 import type { APIRoute } from "astro";
 import { verifyAuthenticationResponse } from "@simplewebauthn/server";
 import { getDb } from "../../../lib/db";
-import { createSession } from "../../../lib/admin-auth";
+import { consumeChallenge, createSession } from "../../../lib/admin-auth";
+import { jsonError, jsonOk, redirectGet } from "../../../lib/response";
 
-export const GET: APIRoute = () =>
-  new Response(null, { status: 302, headers: { Location: "/admin/login" } });
+export const GET = redirectGet("/admin/login");
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const challenge = cookies.get("__wac")?.value;
-  if (!challenge) {
-    return new Response(JSON.stringify({ error: "No challenge found" }), { status: 400 });
-  }
+  // Burned on read: a captured assertion can't be replayed against it.
+  const challenge = consumeChallenge(cookies, "login");
+  if (!challenge) return jsonError("No challenge found", 400);
 
   let body: Record<string, unknown>;
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
+    return jsonError("Invalid JSON", 400);
   }
 
-  const credentialId = body.id as string;
-  if (!credentialId) {
-    return new Response(JSON.stringify({ error: "Missing credential id" }), { status: 400 });
+  const credentialId = body.id;
+  if (typeof credentialId !== "string" || !credentialId) {
+    return jsonError("Missing credential id", 400);
   }
 
   const db = getDb();
@@ -31,13 +30,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     | { credential_id: string; public_key: string; counter: number; transports: string }
     | undefined;
 
-  if (!credRow) {
-    return new Response(JSON.stringify({ error: "Unknown credential" }), { status: 400 });
-  }
+  if (!credRow) return jsonError("Unknown credential", 400);
 
   try {
     const verification = await verifyAuthenticationResponse({
-      response: body as Parameters<typeof verifyAuthenticationResponse>[0]["response"],
+      response: body as unknown as Parameters<typeof verifyAuthenticationResponse>[0]["response"],
       expectedChallenge: challenge,
       expectedOrigin: import.meta.env.ADMIN_ORIGIN ?? "http://localhost:4321",
       expectedRPID: import.meta.env.ADMIN_RP_ID ?? "localhost",
@@ -49,24 +46,19 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       },
     });
 
-    if (!verification.verified) {
-      return new Response(JSON.stringify({ error: "Verification failed" }), { status: 401 });
-    }
+    if (!verification.verified) return jsonError("Verification failed", 401);
 
-    // Update counter
     db.prepare("UPDATE webauthn_credentials SET counter = ? WHERE credential_id = ?").run(
       verification.authenticationInfo.newCounter,
       credRow.credential_id,
     );
 
-    cookies.delete("__wac", { path: "/" });
     createSession(cookies);
-
-    return new Response(JSON.stringify({ ok: true }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return jsonOk();
   } catch (err) {
-    console.error("login-finish error:", err);
-    return new Response(JSON.stringify({ error: "Internal error" }), { status: 500 });
+    // Malformed or forged responses make the library throw — that's the client's
+    // fault, not a server fault.
+    console.warn("login-finish rejected:", err instanceof Error ? err.message : err);
+    return jsonError("Verification failed", 400);
   }
 };

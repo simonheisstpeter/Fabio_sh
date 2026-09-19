@@ -4,13 +4,20 @@ import {
   type GenerateRegistrationOptionsOpts,
 } from "@simplewebauthn/server";
 import { getDb } from "../../../lib/db";
+import { canEnrolCredential, issueChallenge } from "../../../lib/admin-auth";
+import { checkRateLimit, rateLimitKeyFor } from "../../../lib/rate-limit";
+import { jsonError, jsonOk, redirectGet } from "../../../lib/response";
 
-export const GET: APIRoute = () =>
-  new Response(null, { status: 302, headers: { Location: "/admin/register" } });
+export const GET = redirectGet("/admin/register");
 
-export const POST: APIRoute = async ({ cookies }) => {
-  const db = getDb();
-  const existingCredentials = db
+export const POST: APIRoute = async ({ cookies, clientAddress }) => {
+  // Only a signed-in admin (or first-run bootstrap) may add a credential.
+  if (!canEnrolCredential(cookies)) return jsonError("Unauthorized", 401);
+  if (!checkRateLimit(rateLimitKeyFor(clientAddress, "webauthn"), 30, 600).allowed) {
+    return jsonError("Too many requests", 429);
+  }
+
+  const existingCredentials = getDb()
     .prepare("SELECT credential_id FROM webauthn_credentials")
     .all() as { credential_id: string }[];
 
@@ -30,16 +37,6 @@ export const POST: APIRoute = async ({ cookies }) => {
   };
 
   const options = await generateRegistrationOptions(opts);
-
-  cookies.set("__wac", options.challenge, {
-    httpOnly: true,
-    sameSite: "strict",
-    secure: import.meta.env.PROD,
-    maxAge: 300,
-    path: "/",
-  });
-
-  return new Response(JSON.stringify(options), {
-    headers: { "Content-Type": "application/json" },
-  });
+  issueChallenge(cookies, options.challenge, "register");
+  return jsonOk(options);
 };

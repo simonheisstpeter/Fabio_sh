@@ -1,0 +1,162 @@
+---
+/**
+ * Create/edit form for a course. Pass `course` to edit, omit it to create —
+ * the admin `new` and `[id]` pages used to carry two near-identical copies.
+ */
+import { getAllCourses, type Course } from '../lib/db';
+
+interface Props {
+  course?: Course;
+}
+
+const { course } = Astro.props;
+const editing = Boolean(course);
+
+const courses = getAllCourses();
+const allPlatforms = [...new Set(courses.map((c) => c.platform).filter(Boolean))].sort();
+const allTopics = [...new Set(courses.flatMap((c) => c.topics))].sort();
+
+const STATUSES = [
+  ['not_started', 'Not Started'],
+  ['in_progress', 'In Progress'],
+  ['completed', 'Completed'],
+] as const;
+
+const field =
+  'w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 transition-colors';
+const label = 'block text-xs text-gray-400 mb-1';
+const chip =
+  'px-2 py-0.5 rounded text-xs bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700 border border-neutral-700 transition-colors';
+---
+
+<form
+  action={editing ? `/api/admin/courses/${course!.id}` : '/api/admin/courses'}
+  method="POST"
+  enctype="multipart/form-data"
+  class="max-w-2xl"
+>
+  {editing && <input type="hidden" name="_method" value="PUT" />}
+
+  <div class:list={['gap-4 mb-4', editing ? '' : 'grid grid-cols-2']}>
+    {!editing && (
+      <div>
+        <label for="id" class={label}>ID (slug)</label>
+        <input id="id" name="id" type="text" required pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, hyphens" class={field} />
+      </div>
+    )}
+    <div>
+      <label for="title" class={label}>Title</label>
+      <input id="title" name="title" type="text" required value={course?.title} class={field} />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div>
+      <label for="platform" class={label}>Platform</label>
+      <input id="platform" name="platform" type="text" placeholder="Udemy, Coursera…" value={course?.platform} class={field} />
+      <div class="mt-2 flex flex-wrap gap-1">
+        {allPlatforms.map((p) => (
+          <button type="button" class:list={['platform-suggest', chip]} data-val={p}>{p}</button>
+        ))}
+      </div>
+    </div>
+    <div>
+      <label for="status" class={label}>Status</label>
+      <select id="status" name="status" class={field}>
+        {STATUSES.map(([value, text]) => (
+          <option value={value} selected={course?.status === value}>{text}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="topics" class={label}>Topics (one per line)</label>
+    <textarea id="topics" name="topics" rows="3" placeholder="TypeScript&#10;Web Development"
+      class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-emerald-400 transition-colors font-mono">{course?.topics.join('\n')}</textarea>
+    <div class="mt-2 flex flex-wrap gap-1">
+      {allTopics.map((t) => (
+        <button type="button" class:list={['topic-suggest', chip]} data-val={t}>{t}</button>
+      ))}
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div>
+      <label for="progress" class={label}>Progress (%)</label>
+      <input id="progress" name="progress" type="number" min="0" max="100" value={course?.progress ?? 0} class={field} />
+    </div>
+    <div>
+      <label for="url" class={label}>URL</label>
+      <input id="url" name="url" type="text" value={course?.url} class={field} />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div>
+      <label for="start_date" class={label}>Start Date</label>
+      <input id="start_date" name="start_date" type="date" value={course?.startDate} class={field} />
+    </div>
+    <div>
+      <label for="end_date" class={label}>End Date</label>
+      <input id="end_date" name="end_date" type="date" value={course?.endDate} class={field} />
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="notes" class={label}>Notes</label>
+    <textarea id="notes" name="notes" rows="3"
+      class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm resize-y outline-none focus:border-emerald-400 transition-colors font-sans">{course?.notes}</textarea>
+  </div>
+
+  <div class="mb-4">
+    <label for="certificate" class={label}>Certificate (PDF, JPG, PNG — max 10 MB)</label>
+    {course?.hasCertificate && (
+      <div class="mb-2 flex items-center gap-3">
+        <span class="text-xs text-gray-400">Current: <span class="text-emerald-400">{course.certificateName}</span></span>
+        <a href={`/api/courses/${course.id}/certificate`} target="_blank"
+          class="text-xs text-gray-500 hover:text-emerald-400 transition-colors no-underline">Download</a>
+        <label class="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer">
+          <input type="checkbox" name="remove_certificate" value="1" class="accent-red-500" />
+          Remove certificate
+        </label>
+      </div>
+    )}
+    <input id="certificate" name="certificate" type="file" accept=".pdf,.jpg,.jpeg,.png"
+      class:list={[field, 'file:mr-3 file:bg-neutral-700 file:text-gray-200 file:border-0 file:rounded file:px-2 file:py-1 file:text-xs file:cursor-pointer']} />
+  </div>
+
+  <div class="flex gap-6 mb-6">
+    <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+      <input type="checkbox" name="published" value="1" checked={course?.published} class="accent-emerald-500" />
+      Published
+    </label>
+  </div>
+
+  <div class="flex gap-3">
+    <button type="submit" class="bg-emerald-500 text-white px-6 py-2 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors">
+      {editing ? 'Save Changes' : 'Create Course'}
+    </button>
+    <a href="/admin/courses" class="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg no-underline text-sm border border-gray-700 hover:bg-gray-700 transition-colors">
+      Cancel
+    </a>
+  </div>
+</form>
+
+<script>
+  const platformInput = document.getElementById('platform') as HTMLInputElement;
+  document.querySelectorAll<HTMLButtonElement>('.platform-suggest').forEach((btn) => {
+    btn.addEventListener('click', () => { platformInput.value = btn.dataset.val ?? ''; });
+  });
+
+  const topicsTA = document.getElementById('topics') as HTMLTextAreaElement;
+  document.querySelectorAll<HTMLButtonElement>('.topic-suggest').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const val = btn.dataset.val ?? '';
+      const lines = topicsTA.value.split('\n').map((l) => l.trim()).filter(Boolean);
+      if (!lines.includes(val)) {
+        topicsTA.value = lines.length ? lines.join('\n') + '\n' + val : val;
+      }
+    });
+  });
+</script>

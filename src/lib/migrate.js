@@ -5,8 +5,9 @@
  *   node src/lib/migrate.js up         apply pending migrations
  *   node src/lib/migrate.js up --no-backup
  *
- * The server also migrates automatically on boot (see db.ts), so this is for
- * checking state or running a migration ahead of a deploy. Safe to run twice.
+ * The container entrypoint runs `up` before starting the server (see
+ * docker-entrypoint.sh), and db.ts migrates lazily as a fallback. Use this to
+ * check state or to migrate ahead of a deploy. Safe to run twice.
  */
 import { DatabaseSync } from "node:sqlite";
 import { join } from "node:path";

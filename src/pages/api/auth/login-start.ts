@@ -1,19 +1,22 @@
 import type { APIRoute } from "astro";
 import { generateAuthenticationOptions } from "@simplewebauthn/server";
 import { getDb } from "../../../lib/db";
+import { issueChallenge } from "../../../lib/admin-auth";
+import { checkRateLimit, rateLimitKeyFor } from "../../../lib/rate-limit";
+import { jsonError, jsonOk, redirectGet } from "../../../lib/response";
 
-export const GET: APIRoute = () =>
-  new Response(null, { status: 302, headers: { Location: "/admin/login" } });
+export const GET = redirectGet("/admin/login");
 
-export const POST: APIRoute = async ({ cookies }) => {
-  const db = getDb();
-  const count = (
-    db.prepare("SELECT COUNT(*) as n FROM webauthn_credentials").get() as { n: number }
-  ).n;
-
-  if (count === 0) {
-    return new Response(JSON.stringify({ error: "No passkeys registered" }), { status: 400 });
+export const POST: APIRoute = async ({ cookies, clientAddress }) => {
+  // Also bounds how many challenge rows an anonymous caller can create.
+  if (!checkRateLimit(rateLimitKeyFor(clientAddress, "webauthn"), 30, 600).allowed) {
+    return jsonError("Too many requests", 429);
   }
+
+  const { n } = getDb().prepare("SELECT COUNT(*) as n FROM webauthn_credentials").get() as {
+    n: number;
+  };
+  if (n === 0) return jsonError("No passkeys registered", 400);
 
   // Omit allowCredentials so the browser surfaces all discoverable passkeys for
   // this rpID. The server verifies the credential is authorized in login-finish.
@@ -22,15 +25,6 @@ export const POST: APIRoute = async ({ cookies }) => {
     userVerification: "required",
   });
 
-  cookies.set("__wac", options.challenge, {
-    httpOnly: true,
-    sameSite: "strict",
-    secure: import.meta.env.PROD,
-    maxAge: 300,
-    path: "/",
-  });
-
-  return new Response(JSON.stringify(options), {
-    headers: { "Content-Type": "application/json" },
-  });
+  issueChallenge(cookies, options.challenge, "login");
+  return jsonOk(options);
 };

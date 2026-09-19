@@ -9,6 +9,9 @@ import { fetchBlob } from "../../lib/atproto";
  * Exists so the PDS hostname never appears in page markup or in the CSP
  * `img-src` list — `img-src 'self'` covers these images as-is. Also lets us
  * cache aggressively, which the PDS itself does not do.
+ *
+ * The body is streamed through rather than buffered, and fetchBlob refuses
+ * anything over its size cap, so a large video can't balloon memory.
  */
 export const GET: APIRoute = async ({ url }) => {
   const cid = url.searchParams.get("cid");

@@ -8,13 +8,11 @@ import { getSocialFeed } from "../lib/atproto";
 const locale = Astro.currentLocale ?? "de";
 const t = getTranslations(locale);
 
-// Fetch Tidal last-played server-side (with graceful fallback)
-const track = await getLastPlayed();
-
-// Reuses the same cached feed /social reads from — costs nothing extra once
-// either page has warmed the cache. `status` is null if there's no
-// Statusphere record, which is the common case and not an error.
-const feed = await getSocialFeed();
+// Both lookups are independent and each can block on a network call, so run
+// them together — awaiting one after the other stacked their timeouts.
+// Tidal has a graceful fallback; the feed reuses the cache /social reads from,
+// and its `status` is null when there's no Statusphere record (the common case).
+const [track, feed] = await Promise.all([getLastPlayed(), getSocialFeed()]);
 const status = feed?.status ?? null;
 
 function formatStatusDate(iso: string): string {

@@ -3,13 +3,22 @@ import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
 import { LOCALES, DEFAULT_LOCALE } from "./src/i18n/locales.js";
 import mailObfuscation from "astro-mail-obfuscation";
+import { MAX_REQUEST_BYTES } from "./src/lib/limits.js";
 
 export default defineConfig({
   output: "server",
-  adapter: node({ mode: "standalone" }),
+  // Uploads are capped at 10 MB (see lib/limits.js); the adapter default is 1 GB,
+  // which lets any anonymous POST make the server buffer that much.
+  adapter: node({ mode: "standalone", bodySizeLimit: MAX_REQUEST_BYTES }),
   site: "https://fabio.sh",
   security: {
+    // Astro's built-in origin check compares against the internal (http) URL
+    // behind the proxy, so CSRF is enforced in src/middleware.ts instead.
     checkOrigin: false,
+    // Only with a validated host does Astro trust X-Forwarded-For for
+    // `clientAddress`. Without this every visitor looks like the proxy, and
+    // per-client rate limits collapse into one shared bucket.
+    allowedDomains: [{ hostname: "fabio.sh" }, { hostname: "www.fabio.sh" }],
   },
   vite: {
     plugins: [tailwindcss()],
@@ -47,15 +56,7 @@ export default defineConfig({
       "en-x-cowboy": DEFAULT_LOCALE,
     },
   },
-  server: {
-    headers: {
-      "X-Frame-Options": "DENY",
-      "X-Content-Type-Options": "nosniff",
-      "Referrer-Policy": "strict-origin-when-cross-origin",
-      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
-      "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-    },
-  },
+  // Security headers live in src/middleware.ts (single source of truth).
   prefetch: {
     prefetchAll: true,
     defaultStrategy: "hover",

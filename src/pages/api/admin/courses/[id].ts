@@ -1,40 +1,28 @@
 import type { APIRoute } from "astro";
 import { getDb, invalidateCoursesCache } from "../../../../lib/db";
-import { jsonError, redirectTo } from "../../../../lib/response";
+import { courseFromForm } from "../../../../lib/course-form";
+import { jsonError, methodOverride, redirectTo } from "../../../../lib/response";
 import { readUploadedFile } from "../../../../lib/upload";
 
 const COURSES = "/admin/courses";
 
 async function handlePut(id: string, form: FormData): Promise<Response> {
-  const title = String(form.get("title") ?? "").trim();
-  if (!title) return jsonError("title is required", 400);
-
-  const platform = String(form.get("platform") ?? "").trim();
-  const status = String(form.get("status") ?? "not_started");
-  const progress = Math.min(100, Math.max(0, Number(form.get("progress") ?? 0) || 0));
-  const url = String(form.get("url") ?? "").trim();
-  const startDate = String(form.get("start_date") ?? "").trim();
-  const endDate = String(form.get("end_date") ?? "").trim();
-  const notes = String(form.get("notes") ?? "").trim();
-  const published = form.get("published") === "1" ? 1 : 0;
-  const removeCert = form.get("remove_certificate") === "1";
-
-  const topics = String(form.get("topics") ?? "")
-    .split("\n")
-    .map((t) => t.trim())
-    .filter(Boolean);
+  const parsed = courseFromForm(form);
+  if ("error" in parsed) return jsonError(parsed.error, 400);
+  const c = parsed.input;
 
   const upload = await readUploadedFile(form.get("certificate") as File | null);
   if (upload && !upload.ok) return jsonError(upload.error, 400);
 
   // One statement instead of three near-identical ones. The certificate columns
   // are only touched when a new file arrives (mode 'set') or removal was asked
-  // for (mode 'clear'); otherwise COALESCE keeps whatever is already stored.
+  // for (mode 'clear'); otherwise the stored values are kept.
+  const removeCert = form.get("remove_certificate") === "1";
   const certMode = upload ? "set" : removeCert ? "clear" : "keep";
   const certData = upload?.ok ? upload.buffer : null;
   const certName = upload?.ok ? upload.name : "";
 
-  getDb()
+  const info = getDb()
     .prepare(
       `UPDATE courses SET
          title=?, platform=?, status=?, progress=?, topics=?, url=?,
@@ -50,29 +38,30 @@ async function handlePut(id: string, form: FormData): Promise<Response> {
        WHERE id=?`,
     )
     .run(
-      title, platform, status, progress, JSON.stringify(topics), url,
-      startDate, endDate, notes, published,
+      c.title, c.platform, c.status, c.progress, JSON.stringify(c.topics), c.url,
+      c.startDate, c.endDate, c.notes, c.published,
       certMode, certData,
       certMode, certName,
       id,
     );
+  if (info.changes === 0) return jsonError("Course not found", 404);
 
   invalidateCoursesCache();
   return redirectTo(COURSES);
 }
 
+function handleDelete(id: string): Response {
+  getDb().prepare("DELETE FROM courses WHERE id = ?").run(id);
+  invalidateCoursesCache();
+  return redirectTo(COURSES);
+}
+
+// Browsers can't send PUT/DELETE from a plain form, so the admin UI overrides.
 export const POST: APIRoute = async ({ request, params }) => {
   const form = await request.formData();
-  const method = String(form.get("_method") ?? "").toUpperCase();
-  const id = params.id!;
+  const method = methodOverride(form);
 
-  if (method === "PUT") return handlePut(id, form);
-
-  if (method === "DELETE") {
-    getDb().prepare("DELETE FROM courses WHERE id = ?").run(id);
-    invalidateCoursesCache();
-    return redirectTo(COURSES);
-  }
-
+  if (method === "PUT") return handlePut(params.id!, form);
+  if (method === "DELETE") return handleDelete(params.id!);
   return jsonError("Invalid method override", 400);
 };

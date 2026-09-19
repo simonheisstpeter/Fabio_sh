@@ -115,9 +115,10 @@ const NavLinks = [
             crossorigin="anonymous"
         />
 
-        <!-- Hreflang for SEO -->
+        <!-- Hreflang for SEO — the en-x-* novelty variants are left out on
+             purpose, same as in sitemap.xml. -->
         {
-            LOCALES.map((l) => (
+            LOCALES.filter((l) => !l.startsWith("en-x-")).map((l) => (
                 <link
                     rel="alternate"
                     hreflang={l}

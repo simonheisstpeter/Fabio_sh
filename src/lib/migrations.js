@@ -253,6 +253,37 @@ export const MIGRATIONS = [
       );
     },
   },
-];
 
-export const LATEST_MIGRATION_ID = MIGRATIONS.reduce((max, m) => Math.max(max, m.id), 0);
+  {
+    id: 5,
+    name: "auth_hardening",
+    up(db) {
+      db.exec(`
+        -- WebAuthn challenges live server-side and are single-use. They used to
+        -- sit in a client-controlled cookie, which made captured assertions
+        -- replayable.
+        CREATE TABLE IF NOT EXISTS auth_challenges (
+          id         TEXT PRIMARY KEY,
+          challenge  TEXT NOT NULL,
+          purpose    TEXT NOT NULL CHECK (purpose IN ('register', 'login')),
+          expires_at DATETIME NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_auth_challenges_expires ON auth_challenges(expires_at);
+
+        -- Password-login throttling now shares rate_limits (atomic UPSERT).
+        DROP TABLE IF EXISTS login_attempts;
+
+        -- Tables are tiny and every list query reads them whole, so these
+        -- indexes were never used.
+        DROP INDEX IF EXISTS idx_courses_status;
+        DROP INDEX IF EXISTS idx_courses_platform;
+        DROP INDEX IF EXISTS idx_projects_pub_fin;
+      `);
+
+      // Session tokens are now stored as SHA-256 digests, so a leaked DB backup
+      // no longer contains live sessions. Existing plaintext rows can't be
+      // converted (SQLite has no SHA-256), so everyone signs in once more.
+      db.exec("DELETE FROM admin_sessions");
+    },
+  },
+];

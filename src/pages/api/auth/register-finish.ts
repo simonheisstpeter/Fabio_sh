@@ -1,22 +1,23 @@
 import type { APIRoute } from "astro";
 import { verifyRegistrationResponse } from "@simplewebauthn/server";
 import { getDb } from "../../../lib/db";
-import { createSession } from "../../../lib/admin-auth";
+import { canEnrolCredential, consumeChallenge, createSession } from "../../../lib/admin-auth";
+import { jsonError, jsonOk, redirectGet } from "../../../lib/response";
 
-export const GET: APIRoute = () =>
-  new Response(null, { status: 302, headers: { Location: "/admin/register" } });
+export const GET = redirectGet("/admin/register");
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const challenge = cookies.get("__wac")?.value;
-  if (!challenge) {
-    return new Response(JSON.stringify({ error: "No challenge found" }), { status: 400 });
-  }
+  if (!canEnrolCredential(cookies)) return jsonError("Unauthorized", 401);
+
+  // Burned on read: a challenge can be answered exactly once.
+  const challenge = consumeChallenge(cookies, "register");
+  if (!challenge) return jsonError("No challenge found", 400);
 
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
+    return jsonError("Invalid JSON", 400);
   }
 
   try {
@@ -28,36 +29,34 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     });
 
     if (!verification.verified || !verification.registrationInfo) {
-      return new Response(JSON.stringify({ error: "Verification failed" }), { status: 400 });
+      return jsonError("Verification failed", 400);
     }
 
     const { credential } = verification.registrationInfo;
 
-    const db = getDb();
-    db.prepare(
-      `INSERT OR REPLACE INTO webauthn_credentials
-       (credential_id, public_key, counter, device_type, backed_up, transports)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-    ).run(
-      credential.id,
-      Buffer.from(credential.publicKey).toString("base64url"),
-      credential.counter,
-      verification.registrationInfo.credentialDeviceType ?? null,
-      verification.registrationInfo.credentialBackedUp ? 1 : 0,
-      JSON.stringify((body as { response?: { transports?: string[] } }).response?.transports ?? []),
-    );
+    getDb()
+      .prepare(
+        `INSERT INTO webauthn_credentials
+         (credential_id, public_key, counter, device_type, backed_up, transports)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+      )
+      .run(
+        credential.id,
+        Buffer.from(credential.publicKey).toString("base64url"),
+        credential.counter,
+        verification.registrationInfo.credentialDeviceType ?? null,
+        verification.registrationInfo.credentialBackedUp ? 1 : 0,
+        JSON.stringify(
+          (body as { response?: { transports?: string[] } }).response?.transports ?? [],
+        ),
+      );
 
-    // Clear challenge cookie
-    cookies.delete("__wac", { path: "/" });
-
-    // Issue session
     createSession(cookies);
-
-    return new Response(JSON.stringify({ ok: true }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return jsonOk();
   } catch (err) {
-    console.error("register-finish error:", err);
-    return new Response(JSON.stringify({ error: "Internal error" }), { status: 500 });
+    // Malformed or forged responses make the library throw — that's the client's
+    // fault, not a server fault.
+    console.warn("register-finish rejected:", err instanceof Error ? err.message : err);
+    return jsonError("Verification failed", 400);
   }
 };

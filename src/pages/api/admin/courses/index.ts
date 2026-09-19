@@ -1,37 +1,22 @@
 import type { APIRoute } from "astro";
 import { getDb, invalidateCoursesCache } from "../../../../lib/db";
-import { jsonError } from "../../../../lib/response";
-
+import { courseFromForm } from "../../../../lib/course-form";
+import { slugify } from "../../../../lib/project-form";
+import { jsonError, redirectTo } from "../../../../lib/response";
 import { readUploadedFile } from "../../../../lib/upload";
 
-export const POST: APIRoute = async ({ request, redirect }) => {
+export const POST: APIRoute = async ({ request }) => {
   const form = await request.formData();
 
-  const id = String(form.get("id") ?? "")
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "-");
-  const title = String(form.get("title") ?? "").trim();
-  if (!id || !title) return jsonError("id and title are required", 400);
+  const id = slugify(String(form.get("id") ?? ""));
+  if (!id) return jsonError("id and title are required", 400);
 
-  const platform = String(form.get("platform") ?? "").trim();
-  const status = String(form.get("status") ?? "not_started");
-  const progress = Math.min(100, Math.max(0, Number(form.get("progress") ?? 0) || 0));
-  const url = String(form.get("url") ?? "").trim();
-  const startDate = String(form.get("start_date") ?? "").trim();
-  const endDate = String(form.get("end_date") ?? "").trim();
-  const notes = String(form.get("notes") ?? "").trim();
-  const published = form.get("published") === "1" ? 1 : 0;
-
-  const topics = String(form.get("topics") ?? "")
-    .split("\n")
-    .map((t) => t.trim())
-    .filter(Boolean);
+  const parsed = courseFromForm(form);
+  if ("error" in parsed) return jsonError(parsed.error, 400);
+  const c = parsed.input;
 
   const upload = await readUploadedFile(form.get("certificate") as File | null);
   if (upload && !upload.ok) return jsonError(upload.error, 400);
-  const certBuffer = upload?.ok ? upload.buffer : null;
-  const certName = upload?.ok ? upload.name : "";
 
   try {
     getDb()
@@ -42,14 +27,21 @@ export const POST: APIRoute = async ({ request, redirect }) => {
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
       .run(
-        id, title, platform, status, progress,
-        JSON.stringify(topics), url, startDate, endDate,
-        certBuffer, certName, notes, published,
+        id, c.title, c.platform, c.status, c.progress,
+        JSON.stringify(c.topics), c.url, c.startDate, c.endDate,
+        upload?.ok ? upload.buffer : null, upload?.ok ? upload.name : "",
+        c.notes, c.published,
       );
   } catch (err: unknown) {
-    return jsonError(err instanceof Error ? err.message : "DB error", 409);
+    // Only a duplicate id is the caller's fault; anything else is ours, and the
+    // raw SQLite message shouldn't leak either way.
+    if (err instanceof Error && /UNIQUE|PRIMARY KEY/i.test(err.message)) {
+      return jsonError(`A course with id "${id}" already exists`, 409);
+    }
+    console.error("course insert failed:", err);
+    return jsonError("Could not save course", 500);
   }
 
   invalidateCoursesCache();
-  return redirect("/admin/courses");
+  return redirectTo("/admin/courses");
 };

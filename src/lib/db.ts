@@ -1,13 +1,22 @@
 import { DatabaseSync } from "node:sqlite";
 import { join } from "path";
-import { createHash } from "node:crypto";
+import { createHmac, randomBytes } from "node:crypto";
 import { runMigrations } from "./migrate-runner.js";
 
+// Without a configured secret the hashes would be reversible by brute-forcing
+// the IPv4 space, so fall back to a random per-process key instead of a known
+// constant. Rate limits then reset on restart — degraded, but never guessable.
+let _ipSecret: string | null = null;
+function ipSecret(): string {
+  if (_ipSecret) return _ipSecret;
+  const configured = process.env.IP_HASH_SECRET;
+  if (configured && configured !== "changeme") return (_ipSecret = configured);
+  console.warn("[security] IP_HASH_SECRET is not set — using a random per-process key");
+  return (_ipSecret = randomBytes(32).toString("hex"));
+}
+
 export function hashIp(ip: string): string {
-  const secret = process.env.IP_HASH_SECRET ?? "changeme";
-  return createHash("sha256")
-    .update(secret + ip)
-    .digest("hex");
+  return createHmac("sha256", ipSecret()).update(ip).digest("hex");
 }
 
 export function parseLanguages(raw: string): { flag: string; lang: string }[] {
@@ -64,7 +73,7 @@ export function getDb(): DatabaseSync {
 
 // ── Project types & helpers ────────────────────────────────────────────────
 
-export type ProjectRow = {
+type ProjectRow = {
   id: string;
   title: string;
   published: number;
@@ -90,7 +99,7 @@ export type Project = {
   createdAt: string;
 };
 
-export function rowToProject(
+function rowToProject(
   row: ProjectRow,
   description: Record<string, string> = {},
   categories: string[] = [],
@@ -306,7 +315,7 @@ export function getProjectsList(): ProjectListItem[] {
 
 // ── Course types & helpers ─────────────────────────────────────────────────
 
-type CourseStatus = "not_started" | "in_progress" | "completed";
+export type CourseStatus = "not_started" | "in_progress" | "completed";
 
 export type CourseRow = {
   id: string;
@@ -402,12 +411,6 @@ export function getCourse(id: string): Course | null {
   return row ? rowToCourse(row) : null;
 }
 
-// function getCourseRaw(id: string): CourseRow | null {
-//   return (
-//     (getDb().prepare("SELECT * FROM courses WHERE id = ?").get(id) as CourseRow | undefined) ?? null
-//   );
-// }
-
 // ── CV types ───────────────────────────────────────────────────────────────
 
 export type CvFileRow = {
@@ -429,11 +432,11 @@ export type CvSecretRow = {
 // ── CV file helpers ────────────────────────────────────────────────────────
 
 export function getCvFile(lang: CvLang): CvFileRow | null {
-  return getDb()
+  return (getDb()
     .prepare(
       "SELECT lang, filename, size, uploaded_at FROM cv_files WHERE lang = ?",
     )
-    .get(lang) as CvFileRow | null;
+    .get(lang) as CvFileRow | undefined) ?? null;
 }
 
 export function getCvFiles(): Record<CvLang, CvFileRow | null> {
@@ -451,11 +454,9 @@ const _cvDataCache = new Map<CvLang, Buffer>();
 export function getCvFileData(lang: CvLang): Buffer | null {
   const cached = _cvDataCache.get(lang);
   if (cached) return cached;
-  const row = getDb()
-    .prepare("SELECT data FROM cv_files WHERE lang = ?")
-    .get(lang) as {
-    data: Buffer;
-  } | null;
+  const row = getDb().prepare("SELECT data FROM cv_files WHERE lang = ?").get(lang) as
+    | { data: Buffer }
+    | undefined;
   if (row) {
     _cvDataCache.set(lang, row.data);
     return row.data;
@@ -482,11 +483,11 @@ export function getCvSecretByValue(secret: string): CvSecretRow | null {
     .prepare(
       "SELECT id, label, secret, view_count, last_opened_at, created_at FROM cv_secrets WHERE secret = ?",
     )
-    .get(secret) as CvSecretRow | null;
+    .get(secret) as CvSecretRow | undefined;
   if (row)
     _secretCache.set(secret, { row, expiresAt: Date.now() + SECRET_CACHE_TTL });
   else _secretCache.delete(secret);
-  return row;
+  return row ?? null;
 }
 
 export function invalidateCvSecretCache(secret?: string): void {

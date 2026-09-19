@@ -1,59 +1,33 @@
 import type { APIRoute } from "astro";
 import { hashPassword } from "../../../lib/password";
 import { getDb } from "../../../lib/db";
-import { validateSession } from "../../../lib/admin-auth";
+import { canEnrolCredential, createSession, credentialCounts } from "../../../lib/admin-auth";
+import { redirectGet, redirectTo } from "../../../lib/response";
 
-export const GET: APIRoute = () =>
-  new Response(null, { status: 302, headers: { Location: "/admin/register" } });
+const REGISTER = "/admin/register";
+
+export const GET = redirectGet(REGISTER);
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const db = getDb();
-  const authState = db
-    .prepare(`
-    SELECT (SELECT COUNT(*) FROM webauthn_credentials) as passkeys,
-           (SELECT COUNT(*) FROM admin_password)        as passwords
-  `)
-    .get() as { passkeys: number; passwords: number };
+  // Same gate as passkey enrolment: signed in, or nothing set up yet.
+  if (!canEnrolCredential(cookies)) return redirectTo("/admin/login");
 
-  // If any credentials already exist, require an active admin session.
-  // Prevents unauthenticated actors from adding a password when a passkey is set.
-  if ((authState.passkeys > 0 || authState.passwords > 0) && !validateSession(cookies)) {
-    return new Response(null, { status: 302, headers: { Location: "/admin/login" } });
-  }
-
-  if (authState.passwords > 0) {
-    return new Response(null, {
-      status: 302,
-      headers: { Location: "/admin/register?error=exists" },
-    });
-  }
+  if (credentialCounts().passwords > 0) return redirectTo(`${REGISTER}?error=exists`);
 
   const form = await request.formData();
   const email = String(form.get("email") ?? "").trim();
   const password = String(form.get("password") ?? "");
   const confirm = String(form.get("confirm_password") ?? "");
 
-  if (!email || !password) {
-    return new Response(null, {
-      status: 302,
-      headers: { Location: "/admin/register?error=missing" },
-    });
-  }
-  if (password !== confirm) {
-    return new Response(null, {
-      status: 302,
-      headers: { Location: "/admin/register?error=mismatch" },
-    });
-  }
-  if (password.length < 12) {
-    return new Response(null, {
-      status: 302,
-      headers: { Location: "/admin/register?error=short" },
-    });
-  }
+  if (!email || !password) return redirectTo(`${REGISTER}?error=missing`);
+  if (password !== confirm) return redirectTo(`${REGISTER}?error=mismatch`);
+  if (password.length < 12) return redirectTo(`${REGISTER}?error=short`);
 
   const hash = await hashPassword(password);
-  db.prepare("INSERT INTO admin_password (id, email, hash) VALUES (1, ?, ?)").run(email, hash);
+  getDb().prepare("INSERT INTO admin_password (id, email, hash) VALUES (1, ?, ?)").run(email, hash);
 
-  return new Response(null, { status: 302, headers: { Location: "/admin/register?pw=set" } });
+  // First-run bootstrap: sign the new admin in so the passkey step that
+  // follows on the setup page is authorised.
+  createSession(cookies);
+  return redirectTo(`${REGISTER}?pw=set`);
 };
