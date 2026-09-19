@@ -35,9 +35,11 @@ EXPOSE 4321
 ENV HOST=0.0.0.0
 ENV PORT=4321
 
-# robots.txt is served without touching the DB or any upstream API.
+# robots.txt is served without touching the DB or any upstream API. Uses the
+# runtime PORT, not a hardcoded one: Coolify injects PORT from the app's
+# "Ports Exposes" setting, overriding the ENV default above.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD wget -q --spider http://127.0.0.1:4321/robots.txt || exit 1
+  CMD wget -q --spider "http://127.0.0.1:${PORT:-4321}/robots.txt" || exit 1
 
 # Runs migrations, then starts the server as the unprivileged `node` user.
 ENTRYPOINT ["./docker-entrypoint.sh"]
