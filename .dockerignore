@@ -1,0 +1,15 @@
+.git
+.claude
+.astro
+node_modules
+dist
+# Runtime data and secrets must never end up in an image layer.
+db
+backups
+.env
+.env.*
+*.db
+*.db-shm
+*.db-wal
+npm-debug.log*
+.DS_Store

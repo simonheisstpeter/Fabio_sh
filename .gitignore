@@ -24,6 +24,10 @@
 /db/*.db
 /db/*.db-shm
 /db/*.db-wal
+# Snapshots hold the admin password hash and contact data — keep them out of git
+/db/backups/
+/backups/
+*.db
 
 # misc
 .DS_Store
