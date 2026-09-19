@@ -15,6 +15,11 @@ export default {
   contactButton: "Transmit",
   contactSuccess: "Signal received. Connection stable.",
   contactError: "Transmission failed. Retry protocol initiated.",
+  contactErrName: "Handle rejected. Provide 2–100 characters.",
+  contactErrEmail: "Invalid Net-ID. Enter a valid address.",
+  contactErrMessage: "Data packet must be 10–2000 characters.",
+  contactErrRate: "Bandwidth throttled. Too many transmissions, retry later.",
+  contactSending: "Transmitting…",
 
   website: "Net Node",
   comingSoon: "Modules loading... standby.",

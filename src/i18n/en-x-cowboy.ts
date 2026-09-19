@@ -16,6 +16,11 @@ export default {
   contactButton: "Pull the Trigger ⚡",
   contactSuccess: "Much obliged, partner! I’ll get back to ya.",
   contactError: "Well, tarnation. Something misfired.",
+  contactErrName: "Reckon we need yer handle, partner (2–100 characters).",
+  contactErrEmail: "That ain’t a mail coach address I ever seen. Try again.",
+  contactErrMessage: "Yer yarn’s gotta run 10 to 2000 characters, pardner.",
+  contactErrRate: "Whoa there, slow yer horses! Too many yarns. Try again later.",
+  contactSending: "Ridin’ off with yer message…",
 
   website: "The Digital Ranch",
   comingSoon: "Still in the saddle...",

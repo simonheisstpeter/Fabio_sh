@@ -64,20 +64,31 @@ describe("POST /api/contact — validation", () => {
   };
 
   it("name must be 2–100 characters", async () => {
-    expect(await rejected({ name: "A" })).toEqual({ status: 422, body: { error: "Name must be 2–100 characters" } });
+    expect(await rejected({ name: "A" })).toEqual({
+      status: 422,
+      body: { error: "Name must be 2–100 characters", field: "name" },
+    });
     expect((await rejected({ name: "x".repeat(101) })).status).toBe(422);
   });
 
   it.each(["", "nope", "a@b", "a b@c.de", "@x.de", "a@b.c"])("rejects email %j", async (email) => {
-    expect(await rejected({ email })).toEqual({ status: 422, body: { error: "Please enter a valid email address" } });
+    expect(await rejected({ email })).toEqual({ status: 422, body: { error: "Please enter a valid email address", field: "email" },
+    });
   });
 
   it("message must be 10–2000 characters", async () => {
     expect(await rejected({ message: "too short" })).toEqual({
       status: 422,
-      body: { error: "Message must be 10–2000 characters" },
+      body: { error: "Message must be 10–2000 characters", field: "message" },
     });
     expect((await rejected({ message: "x".repeat(2001) })).status).toBe(422);
+  });
+
+  it("names the first offending field so the browser can show its own localized message", async () => {
+    const both = await submit(valid({ name: "", message: "short" }), { accept: "application/json" });
+    expect(await both.json()).toMatchObject({ field: "name" });
+    const onlyMessage = await submit(valid({ message: "short" }), { accept: "application/json" });
+    expect(await onlyMessage.json()).toMatchObject({ field: "message" });
   });
 
   it("accepts the boundaries", async () => {
@@ -189,5 +200,58 @@ describe("POST /api/contact — no-JS redirect", () => {
   it("GET just bounces to the form", async () => {
     const res = await new Client(s.url).get("/api/contact");
     expect([res.status, res.headers.get("location")]).toEqual([302, "/#contact"]);
+  });
+});
+
+describe("the rendered form (hooks the browser script depends on)", () => {
+  const page = async (path: string) => {
+    const { JSDOM } = await import("jsdom");
+    const html = await (await new Client(s.url).get(path)).text();
+    return new JSDOM(html).window.document;
+  };
+
+  it.each(["/contact", "/en/contact", "/"])("%s exposes every hook initContactForm uses", async (path) => {
+    const doc = await page(path);
+    const form = doc.querySelector<HTMLFormElement>("#contact-form")!;
+    expect(form).not.toBeNull();
+    for (const f of ["name", "email", "message"]) {
+      expect(form.querySelector(`[data-error-for="${f}"]`), f).not.toBeNull();
+      expect(form.elements.namedItem(f), f).not.toBeNull();
+    }
+    for (const sel of ["[data-counter]", "[data-feedback]", 'input[name="_t"]', 'input[name="website"]', "button[type=submit]"]) {
+      expect(form.querySelector(sel), sel).not.toBeNull();
+    }
+  });
+
+  it("leaves native validation on for visitors without JS, and mirrors the server's limits", async () => {
+    const form = (await page("/contact")).querySelector<HTMLFormElement>("#contact-form")!;
+    expect(form.hasAttribute("novalidate")).toBe(false);
+    const attr = (name: string, a: string) => form.querySelector(`[name="${name}"]`)!.getAttribute(a);
+    expect([attr("name", "minlength"), attr("name", "maxlength")]).toEqual(["2", "100"]);
+    expect(attr("email", "maxlength")).toBe("254");
+    expect([attr("message", "minlength"), attr("message", "maxlength")]).toEqual(["10", "2000"]);
+    expect(form.querySelector('[name="email"]')!.getAttribute("type")).toBe("email");
+    expect(form.querySelectorAll("[required]")).toHaveLength(3);
+  });
+
+  it("renders the validation messages in the page's language", async () => {
+    const de = (await page("/contact")).querySelector<HTMLFormElement>("#contact-form")!;
+    expect(de.dataset.errName).toBe("Bitte gib deinen Namen ein (2–100 Zeichen).");
+    expect(de.dataset.errEmail).toBe("Bitte gib eine gültige E-Mail-Adresse ein.");
+    expect(de.dataset.errMessage).toBe("Deine Nachricht muss zwischen 10 und 2000 Zeichen lang sein.");
+    expect(de.dataset.errRate).toBeTruthy();
+    expect(de.dataset.sending).toBe("Wird gesendet…");
+
+    const en = (await page("/en/contact")).querySelector<HTMLFormElement>("#contact-form")!;
+    expect(en.dataset.errName).toBe("Please enter your name (2–100 characters).");
+    expect(en.dataset.errMessage).toBe("Your message must be between 10 and 2000 characters.");
+  });
+
+  it("ships the script that binds the form on every page view (View Transitions)", async () => {
+    const html = await (await new Client(s.url).get("/contact")).text();
+    const scripts = [...html.matchAll(/src="(\/_astro\/[^"]*ContactForm[^"]*\.js)"/g)].map((m) => m[1]);
+    expect(scripts.length).toBeGreaterThan(0);
+    const bundle = await (await new Client(s.url).get(scripts[0])).text();
+    expect(bundle).toContain("astro:page-load");
   });
 });

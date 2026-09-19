@@ -15,6 +15,11 @@ export default {
   contactButton: "Los",
   contactSuccess: "Danke für deine Nachricht!",
   contactError: "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+  contactErrName: "Bitte gib deinen Namen ein (2–100 Zeichen).",
+  contactErrEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
+  contactErrMessage: "Deine Nachricht muss zwischen 10 und 2000 Zeichen lang sein.",
+  contactErrRate: "Zu viele Nachrichten. Bitte versuche es später erneut.",
+  contactSending: "Wird gesendet…",
 
   website: "Webseite",
   comingSoon: "Bald mehr ...",

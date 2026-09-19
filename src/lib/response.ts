@@ -2,8 +2,16 @@ import type { APIRoute } from "astro";
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
 
-export function jsonError(message: string, status = 422): Response {
-  return new Response(JSON.stringify({ error: message }), { status, headers: JSON_HEADERS });
+/** `extra` adds machine-readable fields (e.g. which form field failed) next to `error`. */
+export function jsonError(
+  message: string,
+  status = 422,
+  extra: Record<string, unknown> = {},
+): Response {
+  return new Response(JSON.stringify({ error: message, ...extra }), {
+    status,
+    headers: JSON_HEADERS,
+  });
 }
 
 export function jsonOk(data: unknown = { ok: true }): Response {

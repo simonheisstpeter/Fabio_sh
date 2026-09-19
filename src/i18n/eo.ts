@@ -15,6 +15,11 @@ export default {
   contactButton: "Sendi",
   contactSuccess: "Dankon pro via mesaĝo!",
   contactError: "Io misfunkciis. Bonvolu reprovi.",
+  contactErrName: "Bonvolu enigi vian nomon (2–100 signoj).",
+  contactErrEmail: "Bonvolu enigi validan retpoŝtadreson.",
+  contactErrMessage: "Via mesaĝo devas havi 10 ĝis 2000 signojn.",
+  contactErrRate: "Tro da mesaĝoj. Bonvolu reprovi poste.",
+  contactSending: "Sendante…",
 
   website: "Retejo",
   comingSoon: "Pli baldaŭ venos...",

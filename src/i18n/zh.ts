@@ -16,6 +16,11 @@ export default {
   contactButton: "发送",
   contactSuccess: "感谢您的留言！",
   contactError: "出了点问题，请再试一次。",
+  contactErrName: "请输入您的姓名（2–100 个字符）。",
+  contactErrEmail: "请输入有效的电子邮件地址。",
+  contactErrMessage: "留言长度必须在 10 到 2000 个字符之间。",
+  contactErrRate: "消息过多，请稍后再试。",
+  contactSending: "发送中…",
 
   website: "网站",
   comingSoon: "更多即将推出……",

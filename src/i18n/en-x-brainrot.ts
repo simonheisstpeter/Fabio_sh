@@ -16,6 +16,11 @@ export default {
   contactButton: "Submit to the Grind ⚡",
   contactSuccess: "Massive W! Your message is locked in.",
   contactError: "Massive L. Skill issue, try again.",
+  contactErrName: "No tag, no entry (2–100 characters), fr fr.",
+  contactErrEmail: "That email is not it. Drop a real one, no cap.",
+  contactErrMessage: "Yap between 10 and 2000 characters, bestie.",
+  contactErrRate: "Chill, you’re cooking too much. Try again later.",
+  contactSending: "Sending, no cap…",
 
   website: "The Main Channel",
   comingSoon: "Wait for the glow up...",

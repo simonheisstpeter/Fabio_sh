@@ -15,6 +15,11 @@ export default {
   contactButton: "Initiate Transmission",
   contactSuccess: "Your submission has been successfully processed!",
   contactError: "An error occurred during processing. Please retry.",
+  contactErrName: "Please provide your full name (2–100 characters) to proceed.",
+  contactErrEmail: "A valid email address is required to align on next steps.",
+  contactErrMessage: "Message input must be between 10 and 2000 characters to ensure alignment.",
+  contactErrRate: "Message volume limit reached. Please circle back later.",
+  contactSending: "Synergizing…",
 
   website: "Web Presence",
   comingSoon: "Additional content in pipeline...",

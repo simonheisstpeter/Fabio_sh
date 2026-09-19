@@ -15,6 +15,11 @@ export default {
   contactButton: "שלח",
   contactSuccess: "תודה על ההודעה שלך!",
   contactError: "משהו השתבש. אנא נסה שוב.",
+  contactErrName: "אנא הזן את שמך (2–100 תווים).",
+  contactErrEmail: "אנא הזן כתובת אימייל תקינה.",
+  contactErrMessage: "ההודעה חייבת להכיל בין 10 ל-2000 תווים.",
+  contactErrRate: "יותר מדי הודעות. אנא נסה שוב מאוחר יותר.",
+  contactSending: "שולח…",
 
   website: "אתר",
   comingSoon: "עוד בקרוב...",

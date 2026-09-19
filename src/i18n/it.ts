@@ -15,6 +15,11 @@ export default {
   contactButton: "Invia",
   contactSuccess: "Grazie per il tuo messaggio!",
   contactError: "Qualcosa è andato storto. Riprova.",
+  contactErrName: "Inserisci il tuo nome (2–100 caratteri).",
+  contactErrEmail: "Inserisci un indirizzo e-mail valido.",
+  contactErrMessage: "Il messaggio deve contenere tra 10 e 2000 caratteri.",
+  contactErrRate: "Troppi messaggi. Riprova più tardi.",
+  contactSending: "Invio in corso…",
 
   website: "Sito web",
   comingSoon: "Prossimamente...",

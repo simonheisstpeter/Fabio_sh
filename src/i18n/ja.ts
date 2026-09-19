@@ -15,6 +15,11 @@ export default {
   contactButton: "送信",
   contactSuccess: "メッセージありがとうございます！",
   contactError: "エラーが発生しました。もう一度お試しください。",
+  contactErrName: "お名前を入力してください（2〜100文字）。",
+  contactErrEmail: "有効なメールアドレスを入力してください。",
+  contactErrMessage: "メッセージは10〜2000文字で入力してください。",
+  contactErrRate: "送信回数が多すぎます。しばらくしてからもう一度お試しください。",
+  contactSending: "送信中…",
 
   website: "ウェブサイト",
   comingSoon: "もうすぐ公開...",

@@ -15,6 +15,11 @@ export default {
   contactButton: "Mitte",
   contactSuccess: "Gratias pro nuntio tuo!",
   contactError: "Aliquid erravit. Quaeso iterum conare.",
+  contactErrName: "Quaeso nomen tuum inscribe (2–100 litterae).",
+  contactErrEmail: "Quaeso inscribe epistulam electronicam validam.",
+  contactErrMessage: "Nuntius tuus inter 10 et 2000 litteras habere debet.",
+  contactErrRate: "Nimis multi nuntii. Quaeso postea iterum conare.",
+  contactSending: "Mittitur…",
 
   website: "Situs interretialis",
   comingSoon: "Plus mox veniet...",

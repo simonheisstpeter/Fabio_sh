@@ -16,6 +16,11 @@ export default {
   contactButton: "Initiate Launch",
   contactSuccess: "Transmission Successful. Data packet integrated.",
   contactError: "Signal Interference. Re-establish connection.",
+  contactErrName: "Personnel designation required (2–100 characters).",
+  contactErrEmail: "Invalid uplink address. Enter a valid address.",
+  contactErrMessage: "Encoded data must be 10–2000 characters.",
+  contactErrRate: "Uplink limit reached. Retry after cooldown.",
+  contactSending: "Transmitting to mission control…",
 
   website: "Global Network Node",
   comingSoon: "Research in progress...",

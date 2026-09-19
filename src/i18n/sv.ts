@@ -15,6 +15,11 @@ export default {
   contactButton: "Skicka",
   contactSuccess: "Tack för ditt meddelande!",
   contactError: "Något gick fel. Försök igen.",
+  contactErrName: "Ange ditt namn (2–100 tecken).",
+  contactErrEmail: "Ange en giltig e-postadress.",
+  contactErrMessage: "Ditt meddelande måste vara mellan 10 och 2000 tecken.",
+  contactErrRate: "För många meddelanden. Försök igen senare.",
+  contactSending: "Skickar…",
 
   website: "Webbplats",
   comingSoon: "Mer kommer snart...",

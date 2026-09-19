@@ -15,6 +15,11 @@ export default {
   contactButton: "Transmit",
   contactSuccess: "Transmission received successfully.",
   contactError: "Transmission failed. Attempt again.",
+  contactErrName: "Designation required (2–100 characters).",
+  contactErrEmail: "Invalid Galactic ID. Enter a valid address.",
+  contactErrMessage: "Message log must be 10–2000 characters.",
+  contactErrRate: "Too many transmissions. Try again later.",
+  contactSending: "Transmitting…",
 
   website: "Starbase Interface",
   comingSoon: "Additional systems initializing...",

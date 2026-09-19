@@ -1,5 +1,6 @@
 ---
 import type { Translations } from "../i18n/index";
+import { CONTACT_LIMITS } from "../lib/contact-rules.js";
 
 interface Props {
     t: Translations;
@@ -59,10 +60,14 @@ const {
             id="contact-form"
             action={action}
             method="POST"
-            novalidate
             class="space-y-8 text-fg"
             data-success={t.contactSuccess}
             data-error={t.contactError}
+            data-err-name={t.contactErrName}
+            data-err-email={t.contactErrEmail}
+            data-err-message={t.contactErrMessage}
+            data-err-rate={t.contactErrRate}
+            data-sending={t.contactSending}
         >
             <!-- Honeypot -->
             <div aria-hidden="true" class="hidden">
@@ -85,9 +90,20 @@ const {
                         id="contact-name"
                         name="name"
                         required
+                        minlength={CONTACT_LIMITS.nameMin}
+                        maxlength={CONTACT_LIMITS.nameMax}
+                        autocomplete="name"
+                        aria-describedby="contact-name-error"
                         placeholder="John Doe"
                         class="w-full bg-surface border border-edge rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-raised focus:ring-4 focus:ring-emerald-500/5 placeholder:text-muted3"
                     />
+                    <p
+                        id="contact-name-error"
+                        data-error-for="name"
+                        class="text-sm text-red-400"
+                        hidden
+                    >
+                    </p>
                 </div>
 
                 <!-- Email -->
@@ -104,9 +120,19 @@ const {
                         id="contact-email"
                         name="email"
                         required
+                        maxlength={CONTACT_LIMITS.emailMax}
+                        autocomplete="email"
+                        aria-describedby="contact-email-error"
                         placeholder="hello@example.com"
                         class="w-full bg-surface border border-edge rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-raised focus:ring-4 focus:ring-emerald-500/5 placeholder:text-muted3"
                     />
+                    <p
+                        id="contact-email-error"
+                        data-error-for="email"
+                        class="text-sm text-red-400"
+                        hidden
+                    >
+                    </p>
                 </div>
             </div>
 
@@ -123,14 +149,33 @@ const {
                     id="contact-message"
                     name="message"
                     required
+                    minlength={CONTACT_LIMITS.messageMin}
+                    maxlength={CONTACT_LIMITS.messageMax}
+                    aria-describedby="contact-message-error"
                     rows="5"
                     placeholder={`${t.contactMessage}...`}
                     class="w-full bg-surface border border-edge rounded-xl px-4 py-4 outline-none transition-all duration-300 focus:border-emerald-500/50 focus:bg-raised focus:ring-4 focus:ring-emerald-500/5 placeholder:text-muted3 resize-none"
                 ></textarea>
+                <div class="flex items-start justify-between gap-4">
+                    <p
+                        id="contact-message-error"
+                        data-error-for="message"
+                        class="text-sm text-red-400"
+                        hidden
+                    >
+                    </p>
+                    <span
+                        data-counter
+                        aria-hidden="true"
+                        class="ml-auto font-mono text-xs text-muted3"
+                    >
+                    </span>
+                </div>
             </div>
 
             <div
                 id="form-feedback"
+                data-feedback
                 role="status"
                 aria-live="polite"
                 class="hidden"
@@ -171,54 +216,27 @@ const {
 </div>
 
 <script>
-    const form = document.getElementById("contact-form") as HTMLFormElement | null;
-    const tsInput = document.getElementById("form-ts") as HTMLInputElement | null;
-    const submitBtn = document.getElementById("contact-submit") as HTMLButtonElement | null;
-    const feedback = document.getElementById("form-feedback");
+    import { initContactForm } from "../lib/contact-form";
 
-    if (tsInput) tsInput.value = String(Date.now());
-
-    if (form && submitBtn && feedback) {
-        const successMsg = form.dataset.success ?? "";
-        const errorMsg   = form.dataset.error ?? "";
-
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            submitBtn.disabled = true;
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = "Processing...";
-
-            try {
-                const res = await fetch(form.action, {
-                    method: "POST",
-                    body: new FormData(form),
-                    headers: { Accept: "application/json" },
-                });
-
-                const json = await res.json().catch(() => ({}));
-
-                if (res.ok && json.ok) {
-                    form.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-center">
-                        <div class="h-16 w-16 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mb-6">
-                             <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        </div>
-                        <p class="text-emerald-400 text-2xl font-andesNeueMedium">${successMsg}</p>
-                    </div>`;
-                } else {
-                    throw new Error();
-                }
-            } catch {
-                feedback.textContent = errorMsg;
-                feedback.className =
-                    "mt-6 rounded-xl border border-red-500/30 bg-red-500/10 px-6 py-4 text-red-400 block";
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            }
-        });
-    }
+    // Runs on the first load and again after every View Transition navigation;
+    // a top-level lookup would only ever bind the form of the first page.
+    document.addEventListener("astro:page-load", () => {
+        const form = document.getElementById("contact-form");
+        if (form instanceof HTMLFormElement) initContactForm(form);
+    });
 </script>
 
 <style>
+    input[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+        border-color: rgb(239 68 68 / 0.6);
+    }
+    input[aria-invalid="true"]:focus,
+    textarea[aria-invalid="true"]:focus {
+        border-color: rgb(239 68 68 / 0.8);
+        --tw-ring-color: rgb(239 68 68 / 0.1);
+    }
+
     @keyframes shimmer {
         100% {
             transform: translateX(100%);

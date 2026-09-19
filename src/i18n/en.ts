@@ -15,6 +15,11 @@ export default {
   contactButton: "Send",
   contactSuccess: "Thank you for your message!",
   contactError: "Something went wrong. Please try again.",
+  contactErrName: "Please enter your name (2–100 characters).",
+  contactErrEmail: "Please enter a valid email address.",
+  contactErrMessage: "Your message must be between 10 and 2000 characters.",
+  contactErrRate: "Too many messages. Please try again later.",
+  contactSending: "Sending…",
 
   website: "Website",
   comingSoon: "more coming soon...",

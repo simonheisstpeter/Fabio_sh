@@ -15,6 +15,11 @@ export default {
   contactButton: "53nd",
   contactSuccess: "7h4nk y0u f0r y0ur m3554g3!",
   contactError: "50m37h1ng w3n7 wr0ng. 7ry 4g41n.",
+  contactErrName: "Pl3453 3n73r y0ur n4m3 (2–100 ch4r5).",
+  contactErrEmail: "Pl3453 3n73r 4 v4l1d 3-m41l 4ddr355.",
+  contactErrMessage: "Y0ur m3554g3 mu57 b3 10–2000 ch4r5.",
+  contactErrRate: "700 m4ny m3554g35. 7ry 4g41n l473r.",
+  contactSending: "53nd1ng…",
 
   website: "W3b5173",
   comingSoon: "M0r3 c0m1ng 500n...",

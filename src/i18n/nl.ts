@@ -15,6 +15,11 @@ export default {
   contactButton: "Versturen",
   contactSuccess: "Bedankt voor je bericht!",
   contactError: "Er is iets misgegaan. Probeer het opnieuw.",
+  contactErrName: "Voer je naam in (2–100 tekens).",
+  contactErrEmail: "Voer een geldig e-mailadres in.",
+  contactErrMessage: "Je bericht moet tussen 10 en 2000 tekens lang zijn.",
+  contactErrRate: "Te veel berichten. Probeer het later opnieuw.",
+  contactSending: "Verzenden…",
 
   website: "Website",
   comingSoon: "Meer komt binnenkort...",

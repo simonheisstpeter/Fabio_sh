@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import type { DatabaseSync } from "node:sqlite";
 import { getDb } from "../../lib/db";
+import { invalidContactFields } from "../../lib/contact-rules.js";
 import { checkRateLimit, rateLimitKeyFor } from "../../lib/rate-limit";
 import { jsonError, jsonOk, redirectGet, redirectTo } from "../../lib/response";
 
@@ -18,10 +19,14 @@ function stmts(): Stmts {
   return _stmts;
 }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RATE_LIMIT = 3; // max submissions
 const RATE_WINDOW = 3600; // per hour (seconds)
 const MIN_SUBMIT_MS = 3000; // min 3 s between page load and submit
+const FIELD_ERRORS = {
+  name: "Name must be 2–100 characters",
+  email: "Please enter a valid email address",
+  message: "Message must be 10–2000 characters",
+} as const;
 const MAX_BODY_BYTES = 16 * 1024; // the form is three short text fields
 
 /** Same-site path to send a no-JS visitor back to, `?sent=1` appended. */
@@ -65,17 +70,14 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (isNaN(ts) || Date.now() - ts < MIN_SUBMIT_MS) return jsonOk();
 
   // ── 3. Validation ─────────────────────────────────────────────────────────
+  // Same rules the browser applies (lib/contact-rules.js). `field` lets the
+  // client show its localized message for whichever one the server rejected.
   const name = ((data.get("name") ?? "") as string).trim();
   const email = ((data.get("email") ?? "") as string).trim();
   const message = ((data.get("message") ?? "") as string).trim();
 
-  if (name.length < 2 || name.length > 100) return jsonError("Name must be 2–100 characters");
-  if (!EMAIL_RE.test(email) || email.length > 254) {
-    return jsonError("Please enter a valid email address");
-  }
-  if (message.length < 10 || message.length > 2000) {
-    return jsonError("Message must be 10–2000 characters");
-  }
+  const [invalidField] = invalidContactFields({ name, email, message });
+  if (invalidField) return jsonError(FIELD_ERRORS[invalidField], 422, { field: invalidField });
 
   // ── 4. Rate limiting (single atomic UPSERT — see lib/rate-limit.ts) ───────
   const ipHash = rateLimitKeyFor(clientAddress, "contact");

@@ -19,6 +19,11 @@ export default {
   contactSuccess:
     "Gratitude! Your data packet has been successfully integrated into my consciousness.",
   contactError: "Critical Logic Breach. Please re-synchronize your intent and attempt again.",
+  contactErrName: "Kindly furnish a Personnel Identity Token of between 2 and 100 characters to proceed.",
+  contactErrEmail: "A valid Digital Correspondence Vector is required for successful transmission.",
+  contactErrMessage: "Your Conceptual Transmission must span between 10 and 2000 characters.",
+  contactErrRate: "Transmission threshold exceeded. Please re-synchronize and attempt again later.",
+  contactSending: "Synthesizing transmission…",
 
   // Global Domain Assets
   website: "Digital Reality Anchor 🌐",
