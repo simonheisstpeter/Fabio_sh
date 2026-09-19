@@ -73,6 +73,18 @@ console.log('Done.');
 "
 ```
 
+## Tests
+
+```bash
+npm test          # unit tests — libs against throwaway SQLite files (~2 s)
+npm run test:e2e  # builds the app, boots the real server per test file (~15 s)
+npm run test:all  # both
+```
+
+- **Unit** (`tests/unit/`): migrations, sessions and challenges, the rate limiter, DB helpers (transactions, cascades, no-N+1), upload sniffing, form parsing, Tidal/ATProto clients (network mocked).
+- **E2E** (`tests/e2e/`): drives the production build over HTTP — admin enrolment lock, CSRF, rate limits, upload validation, certificate visibility, security headers, the admin forms. Each file gets its own port and scratch database, so nothing touches `db/fabio.db`. Set `E2E_SKIP_BUILD=1` to reuse an existing `dist/`.
+- **Not covered:** the successful WebAuthn ceremony (needs a real authenticator) and the ATProto feed parsing in `getSocialFeed`.
+
 ## Docker
 
 Multi-stage build — builder installs all deps and compiles, runner only gets the two runtime packages (`@astrojs/node`, `@simplewebauthn/server`) plus `dist/`.

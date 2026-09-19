@@ -2,5 +2,15 @@
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "tags": [
     "-lintignore"
-  ]
+  ],
+  "vitest": {
+    "config": [
+      "vitest.config.ts",
+      "vitest.e2e.config.ts"
+    ],
+    "entry": [
+      "tests/**/*.test.ts",
+      "tests/e2e/global-setup.ts"
+    ]
+  }
 }

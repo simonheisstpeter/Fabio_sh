@@ -15,7 +15,10 @@
     "fmt": "oxfmt",
     "knip": "knip",
     "migrate": "node src/lib/migrate.js up",
-    "migrate:status": "node src/lib/migrate.js status"
+    "migrate:status": "node src/lib/migrate.js status",
+    "test": "vitest run",
+    "test:e2e": "vitest run -c vitest.e2e.config.ts",
+    "test:all": "vitest run && vitest run -c vitest.e2e.config.ts"
   },
   "dependencies": {
     "@astrojs/node": "^11.1.6",
@@ -30,6 +33,7 @@
     "knip": "^6.37.0",
     "oxfmt": "^0.68.0",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.1"
   }
 }
