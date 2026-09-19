@@ -1,3 +1,4 @@
+import type { APIContext } from "astro";
 import { defineMiddleware } from "astro:middleware";
 import { validateSession } from "./lib/admin-auth";
 import { LOCALES } from "./i18n/locales.js";
@@ -67,65 +68,70 @@ function makeSecurityHeaders(frameAncestors: "'none'" | "'self'") {
   };
 }
 
-export const onRequest = defineMiddleware(
-  async ({ url, cookies, redirect, request, site }, next) => {
-    const pathname = url.pathname;
+/**
+ * Requests that must never reach a page or endpoint. Returns the refusal, or
+ * `undefined` to let the request through.
+ */
+function guard(
+  { url, cookies, redirect, request, site }: Pick<APIContext, "url" | "cookies" | "redirect" | "request" | "site">,
+): Response | undefined {
+  const { pathname } = url;
 
-    if (!SAFE_METHODS.has(request.method)) {
-      if (isForeignOrigin(request, url, site)) {
-        return jsonError("Cross-origin request blocked", 403);
-      }
-      // The adapter also enforces this while streaming, but only by throwing
-      // (a 500). Declared oversize bodies get a proper 413 before any handler runs.
-      if (Number(request.headers.get("content-length") ?? 0) > MAX_REQUEST_BYTES) {
-        return jsonError("Request too large", 413);
-      }
+  if (!SAFE_METHODS.has(request.method)) {
+    if (isForeignOrigin(request, url, site)) {
+      return jsonError("Cross-origin request blocked", 403);
     }
-
-    // Protect /api/admin/** — return 401 JSON (no redirect)
-    if (pathname.startsWith("/api/admin/")) {
-      if (!validateSession(cookies)) {
-        return jsonError("Unauthorized", 401);
-      }
+    // The adapter also enforces this while streaming, but only by throwing
+    // (a 500). Declared oversize bodies get a proper 413 before any handler runs.
+    if (Number(request.headers.get("content-length") ?? 0) > MAX_REQUEST_BYTES) {
+      return jsonError("Request too large", 413);
     }
+  }
 
-    // Protect /admin/** except login and register
-    if (pathname.startsWith("/admin/") || pathname === "/admin") {
-      const isPublic = PUBLIC_ADMIN_PATHS.some(
-        (p) => pathname === p || pathname.startsWith(p + "/"),
-      );
-      if (!isPublic && !validateSession(cookies))
-        return redirect("/admin/login");
-    }
+  // Protect /api/admin/** — return 401 JSON (no redirect)
+  if (pathname.startsWith("/api/admin/") && !validateSession(cookies)) {
+    return jsonError("Unauthorized", 401);
+  }
 
-    const response = await next();
+  // Protect /admin/** except login and register
+  if (pathname.startsWith("/admin/") || pathname === "/admin") {
+    const isPublic = PUBLIC_ADMIN_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
+    if (!isPublic && !validateSession(cookies)) return redirect("/admin/login");
+  }
 
-    // Fix Astro SSR i18n 302-with-no-Location bug + inject security headers on all responses
-    const status =
-      response.status === 302 && !response.headers.get("location")
-        ? 200
-        : response.status;
+  return undefined;
+}
 
-    // /api/cv/file is served inside a same-origin <iframe> — allow self-framing only there
-    const frameAncestors = pathname === "/api/cv/file" ? "'self'" : "'none'";
-    const securityHeaders = makeSecurityHeaders(frameAncestors);
+export const onRequest = defineMiddleware(async (context, next) => {
+  const { url, request } = context;
+  const pathname = url.pathname;
 
-    const headers = new Headers(response.headers);
-    for (const [k, v] of Object.entries(securityHeaders)) {
-      headers.set(k, v);
-    }
+  // Refusals go through the same header pass below — a bare 401/403/413 used
+  // to leave without CSP, nosniff or HSTS.
+  const response = guard(context) ?? (await next());
 
-    if (
-      request.method === "GET" &&
-      status === 200 &&
-      !headers.has("Cache-Control") &&
-      headers.getSetCookie().length === 0 &&
-      headers.get("Content-Type")?.includes("text/html") &&
-      isCacheablePage(pathname)
-    ) {
-      headers.set("Cache-Control", PUBLIC_PAGE_CACHE);
-    }
+  // Fix Astro SSR i18n 302-with-no-Location bug + inject security headers on all responses
+  const status =
+    response.status === 302 && !response.headers.get("location") ? 200 : response.status;
 
-    return new Response(response.body, { status, headers });
-  },
-);
+  // /api/cv/file is served inside a same-origin <iframe> — allow self-framing only there
+  const frameAncestors = pathname === "/api/cv/file" ? "'self'" : "'none'";
+
+  const headers = new Headers(response.headers);
+  for (const [k, v] of Object.entries(makeSecurityHeaders(frameAncestors))) {
+    headers.set(k, v);
+  }
+
+  if (
+    request.method === "GET" &&
+    status === 200 &&
+    !headers.has("Cache-Control") &&
+    headers.getSetCookie().length === 0 &&
+    headers.get("Content-Type")?.includes("text/html") &&
+    isCacheablePage(pathname)
+  ) {
+    headers.set("Cache-Control", PUBLIC_PAGE_CACHE);
+  }
+
+  return new Response(response.body, { status, headers });
+});

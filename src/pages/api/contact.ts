@@ -27,8 +27,10 @@ const MAX_BODY_BYTES = 16 * 1024; // the form is three short text fields
 /** Same-site path to send a no-JS visitor back to, `?sent=1` appended. */
 function backToForm(request: Request): string {
   let path = "/#contact";
+  const header = request.headers.get("referer");
+  if (!header) return path;
   try {
-    const referer = new URL(request.headers.get("referer") ?? "", request.url);
+    const referer = new URL(header, request.url);
     // Only ever a path on this host — a foreign or `//host` Referer must not
     // turn this endpoint into an open redirect.
     if (referer.host === new URL(request.url).host && !referer.pathname.startsWith("//")) {
