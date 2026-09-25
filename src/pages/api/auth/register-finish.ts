@@ -34,6 +34,12 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     const { credential } = verification.registrationInfo;
 
+    // Re-check synchronously, immediately before the write, with no further
+    // await in between: closes the bootstrap-enrolment race where two
+    // concurrent requests could both pass the earlier (pre-verification)
+    // check while no credential existed yet.
+    if (!canEnrolCredential(cookies)) return jsonError("Unauthorized", 401);
+
     getDb()
       .prepare(
         `INSERT INTO webauthn_credentials

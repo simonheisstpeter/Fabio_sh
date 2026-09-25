@@ -266,3 +266,46 @@ describe("password login", () => {
     }
   });
 });
+
+describe("bootstrap-enrolment race", () => {
+  // A dedicated, fresh server: the shared `s` above already has an admin by
+  // this point in the file, so the zero-credential bootstrap window it's
+  // gone. Regression guard for the canEnrolCredential TOCTOU: two concurrent
+  // first-run submissions must not both create an admin.
+  it("only one of two concurrent first-run password setups wins", async () => {
+    const race = await startServer();
+    try {
+      const a = new Client(race.url);
+      const b = new Client(race.url);
+
+      const [resA, resB] = await Promise.all([
+        a.form("/api/auth/setup-password", {
+          email: "alice@example.com",
+          password: "alice-long-password",
+          confirm_password: "alice-long-password",
+        }),
+        b.form("/api/auth/setup-password", {
+          email: "bob@example.com",
+          password: "bob-long-password-2",
+          confirm_password: "bob-long-password-2",
+        }),
+      ]);
+
+      const locations = [resA, resB].map((r) => r.headers.get("location"));
+      // The winner lands on the success redirect and is signed in; the loser
+      // gets a clean bounce (never a 500), and only ever one of each.
+      expect(locations.filter((l) => l === "/admin/register?pw=set")).toHaveLength(1);
+      expect(locations.filter((l) => l === "/admin/login")).toHaveLength(1);
+      expect([resA.status, resB.status]).toEqual([302, 302]);
+      expect([a.jar.has("admin_session"), b.jar.has("admin_session")].filter(Boolean)).toHaveLength(1);
+
+      // Exactly one admin ever exists, and it's the actual winner's email.
+      const rows = race.sql<{ email: string }>("SELECT email FROM admin_password");
+      expect(rows).toHaveLength(1);
+      const winnerIsAlice = locations[0] === "/admin/register?pw=set";
+      expect(rows[0].email).toBe(winnerIsAlice ? "alice@example.com" : "bob@example.com");
+    } finally {
+      await race.stop();
+    }
+  });
+});
