@@ -23,8 +23,8 @@ if (!hasPasskey && !hasPassword) {
     <title>Admin Login – fabio.sh</title>
     <meta name="robots" content="noindex,nofollow" />
   </head>
-  <body class="bg-[#0a0a0a] text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
-    <div class="bg-[#111] border border-[#222] rounded-xl p-8 w-full max-w-sm">
+  <body class="bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
+    <div class="bg-ink border border-ink-20 rounded-xl p-8 w-full max-w-sm">
       <h1 class="text-xl font-semibold text-gray-50 mb-5 text-center">fabio.sh admin</h1>
 
       <!-- Tabs -->
@@ -57,7 +57,7 @@ if (!hasPasskey && !hasPassword) {
       <!-- Password panel -->
       {hasPassword && (
         <div class={`tab-panel${!hasPasskey ? ' active' : ''}`} id="panel-password" role="tabpanel">
-          <div id="pw-error" class="hidden bg-[#1f0a0a] border border-red-900 text-red-300 rounded px-3 py-2 text-xs mb-3"></div>
+          <div id="pw-error" class="hidden bg-ink-05 border border-ink-30 text-ink-soft rounded px-3 py-2 text-xs mb-3"></div>
           <form id="pw-form" novalidate>
             <!-- Honeypot -->
             <div class="absolute opacity-0 pointer-events-none h-0 w-0 overflow-hidden" aria-hidden="true">
@@ -67,14 +67,14 @@ if (!hasPasskey && !hasPassword) {
 
             <label for="email" class="block text-xs text-gray-400 mb-1">Email</label>
             <input id="email" name="email" type="email" required autocomplete="email"
-              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-emerald-400 transition-colors" />
+              class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
 
             <label for="password" class="block text-xs text-gray-400 mb-1">Password</label>
             <input id="password" name="password" type="password" required autocomplete="current-password"
-              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-emerald-400 transition-colors" />
+              class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
 
             <button id="pw-btn" type="submit"
-              class="w-full bg-emerald-500 text-white py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors disabled:opacity-50">
+              class="w-full bg-ink text-paper py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-ink-80 transition-colors disabled:opacity-50">
               Sign in
             </button>
           </form>
@@ -167,8 +167,8 @@ if (!hasPasskey && !hasPassword) {
     </script>
 
     <style>
-      .tab { color: #6b7280; border-color: transparent; background: none; }
-      .tab.active { color: #34d399; border-color: #34d399; }
+      .tab { color: #666666; border-color: transparent; background: none; }
+      .tab.active { color: #0a0a0a; border-color: #0a0a0a; font-weight: 600; }
       .tab-panel { display: none; }
       .tab-panel.active { display: block; }
     </style>

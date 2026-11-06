@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
-import tailwindcss from "@tailwindcss/vite";
 import { LOCALES, DEFAULT_LOCALE } from "./src/i18n/locales.js";
 import mailObfuscation from "astro-mail-obfuscation";
 import { MAX_REQUEST_BYTES } from "./src/lib/limits.js";
@@ -21,7 +20,6 @@ export default defineConfig({
     allowedDomains: [{ hostname: "fabio.sh" }, { hostname: "www.fabio.sh" }],
   },
   vite: {
-    plugins: [tailwindcss()],
     build: { assetsInlineLimit: 0 },
   },
   i18n: {

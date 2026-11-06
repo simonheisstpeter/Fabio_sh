@@ -32,7 +32,7 @@ const langs = [
     <h1 class="text-2xl font-semibold text-gray-50 mb-6">CV Management</h1>
 
     <!-- PDF Files section -->
-    <section class="bg-[#1a1a1a] border border-[#222] rounded-lg p-6 mb-8">
+    <section class="bg-surface border border-ink-20 rounded-lg p-6 mb-8">
         <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-5">
             PDF Files
         </h2>
@@ -41,11 +41,11 @@ const langs = [
             {langs.map(({ key, label }) => {
                 const file = cvFiles[key];
                 return (
-                    <div class="bg-[#111] border border-[#2a2a2a] rounded-lg p-5">
+                    <div class="bg-ink border border-ink-20 rounded-lg p-5">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="text-xs font-semibold uppercase tracking-widest text-gray-400">{label}</span>
                             {file ? (
-                                <span class="text-xs bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded">uploaded</span>
+                                <span class="text-xs bg-ink-15 text-ink px-2 py-0.5 rounded">uploaded</span>
                             ) : (
                                 <span class="text-xs bg-gray-800 text-gray-500 px-2 py-0.5 rounded">missing</span>
                             )}
@@ -76,7 +76,7 @@ const langs = [
                             />
                             <button
                                 type="submit"
-                                class="self-start bg-emerald-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors cursor-pointer"
+                                class="self-start bg-ink text-paper px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-ink-80 transition-colors cursor-pointer"
                             >
                                 {file ? "Replace" : "Upload"}
                             </button>
@@ -88,7 +88,7 @@ const langs = [
     </section>
 
     <!-- Secrets section -->
-    <section class="bg-[#1a1a1a] border border-[#222] rounded-lg p-6">
+    <section class="bg-surface border border-ink-20 rounded-lg p-6">
         <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
             Access Secrets
         </h2>
@@ -97,7 +97,7 @@ const langs = [
             <div class="overflow-x-auto mb-6">
                 <table class="w-full text-sm">
                     <thead>
-                        <tr class="border-b border-[#333] text-left">
+                        <tr class="border-b border-ink-30 text-left">
                             <th class="text-xs text-gray-500 font-medium pb-2 pr-6">Label</th>
                             <th class="text-xs text-gray-500 font-medium pb-2 pr-6">Secret</th>
                             <th class="text-xs text-gray-500 font-medium pb-2 pr-6 text-right">Views</th>
@@ -108,15 +108,15 @@ const langs = [
                     </thead>
                     <tbody>
                         {secrets.map((s) => (
-                            <tr class="border-b border-[#2a2a2a] last:border-0">
+                            <tr class="border-b border-ink-20 last:border-0">
                                 <td class="py-3 pr-6 text-gray-200 font-medium">{s.label}</td>
                                 <td class="py-3 pr-6">
-                                    <code class="font-mono text-xs bg-[#0a0a0a] px-2 py-0.5 rounded text-emerald-400 select-all">
+                                    <code class="font-mono text-xs bg-paper px-2 py-0.5 rounded text-ink select-all">
                                         {s.secret}
                                     </code>
                                 </td>
                                 <td class="py-3 pr-6 text-right">
-                                    <span class={`font-semibold ${s.view_count > 0 ? "text-emerald-400" : "text-gray-500"}`}>
+                                    <span class={`font-semibold ${s.view_count > 0 ? "text-ink" : "text-gray-500"}`}>
                                         {s.view_count}
                                     </span>
                                 </td>
@@ -129,7 +129,7 @@ const langs = [
                                 <td class="py-3">
                                     <button
                                         data-delete-secret={s.id}
-                                        class="text-xs text-red-500 hover:text-red-400 transition-colors cursor-pointer bg-transparent border-0"
+                                        class="text-xs text-ink hover:text-ink transition-colors cursor-pointer bg-transparent border-0"
                                     >
                                         Delete
                                     </button>
@@ -144,7 +144,7 @@ const langs = [
         )}
 
         <!-- Create new secret -->
-        <div class="border-t border-[#2a2a2a] pt-5">
+        <div class="border-t border-ink-20 pt-5">
             <h3 class="text-xs text-gray-400 font-medium mb-3">New Secret</h3>
             <form
                 method="POST"
@@ -159,7 +159,7 @@ const langs = [
                         name="label"
                         placeholder="e.g. Google – Sarah"
                         required
-                        class="bg-[#111] border border-[#333] rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-[#444] w-56"
+                        class="bg-ink border border-ink-30 rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-ink w-56"
                     />
                 </div>
                 <div class="flex flex-col gap-1">
@@ -171,13 +171,13 @@ const langs = [
                             name="secret"
                             placeholder="e.g. my-secret-123"
                             required
-                            class="bg-[#111] border border-[#333] rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-[#444] font-mono w-48"
+                            class="bg-ink border border-ink-30 rounded px-3 py-2 text-sm text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-ink font-mono w-48"
                         />
                         <button
                             type="button"
                             id="generate-secret"
                             title="Generate random secret"
-                            class="bg-[#111] border border-[#333] rounded px-2.5 text-gray-400 hover:text-emerald-400 hover:border-emerald-400 transition-colors cursor-pointer text-xs"
+                            class="bg-ink border border-ink-30 rounded px-2.5 text-gray-400 hover:text-ink hover:border-ink transition-colors cursor-pointer text-xs"
                         >⟳</button>
                     </div>
                 </div>

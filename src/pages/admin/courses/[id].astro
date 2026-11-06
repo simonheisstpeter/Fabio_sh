@@ -10,7 +10,7 @@ if (!course) return Astro.redirect('/admin/courses');
 <AdminLayout title={`Edit: ${course.title}`}>
   <div class="flex items-center gap-3 mb-6">
     <h1 class="text-2xl font-semibold text-gray-50 mb-0">Edit Course</h1>
-    <code class="text-xs text-gray-500 bg-[#1a1a1a] px-2 py-0.5 rounded">{course.id}</code>
+    <code class="text-xs text-gray-500 bg-surface px-2 py-0.5 rounded">{course.id}</code>
   </div>
   <CourseForm course={course} />
 </AdminLayout>

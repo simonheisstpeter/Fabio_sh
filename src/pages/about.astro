@@ -47,7 +47,7 @@ function formatStatusDate(iso: string): string {
         </p>
 
         <p class="font-andesNeueLight text-sm text-muted2 mb-16 max-w-xl">
-            {t.aboutCv} <a href={locale === 'de' ? '/projects' : `/${locale}/projects`} class="text-emerald-400 hover:underline">/projects</a>
+            {t.aboutCv} <a href={locale === 'de' ? '/projects' : `/${locale}/projects`} class="text-ink hover:underline">/projects</a>
         </p>
 
         <p class="font-andesNeueLight text-sm text-muted2 mb-8 max-w-xl">
@@ -85,7 +85,7 @@ function formatStatusDate(iso: string): string {
                             <span class="text-lg font-andesNeueMedium">
                                 {track.title}
                             </span>
-                            <span class="text-emerald-400 font-andesNeueMedium">
+                            <span class="text-ink font-andesNeueMedium">
                                 {track.artist}
                             </span>
                             <span class="text-sm text-muted1">
@@ -96,7 +96,7 @@ function formatStatusDate(iso: string): string {
                                     href={track.trackUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="mt-4 inline-flex items-center gap-2 text-sm text-muted1 hover:text-emerald-400 transition duration-200"
+                                    class="mt-4 inline-flex items-center gap-2 text-sm text-muted1 hover:text-ink transition duration-200"
                                 >
                                     Open on Tidal
                                     <svg

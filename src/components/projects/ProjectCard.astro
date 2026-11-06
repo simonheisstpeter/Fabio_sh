@@ -30,7 +30,7 @@ const hasImage = !project.finished && project.published && project.image;
     data-created={project.createdAt}
 >
     <article
-        class="relative cursor-fabiosh rounded-md border border-divider shadow-xs duration-200 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-sm bg-surface flex flex-col h-full"
+        class="relative cursor-fabiosh rounded-md border border-divider shadow-xs duration-200 hover:-translate-y-1 hover:border-ink hover:shadow-sm bg-surface flex flex-col h-full"
         tabindex="0"
     >
         {
@@ -43,7 +43,7 @@ const hasImage = !project.finished && project.published && project.image;
                         alt={project.title}
                         loading="lazy"
                         decoding="async"
-                        class="max-h-80 w-full bg-white rounded-t-md object-cover grayscale duration-200 hover:grayscale-0"
+                        class="max-h-80 w-full bg-ink rounded-t-md object-cover grayscale duration-200 hover:grayscale-0"
                     />
                 </picture>
             ) : (
@@ -80,7 +80,7 @@ const hasImage = !project.finished && project.published && project.image;
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="mb-3 w-fit inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition duration-200 text-xs"
+                        class="mb-3 w-fit inline-flex items-center gap-1 text-ink hover:text-ink transition duration-200 text-xs"
                     >
                         {t.website}
                         <svg

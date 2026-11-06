@@ -6,7 +6,7 @@ const { t, isJa } = Astro.props;
     <div class="relative max-w-5xl">
         <!-- Decorative Line Numbers -->
         <div
-            class="absolute -left-8 top-0 hidden md:flex flex-col text-white/10 font-mono text-sm select-none"
+            class="absolute -left-8 top-0 hidden md:flex flex-col text-ink-10 font-mono text-sm select-none"
         >
             <span>01</span><span>02</span><span>03</span><span>04</span><span
                 >05</span
@@ -16,25 +16,25 @@ const { t, isJa } = Astro.props;
         <div class="space-y-2">
             <div class="flex items-center gap-3 animate-fadeIn_2000">
                 <span
-                    class="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]"
+                    class="h-2 w-2 rounded-full bg-ink shadow-glow"
                 ></span>
                 <span
-                    class="font-mono text-xs uppercase tracking-[0.4em] text-emerald-500/80"
+                    class="font-mono text-xs uppercase tracking-[0.4em] text-ink-soft"
                     >System.Initialize</span
                 >
             </div>
 
             <h1
                 class={`font-andesNeueMedium tracking-tighter leading-[0.85] animate-fadeIn_2000
-        ${isJa ? "text-6xl md:text-8xl" : "text-7xl md:text-[11rem]"} text-white`}
+        ${isJa ? "text-6xl md:text-8xl" : "text-7xl md:text-[11rem]"} text-ink`}
             >
-                {t.name}<span class="text-emerald-500">.</span>
+                {t.name}<span class="text-ink">.</span>
             </h1>
 
             <h1
                 class={`font-andesNeueMedium tracking-tighter leading-[0.85] md:-mt-4 animate-fadeIn_2200
         ${isJa ? "text-6xl md:text-8xl" : "text-7xl md:text-[11rem]"}
-        text-transparent bg-linear-to-r from-white/40 via-white to-white/40 bg-clip-text`}
+        text-transparent bg-linear-to-r from-ink-40 via-ink to-ink-40 bg-clip-text`}
             >
                 {t.lastname}
             </h1>

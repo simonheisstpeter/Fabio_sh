@@ -31,18 +31,18 @@ const errorMessages: Record<string, string> = {
     <title>Admin Setup – fabio.sh</title>
     <meta name="robots" content="noindex,nofollow" />
   </head>
-  <body class="bg-[#0a0a0a] text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
-    <div class="bg-[#111] border border-[#222] rounded-xl p-8 w-full max-w-md">
+  <body class="bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
+    <div class="bg-ink border border-ink-20 rounded-xl p-8 w-full max-w-md">
       <h1 class="text-xl font-semibold text-gray-50 mb-1">Admin Setup</h1>
       <p class="text-xs text-gray-500 mb-6">First-time credential registration</p>
 
       {error && (
-        <div class="bg-[#1f0a0a] border border-red-900 text-red-300 rounded px-3 py-2 text-xs mb-4">
+        <div class="bg-ink-05 border border-ink-30 text-ink-soft rounded px-3 py-2 text-xs mb-4">
           {errorMessages[error] ?? 'An error occurred.'}
         </div>
       )}
       {pwSet && (
-        <div class="bg-[#0a1f0a] border border-green-900 text-green-300 rounded px-3 py-2 text-xs mb-4">
+        <div class="bg-ink-05 border border-ink-30 text-ink rounded px-3 py-2 text-xs mb-4">
           Password saved successfully.
         </div>
       )}
@@ -53,14 +53,14 @@ const errorMessages: Record<string, string> = {
           <form action="/api/auth/setup-password" method="POST">
             <label for="email" class="block text-xs text-gray-400 mb-1">Email</label>
             <input id="email" name="email" type="email" required autocomplete="email"
-              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-emerald-400 transition-colors" />
+              class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
             <label for="password" class="block text-xs text-gray-400 mb-1">Password (min. 12 chars)</label>
             <input id="password" name="password" type="password" required minlength="12" autocomplete="new-password"
-              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-emerald-400 transition-colors" />
+              class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
             <label for="confirm_password" class="block text-xs text-gray-400 mb-1">Confirm Password</label>
             <input id="confirm_password" name="confirm_password" type="password" required minlength="12" autocomplete="new-password"
-              class="w-full bg-[#1a1a1a] border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-emerald-400 transition-colors" />
-            <button type="submit" class="w-full bg-emerald-500 text-white py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-emerald-600 transition-colors mt-1">
+              class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
+            <button type="submit" class="w-full bg-ink text-paper py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-ink-80 transition-colors mt-1">
               Set Password
             </button>
           </form>
@@ -68,7 +68,7 @@ const errorMessages: Record<string, string> = {
       )}
 
       {hasPassword && (
-        <p class="text-emerald-400 text-xs mt-2">✓ Password credentials set.</p>
+        <p class="text-ink text-xs mt-2">✓ Password credentials set.</p>
       )}
 
       {!hasPasskey && (
@@ -83,12 +83,12 @@ const errorMessages: Record<string, string> = {
       )}
 
       {hasPasskey && (
-        <p class="text-emerald-400 text-xs mt-4">✓ Passkey registered.</p>
+        <p class="text-ink text-xs mt-4">✓ Passkey registered.</p>
       )}
 
       {(hasPasskey || hasPassword) && (
         <div class="mt-6 text-center">
-          <a href="/admin/login" class="text-emerald-400 text-sm no-underline hover:underline">→ Go to Login</a>
+          <a href="/admin/login" class="text-ink text-sm no-underline hover:underline">→ Go to Login</a>
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ function randomEmojis(count: number): string {
 }
 
 function randomColor() {
-  const colors = ["#ff00ff", "#00ffff", "#10b981", "#f59e0b", "#ef4444"];
+  const colors = ["#0a0a0a", "#555555", "#8a8a8a", "#333333", "#bbbbbb"];
   return colors[Math.floor(Math.random() * 5)];
 }
 
@@ -26,7 +26,7 @@ export default function consoleMessage() {
       margin: 0 auto 2rem auto;
       padding: 4rem;
       display: block;
-      background: linear-gradient(120deg,  #34d399 30%, #cbd5e1 80%);
+      background: linear-gradient(120deg, #0a0a0a 30%, #8a8a8a 80%);
       line-height: 4.5rem;
       color: white;
       border-radius: 8px;
@@ -167,7 +167,7 @@ export default function consoleMessage() {
       font-size: 8rem;
       font-weight: 900;
       font-family: monospace;
-      color: #bef264;
+      color: #ffffff;
       text-shadow:
         0 -1px 0 #a3e635,
         0 -2px 0 #84cc16,
@@ -176,7 +176,7 @@ export default function consoleMessage() {
         0 -5px 0 #365314,
         0 -6px 12px #84cc16,
         0 1px 0 #d9f99d,
-        0 2px 8px #bef264,
+        0 2px 8px rgb(255 255 255 / 0.6),
         0 0 6px #d9f99d,
         0 0 14px rgba(190,242,100,1),
         0 0 28px rgba(132,204,22,0.8),
@@ -265,7 +265,7 @@ export default function consoleMessage() {
 
     // "found" — lime→emerald→teal gradient fill, green box-shadow rings, emerald outline
     `
-      background: linear-gradient(160deg, #bef264 0%, #10b981 50%, #0d9488 100%);
+      background: linear-gradient(160deg, #0a0a0a 0%, #555555 50%, #8a8a8a 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -275,10 +275,10 @@ export default function consoleMessage() {
       letter-spacing: 0.1em;
       padding: 1rem 2rem;
       border-radius: 8px;
-      outline: 2px solid #34d399;
+      outline: 2px solid #0a0a0a;
       outline-offset: 6px;
       box-shadow:
-        0 0 0 2px #059669,
+        0 0 0 2px #0a0a0a,
         0 0 0 4px #065f46,
         0 0 6px 4px rgba(16,185,129,0.85),
         0 0 14px 6px rgba(52,211,153,0.65),

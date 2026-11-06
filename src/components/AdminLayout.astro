@@ -8,27 +8,28 @@ const { title }: Props = Astro.props;
 
 const path = Astro.url.pathname;
 const navLink =
-    "text-gray-400 no-underline text-sm py-1 border-b-2 border-transparent transition-colors hover:text-emerald-400 hover:border-emerald-400 aria-[current=page]:text-emerald-400 aria-[current=page]:border-emerald-400";
+    "text-paper/70 no-underline text-sm py-1 border-b-2 border-transparent transition-colors hover:text-paper hover:border-paper aria-[current=page]:text-paper aria-[current=page]:border-paper";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="pixel-bg">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="color-scheme" content="light" />
         <title>{title} – Admin · fabio.sh</title>
         <link rel="icon" type="image/png" href="/favicon.png" />
         <meta name="robots" content="noindex,nofollow" />
     </head>
     <body
-        class="bg-[#0a0a0a] text-gray-200 min-h-screen flex flex-col font-sans"
+        class="bg-paper text-ink min-h-screen flex flex-col font-sans"
     >
         <header
-            class="bg-[#111] border-b border-[#222] px-6 flex items-center gap-8 h-14 shrink-0"
+            class="bg-ink text-paper border-b-2 border-ink px-6 flex items-center gap-8 h-14 shrink-0"
         >
             <a
                 href="/admin"
-                class="text-emerald-400 font-semibold text-base no-underline"
+                class="text-paper font-semibold text-base no-underline"
                 >fabio.sh admin</a
             >
             <nav class="flex gap-6 flex-1">
@@ -71,7 +72,7 @@ const navLink =
             <form action="/api/auth/logout" method="POST" class="ml-auto">
                 <button
                     type="submit"
-                    class="bg-transparent border border-gray-700 text-gray-400 px-3 py-1 rounded text-xs cursor-pointer transition-colors hover:border-red-500 hover:text-red-500"
+                    class="bg-transparent border border-paper/40 text-paper/80 px-3 py-1 text-xs cursor-pointer transition-colors hover:border-paper hover:text-paper"
                     >Logout</button
                 >
             </form>
