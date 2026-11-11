@@ -33,7 +33,7 @@ const navLink =
                 >fabio.sh admin</a
             >
             <nav class="flex gap-6 flex-1">
-                <ul class="list-none list-none flex gap-6 list-none m-0 p-0">
+                <ul class="list-none flex gap-6 list-none m-0 p-0">
                     <li>   <a
                     href="/admin"
                     aria-current={path === "/admin" ? "page" : undefined}
@@ -72,10 +72,11 @@ const navLink =
             <form action="/api/auth/logout" method="POST" class="ml-auto">
                 <button
                     type="submit"
-                    class="bg-transparent border border-divider text-muted2 px-3 py-1 text-xs cursor-pointer transition-colors hover:border-ink hover:text-ink"
+                    class="btn"
                     >Logout</button
                 >
             </form>
+            <div class="pixel-strip" aria-hidden="true"></div>
         </header>
         <main class="flex-1 p-8 max-w-275 w-full mx-auto">
             <slot />

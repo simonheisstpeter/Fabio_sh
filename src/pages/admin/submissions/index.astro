@@ -27,13 +27,13 @@ function maskEmail(email: string): string {
 ---
 
 <AdminLayout title="Submissions">
-  <h1 class="text-2xl font-semibold text-gray-50 mb-6">Contact Submissions</h1>
+  <h1 class="h-pixel text-2xl font-semibold text-gray-50 mb-6">Contact Submissions</h1>
 
   {submissions.length === 0 && (
     <p class="text-gray-500 text-sm">No submissions yet.</p>
   )}
 
-  <ul class="list-none list-none grid gap-3 max-w-3xl" id="submissions-list">
+  <ul class="list-none grid gap-3 max-w-3xl" id="submissions-list">
     {submissions.map((s) => (
       <li>
         <details class="bg-surface border border-ink-20 rounded-lg p-4" data-id={s.id}>

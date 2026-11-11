@@ -28,7 +28,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
     description="All projects by Fabio Gschweidl – web development, design and conception"
 >
     <div class="container mx-auto h-full px-4 md:px-12 pb-12">
-        <h1 class="my-20 text-5xl font-andesNeueMedium animate-fadeIn_2000">
+        <h1 class="h-pixel my-20 text-5xl font-andesNeueMedium animate-fadeIn_2000">
             {t.menuProjects}
         </h1>
 
@@ -39,7 +39,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                     id="project-search"
                     type="search"
                     placeholder={t.searchPlaceholder}
-                    class="w-full max-w-md rounded-lg bg-surface border border-edge px-4 py-2 text-sm text-fg placeholder-muted3 focus:outline-none focus:border-ink transition-colors"
+                    class="field max-w-md"
                 />
 
                 <div class="flex items-center gap-2 text-xs">
@@ -60,7 +60,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             </div>
 
             <div class="grid gap-2">
-                <ul class="list-none list-none flex flex-wrap gap-2 row-gap-3">
+                <ul class="list-none flex flex-wrap gap-2 row-gap-3">
                     <li>
                         <button
                             data-category=""
@@ -76,7 +76,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
 
                 <details class="flex flex-wrap gap-2">
                     <summary>{t.filterMore}</summary>
-                    <ul class="list-none list-none flex flex-wrap gap-2">
+                    <ul class="list-none flex flex-wrap gap-2">
                         {
                             otherCategories.map((cat) => (
                                 <CategoryButton cat={cat} />

@@ -73,7 +73,7 @@ const chip =
   <div class="mb-4">
     <label for="topics" class={label}>Topics (one per line)</label>
     <textarea id="topics" name="topics" rows="3" placeholder="TypeScript&#10;Web Development"
-      class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-ink transition-colors font-mono">{course?.topics.join('\n')}</textarea>
+      class="field">{course?.topics.join('\n')}</textarea>
     <div class="mt-2 flex flex-wrap gap-1">
       {allTopics.map((t) => (
         <button type="button" class:list={['topic-suggest', chip]} data-val={t}>{t}</button>
@@ -106,7 +106,7 @@ const chip =
   <div class="mb-4">
     <label for="notes" class={label}>Notes</label>
     <textarea id="notes" name="notes" rows="3"
-      class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm resize-y outline-none focus:border-ink transition-colors font-sans">{course?.notes}</textarea>
+      class="field">{course?.notes}</textarea>
   </div>
 
   <div class="mb-4">
