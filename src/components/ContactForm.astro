@@ -36,9 +36,9 @@ const {
                 <div
                     role="status"
                     aria-live="polite"
-                    class="mb-8 flex items-center gap-3 rounded-xl border border-ink-30 bg-ink-10 px-6 py-4 text-ink"
+                    class="banner mb-8"
                 >
-                    <span class="h-2 w-2 rounded-full bg-ink animate-pulse" />
+                    <span class="dot animate-pulse" />
                     {t.contactSuccess}
                 </div>
             )
@@ -48,9 +48,9 @@ const {
             error && (
                 <div
                     role="alert"
-                    class="mb-8 flex items-center gap-3 rounded-xl border border-ink-30 bg-ink-10 px-6 py-4 text-ink"
+                    class="banner mb-8"
                 >
-                    <span class="h-2 w-2 rounded-full bg-ink animate-pulse" />
+                    <span class="dot animate-pulse" />
                     {t.contactError}
                 </div>
             )

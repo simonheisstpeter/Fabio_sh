@@ -2,21 +2,54 @@
 const { t, isJa } = Astro.props;
 ---
 
-<section class="container mx-auto pt-24 md:pt-60 px-6 md:pl-12">
+<section class="container mx-auto pt-24 md:pt-40 px-6 md:pl-12 relative">
+    <!-- pixel checkerboard backdrop block -->
+    <div
+        class="pixel-checker absolute top-0 right-6 w-40 h-40 md:w-72 md:h-72 pointer-events-none select-none"
+        aria-hidden="true"
+    ></div>
+
+    <!-- mono metadata strip -->
+    <div class="meta-row mb-10 animate-fadeIn_2000">
+        <span class="flex items-center gap-2">
+            <span class="dot bg-ink animate-pulse"></span>
+            {t.statusOnline}
+        </span>
+        <span class="sep" aria-hidden="true">//</span>
+        <span>Vienna, AT [48.2082° N, 16.3738° E]</span>
+        <span class="sep" aria-hidden="true">//</span>
+        <span><span id="vienna-time">00:00:00</span> CET</span>
+    </div>
+
     <h1
-        class={`${isJa ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"} w-fit max-w-full font-andesNeueMedium md:text-9xl block animate-fadeIn_2000 text-ink`}
+        class={`${isJa ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"} w-fit max-w-full font-pixel md:text-9xl block animate-fadeIn_2000 text-ink relative`}
     >
-        <span>{t.name}</span>
-        <span class="block">{t.lastname}</span>
+        <span class="block">{t.name}</span>
+        <span class="block text-outline"
+            >{t.lastname}<span class="animate-pixel-blink text-ink [text-stroke:0]" style="-webkit-text-stroke:0" aria-hidden="true">▌</span></span
+        >
         <span
-            class="block animate-fadeIn_2200 text-xl md:text-3xl text-ink mt-4 font-andesNeueMedium transition duration-300 underline-offset-8 drop-shadow-xs"
+            class="block animate-fadeIn_2200 text-xl md:text-3xl text-ink mt-6 font-pixel"
         >
             \ digital media &amp; IT
         </span>
         <span
-            class="block animate-fadeIn_2500 text-sm md:text-base text-muted2 mt-2 font-andesNeueLight tracking-widest uppercase"
+            class="block animate-fadeIn_2500 text-sm md:text-base text-muted2 mt-3 font-andesNeueLight tracking-widest uppercase"
         >
             Vienna &middot; Europe
         </span>
     </h1>
 </section>
+
+<script>
+    function updateTime() {
+        const el = document.getElementById("vienna-time");
+        if (!el) return;
+        el.textContent = new Date().toLocaleTimeString("en-GB", {
+            timeZone: "Europe/Vienna",
+            hour12: false,
+        });
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>

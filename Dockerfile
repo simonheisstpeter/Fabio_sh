@@ -1,5 +1,5 @@
 # ── Build stage ─────────────────────────────────
-FROM node:26.3-alpine3.24 AS builder
+FROM node:26.13.0-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --no-fund
@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build && npm prune --omit=dev
 
 # ── Runtime stage ───────────────────────────────
-FROM node:26.3-alpine3.24 AS runner
+FROM node:26.13.0-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
@@ -27,7 +27,7 @@ COPY --from=builder /app/src/lib/migrate-runner.js ./src/lib/migrate-runner.js
 COPY --from=builder /app/src/lib/migrations.js ./src/lib/migrations.js
 
 # su-exec lets the entrypoint chown the mounted volume, then drop root.
-RUN apk add --no-cache su-exec && mkdir -p /app/db
+RUN apk upgrade --no-cache && apk add --no-cache su-exec && mkdir -p /app/db
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 RUN chmod +x docker-entrypoint.sh
 
