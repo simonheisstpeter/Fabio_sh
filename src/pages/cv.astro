@@ -26,12 +26,12 @@ const hasError = Astro.url.searchParams.get('error') === '1';
             <div id="lang-tabs" class="flex rounded-lg border border-edge overflow-hidden text-sm">
               <button
                 data-lang="de"
-                class="lang-tab px-4 py-1.5 transition-colors"
+                class="tab-pixel lang-tab"
                 class:list={[cvFiles.de ? '' : 'opacity-40 cursor-not-allowed']}
               >Deutsch</button>
               <button
                 data-lang="en"
-                class="lang-tab px-4 py-1.5 border-l border-edge transition-colors"
+                class="tab-pixel lang-tab border-l border-edge"
                 class:list={[cvFiles.en ? '' : 'opacity-40 cursor-not-allowed']}
               >English</button>
             </div>

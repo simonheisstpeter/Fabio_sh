@@ -1125,3 +1125,121 @@ input::file-selector-button,
   background: var(--ink);
   margin-right: 0.5em;
 }
+
+/* ============================================================
+   Niche pixel details — dots, tooltips, selects, markers, tabs
+   ============================================================ */
+
+/* Square status dot (8px block) */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+/* Pixel tooltip: solid black square block, white pixel text */
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  padding: 4px 8px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+  z-index: 10;
+}
+.group:hover .tooltip { opacity: 1; }
+
+/* Pixel details/summary: hide the triangle, use a square +/- block */
+.px-details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.px-details > summary::-webkit-details-marker { display: none; }
+.px-details > summary::after {
+  content: "+";
+  display: inline-block;
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  width: 1.4em;
+  text-align: center;
+  color: var(--ink);
+}
+.px-details[open] > summary::after { content: "−"; }
+
+/* Square select with pixel caret */
+.select-pixel {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 1.6rem 0.25rem 0.6rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Crect x='0' y='0' width='8' height='2' fill='%230a0a0a'/%3E%3Crect x='2' y='3' width='4' height='2' fill='%230a0a0a'/%3E%3Crect x='4' y='6' width='0' height='0'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.55rem center;
+}
+.select-pixel:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Square progress bar */
+.progress {
+  height: 6px;
+  background: var(--ink-10);
+  border-radius: 0;
+}
+.progress > .progress-fill {
+  height: 100%;
+  background: var(--ink);
+  border-radius: 0;
+  transition: width 300ms ease;
+}
+
+/* Pixel tabs: square, black underline when active */
+.tab-pixel {
+  font-family: var(--font-pixel);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted2);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 0.5rem 0.25rem;
+  cursor: pointer;
+}
+.tab-pixel:hover { color: var(--ink); }
+.tab-pixel.active,
+.tab-pixel[aria-selected="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* copy-btn behaves like a chip */
+.copy-btn { cursor: pointer; }
+
+/* Pixel scrollbar — square black thumb on paper track */
+html {
+  scrollbar-color: var(--ink) var(--paper);
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border: 2px solid var(--paper);
+  border-radius: 0;
+}

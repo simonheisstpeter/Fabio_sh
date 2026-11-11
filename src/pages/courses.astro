@@ -92,8 +92,8 @@ const STATUS_LABEL: Record<string, string> = {
                       </div>
 
                       <div class="flex items-center gap-2">
-                        <div class="flex-1 bg-surface rounded-full h-1.5">
-                          <div class="bg-ink h-1.5 rounded-full transition-all" data-progress={String(c.progress)}></div>
+                        <div class="progress flex-1">
+                          <div class="progress-fill" data-progress={String(c.progress)}></div>
                         </div>
                         <span class="text-xs text-fg0 shrink-0">{c.progress}%</span>
                       </div>

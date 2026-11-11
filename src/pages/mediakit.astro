@@ -37,14 +37,14 @@ const colors = [
         <div>
           <p class="font-andesNeueMedium text-3xl mb-3">Andes Neue Medium</p>
           <button
-            class="copy-btn font-mono text-xs text-ink bg-surface hover:bg-raised border border-divider rounded px-3 py-1.5 cursor-pointer transition-colors text-left"
+            class="copy-btn chip text-left normal-case"
             data-copy="font-family: 'AndesNeueMedium', sans-serif; font-weight: 500;"
           >font-family: 'AndesNeueMedium', sans-serif; font-weight: 500;</button>
         </div>
         <div>
           <p class="font-andesNeueLight text-3xl mb-3">Andes Neue Light</p>
           <button
-            class="copy-btn font-mono text-xs text-ink bg-surface hover:bg-raised border border-divider rounded px-3 py-1.5 cursor-pointer transition-colors text-left"
+            class="copy-btn chip text-left normal-case"
             data-copy="font-family: 'AndesNeueLight', sans-serif; font-weight: 300;"
           >font-family: 'AndesNeueLight', sans-serif; font-weight: 300;</button>
         </div>
@@ -112,8 +112,8 @@ const colors = [
     tip.textContent = 'Copied!';
     tip.style.cssText =
       'position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 6px);' +
-      'background:#0a0a0a;color:#ffffff;font-size:0.7rem;white-space:nowrap;' +
-      'padding:2px 8px;border-radius:4px;pointer-events:none;z-index:50;';
+      'background:#0a0a0a;color:#ffffff;font-family:monospace;font-size:0.65rem;letter-spacing:0.08em;white-space:nowrap;' +
+      'padding:4px 8px;border-radius:0;pointer-events:none;z-index:50;';
     anchor.style.position = 'relative';
     anchor.appendChild(tip);
     setTimeout(() => tip.remove(), 1500);
