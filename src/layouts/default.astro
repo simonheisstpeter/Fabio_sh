@@ -114,6 +114,13 @@ const NavLinks = [
             type="font/woff2"
             crossorigin="anonymous"
         />
+        <link
+            rel="preload"
+            href="/fonts/silkscreen-700.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
 
         <!-- Hreflang for SEO — the en-x-* novelty variants are left out on
              purpose, same as in sitemap.xml. -->
@@ -187,7 +194,7 @@ const NavLinks = [
                 <div class="pixel-bg h-screen pt-24 pl-8 text-left">
                     <nav
                         id="mobile-menu-panel"
-                        class="grid grid-cols-1 text-3xl gap-6 font-andesNeueMedium"
+                        class="grid grid-cols-1 text-2xl gap-6 font-pixel uppercase"
                     >
                         <div>
                             <ul class="list-none list-none flex flex-col gap-4">
@@ -245,7 +252,7 @@ const NavLinks = [
                         <Loader />
                     </a>
 
-                    <ul class="list-none flex items-center gap-6 font-andesNeueLight text-sm tracking-wide"
+                    <ul class="list-none flex items-center gap-6 font-pixel text-xs tracking-wide uppercase"
                     >
                         {
                             NavLinks.filter((link) => !link.mobileOnly).map((link) => (

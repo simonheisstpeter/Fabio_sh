@@ -2,14 +2,23 @@
 const { t, isJa } = Astro.props;
 ---
 
-<section class="container mx-auto pt-24 md:pt-60 px-6 md:pl-12">
+<section class="container mx-auto pt-24 md:pt-60 px-6 md:pl-12 relative">
+    <!-- pixel checkerboard backdrop block -->
+    <div
+        class="pixel-checker absolute -top-8 right-6 w-40 h-40 md:w-64 md:h-64 pointer-events-none select-none"
+        aria-hidden="true"
+    ></div>
     <h1
-        class={`${isJa ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"} w-fit max-w-full font-andesNeueMedium md:text-9xl block animate-fadeIn_2000 text-ink`}
+        class={`${isJa ? "space-y-4 text-5xl md:space-y-6" : "text-6xl"} w-fit max-w-full font-pixel md:text-9xl block animate-fadeIn_2000 text-ink relative`}
     >
         <span>{t.name}</span>
-        <span class="block">{t.lastname}</span>
+        <span class="block"
+            >{t.lastname}<span class="animate-pixel-blink" aria-hidden="true"
+                >▌</span
+            ></span
+        >
         <span
-            class="block animate-fadeIn_2200 text-xl md:text-3xl text-ink mt-4 font-andesNeueMedium transition duration-300 underline-offset-8 drop-shadow-xs"
+            class="block animate-fadeIn_2200 text-xl md:text-3xl text-ink mt-4 font-pixel transition duration-300 underline-offset-8 drop-shadow-xs"
         >
             \ digital media &amp; IT
         </span>

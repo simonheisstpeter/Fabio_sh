@@ -31,6 +31,7 @@
   --gray-800: #e5e5e5;
   --font-medium: "AndesNeueMedium", sans-serif;
   --font-light: "AndesNeueLight", sans-serif;
+  --font-pixel: "Silkscreen", "AndesNeueMedium", monospace;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   --cursor-fabiosh: url(/f.cur), pointer;
@@ -49,6 +50,18 @@
   font-family: "AndesNeueLight";
   src: url("/fonts/AndesNeue-Light.woff2") format("woff2");
   font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/silkscreen-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/silkscreen-700.woff2") format("woff2");
+  font-weight: 700;
   font-display: swap;
 }
 
@@ -86,8 +99,16 @@ h6 {
 
 h1,
 h2 {
-  font-family: var(--font-medium);
-  font-weight: 500;
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-pixel);
+  font-weight: 400;
 }
 
 /* Pixel lists: square block bullets, mono leading-zero numbers */
@@ -214,13 +235,27 @@ td {
   color: var(--paper);
 }
 
-/* Mistral-style pixel grid: blocky squares on paper, not dots */
+/* Mistral-style pixel field: faint checkerboard of blocks on paper */
 .pixel-bg {
   background-color: var(--paper);
-  background-image:
-    linear-gradient(var(--ink-05) 1px, transparent 1px),
-    linear-gradient(90deg, var(--ink-05) 1px, transparent 1px);
-  background-size: 16px 16px;
+  background-image: conic-gradient(
+    var(--ink-05) 25%,
+    transparent 0 50%,
+    var(--ink-05) 0 75%,
+    transparent 0
+  );
+  background-size: 24px 24px;
+}
+
+/* Stronger checkerboard for decorative blocks (hero backdrop etc.) */
+.pixel-checker {
+  background-image: conic-gradient(
+    var(--ink-10) 25%,
+    transparent 0 50%,
+    var(--ink-10) 0 75%,
+    transparent 0
+  );
+  background-size: 12px 12px;
 }
 
 /* Row of solid pixel blocks — decorative strip (header/footer/hero) */
@@ -235,26 +270,49 @@ td {
   );
 }
 
+/* Stepped pixel-cut corners (4px stair steps on all four corners) */
+.px-cut {
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0,
+    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
+}
+
 /* Pixel corner notch on cards — one solid square at the top-left */
 .px-card {
   position: relative;
+  clip-path: polygon(
+    0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
+    calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 8px),
+    4px calc(100% - 8px), 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
 }
 .px-card::before {
   content: "";
   position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 10px;
-  height: 10px;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
   background: var(--ink);
 }
 
-/* Low-key outlined button: fills black only on hover */
+/* Low-key outlined button with pixel-cut corners: fills black only on hover */
 .btn-ink {
   background: var(--paper);
   color: var(--ink);
   border: 1px solid var(--ink);
   border-radius: 0;
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0,
+    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
 }
 .btn-ink:hover {
   background: var(--ink);
@@ -577,6 +635,7 @@ td {
 /* ---------- typography ---------- */
 .font-andesNeueMedium { font-family: var(--font-medium); }
 .font-andesNeueLight { font-family: var(--font-light); }
+.font-pixel { font-family: var(--font-pixel); }
 .font-mono { font-family: var(--font-mono); }
 .font-sans { font-family: var(--font-sans); }
 .font-normal { font-weight: 400; }
