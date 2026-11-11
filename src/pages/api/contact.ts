@@ -37,8 +37,11 @@ function backToForm(request: Request): string {
   try {
     const referer = new URL(header, request.url);
     // Only ever a path on this host — a foreign or `//host` Referer must not
-    // turn this endpoint into an open redirect.
-    if (referer.host === new URL(request.url).host && !referer.pathname.startsWith("//")) {
+    // turn this endpoint into an open redirect. Astro 7.4 builds request.url
+    // with a default host (localhost) that can differ from the dialed host,
+    // so the Host header is checked as well.
+    const ownHosts = new Set([new URL(request.url).host, request.headers.get("host")]);
+    if (ownHosts.has(referer.host) && !referer.pathname.startsWith("//")) {
       referer.searchParams.set("sent", "1");
       path = referer.pathname + "?" + referer.searchParams.toString();
     }

@@ -20,12 +20,17 @@ const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 function isForeignOrigin(request: Request, url: URL, site: URL | undefined): boolean {
   const origin = request.headers.get("origin");
   if (origin === null) return false;
+  let host: string;
   try {
-    const host = new URL(origin).host;
-    return host !== url.host && host !== site?.host;
+    host = new URL(origin).host;
   } catch {
     return true; // "null" and other opaque origins
   }
+  // Astro 7.4 builds `url` with a default host (localhost) that can differ from
+  // the host the client actually dialed, so the Host header is the reliable
+  // "own origin" reference; `site` covers the TLS-terminating proxy case.
+  const hostHeader = request.headers.get("host");
+  return host !== url.host && host !== site?.host && host !== hostHeader;
 }
 
 /**
