@@ -95,7 +95,7 @@ const {
                         autocomplete="name"
                         aria-describedby="contact-name-error"
                         placeholder="John Doe"
-                        class="w-full bg-surface border border-edge rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-ink-50 focus:bg-raised focus:ring-4 focus:ring-ink-05 placeholder:text-muted3"
+                        class="field"
                     />
                     <p
                         id="contact-name-error"
@@ -124,7 +124,7 @@ const {
                         autocomplete="email"
                         aria-describedby="contact-email-error"
                         placeholder="hello@example.com"
-                        class="w-full bg-surface border border-edge rounded-xl px-4 py-3 outline-none transition-all duration-300 focus:border-ink-50 focus:bg-raised focus:ring-4 focus:ring-ink-05 placeholder:text-muted3"
+                        class="field"
                     />
                     <p
                         id="contact-email-error"
@@ -154,7 +154,7 @@ const {
                     aria-describedby="contact-message-error"
                     rows="5"
                     placeholder={`${t.contactMessage}...`}
-                    class="w-full bg-surface border border-edge rounded-xl px-4 py-4 outline-none transition-all duration-300 focus:border-ink-50 focus:bg-raised focus:ring-4 focus:ring-ink-05 placeholder:text-muted3 resize-none"
+                    class="field"
                 ></textarea>
                 <div class="flex items-start justify-between gap-4">
                     <p
@@ -187,7 +187,7 @@ const {
                 <button
                     type="submit"
                     id="contact-submit"
-                    class="group relative w-full md:w-auto px-10 py-4 btn-ink font-andesNeueMedium rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="btn btn-solid relative w-full md:w-auto px-10 py-4 overflow-hidden"
                 >
                     <span
                         class="relative z-10 flex items-center justify-center gap-2"

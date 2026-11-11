@@ -24,8 +24,8 @@ if (!hasPasskey && !hasPassword) {
     <meta name="robots" content="noindex,nofollow" />
   </head>
   <body class="bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
-    <div class="px-card bg-surface border border-ink-20 rounded-xl p-8 w-full max-w-sm">
-      <h1 class="text-xl font-semibold text-gray-50 mb-5 text-center">fabio.sh admin</h1>
+    <div class="card p-8 w-full max-w-sm">
+      <h1 class="h-pixel text-xl font-semibold text-gray-50 mb-5 text-center">fabio.sh admin</h1>
 
       <!-- Tabs -->
       <div class="flex border-b border-gray-800 mb-5" role="tablist">
@@ -67,11 +67,11 @@ if (!hasPasskey && !hasPassword) {
 
             <label for="email" class="block text-xs text-gray-400 mb-1">Email</label>
             <input id="email" name="email" type="email" required autocomplete="email"
-              class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
+              class="field" />
 
             <label for="password" class="block text-xs text-gray-400 mb-1">Password</label>
             <input id="password" name="password" type="password" required autocomplete="current-password"
-              class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
+              class="field" />
 
             <button id="pw-btn" type="submit"
               class="w-full btn-ink py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-ink hover:text-paper transition-colors disabled:opacity-50">

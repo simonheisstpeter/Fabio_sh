@@ -56,7 +56,7 @@ const FLAGS = [
         <div>
           <label for={`desc_${lang}`} class="block text-xs text-gray-600 mb-1">{lang.toUpperCase()}</label>
           <textarea id={`desc_${lang}`} name={`desc_${lang}`} rows="3"
-            class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-ink transition-colors font-sans">{project?.description[lang] ?? ''}</textarea>
+            class="field">{project?.description[lang] ?? ''}</textarea>
         </div>
       ))}
     </div>
@@ -66,7 +66,7 @@ const FLAGS = [
     <div>
       <label for="categories" class={label}>Categories (one per line)</label>
       <textarea id="categories" name="categories" rows="4" placeholder="Web&#10;TypeScript&#10;Open Source"
-        class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-xs resize-y outline-none focus:border-ink transition-colors font-mono">{project?.categories.join('\n')}</textarea>
+        class="field">{project?.categories.join('\n')}</textarea>
       <div class="mt-2 flex flex-wrap gap-1">
         {allCategories.map((cat) => (
           <button type="button" class="cat-suggest px-2 py-0.5 rounded text-xs bg-surface text-muted2 hover:text-ink hover:bg-raised border border-divider transition-colors" data-cat={cat}>
