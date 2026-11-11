@@ -60,7 +60,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             </div>
 
             <div class="grid gap-2">
-                <ul class="flex flex-wrap gap-2 row-gap-3">
+                <ul class="list-none list-none flex flex-wrap gap-2 row-gap-3">
                     <li>
                         <button
                             data-category=""
@@ -76,7 +76,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
 
                 <details class="flex flex-wrap gap-2">
                     <summary>{t.filterMore}</summary>
-                    <ul class="flex flex-wrap gap-2">
+                    <ul class="list-none list-none flex flex-wrap gap-2">
                         {
                             otherCategories.map((cat) => (
                                 <CategoryButton cat={cat} />
@@ -97,7 +97,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             </h2>
             <ul
                 data-sortable
-                class="grid grid-cols-1 gap-8 lg:grid-cols-2"
+                class="list-none grid grid-cols-1 gap-8 lg:grid-cols-2"
             >
                 {
                     currentProjects.map((project) => (
@@ -112,7 +112,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             <h2 id="upcoming-heading" class="mb-6 text-lg font-andesNeueMedium">
                 {t.upcomingProjects}
             </h2>
-            <ol data-sortable class="flex flex-col">
+            <ol data-sortable class="list-none flex flex-col">
                 {
                     upcomingProjects.map((project) => (
                         <ProjectRow project={project} locale={locale} t={t} />
@@ -126,7 +126,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             <h2 id="finished-heading" class="mb-6 text-lg font-andesNeueMedium">
                 {t.finishedProjects}
             </h2>
-            <ol data-sortable class="flex flex-col">
+            <ol data-sortable class="list-none flex flex-col">
                 {
                     finishedProjects.map((project) => (
                         <ProjectRow project={project} locale={locale} t={t} />

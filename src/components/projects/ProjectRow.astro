@@ -42,7 +42,7 @@ const shownCategories = project.categories.slice(0, 2);
 
         {
             shownCategories.length > 0 && (
-                <ul class="m-0 flex shrink-0 flex-wrap gap-1 p-0">
+                <ul class="list-none m-0 flex shrink-0 flex-wrap gap-1 p-0">
                     {shownCategories.map((category) => (
                         <ProjectCategories category={category} />
                     ))}

@@ -30,7 +30,7 @@ const hasImage = !project.finished && project.published && project.image;
     data-created={project.createdAt}
 >
     <article
-        class="relative cursor-fabiosh rounded-md border border-divider shadow-xs duration-200 hover:-translate-y-1 hover:border-ink hover:shadow-sm bg-surface flex flex-col h-full"
+        class="px-card relative cursor-fabiosh rounded-md border border-divider shadow-xs duration-200 hover:-translate-y-1 hover:border-ink hover:shadow-sm bg-surface flex flex-col h-full"
         tabindex="0"
     >
         {
@@ -66,7 +66,7 @@ const hasImage = !project.finished && project.published && project.image;
                 )
             }
 
-            <ul class="m-0 mb-2 block text-muted2">
+            <ul class="list-none m-0 mb-2 block text-muted2">
                 {
                     project.languages.map((language) => (
                         <ProjectLanguages language={language} />
@@ -97,7 +97,7 @@ const hasImage = !project.finished && project.published && project.image;
                 )
             }
 
-            <ul class="m-0 mt-auto p-0 pt-2 flex flex-wrap gap-1">
+            <ul class="list-none m-0 mt-auto p-0 pt-2 flex flex-wrap gap-1">
                 {
                     project.categories.map((category) => (
                         <ProjectCategories category={category} />

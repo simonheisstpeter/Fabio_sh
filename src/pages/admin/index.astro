@@ -28,34 +28,33 @@ const stats = db
 <AdminLayout title="Dashboard">
     <h1 class="text-2xl font-semibold text-gray-50 mb-6">Dashboard</h1>
 
-    <ul
-        class="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 mb-8 list-none"
+    <ul class="list-none grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 mb-8 list-none"
     >
-        <li class="bg-surface border border-ink-20 rounded-lg p-5">
+        <li class="px-card bg-surface border border-ink-20 rounded-lg p-5">
             <div class="text-[1.75rem] font-bold text-ink">
                 {stats.total}
             </div>
             <div class="text-xs text-gray-400 mt-1">Total Projects</div>
         </li>
-        <li class="bg-surface border border-ink-20 rounded-lg p-5">
+        <li class="px-card bg-surface border border-ink-20 rounded-lg p-5">
             <div class="text-[1.75rem] font-bold text-ink">
                 {stats.current}
             </div>
             <div class="text-xs text-gray-400 mt-1">Current</div>
         </li>
-        <li class="bg-surface border border-ink-20 rounded-lg p-5">
+        <li class="px-card bg-surface border border-ink-20 rounded-lg p-5">
             <div class="text-[1.75rem] font-bold text-ink">
                 {stats.upcoming}
             </div>
             <div class="text-xs text-gray-400 mt-1">Upcoming</div>
         </li>
-        <li class="bg-surface border border-ink-20 rounded-lg p-5">
+        <li class="px-card bg-surface border border-ink-20 rounded-lg p-5">
             <div class="text-[1.75rem] font-bold text-gray-500">
                 {stats.finished}
             </div>
             <div class="text-xs text-gray-400 mt-1">Finished</div>
         </li>
-        <li class="bg-surface border border-ink-20 rounded-lg p-5">
+        <li class="px-card bg-surface border border-ink-20 rounded-lg p-5">
             <div class="text-[1.75rem] font-bold text-ink">
                 {stats.submissions}
             </div>
@@ -63,11 +62,11 @@ const stats = db
         </li>
     </ul>
 
-    <ul class="flex gap-3 flex-wrap">
+    <ul class="list-none list-none flex gap-3 flex-wrap">
         <li>
             <a
                 href="/admin/projects"
-                class="bg-ink text-paper px-5 py-2 rounded-lg no-underline text-sm font-medium hover:bg-ink-80 transition-colors"
+                class="btn-ink px-5 py-2 rounded-lg no-underline text-sm font-medium hover:bg-ink hover:text-paper transition-colors"
             >
                 Manage Projects
             </a>
@@ -104,7 +103,7 @@ const stats = db
         >
             Backup
         </h2>
-        <ul class="flex gap-3 flex-wrap items-center">
+        <ul class="list-none list-none flex gap-3 flex-wrap items-center">
             <li>
                 <a
                     href="/api/admin/db-backup"
@@ -126,7 +125,7 @@ const stats = db
         >
             LLMs / GEO
         </h2>
-        <ul class="flex gap-3 flex-wrap items-center">
+        <ul class="list-none list-none flex gap-3 flex-wrap items-center">
             <li>
                 <a
                     href="/llms.txt"

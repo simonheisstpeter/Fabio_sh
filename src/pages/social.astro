@@ -148,7 +148,7 @@ function formatDate(iso: string): string {
                             <h2 class="text-xs uppercase tracking-widest text-muted3 mb-3">
                                 {t.socialAlsoOn}
                             </h2>
-                            <ul class="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                            <ul class="list-none list-none flex flex-wrap gap-x-4 gap-y-2 text-sm">
                                 {feed.apps.map((app) => (
                                     <li>
                                         {app.url ? (
@@ -189,7 +189,7 @@ function formatDate(iso: string): string {
                                 {t.socialEmpty}
                             </p>
                         ) : (
-                            <ol class="flex flex-col gap-10">
+                            <ol class="list-none list-none flex flex-col gap-10">
                                 {feed.posts.map((post) => (
                                     <li class="border-t border-divider pt-6">
                                         <a

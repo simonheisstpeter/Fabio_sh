@@ -190,7 +190,7 @@ const NavLinks = [
                         class="grid grid-cols-1 text-3xl gap-6 font-andesNeueMedium"
                     >
                         <div>
-                            <ul class="flex flex-col gap-4">
+                            <ul class="list-none list-none flex flex-col gap-4">
                                 {
                                     NavLinks.map((a) => (
                                         <li>
@@ -245,8 +245,7 @@ const NavLinks = [
                         <Loader />
                     </a>
 
-                    <ul
-                        class="flex items-center gap-6 font-andesNeueLight text-sm tracking-wide"
+                    <ul class="list-none flex items-center gap-6 font-andesNeueLight text-sm tracking-wide"
                     >
                         {
                             NavLinks.filter((link) => !link.mobileOnly).map((link) => (
