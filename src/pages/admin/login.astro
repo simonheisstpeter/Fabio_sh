@@ -24,20 +24,20 @@ if (!hasPasskey && !hasPassword) {
     <meta name="robots" content="noindex,nofollow" />
   </head>
   <body class="bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
-    <div class="bg-ink border border-ink-20 rounded-xl p-8 w-full max-w-sm">
+    <div class="px-card bg-surface border border-ink-20 rounded-xl p-8 w-full max-w-sm">
       <h1 class="text-xl font-semibold text-gray-50 mb-5 text-center">fabio.sh admin</h1>
 
       <!-- Tabs -->
       <div class="flex border-b border-gray-800 mb-5" role="tablist">
         {hasPasskey && (
           <button
-            class="tab flex-1 py-2 text-center text-xs cursor-pointer border-b-2 transition-colors active"
+            class="tab flex-1 py-2 text-center text-xs cursor-pointer border-b transition-colors active"
             role="tab" data-tab="passkey" id="tab-passkey" aria-selected="true"
           >Passkey</button>
         )}
         {hasPassword && (
           <button
-            class={`tab flex-1 py-2 text-center text-xs cursor-pointer border-b-2 transition-colors${!hasPasskey ? ' active' : ''}`}
+            class={`tab flex-1 py-2 text-center text-xs cursor-pointer border-b transition-colors${!hasPasskey ? ' active' : ''}`}
             role="tab" data-tab="password" id="tab-password" aria-selected={!hasPasskey ? 'true' : 'false'}
           >Password</button>
         )}
@@ -74,7 +74,7 @@ if (!hasPasskey && !hasPassword) {
               class="w-full bg-surface border border-gray-700 rounded text-gray-50 px-3 py-2 text-sm mb-3 outline-none focus:border-ink transition-colors" />
 
             <button id="pw-btn" type="submit"
-              class="w-full bg-ink text-paper py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-ink-80 transition-colors disabled:opacity-50">
+              class="w-full btn-ink py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-ink hover:text-paper transition-colors disabled:opacity-50">
               Sign in
             </button>
           </form>

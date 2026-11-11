@@ -8,7 +8,7 @@ const { title }: Props = Astro.props;
 
 const path = Astro.url.pathname;
 const navLink =
-    "text-paper/70 no-underline text-sm py-1 border-b-2 border-transparent transition-colors hover:text-paper hover:border-paper aria-[current=page]:text-paper aria-[current=page]:border-paper";
+    "text-muted2 no-underline text-sm py-1 border-b border-transparent transition-colors hover:text-ink hover:border-ink aria-[current=page]:text-ink aria-[current=page]:border-ink";
 ---
 
 <!doctype html>
@@ -25,15 +25,15 @@ const navLink =
         class="bg-paper text-ink min-h-screen flex flex-col font-sans"
     >
         <header
-            class="bg-ink text-paper border-b-2 border-ink px-6 flex items-center gap-8 h-14 shrink-0"
+            class="bg-paper text-ink border-b border-ink px-6 flex items-center gap-8 h-14 shrink-0"
         >
             <a
                 href="/admin"
-                class="text-paper font-semibold text-base no-underline"
+                class="text-ink font-semibold text-base no-underline"
                 >fabio.sh admin</a
             >
             <nav class="flex gap-6 flex-1">
-                <ul class="flex gap-6 list-none m-0 p-0">
+                <ul class="list-none list-none flex gap-6 list-none m-0 p-0">
                     <li>   <a
                     href="/admin"
                     aria-current={path === "/admin" ? "page" : undefined}
@@ -72,7 +72,7 @@ const navLink =
             <form action="/api/auth/logout" method="POST" class="ml-auto">
                 <button
                     type="submit"
-                    class="bg-transparent border border-paper/40 text-paper/80 px-3 py-1 text-xs cursor-pointer transition-colors hover:border-paper hover:text-paper"
+                    class="bg-transparent border border-divider text-muted2 px-3 py-1 text-xs cursor-pointer transition-colors hover:border-ink hover:text-ink"
                     >Logout</button
                 >
             </form>

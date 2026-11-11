@@ -34,7 +34,7 @@ const STATUS_LABEL: Record<string, string> = {
     {(allCourses.length > 0) && (
       <div class="flex flex-wrap gap-2 mb-8">
         <button type="button" class="filter-btn active px-3 py-1 rounded-full border text-xs transition-colors
-          border-ink text-ink bg-ink cursor-pointer" data-filter="all">
+          border-ink text-paper bg-ink cursor-pointer" data-filter="all">
           All
         </button>
         <button type="button" class="filter-btn px-3 py-1 rounded-full border text-xs transition-colors
@@ -61,7 +61,7 @@ const STATUS_LABEL: Record<string, string> = {
     {allCourses.length === 0 ? (
       <p class="text-fg0 text-sm">No courses published yet.</p>
     ) : (
-      <ul id="courses-container" class="flex flex-col gap-10">
+      <ul id="courses-container" class="list-none flex flex-col gap-10">
         {groupKeys.map(platform => {
           const courses = grouped.get(platform) ?? [];
           return (
@@ -76,7 +76,7 @@ const STATUS_LABEL: Record<string, string> = {
                 <div class="grid gap-4 sm:grid-cols-2">
                   {courses.map(c => (
                     <article
-                      class="course-card bg-ink border border-divider rounded-xl p-5 flex flex-col gap-3"
+                      class="course-card px-card bg-surface border border-divider rounded-xl p-5 flex flex-col gap-3"
                       data-status={c.status}
                       data-platform={c.platform}>
 
@@ -153,7 +153,7 @@ const STATUS_LABEL: Record<string, string> = {
   const cards = document.querySelectorAll<HTMLElement>('.course-card');
   const groups = document.querySelectorAll<HTMLElement>('.platform-group');
 
-  const activeClass = ['border-ink', 'text-ink', 'bg-ink'];
+  const activeClass = ['border-ink', 'text-paper', 'bg-ink'];
   const inactiveClass = ['border-divider', 'text-muted2', 'hover:border-ink', 'hover:text-ink'];
 
   function updateGroupCounts() {

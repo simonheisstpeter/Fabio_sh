@@ -40,7 +40,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
               id="download-btn"
               href="/api/cv/file?lang=de"
               download
-              class="inline-flex items-center gap-2 bg-ink text-paper px-5 py-2 rounded-lg text-sm font-medium hover:bg-ink-80 transition-colors no-underline"
+              class="inline-flex items-center gap-2 btn-ink px-5 py-2 rounded-lg text-sm font-medium hover:bg-ink hover:text-paper transition-colors no-underline"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -87,7 +87,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
             />
             <button
               type="submit"
-              class="w-full bg-ink text-paper py-3 rounded-lg text-sm font-medium hover:bg-ink-80 transition-colors cursor-pointer"
+              class="w-full btn-ink py-3 rounded-lg text-sm font-medium hover:bg-ink hover:text-paper transition-colors cursor-pointer"
             >
               {t.cvViewButton}
             </button>
