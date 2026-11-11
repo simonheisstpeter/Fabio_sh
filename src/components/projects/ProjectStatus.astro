@@ -12,10 +12,10 @@ const locale = Astro.currentLocale ?? "de";
 const t = getTranslations(locale);
 
 const dotColor = online
-    ? "bg-emerald-400"
+    ? "bg-ink"
     : finished
-      ? "bg-red-400"
-      : "bg-yellow-400";
+      ? "bg-ink-30"
+      : "bg-ink-10";
 const statusLabel = online
     ? t.statusOnline
     : finished

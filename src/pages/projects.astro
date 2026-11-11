@@ -39,14 +39,14 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                     id="project-search"
                     type="search"
                     placeholder={t.searchPlaceholder}
-                    class="w-full max-w-md rounded-lg bg-surface border border-edge px-4 py-2 text-sm text-fg placeholder-muted3 focus:outline-none focus:border-emerald-400 transition-colors"
+                    class="w-full max-w-md rounded-lg bg-surface border border-edge px-4 py-2 text-sm text-fg placeholder-muted3 focus:outline-none focus:border-ink transition-colors"
                 />
 
                 <div class="flex items-center gap-2 text-xs">
                     <span class="text-muted3">{t.sortLabel}</span>
                     <button
                         data-sort="recent"
-                        class="sort-btn border border-emerald-400 text-emerald-400 px-3 py-1 rounded-full transition-colors"
+                        class="sort-btn border border-ink text-ink px-3 py-1 rounded-full transition-colors"
                     >
                         {t.sortRecent}
                     </button>
@@ -64,7 +64,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                     <li>
                         <button
                             data-category=""
-                            class="filter-btn w-fit border border-emerald-400 text-emerald-400 px-3 py-1 rounded-full text-xs transition-colors"
+                            class="filter-btn w-fit border border-ink text-ink px-3 py-1 rounded-full text-xs transition-colors"
                         >
                             {t.filterAll}
                         </button>
@@ -91,7 +91,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
         <section data-section aria-labelledby="current-heading" class="mb-20">
             <h2
                 id="current-heading"
-                class="mb-6 text-lg font-andesNeueMedium text-emerald-400"
+                class="mb-6 text-lg font-andesNeueMedium text-ink"
             >
                 {t.currentProjects}
             </h2>
@@ -217,8 +217,8 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                 activeCategory = btn.dataset.category ?? "";
                 filterBtns.forEach((b) => {
                     const isActive = b === btn;
-                    b.classList.toggle("border-emerald-400", isActive);
-                    b.classList.toggle("text-emerald-400", isActive);
+                    b.classList.toggle("border-ink", isActive);
+                    b.classList.toggle("text-ink", isActive);
                     b.classList.toggle("border-divider", !isActive);
                     b.classList.toggle("text-muted2", !isActive);
                 });
@@ -233,8 +233,8 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                     | "alpha";
                 sortBtns.forEach((b) => {
                     const isActive = b === btn;
-                    b.classList.toggle("border-emerald-400", isActive);
-                    b.classList.toggle("text-emerald-400", isActive);
+                    b.classList.toggle("border-ink", isActive);
+                    b.classList.toggle("text-ink", isActive);
                     b.classList.toggle("border-divider", !isActive);
                     b.classList.toggle("text-muted2", !isActive);
                 });

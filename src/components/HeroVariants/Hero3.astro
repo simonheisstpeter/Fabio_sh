@@ -4,7 +4,7 @@ const { t, isJa } = Astro.props;
 
 <section class="container mx-auto pt-24 md:pt-48 px-6">
     <div
-        class="border border-white/10 p-8 md:p-16 rounded-3xl bg-linear-to-br from-white/[0.03] to-transparent backdrop-blur-3xl"
+        class="border border-ink-10 p-8 md:p-16 rounded-3xl bg-linear-to-br from-ink-05 to-transparent backdrop-blur-3xl"
     >
         <div
             class="flex flex-col md:flex-row justify-between items-start gap-12"
@@ -12,12 +12,12 @@ const { t, isJa } = Astro.props;
             <div class="flex-1">
                 <h1
                     class={`font-andesNeueMedium leading-none animate-fadeIn_2000
-          ${isJa ? "text-5xl md:text-7xl" : "text-7xl md:text-9xl"} text-white`}
+          ${isJa ? "text-5xl md:text-7xl" : "text-7xl md:text-9xl"} text-ink`}
                 >
                     {t.name}
                     <br />
                     <span
-                        class="text-transparent bg-linear-to-r from-emerald-400 to-emerald-600 bg-clip-text"
+                        class="text-transparent bg-linear-to-r from-ink to-ink bg-clip-text"
                     >
                         {t.lastname}
                     </span>
@@ -26,9 +26,9 @@ const { t, isJa } = Astro.props;
 
             <div class="flex-1 space-y-8 animate-fadeIn_2200">
                 <div class="space-y-4">
-                    <div class="w-12 h-1 bg-emerald-500"></div>
+                    <div class="w-12 h-1 bg-ink"></div>
                     <h2
-                        class="text-2xl md:text-3xl font-andesNeueMedium text-white"
+                        class="text-2xl md:text-3xl font-andesNeueMedium text-ink"
                     >
                         Digital Media & IT
                     </h2>
@@ -43,20 +43,20 @@ const { t, isJa } = Astro.props;
                 <div class="flex gap-4">
                     <div class="flex flex-col">
                         <span
-                            class="text-[10px] font-mono uppercase text-emerald-500"
+                            class="text-[10px] font-mono uppercase text-ink"
                             >Status</span
                         >
-                        <span class="text-sm text-white"
+                        <span class="text-sm text-ink"
                             >Available for Projects</span
                         >
                     </div>
-                    <div class="w-[1px] h-10 bg-white/10"></div>
+                    <div class="w-[1px] h-10 bg-ink-10"></div>
                     <div class="flex flex-col">
                         <span
-                            class="text-[10px] font-mono uppercase text-emerald-500"
+                            class="text-[10px] font-mono uppercase text-ink"
                             >Location</span
                         >
-                        <span class="text-sm text-white">Europe / Remote</span>
+                        <span class="text-sm text-ink">Europe / Remote</span>
                     </div>
                 </div>
             </div>

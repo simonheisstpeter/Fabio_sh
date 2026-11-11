@@ -6,10 +6,20 @@ const { big = false }: Props = Astro.props;
 ---
 
 <div class={big ? "" : "mr-7 inline-block"} aria-hidden="true">
-    <span
-        class={big
-            ? "h-45 w-45 before:animate-loaderRetourBig after:animate-loaderBig relative mx-auto block before:absolute before:inset-0 before:rounded-full before:bg-white before:duration-200 after:absolute after:inset-0 after:z-1 after:rounded-full after:border after:border-divider after:bg-loaderAlpha after:backdrop-blur-[10px] hover:before:bg-emerald-400"
-            : "h-7 w-7 translate-y-1.5 before:animate-loaderRetourSmall after:animate-loaderSmall relative mx-auto block before:absolute before:inset-0 before:rounded-full before:bg-white before:duration-200 after:absolute after:inset-0 after:z-1 after:rounded-full after:border after:border-divider after:bg-loaderAlpha after:backdrop-blur-[10px] hover:before:bg-emerald-400"}
-    ></span>
+    <!-- Pixel-block "F" wordmark: solid squares on a 5x7 grid, Mistral-style -->
+    <svg
+        class={big ? "h-45 w-45" : "h-7 w-7 translate-y-1.5"}
+        viewBox="0 0 5 7"
+        shape-rendering="crispEdges"
+        fill="currentColor"
+    >
+        <rect x="0" y="0" width="5" height="1"></rect>
+        <rect x="0" y="1" width="4" height="1"></rect>
+        <rect x="0" y="2" width="3" height="1"></rect>
+        <rect x="0" y="3" width="4" height="1"></rect>
+        <rect x="0" y="4" width="3" height="1"></rect>
+        <rect x="0" y="5" width="2" height="1"></rect>
+        <rect x="0" y="6" width="2" height="1"></rect>
+    </svg>
     <span class="sr-only">Home</span>
 </div>

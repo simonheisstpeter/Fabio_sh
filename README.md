@@ -1,11 +1,11 @@
 # fabio.sh
 
-Personal website — built with Astro 5 (SSR), Tailwind CSS 4, SQLite via `node:sqlite`.
+Personal website — built with Astro 5 (SSR), plain CSS, SQLite via `node:sqlite`.
 
 ## Stack
 
 - **Framework**: Astro 5, `output: server`, `@astrojs/node` standalone adapter
-- **Styling**: Tailwind CSS 4 via `@tailwindcss/vite`
+- **Styling**: hand-written CSS in `src/styles/globals.css` — black & white, simple HTML elements with pixel-block accents (no framework)
 - **Database**: SQLite via Node's built-in `node:sqlite` — file at `db/fabio.db`
 - **Auth**: WebAuthn passkeys + scrypt password hashing via `node:crypto`
 - **i18n**: Astro built-in, 23 locales (de default/no prefix, all others prefixed)

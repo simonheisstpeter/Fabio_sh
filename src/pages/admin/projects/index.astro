@@ -8,7 +8,7 @@ const projects = getProjectsList();
 <AdminLayout title="Projects">
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-2xl font-semibold text-gray-50 mb-0">Projects</h1>
-    <a href="/admin/projects/new" class="bg-emerald-500 text-white px-4 py-1.5 rounded-lg no-underline text-sm font-medium hover:bg-emerald-600 transition-colors">+ New</a>
+    <a href="/admin/projects/new" class="bg-ink text-paper px-4 py-1.5 rounded-lg no-underline text-sm font-medium hover:bg-ink-80 transition-colors">+ New</a>
   </div>
 
   <div class="overflow-x-auto">
@@ -25,17 +25,17 @@ const projects = getProjectsList();
       </thead>
       <tbody>
         {projects.map((p) => (
-          <tr class="border-b border-[#111] hover:bg-[#1a1a1a] transition-colors">
+          <tr class="border-b border-ink hover:bg-raised transition-colors">
             <td class="px-3 py-2 text-gray-500 text-xs font-mono">{p.id}</td>
             <td class="px-3 py-2 font-medium">{p.title}</td>
             <td class="px-3 py-2 text-center">{p.published ? '✓' : '–'}</td>
             <td class="px-3 py-2 text-center">{p.finished ? '✓' : '–'}</td>
             <td class="px-3 py-2 text-center">{p.online ? '✓' : '–'}</td>
             <td class="px-3 py-2 whitespace-nowrap">
-              <a href={`/admin/projects/${p.id}`} class="text-blue-400 no-underline text-xs mr-3 hover:text-blue-300">Edit</a>
+              <a href={`/admin/projects/${p.id}`} class="text-ink no-underline text-xs mr-3 hover:text-ink">Edit</a>
               <form action={`/api/admin/projects/${p.id}`} method="POST" class="inline delete-form" data-title={p.title}>
                 <input type="hidden" name="_method" value="DELETE" />
-                <button type="submit" class="bg-transparent border-0 text-red-500 cursor-pointer text-xs p-0 hover:text-red-400">Delete</button>
+                <button type="submit" class="bg-transparent border-0 text-ink cursor-pointer text-xs p-0 hover:text-ink">Delete</button>
               </form>
             </td>
           </tr>
@@ -43,7 +43,7 @@ const projects = getProjectsList();
       </tbody>
     </table>
     {projects.length === 0 && (
-      <p class="text-gray-500 text-center py-8 text-sm">No projects yet. <a href="/admin/projects/new" class="text-emerald-400 no-underline hover:underline">Create one.</a></p>
+      <p class="text-gray-500 text-center py-8 text-sm">No projects yet. <a href="/admin/projects/new" class="text-ink no-underline hover:underline">Create one.</a></p>
     )}
   </div>
 </AdminLayout>
