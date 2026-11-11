@@ -31,13 +31,13 @@ if (!hasPasskey && !hasPassword) {
       <div class="flex border-b border-gray-800 mb-5" role="tablist">
         {hasPasskey && (
           <button
-            class="tab flex-1 py-2 text-center text-xs cursor-pointer border-b transition-colors active"
+            class="tab-pixel flex-1 active"
             role="tab" data-tab="passkey" id="tab-passkey" aria-selected="true"
           >Passkey</button>
         )}
         {hasPassword && (
           <button
-            class={`tab flex-1 py-2 text-center text-xs cursor-pointer border-b transition-colors${!hasPasskey ? ' active' : ''}`}
+            class={`tab-pixel flex-1${!hasPasskey ? ' active' : ''}`}
             role="tab" data-tab="password" id="tab-password" aria-selected={!hasPasskey ? 'true' : 'false'}
           >Password</button>
         )}
@@ -167,8 +167,6 @@ if (!hasPasskey && !hasPassword) {
     </script>
 
     <style>
-      .tab { color: #666666; border-color: transparent; background: none; }
-      .tab.active { color: #0a0a0a; border-color: #0a0a0a; font-weight: 600; }
       .tab-panel { display: none; }
       .tab-panel.active { display: block; }
     </style>
