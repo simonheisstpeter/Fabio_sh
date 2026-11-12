@@ -31,6 +31,7 @@
   --gray-800: #e5e5e5;
   --font-medium: "AndesNeueMedium", sans-serif;
   --font-light: "AndesNeueLight", sans-serif;
+  --font-pixel: "Silkscreen", "AndesNeueMedium", monospace;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   --cursor-fabiosh: url(/f.cur), pointer;
@@ -49,6 +50,18 @@
   font-family: "AndesNeueLight";
   src: url("/fonts/AndesNeue-Light.woff2") format("woff2");
   font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/silkscreen-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/fonts/silkscreen-700.woff2") format("woff2");
+  font-weight: 700;
   font-display: swap;
 }
 
@@ -78,16 +91,17 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-light);
-  font-weight: 300;
+  font-family: var(--font-pixel);
+  font-weight: 400;
   line-height: 1.15;
   margin: 0 0 0.5em;
 }
 
 h1,
 h2 {
-  font-family: var(--font-medium);
-  font-weight: 500;
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 /* Pixel lists: square block bullets, mono leading-zero numbers */
@@ -577,6 +591,7 @@ td {
 /* ---------- typography ---------- */
 .font-andesNeueMedium { font-family: var(--font-medium); }
 .font-andesNeueLight { font-family: var(--font-light); }
+.font-pixel { font-family: var(--font-pixel); }
 .font-mono { font-family: var(--font-mono); }
 .font-sans { font-family: var(--font-sans); }
 .font-normal { font-weight: 400; }
