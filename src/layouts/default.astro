@@ -392,11 +392,37 @@ const NavLinks = [
                 });
             }
 
+            // Scroll reveal: cards, section heads and project items fade/slide in
+            // once. Progressive enhancement only — content is visible without JS
+            // because .reveal is added by this script, not baked into the markup.
+            function initScrollReveal() {
+                const targets = document.querySelectorAll(
+                    ".card, .section-head, .project-item, .course-card, .meta-row",
+                );
+                if (!("IntersectionObserver" in window)) return;
+                const io = new IntersectionObserver(
+                    (entries) => {
+                        for (const e of entries) {
+                            if (e.isIntersecting) {
+                                e.target.classList.add("in");
+                                io.unobserve(e.target);
+                            }
+                        }
+                    },
+                    { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+                );
+                targets.forEach((el) => {
+                    el.classList.add("reveal");
+                    io.observe(el);
+                });
+            }
+
             // astro:page-load fires on both initial load and after every View Transition
             document.addEventListener("astro:page-load", () => {
                 initLangSelect("lang-select");
                 initMobileLangSelect("lang-select-mobile");
                 initMobileMenuTrap();
+                initScrollReveal();
             });
 
             consoleMessage();

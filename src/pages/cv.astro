@@ -20,7 +20,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
     {hasAccess ? (
       <section class="flex flex-col flex-1 gap-6">
         <div class="flex items-center justify-between flex-wrap gap-4">
-          <h1 class="h-pixel text-4xl font-andesNeueMedium">CV</h1>
+          <h1 class="h-pixel page-title page-title text-4xl ">CV</h1>
           <div class="flex items-center gap-3 flex-wrap">
             <!-- Language tabs -->
             <div id="lang-tabs" class="flex rounded-lg border border-edge overflow-hidden text-sm">
@@ -67,7 +67,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
     ) : (
       <section class="flex flex-col items-center justify-center flex-1 gap-8">
         <div class="w-full max-w-sm">
-          <h1 class="h-pixel text-4xl font-andesNeueMedium mb-2">CV</h1>
+          <h1 class="h-pixel page-title page-title text-4xl  mb-2">CV</h1>
           <p class="text-muted1 mb-8 text-sm">{t.cvEnterCode}</p>
 
           {hasError && (

@@ -21,26 +21,34 @@ const previewProjects = getAllProjects()
 ---
 
 <Layout title="fabio.sh" description="Fabio Gschweidl – digital media & IT">
-    <div class="h-full w-full grid gap-32 md:gap-56">
-        <!-- Hero -->
-        <Hero t={t} isJa={isJa} />
+    <!-- 00 // HERO -->
+    <Hero t={t} isJa={isJa} />
 
-        <!-- Projects teaser -->
-        <ProjectTeaser projects={previewProjects} locale={locale} t={t} />
+    <div class="dither-fade container mx-auto mt-16 md:mt-24" aria-hidden="true"></div>
 
-        <!-- Contact section -->
-        <section
-            class="container mx-auto px-4 md:px-12 pb-8"
-            aria-labelledby="contact-heading"
-        >
-            <h2
-                id="contact-heading"
-                class="text-3xl md:text-5xl font-andesNeueMedium mb-4"
-            >
+    <!-- 01 // PROJECTS -->
+    <div class="container mx-auto px-4 md:px-12 mt-16 md:mt-24">
+        <div class="section-head">
+            <span class="idx">01 //</span>
+            <h2 class="h-pixel text-3xl md:text-5xl">{t.menuProjects}</h2>
+        </div>
+        <ProjectTeaser projects={previewProjects} locale={locale} t={t} plain />
+    </div>
+
+    <div class="dither-fade container mx-auto mt-16 md:mt-24" aria-hidden="true"></div>
+
+    <!-- 02 // CONTACT -->
+    <section
+        class="container mx-auto px-4 md:px-12 mt-16 md:mt-24 pb-24"
+        aria-labelledby="contact-heading"
+    >
+        <div class="section-head">
+            <span class="idx">02 //</span>
+            <h2 id="contact-heading" class="h-pixel text-3xl md:text-5xl">
                 {t.contactTitle}
             </h2>
+        </div>
 
-            <ContactForm t={t} sent={sent} error={error} />
-        </section>
-    </div>
+        <ContactForm t={t} sent={sent} error={error} />
+    </section>
 </Layout>
