@@ -1,5 +1,7 @@
 export default {
   menuHome: "Main Hub",
+  themeToggle: "Switch to the other side",
+
   menuProjects: "Holoprojects",
   menuAbout: "Archive",
   menuSocial: "Transmissions",

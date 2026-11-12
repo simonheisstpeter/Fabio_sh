@@ -1,6 +1,8 @@
 // BCP 47: en-x-nasa
 export default {
   menuHome: "Ground Control",
+  themeToggle: "Toggle mission lighting",
+
   menuProjects: "Active Payloads",
   menuAbout: "Bio-Data / Crew Profile",
   menuSocial: "Comms",
