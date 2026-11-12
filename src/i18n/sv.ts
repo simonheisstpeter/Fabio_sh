@@ -1,5 +1,7 @@
 export default {
   menuHome: "Hem",
+  themeToggle: "Växla färgtema",
+
   menuProjects: "Projekt",
   menuAbout: "Om mig",
   menuSocial: "Socialt",

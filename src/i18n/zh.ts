@@ -1,5 +1,7 @@
 export default {
   menuHome: "首页",
+  themeToggle: "切换颜色主题",
+
   menuProjects: "项目",
   menuAbout: "关于我",
   menuSocial: "社交",
