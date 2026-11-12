@@ -6,22 +6,23 @@ interface Props {
     projects: any[];
     locale: string;
     t: any;
+    plain?: boolean;
 }
 
-const { projects, locale, t }: Props = Astro.props;
+const { projects, locale, t, plain = false }: Props = Astro.props;
 ---
 
 <section
-    class="container mx-auto px-4 md:px-12"
+    class={plain ? "" : "container mx-auto px-4 md:px-12"}
     aria-labelledby="projects-teaser-heading"
 >
     <div class="relative">
         <div
             class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8"
         >
-            <div class="border-l-2 border-ink pl-6">
+            <div class={plain ? "hidden" : "border-l-2 border-ink pl-6"}>
                 <p
-                    class="text-ink text-xs md:text-sm font-andesNeueMedium uppercase tracking-widest mb-2 animate-fadeIn_2000"
+                    class="text-ink text-xs md:text-sm font-pixel uppercase tracking-widest mb-2 animate-fadeIn_2000"
                 >
                     {t.currentProjects}
                 </p>

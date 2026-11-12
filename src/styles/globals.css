@@ -1364,3 +1364,17 @@ html {
 
 /* steps() easing for chunky pixel motion */
 .anim-steps { animation-timing-function: steps(2, end); }
+
+/* Dithered fade divider — checkerboard dissolving into paper (signature motif) */
+.dither-fade {
+  height: 32px;
+  background-image: conic-gradient(
+    var(--ink-10) 25%,
+    transparent 0 50%,
+    var(--ink-10) 0 75%,
+    transparent 0
+  );
+  background-size: 8px 8px;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
