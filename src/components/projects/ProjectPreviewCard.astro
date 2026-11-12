@@ -11,12 +11,13 @@ const displayIndex = String(index + 1).padStart(2, "0");
 
 <li class="list-none">
     <article
-        class="group relative overflow-hidden rounded-2xl bg-surface border border-divider p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-raised hover:border-ink-30 animate-fadeIn_2200"
+        class="group relative overflow-hidden bg-surface border border-divider p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-raised hover:border-ink-30 animate-fadeIn_2200"
         data-delay={String(index * 150)}
     >
-        <!-- Decorative Background Glow -->
+        <!-- Decorative pixel checkerboard corner block -->
         <div
-            class="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-ink-05 blur-3xl group-hover:bg-ink-15 transition-all duration-500"
+            class="pixel-checker absolute -right-4 -top-4 h-24 w-24 group-hover:opacity-100 opacity-70 transition-opacity duration-500"
+            aria-hidden="true"
         >
         </div>
 

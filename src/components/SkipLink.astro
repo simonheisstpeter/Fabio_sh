@@ -5,9 +5,9 @@
         position: absolute;
         top: -100%;
         left: 1rem;
-        background: #0a0a0a;
-        color: #ffffff;
-        font-family: "Silkscreen", monospace;
+        background: var(--ink);
+        color: var(--paper);
+        font-family: var(--font-pixel);
         font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
@@ -15,7 +15,7 @@
         z-index: 9999;
         transition: top 0.2s ease;
         text-decoration: none;
-        border: 2px solid #0a0a0a;
+        border: 2px solid var(--ink);
         border-radius: 0;
         clip-path: polygon(
             0 4px, 4px 4px, 4px 0,
@@ -27,7 +27,7 @@
 
     .skip-link:focus {
         top: 0;
-        outline: 2px solid #0a0a0a;
+        outline: 2px solid var(--ink);
         outline-offset: -4px;
     }
 </style>
