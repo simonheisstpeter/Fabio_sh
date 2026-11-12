@@ -1,6 +1,8 @@
 export default {
   // Navigation Ecosystem Nodes
   menuHome: "Global Origin Nexus 🚀",
+  themeToggle: "Toggle color scheme",
+
   menuProjects: "Scalable Innovation Portfolio 📂",
   menuAbout: "The Narrative Evolution of Me 🧬",
   menuSocial: "Social Hub",

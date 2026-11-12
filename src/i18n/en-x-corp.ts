@@ -1,5 +1,7 @@
 export default {
   menuHome: "Home Dashboard",
+  themeToggle: "Switch visual theme",
+
   menuProjects: "Project Portfolio",
   menuAbout: "About the Individual",
   menuSocial: "Social Presence",

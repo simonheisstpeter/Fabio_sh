@@ -1,6 +1,8 @@
 // BCP 47: en-x-brainrot
 export default {
   menuHome: "The Spawn Point",
+  themeToggle: "Switch the lighting, no cap",
+
   menuProjects: "The Grindset / Major W’s",
   menuAbout: "The Lore",
   menuSocial: "Socials",

@@ -1,6 +1,8 @@
 // BCP 47: en-x-cowboy
 export default {
   menuHome: "The Homestead",
+  themeToggle: "Switch the lantern",
+
   menuProjects: "Cattle Drive",
   menuAbout: "The Drifter",
   menuSocial: "Town Square",

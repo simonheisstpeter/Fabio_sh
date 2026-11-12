@@ -1,5 +1,7 @@
 export default {
   menuHome: "HQ",
+  themeToggle: "Jack into dark mode",
+
   menuProjects: "Ops",
   menuAbout: "Profile",
   menuSocial: "The Feed",

@@ -1,5 +1,7 @@
 export default {
   menuHome: "H0m3",
+  themeToggle: "t0gg13 c010r sch3m3",
+
   menuProjects: "Pr0j3c75",
   menuAbout: "4b0u7 M3",
   menuSocial: "50c14l",
