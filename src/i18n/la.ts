@@ -1,5 +1,7 @@
 export default {
   menuHome: "Domus",
+  themeToggle: "Commutare modum colorum",
+
   menuProjects: "Proiecta",
   menuAbout: "De me",
   menuSocial: "Socialia",

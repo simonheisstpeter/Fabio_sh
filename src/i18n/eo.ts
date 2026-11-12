@@ -1,5 +1,7 @@
 export default {
   menuHome: "Hejmo",
+  themeToggle: "Ŝanĝi kolorskemon",
+
   menuProjects: "Projektoj",
   menuAbout: "Pri mi",
   menuSocial: "Socia",

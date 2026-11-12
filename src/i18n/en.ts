@@ -1,5 +1,7 @@
 export default {
   menuHome: "Home",
+  themeToggle: "Toggle color scheme",
+
   menuProjects: "Projects",
   menuAbout: "About Me",
   menuSocial: "Social",

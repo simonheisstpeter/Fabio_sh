@@ -1,5 +1,7 @@
 export default {
   menuHome: "Головна",
+  themeToggle: "Змінити колірну тему",
+
   menuProjects: "Проєкти",
   menuAbout: "Про мене",
   menuSocial: "Соцмережі",

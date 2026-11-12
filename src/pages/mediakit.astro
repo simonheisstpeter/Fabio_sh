@@ -14,6 +14,14 @@ const colors = [
   { name: 'Raised',  hex: '#ececec', class: 'bg-raised border border-edge' },
   { name: 'Muted',   hex: '#666666', class: 'bg-ink-soft border border-edge' },
 ];
+// Dark theme tokens — keep in sync with [data-theme="dark"] in globals.css
+const colorsDark = [
+  { name: 'Paper',   hex: '#0a0a0a', class: 'border border-edge', style: 'background:#0a0a0a' },
+  { name: 'Ink',     hex: '#f2f2f2', class: 'border border-edge', style: 'background:#f2f2f2' },
+  { name: 'Surface', hex: '#161616', class: 'border border-edge', style: 'background:#161616' },
+  { name: 'Raised',  hex: '#1f1f1f', class: 'border border-edge', style: 'background:#1f1f1f' },
+  { name: 'Divider', hex: '#2a2a2a', class: 'border border-edge', style: 'background:#2a2a2a' },
+];
 ---
 
 <Layout
@@ -21,7 +29,7 @@ const colors = [
   description="Brand guidelines and media kit for fabio.sh"
 >
   <div class="container mx-auto pt-24 md:pt-32 font-andesNeueLight px-6 md:px-12 pb-12">
-    <h1 class="h-pixel page-title page-title text-3xl md:text-5xl  mb-12 text-fg animate-fadeIn_2000">
+    <h1 class="h-pixel page-title text-3xl md:text-5xl mb-12 text-fg animate-fadeIn_2000">
       {t.mediakitTitle}
     </h1>
 
@@ -49,11 +57,11 @@ const colors = [
           >font-family: 'AndesNeueLight', sans-serif; font-weight: 300;</button>
         </div>
         <div>
-          <p class="font-pixel text-3xl mb-3">Silkscreen Pixel</p>
+          <p class="font-pixel text-3xl mb-3">Handjet Pixel</p>
           <button
             class="copy-btn chip text-left normal-case"
-            data-copy="font-family: 'Silkscreen', monospace; (OFL — headings & pixel accents)"
-          >font-family: 'Silkscreen', monospace; (OFL — headings & pixel accents)</button>
+            data-copy="font-family: 'Handjet', sans-serif; font-weight: 100 900; (OFL — display & pixel accents)"
+          >font-family: 'Handjet', sans-serif; font-weight: 100 900; (OFL — display & pixel accents)</button>
         </div>
       </div>
     </section>
@@ -73,7 +81,23 @@ const colors = [
               class="copy-btn text-center bg-transparent border-0 cursor-pointer group p-0"
               data-copy={hex}
             >
-              <div class={`h-20 w-20 mx-auto ${cls} rounded-full mb-4 transition-transform duration-200 group-hover:scale-105`}></div>
+              <div class={`h-20 w-20 mx-auto ${cls} mb-4 transition-transform duration-200 group-hover:scale-105`}></div>
+              <span class="block text-sm">{name}</span>
+              <span class="block text-xs text-ink font-mono mt-1">{hex}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="h-pixel text-sm uppercase tracking-widest text-muted2 mt-10 mb-4">Dark theme</h3>
+      <ul class="list-none md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 text-fg">
+        {colorsDark.map(({ name, hex, class: cls, style }) => (
+          <li>
+            <button
+              class="copy-btn text-center bg-transparent border-0 cursor-pointer group p-0"
+              data-copy={hex}
+            >
+              <div class={`h-20 w-20 mx-auto ${cls} mb-4 transition-transform duration-200 group-hover:scale-105`} style={style}></div>
               <span class="block text-sm">{name}</span>
               <span class="block text-xs text-ink font-mono mt-1">{hex}</span>
             </button>
@@ -119,7 +143,7 @@ const colors = [
     tip.textContent = 'Copied!';
     tip.style.cssText =
       'position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 6px);' +
-      'background:#0a0a0a;color:#ffffff;font-family:monospace;font-size:0.65rem;letter-spacing:0.08em;white-space:nowrap;' +
+      'background:var(--ink);color:var(--paper);font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.08em;white-space:nowrap;' +
       'padding:4px 8px;border-radius:0;pointer-events:none;z-index:50;';
     anchor.style.position = 'relative';
     anchor.appendChild(tip);

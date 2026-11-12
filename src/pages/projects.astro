@@ -28,7 +28,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
     description="All projects by Fabio Gschweidl – web development, design and conception"
 >
     <div class="container mx-auto h-full px-4 md:px-12 pb-12">
-        <h1 class="h-pixel page-title page-title my-20 text-5xl  animate-fadeIn_2000">
+        <h1 class="h-pixel page-title my-20 text-5xl animate-fadeIn_2000">
             {t.menuProjects}
         </h1>
 
@@ -46,13 +46,13 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                     <span class="text-muted3">{t.sortLabel}</span>
                     <button
                         data-sort="recent"
-                        class="sort-btn border border-ink text-ink px-3 py-1 rounded-full transition-colors"
+                        class="sort-btn border border-ink text-ink px-3 py-1 transition-colors"
                     >
                         {t.sortRecent}
                     </button>
                     <button
                         data-sort="alpha"
-                        class="sort-btn border border-divider text-muted2 hover:border-edge hover:text-fg px-3 py-1 rounded-full transition-colors"
+                        class="sort-btn border border-divider text-muted2 hover:border-edge hover:text-fg px-3 py-1 transition-colors"
                     >
                         {t.sortAlpha}
                     </button>
@@ -64,7 +64,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
                     <li>
                         <button
                             data-category=""
-                            class="filter-btn w-fit border border-ink text-ink px-3 py-1 rounded-full text-xs transition-colors"
+                            class="filter-btn w-fit border border-ink text-ink px-3 py-1 text-xs transition-colors"
                         >
                             {t.filterAll}
                         </button>

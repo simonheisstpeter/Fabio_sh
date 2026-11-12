@@ -35,7 +35,7 @@ const hasImage = !project.finished && project.published && project.image;
     >
         {
             hasImage ? (
-                <picture class="block max-h-80 overflow-hidden rounded-t-md">
+                <picture class="block max-h-80 overflow-hidden">
                     <img
                         src={project.image}
                         width="800"
@@ -43,15 +43,15 @@ const hasImage = !project.finished && project.published && project.image;
                         alt={project.title}
                         loading="lazy"
                         decoding="async"
-                        class="max-h-80 w-full bg-ink rounded-t-md object-cover grayscale duration-200 hover:grayscale-0"
+                        class="max-h-80 w-full bg-ink object-cover grayscale duration-200 hover:grayscale-0"
                     />
                 </picture>
             ) : (
-                <div class="h-1 rounded-t-md" />
+                <div class="h-1" />
             )
         }
 
-        <div class="rounded-b-md bg-surface p-6 text-sm flex flex-col flex-1 gap-1">
+        <div class="bg-surface p-6 text-sm flex flex-col flex-1 gap-1">
             <ProjectStatus
                 title={project.title}
                 online={project.online}

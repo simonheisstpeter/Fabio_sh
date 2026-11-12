@@ -1,5 +1,7 @@
 export default {
   menuHome: "ホーム",
+  themeToggle: "カラーテーマを切り替え",
+
   menuProjects: "プロジェクト",
   menuAbout: "私について",
   menuSocial: "ソーシャル",

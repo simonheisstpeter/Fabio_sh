@@ -24,25 +24,46 @@ const errorMessages: Record<string, string> = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="pixel-bg">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (t !== "dark" && t !== "light") {
+            t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          }
+          document.documentElement.dataset.theme = t;
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+    <link rel="icon" href="/carp-streamer.ico" />
     <title>Admin Setup – fabio.sh</title>
     <meta name="robots" content="noindex,nofollow" />
   </head>
-  <body class="bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-sans">
+  <body class="pixel-bg bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-andesNeueLight">
+    <div class="page-frame" aria-hidden="true">
+      <span class="fc fc-tl"></span><span class="fc fc-tr"></span>
+      <span class="fc fc-bl"></span><span class="fc fc-br"></span>
+    </div>
+    <div class="pixel-strip edge-strip edge-strip-top" aria-hidden="true"></div>
+    <div class="pixel-strip edge-strip edge-strip-bottom" aria-hidden="true"></div>
     <div class="card p-8 w-full max-w-md">
       <h1 class="h-pixel text-xl font-semibold text-gray-50 mb-1">Admin Setup</h1>
       <p class="text-xs text-gray-500 mb-6">First-time credential registration</p>
 
       {error && (
-        <div class="bg-ink-05 border border-ink-30 text-ink-soft rounded px-3 py-2 text-xs mb-4">
+        <div class="bg-ink-05 border border-ink-30 text-ink-soft px-3 py-2 text-xs mb-4">
           {errorMessages[error] ?? 'An error occurred.'}
         </div>
       )}
       {pwSet && (
-        <div class="bg-ink-05 border border-ink-30 text-ink rounded px-3 py-2 text-xs mb-4">
+        <div class="bg-ink-05 border border-ink-30 text-ink px-3 py-2 text-xs mb-4">
           Password saved successfully.
         </div>
       )}
@@ -60,7 +81,7 @@ const errorMessages: Record<string, string> = {
             <label for="confirm_password" class="block text-xs text-gray-400 mb-1">Confirm Password</label>
             <input id="confirm_password" name="confirm_password" type="password" required minlength="12" autocomplete="new-password"
               class="field" />
-            <button type="submit" class="w-full btn-ink py-2.5 rounded-lg border-0 cursor-pointer text-sm font-medium hover:bg-ink hover:text-paper transition-colors mt-1">
+            <button type="submit" class="w-full btn-ink py-2.5 border-0 cursor-pointer text-sm font-medium hover:bg-ink hover:text-paper transition-colors mt-1">
               Set Password
             </button>
           </form>
@@ -75,7 +96,7 @@ const errorMessages: Record<string, string> = {
         <div class={hasPassword ? 'mt-6 pt-6 border-t border-gray-800' : 'mt-6'}>
           <h2 class="h-pixel text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Passkey (WebAuthn)</h2>
           <button id="register-passkey-btn" type="button"
-            class="w-full bg-gray-800 text-gray-200 py-2.5 rounded-lg border border-gray-700 cursor-pointer text-sm hover:bg-gray-700 transition-colors disabled:opacity-50">
+            class="w-full bg-gray-800 text-gray-200 py-2.5 border border-gray-700 cursor-pointer text-sm hover:bg-gray-700 transition-colors disabled:opacity-50">
             Register Passkey
           </button>
           <div id="passkey-status" class="text-xs text-gray-500 mt-2 min-h-5"></div>
