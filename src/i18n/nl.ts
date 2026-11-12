@@ -1,5 +1,7 @@
 export default {
   menuHome: "Home",
+  themeToggle: "Kleurenschema wisselen",
+
   menuProjects: "Projecten",
   menuAbout: "Over mij",
   menuSocial: "Sociaal",

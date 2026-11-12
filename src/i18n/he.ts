@@ -1,5 +1,7 @@
 export default {
   menuHome: "בית",
+  themeToggle: "החלפת ערכת colori",
+
   menuProjects: "פרויקטים",
   menuAbout: "עליי",
   menuSocial: "חברתי",
