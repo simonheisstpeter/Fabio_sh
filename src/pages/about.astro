@@ -34,7 +34,7 @@ function formatStatusDate(iso: string): string {
     description="About Fabio Gschweidl – developer, designer, music enthusiast"
 >
     <div class="container mx-auto py-24 md:py-36 px-4 md:px-12">
-        <h1 class="h-pixel page-title page-title text-5xl  mb-20 animate-fadeIn_2000">
+        <h1 class="h-pixel page-title text-5xl mb-20 animate-fadeIn_2000">
             {t.aboutTitle}
         </h1>
 
@@ -70,15 +70,17 @@ function formatStatusDate(iso: string): string {
                                 class="shrink-0"
                                 aria-label={`${track.title} on Tidal`}
                             >
-                                <img
-                                    src={track.coverUrl}
-                                    alt={`${track.album} album cover`}
-                                    width="160"
-                                    height="160"
-                                    loading="lazy"
-                                    decoding="async"
-                                    class="rounded-md shadow-lg"
-                                />
+                                <span class="img-pixel shrink-0">
+                                    <img
+                                        src={track.coverUrl}
+                                        alt={`${track.album} album cover`}
+                                        width="160"
+                                        height="160"
+                                        loading="lazy"
+                                        decoding="async"
+                                        class="grayscale"
+                                    />
+                                </span>
                             </a>
                         )}
                         <div class="flex flex-col gap-1">
