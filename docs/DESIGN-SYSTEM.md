@@ -58,9 +58,11 @@ dark mode and is disabled on coarse pointers.
 
 ## 3. Type scale (Handjet variable pixel for display, Andes Neue Light for body, mono for labels)
 
-Handjet (OFL, self-hosted in `/public/fonts`, weight axis 100–900, latin +
-latin-ext subsets) replaces Silkscreen — same pixel voice, less childish.
-`--font-pixel: "Handjet", "AndesNeueMedium", monospace`.
+Handjet (OFL, weight axis 100–900, latin + latin-ext subsets) replaces
+Silkscreen — same pixel voice, less childish. The woff2 files are committed as
+base64 text in `scripts/fonts/*.b64` and materialized into `public/fonts/` by
+`scripts/decode-fonts.mjs` (predev/prebuild hooks), so the font survives
+text-only transports. `--font-pixel: "Handjet", "AndesNeueMedium", monospace`.
 
 | Role | Size | Treatment |
 |---|---|---|

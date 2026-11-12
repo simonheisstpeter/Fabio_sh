@@ -4,7 +4,9 @@
   "type": "module",
   "packageManager": "npm@11.20.0",
   "scripts": {
+    "predev": "node scripts/decode-fonts.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/decode-fonts.mjs",
     "build": "astro build",
     "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
