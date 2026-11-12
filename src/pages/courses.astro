@@ -33,24 +33,24 @@ const STATUS_LABEL: Record<string, string> = {
 
     {(allCourses.length > 0) && (
       <div class="flex flex-wrap gap-2 mb-8">
-        <button type="button" class="filter-btn active px-3 py-1 rounded-full border text-xs transition-colors
+        <button type="button" class="filter-btn active px-3 py-1 border text-xs transition-colors
           border-ink text-paper bg-ink cursor-pointer" data-filter="all">
           All
         </button>
-        <button type="button" class="filter-btn px-3 py-1 rounded-full border text-xs transition-colors
+        <button type="button" class="filter-btn px-3 py-1 border text-xs transition-colors
           border-divider text-muted2 hover:border-ink hover:text-ink cursor-pointer" data-filter="not_started">
           Not Started
         </button>
-        <button type="button" class="filter-btn px-3 py-1 rounded-full border text-xs transition-colors
+        <button type="button" class="filter-btn px-3 py-1 border text-xs transition-colors
           border-divider text-muted2 hover:border-ink hover:text-ink cursor-pointer" data-filter="in_progress">
           In Progress
         </button>
-        <button type="button" class="filter-btn px-3 py-1 rounded-full border text-xs transition-colors
+        <button type="button" class="filter-btn px-3 py-1 border text-xs transition-colors
           border-divider text-muted2 hover:border-ink hover:text-ink cursor-pointer" data-filter="completed">
           Completed
         </button>
         {platforms.map(p => (
-          <button type="button" class="filter-btn px-3 py-1 rounded-full border text-xs transition-colors
+          <button type="button" class="filter-btn px-3 py-1 border text-xs transition-colors
             border-divider text-muted2 hover:border-ink hover:text-ink cursor-pointer" data-filter={`platform:${p}`}>
             {p}
           </button>

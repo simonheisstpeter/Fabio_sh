@@ -61,7 +61,7 @@ function formatDate(iso: string): string {
                     feed?.profile && (
                         <div class="flex items-center gap-4 mb-8">
                             {feed.profile.avatar && (
-                                <picture class="img-frame h-14 w-14 shrink-0 rounded-full">
+                                <span class="img-pixel h-14 w-14 shrink-0">
                                     <img
                                         src={feed.profile.avatar}
                                         alt={feed.profile.displayName}
@@ -70,9 +70,9 @@ function formatDate(iso: string): string {
                                         loading="eager"
                                         fetchpriority="high"
                                         decoding="async"
-                                        class="h-14 w-14 rounded-full object-cover"
+                                        class="h-full w-full object-cover grayscale"
                                     />
-                                </picture>
+                                </span>
                             )}
                             <div class="flex flex-col gap-0.5">
                                 <span class="font-andesNeueMedium">
@@ -213,7 +213,7 @@ function formatDate(iso: string): string {
                                             <div class="mt-4 grid gap-3 sm:grid-cols-2">
                                                 {post.images.map((img) => (
                                                     <span
-                                                        class="img-frame block w-full overflow-hidden rounded-md border border-divider"
+                                                        class="img-frame block w-full overflow-hidden border border-divider"
                                                         style={
                                                             img.aspectRatio
                                                                 ? `aspect-ratio:${img.aspectRatio.width}/${img.aspectRatio.height}`
@@ -252,7 +252,7 @@ function formatDate(iso: string): string {
                                                         ? `aspect-ratio:${post.video.aspectRatio.width}/${post.video.aspectRatio.height}`
                                                         : undefined
                                                 }
-                                                class="mt-4 w-full max-w-full rounded-md border border-divider"
+                                                class="mt-4 w-full max-w-full border border-divider"
                                             >
                                                 <source src={post.video.url} />
                                             </video>
@@ -263,7 +263,7 @@ function formatDate(iso: string): string {
                                                 href={post.externalLink.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="mt-4 flex overflow-hidden rounded-md border border-divider transition-colors duration-200 hover:border-ink"
+                                                class="mt-4 flex overflow-hidden border border-divider transition-colors duration-200 hover:border-ink"
                                             >
                                                 {post.externalLink.thumbUrl && (
                                                     <img
@@ -361,6 +361,7 @@ function formatDate(iso: string): string {
         position: relative;
         display: inline-flex;
         background-color: var(--surface);
+        border: 1px solid var(--divider);
     }
 
     .img-frame::after {
