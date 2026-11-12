@@ -1,4 +1,10 @@
-# fabio.sh — Design System (v3, monochrome pixel)
+# fabio.sh — Design System (v4, monochrome pixel, dark + light)
+
+v4 adds: a `data-theme` dark/light system (toggle in the nav, persisted to
+localStorage, pre-paint init script, `prefers-color-scheme` fallback), the
+Handjet variable pixel face replacing Silkscreen, and a fixed viewport frame
+(`.page-frame` + `.edge-strip`) so the pixel system touches every corner of
+the page, not just individual components.
 
 ## 1. Site audit — every route and its fate
 
@@ -34,23 +40,35 @@
 ## 2. Tokens
 
 ```
---paper:  #FFFFFF   page background
---ink:    #0A0A0A   primary text / solid blocks
---gray:   #666666   secondary text (only gray tier)
---line:   #E5E5E5   hairlines (ink @ 10%)
---soft:   #F5F5F5   surface blocks
+light (:root)                dark (html[data-theme="dark"])
+--paper:  #FFFFFF            --paper:  #0A0A0A
+--ink:    #0A0A0A            --ink:    #F2F2F2
+--surface:#F5F5F5            --surface:#161616
+--raised: #ECECEC            --raised: #1F1F1F
+--divider:#E2E2E2            --divider:#2A2A2A
+--muted:  #444/#666/#8A      --muted:  #C4/#9C/#7D
 ink tints: 05/10/15/20/30/40/80 for borders, washes, shadows
 ```
+All tints derive from `--ink-rgb` (`10 10 10` light / `242 242 242` dark) and
+surfaces from `--paper-rgb`, so one `data-theme` flip re-themes the pixel grid,
+scrollbar, selection, caret and shadows. `<meta name="color-scheme" content="light dark">`
+plus `color-scheme` on `:root`/`[data-theme="dark"]` keeps form controls and
+scrollbars native-correct. The black `f.cur` cursor falls back to `pointer` in
+dark mode and is disabled on coarse pointers.
 
-## 3. Type scale (Silkscreen pixel for display, Andes Neue Light for body, mono for labels)
+## 3. Type scale (Handjet variable pixel for display, Andes Neue Light for body, mono for labels)
+
+Handjet (OFL, self-hosted in `/public/fonts`, weight axis 100–900, latin +
+latin-ext subsets) replaces Silkscreen — same pixel voice, less childish.
+`--font-pixel: "Handjet", "AndesNeueMedium", monospace`.
 
 | Role | Size | Treatment |
 |---|---|---|
-| Display (h1) | clamp(3rem → 8rem) | Silkscreen 700, tight leading |
-| H2 | 2–3rem | Silkscreen 700 + square bullet (`.h-pixel`) |
-| H3 | 1.25rem | Silkscreen 400 |
+| Display (h1) | clamp(3rem → 8rem) | Handjet 700, tight leading |
+| H2 | 2–3rem | Handjet 700 + square bullet (`.h-pixel`) |
+| H3 | 1.25rem | Handjet 400 |
 | Body | 1rem | Andes Neue Light |
-| Micro-label | 0.65–0.75rem | mono / Silkscreen, uppercase, tracking 0.1–0.2em |
+| Micro-label | 0.65–0.75rem | mono / Handjet, uppercase, tracking 0.1–0.2em |
 
 ## 4. Spacing grid
 4px base: 4 / 8 / 16 / 24 / 32 / 48 / 64 / 96 / 128. Sections separated by **dither dividers** or `.pixel-strip`.
@@ -61,9 +79,10 @@ ink tints: 05/10/15/20/30/40/80 for borders, washes, shadows
 - **`.chip`** — square mono badge; `.chip-active` solid ink
 - **`.field`** — square, 1px ink border, 2px offset focus outline
 - **`.table-pixel`** — ink header row, hairline rows
-- **nav** — pixel F logo, Silkscreen uppercase links, active = solid underline; sticky on desktop
+- **nav** — pixel F logo, Handjet uppercase links, active = solid underline; sticky on desktop (`.sticky` + `.bg-paper/95` now defined), theme toggle button (`[data-theme-toggle]`, pixel sun/moon)
 - **footer** — hairline top rule + pixel strip, big `.wordmark`, link columns
-- **motifs** — `.pixel-bg` checkerboard page background, `.pixel-checker` decorative blocks, `.pixel-strip` section dividers, `.px-details` +/− markers, `.dot` status squares, `.tooltip` ink blocks, blinking `▌` cursor, dithered fade (`.dither-fade`) between sections
+- **viewport frame** — `.page-frame` fixed 1px HUD border inset 8px (4px on mobile) with solid 8px corner squares in all four viewport corners, plus fixed `.pixel-strip` `.edge-strip-top`/`.edge-strip-bottom` pinned to the viewport edges
+- **motifs** — `.pixel-bg` pixel-grid page background, `.pixel-checker` checkerboard blocks, `.pixel-strip` dividers, `.px-cut` 4px stepped corners, `.px-details` +/− markers, `.dot` status squares, `.tooltip` ink blocks, blinking `▌` cursor, dithered fade (`.dither-fade`) between sections
 - **motion** — fade/slide reveals on load (`animate-fadeIn_*`), `steps()` blink, hover lifts; `prefers-reduced-motion` respected
 
 ## 6. Accessibility

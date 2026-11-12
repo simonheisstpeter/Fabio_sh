@@ -18,18 +18,20 @@ const {
 ---
 
 <div class="relative overflow-hidden w-full max-w-2xl mx-auto my-12 animate-fadeIn_2200">
-    <!-- Background Glow Decoration -->
+    <!-- Decorative pixel checkerboard corner blocks -->
     <div
-        class="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-ink-05 blur-[100px] pointer-events-none"
+        class="pixel-checker absolute -left-6 -top-6 h-32 w-32 pointer-events-none"
+        aria-hidden="true"
     >
     </div>
     <div
-        class="absolute -right-16 -bottom-16 h-64 w-64 rounded-full bg-ink-05 blur-[100px] pointer-events-none"
+        class="pixel-checker absolute -right-6 -bottom-6 h-32 w-32 pointer-events-none"
+        aria-hidden="true"
     >
     </div>
 
     <div
-        class="px-card relative overflow-hidden rounded-3xl border border-divider p-8 md:p-12 backdrop-blur-xs"
+        class="px-card relative overflow-hidden border border-divider p-8 md:p-12"
     >
         {
             sent && (
