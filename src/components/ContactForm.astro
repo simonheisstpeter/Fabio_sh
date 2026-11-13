@@ -17,21 +17,9 @@ const {
 }: Props = Astro.props;
 ---
 
-<div class="relative overflow-hidden w-full max-w-2xl mx-auto my-12 animate-fadeIn_2200">
-    <!-- Decorative pixel checkerboard corner blocks -->
+<div class="relative w-full max-w-2xl mx-auto my-12 animate-fadeIn_2200">
     <div
-        class="pixel-checker absolute -left-6 -top-6 h-32 w-32 pointer-events-none"
-        aria-hidden="true"
-    >
-    </div>
-    <div
-        class="pixel-checker absolute -right-6 -bottom-6 h-32 w-32 pointer-events-none"
-        aria-hidden="true"
-    >
-    </div>
-
-    <div
-        class="px-card relative overflow-hidden border border-divider p-8 md:p-12"
+        class="card relative overflow-hidden p-8 md:p-12"
     >
         {
             sent && (

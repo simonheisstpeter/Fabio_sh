@@ -34,7 +34,7 @@ function formatStatusDate(iso: string): string {
     description="About Fabio Gschweidl – developer, designer, music enthusiast"
 >
     <div class="container mx-auto py-24 md:py-36 px-4 md:px-12">
-        <h1 class="h-pixel page-title text-5xl mb-20 animate-fadeIn_2000">
+        <h1 class="h-display page-title text-5xl mb-20 animate-fadeIn_2000">
             {t.aboutTitle}
         </h1>
 
@@ -55,7 +55,7 @@ function formatStatusDate(iso: string): string {
         </p>
 
         <section aria-labelledby="tidal-heading" class="mt-4">
-            <h2 id="tidal-heading" class="text-2xl font-pixel mb-6">
+            <h2 id="tidal-heading" class="text-2xl font-display mb-6">
                 Tidal - {track ? t.nowPlaying : t.notPlaying}
             </h2>
 
@@ -127,7 +127,7 @@ function formatStatusDate(iso: string): string {
         {
             status && (
                 <section aria-labelledby="status-heading" class="mt-16">
-                    <h2 id="status-heading" class="text-2xl font-pixel mb-6">
+                    <h2 id="status-heading" class="text-2xl font-display mb-6">
                         Status
                     </h2>
                     <div class="flex items-center gap-3">

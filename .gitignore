@@ -17,9 +17,6 @@
 /dist/
 /.astro/
 
-# Handjet woff2 is generated from scripts/fonts/*.b64 by predev/prebuild
-/public/fonts/handjet-*.woff2
-
 # production
 /build
 
