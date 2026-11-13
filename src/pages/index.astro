@@ -24,18 +24,14 @@ const previewProjects = getAllProjects()
     <!-- 00 // HERO -->
     <Hero t={t} isJa={isJa} />
 
-    <div class="dither-fade container mx-auto mt-16 md:mt-24" aria-hidden="true"></div>
-
     <!-- 01 // PROJECTS -->
     <div class="container mx-auto px-4 md:px-12 mt-16 md:mt-24">
         <div class="section-head">
             <span class="idx">01 //</span>
-            <h2 class="h-pixel text-3xl md:text-5xl">{t.menuProjects}</h2>
+            <h2 class="h-display text-3xl md:text-5xl">{t.menuProjects}</h2>
         </div>
         <ProjectTeaser projects={previewProjects} locale={locale} t={t} plain />
     </div>
-
-    <div class="dither-fade container mx-auto mt-16 md:mt-24" aria-hidden="true"></div>
 
     <!-- 02 // CONTACT -->
     <section
@@ -44,7 +40,7 @@ const previewProjects = getAllProjects()
     >
         <div class="section-head">
             <span class="idx">02 //</span>
-            <h2 id="contact-heading" class="h-pixel text-3xl md:text-5xl">
+            <h2 id="contact-heading" class="h-display text-3xl md:text-5xl">
                 {t.contactTitle}
             </h2>
         </div>

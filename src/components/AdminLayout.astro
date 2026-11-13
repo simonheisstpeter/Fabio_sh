@@ -12,7 +12,7 @@ const navLink =
 ---
 
 <!doctype html>
-<html lang="en" class="pixel-bg">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,12 +40,7 @@ const navLink =
     <body
         class="bg-paper text-ink min-h-screen flex flex-col font-andesNeueLight"
     >
-        <div class="page-frame" aria-hidden="true">
-            <span class="fc fc-tl"></span>
-            <span class="fc fc-tr"></span>
-            <span class="fc fc-bl"></span>
-            <span class="fc fc-br"></span>
-        </div>
+        <div class="page-frame" aria-hidden="true"></div>
         <header
             class="bg-paper/95 backdrop-blur-sm text-ink border-b border-ink px-6 flex items-center gap-8 h-14 shrink-0 sticky top-0 z-20"
         >
@@ -99,7 +94,6 @@ const navLink =
                 >
             </form>
         </header>
-        <div class="pixel-strip" aria-hidden="true"></div>
         <main class="flex-1 p-8 max-w-275 w-full mx-auto">
             <slot />
         </main>

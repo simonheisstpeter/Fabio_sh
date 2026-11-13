@@ -6,20 +6,12 @@ const { big = false }: Props = Astro.props;
 ---
 
 <div class={big ? "" : "mr-7 inline-block"} aria-hidden="true">
-    <!-- Pixel-block "F" wordmark: solid squares on a 5x7 grid, Mistral-style -->
-    <svg
-        class={big ? "h-45 w-45" : "h-7 w-7 translate-y-1.5"}
-        viewBox="0 0 5 7"
-        shape-rendering="crispEdges"
-        fill="currentColor"
+    <!-- "F" mark: a single letter in a hairline square -->
+    <span
+        class={big
+            ? "inline-flex h-45 w-45 items-center justify-center border border-ink font-extralight text-9xl leading-none"
+            : "inline-flex h-8 w-8 translate-y-0.5 items-center justify-center border border-ink font-andesNeueMedium text-sm leading-none"}
+        >F</span
     >
-        <rect x="0" y="0" width="5" height="1"></rect>
-        <rect x="0" y="1" width="4" height="1"></rect>
-        <rect x="0" y="2" width="3" height="1"></rect>
-        <rect x="0" y="3" width="4" height="1"></rect>
-        <rect x="0" y="4" width="3" height="1"></rect>
-        <rect x="0" y="5" width="2" height="1"></rect>
-        <rect x="0" y="6" width="2" height="1"></rect>
-    </svg>
     <span class="sr-only">Home</span>
 </div>

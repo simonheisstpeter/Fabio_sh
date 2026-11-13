@@ -68,7 +68,7 @@ const NavLinks = [
 ---
 
 <!doctype html>
-<html lang={locale} class="pixel-bg scroll-smooth">
+<html lang={locale} class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -133,7 +133,7 @@ const NavLinks = [
         />
         <link
             rel="preload"
-            href="/fonts/handjet-latin-var.woff2"
+            href="/fonts/AndesNeue-ExtraLight.woff2"
             as="font"
             type="font/woff2"
             crossorigin="anonymous"
@@ -166,22 +166,15 @@ const NavLinks = [
         class="cursor-fabiosh min-h-screen bg-canvas text-fg font-andesNeueLight relative"
     >
         <SkipLink />
-        <!-- Viewport frame: pixel HUD border + corner blocks on every corner of the page -->
-        <div class="page-frame" aria-hidden="true">
-            <span class="fc fc-tl"></span>
-            <span class="fc fc-tr"></span>
-            <span class="fc fc-bl"></span>
-            <span class="fc fc-br"></span>
-        </div>
-        <div class="pixel-strip edge-strip edge-strip-top" aria-hidden="true"></div>
-        <div class="pixel-strip edge-strip edge-strip-bottom" aria-hidden="true"></div>
+        <!-- Viewport frame: one hairline inset around the whole page -->
+        <div class="page-frame" aria-hidden="true"></div>
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
             >top</a
         >
 
         <!-- Mobile nav -->
         <nav
-            class="fixed top-0 z-20 w-full bg-canvas/95 backdrop-blur-sm md:hidden"
+            class="fixed top-0 z-20 w-full bg-paper/95 backdrop-blur-sm border-b border-divider md:hidden"
             aria-label={t.menuHome}
         >
             <details id="mobile-menu" class="group">
@@ -217,10 +210,10 @@ const NavLinks = [
                     </svg>
                 </summary>
 
-                <div class="pixel-bg h-screen pt-24 pl-8 text-left">
+                <div class="bg-paper h-screen pt-24 pl-8 text-left">
                     <nav
                         id="mobile-menu-panel"
-                        class="grid grid-cols-1 text-3xl gap-6 font-andesNeueMedium"
+                        class="grid grid-cols-1 text-4xl gap-8 font-extralight"
                     >
                         <div>
                             <ul class="list-none flex flex-col gap-4">
@@ -258,21 +251,16 @@ const NavLinks = [
                             <button
                                 type="button"
                                 data-theme-toggle
-                                class="theme-toggle btn-ink px-cut mt-6 flex h-10 w-10 items-center justify-center"
+                                class="theme-toggle btn-ink mt-6 flex h-10 w-10 items-center justify-center"
                                 aria-label={t.themeToggle}
                                 aria-pressed="false"
                             >
-                                <svg class="icon-moon h-5 w-5" viewBox="0 0 8 8" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">
-                                    <rect x="1" y="1" width="6" height="1"></rect>
-                                    <rect x="1" y="2" width="2" height="4"></rect>
-                                    <rect x="1" y="6" width="6" height="1"></rect>
+                                <svg class="icon-moon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                    <path d="M20 13A8 8 0 1 1 11 4a6.5 6.5 0 0 0 9 9z" stroke-linejoin="round"/>
                                 </svg>
-                                <svg class="icon-sun h-5 w-5" viewBox="0 0 8 8" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">
-                                    <rect x="3" y="3" width="2" height="2"></rect>
-                                    <rect x="3" y="0" width="2" height="2"></rect>
-                                    <rect x="3" y="6" width="2" height="2"></rect>
-                                    <rect x="0" y="3" width="2" height="2"></rect>
-                                    <rect x="6" y="3" width="2" height="2"></rect>
+                                <svg class="icon-sun h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="4"/>
+                                    <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19" stroke-linecap="round"/>
                                 </svg>
                             </button>
                         </div>
@@ -285,21 +273,21 @@ const NavLinks = [
             <!-- <BetaRibbon /> -->
 
             <!-- Desktop nav -->
-            <header class="hidden md:block sticky top-0 z-20 bg-paper/95 backdrop-blur-sm">
+            <header class="hidden md:block sticky top-0 z-20 bg-paper/95 backdrop-blur-sm border-b border-divider">
                 <nav
-                    class="flex items-start justify-between pr-10 pt-10"
+                    class="flex items-center justify-between px-10 py-6"
                     aria-label="Main navigation"
                 >
                     <a
                         href={getRelativeLocaleUrl(locale, "/")}
                         aria-current={isHome ? "page" : undefined}
                         aria-label={t.menuHome}
-                        class="ml-6 no-underline"
+                        class="no-underline"
                     >
                         <Loader />
                     </a>
 
-                    <ul class="list-none flex items-center gap-6 font-andesNeueLight text-sm tracking-wide"
+                    <ul class="list-none flex items-center gap-8 font-mono text-xs uppercase tracking-[0.18em] text-muted2"
                     >
                         {
                             NavLinks.filter((link) => !link.mobileOnly).map((link) => (
@@ -340,34 +328,27 @@ const NavLinks = [
                             <button
                                 type="button"
                                 data-theme-toggle
-                                class="theme-toggle btn-ink px-cut flex h-7 w-7 items-center justify-center"
+                                class="theme-toggle btn-ink flex h-8 w-8 items-center justify-center"
                                 aria-label={t.themeToggle}
                                 aria-pressed="false"
                             >
-                                <svg class="icon-moon h-4 w-4" viewBox="0 0 8 8" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">
-                                    <rect x="1" y="1" width="6" height="1"></rect>
-                                    <rect x="1" y="2" width="2" height="4"></rect>
-                                    <rect x="1" y="6" width="6" height="1"></rect>
+                                <svg class="icon-moon h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                    <path d="M20 13A8 8 0 1 1 11 4a6.5 6.5 0 0 0 9 9z" stroke-linejoin="round"/>
                                 </svg>
-                                <svg class="icon-sun h-4 w-4" viewBox="0 0 8 8" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">
-                                    <rect x="3" y="3" width="2" height="2"></rect>
-                                    <rect x="3" y="0" width="2" height="2"></rect>
-                                    <rect x="3" y="6" width="2" height="2"></rect>
-                                    <rect x="0" y="3" width="2" height="2"></rect>
-                                    <rect x="6" y="3" width="2" height="2"></rect>
+                                <svg class="icon-sun h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="4"/>
+                                    <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19" stroke-linecap="round"/>
                                 </svg>
                             </button>
                         </li>
                     </ul>
                 </nav>
-                <div class="pixel-strip mx-6 mt-6" aria-hidden="true"></div>
             </header>
 
             <main id="main-content" class="font-andesNeueLight">
                 <slot />
             </main>
 
-            <div class="pixel-strip" aria-hidden="true"></div>
             <ScrollToTop label={t.scrollTop} />
             <Footer locale={locale} t={t} />
         </div>

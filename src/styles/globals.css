@@ -1,6 +1,7 @@
-/* fabio.sh — black & white design system.
-   Plain CSS, no framework: simple HTML elements with hard 2px ink borders,
-   square pixel blocks and offset block shadows (Mistral-style pixels). */
+/* fabio.sh — v5 design system: elegant monochrome editorial.
+   Plain CSS, no framework: hairline ink rules on paper, Andes Neue display
+   type with tight tracking, mono micro-labels, soft shadows, generous
+   whitespace. Dark/light via html[data-theme]. */
 
 :root {
   color-scheme: light;
@@ -34,7 +35,8 @@
   --gray-800: #e5e5e5;
   --font-medium: "AndesNeueMedium", sans-serif;
   --font-light: "AndesNeueLight", sans-serif;
-  --font-pixel: "Handjet", "AndesNeueMedium", monospace;
+  --font-display: "AndesNeueLight", "AndesNeueMedium", sans-serif;
+  --font-extralight: "AndesNeueExtraLight", "AndesNeueLight", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   --cursor-fabiosh: url(/f.cur), pointer;
@@ -86,23 +88,17 @@ html[data-theme="dark"] .cursor-fabiosh { cursor: pointer; }
   font-weight: 300;
   font-display: swap;
 }
-/* Handjet (OFL 1.1 — see /fonts/HANDJET-OFL.txt): variable pixel display face,
-   weight 100–900. Polished dot-matrix, replaces the childish Silkscreen. */
 @font-face {
-  font-family: "Handjet";
-  src: url("/fonts/handjet-latin-var.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
+  font-family: "AndesNeueExtraLight";
+  src: url("/fonts/AndesNeue-ExtraLight.woff2") format("woff2");
+  font-weight: 200;
   font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: "Handjet";
-  src: url("/fonts/handjet-latin-ext-var.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
+  font-family: "AndesNeueBook";
+  src: url("/fonts/AndesNeue-Book.woff2") format("woff2");
+  font-weight: 400;
   font-display: swap;
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 *,
@@ -131,17 +127,17 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-pixel);
+  font-family: var(--font-display);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
   margin: 0 0 0.5em;
 }
 
 h1,
 h2 {
-  font-family: var(--font-pixel);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-weight: 300;
+  letter-spacing: -0.03em;
 }
 
 /* Pixel lists: square block bullets, mono leading-zero numbers */
@@ -160,10 +156,10 @@ ul li::before {
   content: "";
   position: absolute;
   left: -1.1rem;
-  top: 0.5em;
-  width: 0.5em;
-  height: 0.5em;
-  background: var(--ink);
+  top: 0.62em;
+  width: 0.32em;
+  height: 0.32em;
+  background: var(--ink-40);
 }
 ol {
   list-style: none;
@@ -268,83 +264,18 @@ td {
   color: var(--paper);
 }
 
-/* Mistral-style pixel grid: blocky squares on paper, not dots */
-.pixel-bg {
-  background-color: var(--paper);
-  background-image:
-    linear-gradient(var(--ink-05) 1px, transparent 1px),
-    linear-gradient(90deg, var(--ink-05) 1px, transparent 1px);
-  background-size: 16px 16px;
-}
-
-/* Row of solid pixel blocks — decorative strip (header/footer/hero) */
-.pixel-strip {
-  height: 6px;
-  background-image: repeating-linear-gradient(
-    90deg,
-    var(--ink) 0,
-    var(--ink) 6px,
-    transparent 6px,
-    transparent 12px
-  );
-}
-
-/* Checkerboard block — decorative pixel field (hero backdrop, 404) */
-.pixel-checker {
-  background-image: conic-gradient(
-    var(--ink-15) 25%,
-    transparent 0 50%,
-    var(--ink-15) 0 75%,
-    transparent 0
-  );
-  background-size: 8px 8px;
-}
-
-/* Small stepped pixel-cut corners (4px) for square icon buttons */
-.px-cut {
-  clip-path: polygon(
-    0 4px, 4px 4px, 4px 0,
-    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
-    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
-    calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
-  );
-}
-
-/* Viewport frame — a 1px HUD border inset around the whole page with solid
-   pixel squares in all four corners, so the pixel system touches every
-   corner of the screen, not just of individual components */
+/* Viewport frame — a single hairline inset around the whole page, like a
+   print margin rule. Purely decorative, never intercepts clicks. */
 .page-frame {
   position: fixed;
-  inset: 8px;
-  border: 1px solid var(--ink-30);
+  inset: 10px;
+  border: 1px solid var(--ink-10);
   pointer-events: none;
   z-index: 40;
 }
-.page-frame .fc {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: var(--ink);
-}
-.page-frame .fc-tl { top: -1px; left: -1px; }
-.page-frame .fc-tr { top: -1px; right: -1px; }
-.page-frame .fc-bl { bottom: -1px; left: -1px; }
-.page-frame .fc-br { bottom: -1px; right: -1px; }
-
-/* Fixed pixel strips pinned to the very top and bottom viewport edges */
-.edge-strip {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 40;
-  pointer-events: none;
-}
-.edge-strip-top { top: 0; }
-.edge-strip-bottom { bottom: 0; }
 
 @media (max-width: 767px) {
-  .page-frame { inset: 4px; }
-  .page-frame .fc { width: 6px; height: 6px; }
+  .page-frame { inset: 6px; }
 }
 
 /* Theme toggle icons — sun shows in dark mode, moon in light mode */
@@ -352,23 +283,9 @@ td {
 html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
 html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
-/* Dark-mode select caret (the data-URI is baked with a fixed fill) */
+/* Dark-mode select caret (the data-URI is baked with a fixed stroke) */
 html[data-theme="dark"] .select-pixel {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Crect x='0' y='0' width='8' height='2' fill='%23f2f2f2'/%3E%3Crect x='2' y='3' width='4' height='2' fill='%23f2f2f2'/%3E%3C/svg%3E");
-}
-
-/* Pixel corner notch on cards — one solid square at the top-left */
-.px-card {
-  position: relative;
-}
-.px-card::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 10px;
-  height: 10px;
-  background: var(--ink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23f2f2f2' stroke-width='1.5'/%3E%3C/svg%3E");
 }
 
 /* Low-key outlined button: fills black only on hover */
@@ -383,18 +300,9 @@ html[data-theme="dark"] .select-pixel {
   color: var(--paper);
 }
 
-/* Solid pixel square used as a block bullet before headings/labels */
-.pixel-sq {
-  display: inline-block;
-  width: 0.55em;
-  height: 0.55em;
-  background: var(--ink);
-  margin-right: 0.45em;
-}
-
-/* Hard offset block shadow — the "block" look for cards and buttons */
+/* Soft elevation — the only shadow in the system */
 .block-shadow {
-  box-shadow: 3px 3px 0 var(--ink-10);
+  box-shadow: 0 16px 40px rgb(var(--ink-rgb) / 0.08);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -436,7 +344,7 @@ html[data-theme="dark"] .select-pixel {
     background-position: 200% 0;
   }
 }
-@keyframes pixel-blink {
+@keyframes blink {
   0%,
   49% {
     opacity: 1;
@@ -707,7 +615,9 @@ html[data-theme="dark"] .select-pixel {
 /* ---------- typography ---------- */
 .font-andesNeueMedium { font-family: var(--font-medium); }
 .font-andesNeueLight { font-family: var(--font-light); }
-.font-pixel { font-family: var(--font-pixel); }
+.font-display { font-family: var(--font-display); }
+.font-extralight { font-family: var(--font-extralight); font-weight: 200; }
+.font-book { font-family: "AndesNeueBook", sans-serif; font-weight: 400; }
 .font-mono { font-family: var(--font-mono); }
 .font-sans { font-family: var(--font-sans); }
 .font-normal { font-weight: 400; }
@@ -907,7 +817,7 @@ html[data-theme="dark"] .select-pixel {
 .animate-fadeIn_2200 { animation: fade 2.2s both; }
 .animate-fadeIn_2500 { animation: fade 2.5s both; }
 .animate-pulse { animation: pulse 2s ease-in-out infinite; }
-.animate-pixel-blink { animation: pixel-blink 1.1s steps(1) infinite; }
+.animate-blink { animation: blink 1.1s steps(1) infinite; }
 
 /* ---------- state variants ---------- */
 .hover\:text-ink:hover { color: var(--ink); }
@@ -1081,45 +991,35 @@ input::file-selector-button,
 }
 
 /* ============================================================
-   Pixel component layer — white/gray/black, square blocks only
+   Component layer — hairline monochrome, sharp corners, soft motion
    ============================================================ */
 
-/* Outlined pixel button; inverts on hover with a hard offset block.
-   (drop-shadow, not box-shadow: clip-path would clip box-shadow) */
+/* Outlined button: mono micro-label, inverts on hover */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: var(--font-pixel);
-  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.55rem 1.1rem;
+  letter-spacing: 0.18em;
+  padding: 0.7rem 1.5rem;
   background: var(--paper);
   color: var(--ink);
   border: 1px solid var(--ink);
   border-radius: 0;
   cursor: pointer;
   text-decoration: none;
-  clip-path: polygon(
-    0 4px, 4px 4px, 4px 0,
-    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
-    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
-    calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
-  );
-  transition: background-color 150ms ease, color 150ms ease, transform 150ms ease, filter 150ms ease;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 .btn:hover {
   background: var(--ink);
   color: var(--paper);
-  transform: translate(-2px, -2px);
-  filter: drop-shadow(3px 3px 0 var(--ink-30));
 }
-.btn:active { transform: translate(0, 0); filter: none; }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; filter: none; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Solid black pixel button for primary actions */
+/* Solid ink button for primary actions */
 .btn-solid {
   background: var(--ink);
   color: var(--paper);
@@ -1129,53 +1029,36 @@ input::file-selector-button,
   color: var(--ink);
 }
 
-/* Card: surface block with pixel-cut corners and a solid corner notch */
+/* Card: surface block on a hairline border; lifts softly on hover */
 .card,
 .px-card {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--divider);
-  clip-path: polygon(
-    0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
-    calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px,
-    100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px),
-    calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 8px),
-    4px calc(100% - 8px), 4px calc(100% - 4px), 0 calc(100% - 4px)
-  );
 }
-.card::before,
-.px-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  background: var(--ink);
-}
-.card-hover { transition: transform 150ms ease, filter 150ms ease; }
+.card-hover { transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease; }
 .card-hover:hover {
-  transform: translate(-2px, -2px);
-  filter: drop-shadow(4px 4px 0 var(--ink-20));
-  border-color: var(--ink);
+  transform: translateY(-3px);
+  border-color: var(--ink-30);
+  box-shadow: 0 16px 40px rgb(var(--ink-rgb) / 0.08);
 }
 
-/* Small square mono chip / badge / filter pill */
+/* Small mono chip / badge / filter pill */
 .chip,
 .filter-btn,
 .sort-btn {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.25rem 0.7rem;
+  letter-spacing: 0.14em;
+  padding: 0.3rem 0.8rem;
   background: var(--paper);
   color: var(--muted2);
   border: 1px solid var(--divider);
   border-radius: 0;
   cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
 }
 .chip:hover,
 .filter-btn:hover,
@@ -1191,21 +1074,23 @@ input::file-selector-button,
   border-color: var(--ink);
 }
 
-/* Form field: square, black 1px border, pixel focus ring */
+/* Form field: hairline border that thickens to ink on focus */
 .field {
   width: 100%;
   background: var(--paper);
   color: var(--ink);
-  border: 1px solid var(--ink);
+  border: 1px solid var(--ink-30);
   border-radius: 0;
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.85rem;
   font: inherit;
   font-size: 0.875rem;
+  transition: border-color 200ms ease;
 }
 .field::placeholder { color: var(--muted3); }
 .field:focus {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
   background: var(--paper);
 }
 
@@ -1215,66 +1100,63 @@ input::file-selector-button,
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   color: var(--muted2);
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.45rem;
 }
 
-/* Pixel table: black header row, hairline dividers */
+/* Editorial table: mono header over an ink rule, hairline row dividers */
 .table-pixel {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--divider);
 }
 .table-pixel th {
-  font-family: var(--font-pixel);
-  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  background: var(--ink);
-  color: var(--paper);
+  letter-spacing: 0.16em;
+  color: var(--muted2);
+  background: transparent;
   text-align: left;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--ink);
+  padding: 0.6rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
 }
 .table-pixel td {
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.75rem;
   border-bottom: 1px solid var(--divider);
   vertical-align: top;
 }
 .table-pixel tr:last-child td { border-bottom: 0; }
+.table-pixel tbody tr { transition: background-color 150ms ease; }
 .table-pixel tbody tr:hover { background: var(--surface); }
 
-/* Section heading with pixel square bullet */
-.h-pixel {
-  font-family: var(--font-pixel);
-  font-weight: 700;
-}
-.h-pixel::before {
-  content: "";
-  display: inline-block;
-  width: 0.5em;
-  height: 0.5em;
-  background: var(--ink);
-  margin-right: 0.5em;
+/* Display heading (Andes Neue light, tight tracking) */
+.h-display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 
 /* ============================================================
-   Niche pixel details — dots, tooltips, selects, markers, tabs
+   Niche details — dots, tooltips, selects, markers, tabs
    ============================================================ */
 
-/* Square status dot (8px block) */
+/* Status dot */
 .dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
-/* Pixel tooltip: solid black square block, white pixel text */
+/* Tooltip: solid ink block, paper mono text */
 .tooltip {
   position: absolute;
   bottom: 100%;
@@ -1284,9 +1166,9 @@ input::file-selector-button,
   padding: 4px 8px;
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--font-pixel);
-  font-size: 0.6rem;
-  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -1295,7 +1177,7 @@ input::file-selector-button,
 }
 .group:hover .tooltip { opacity: 1; }
 
-/* Pixel details/summary: hide the triangle, use a square +/- block */
+/* details/summary: hide the triangle, use a thin +/- marker */
 .px-details > summary {
   list-style: none;
   cursor: pointer;
@@ -1304,36 +1186,38 @@ input::file-selector-button,
 .px-details > summary::after {
   content: "+";
   display: inline-block;
-  font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   width: 1.4em;
   text-align: center;
-  color: var(--ink);
+  color: var(--muted2);
 }
 .px-details[open] > summary::after { content: "−"; }
 
-/* Square select with pixel caret */
+/* Select with a thin chevron caret */
 .select-pixel {
   appearance: none;
   -webkit-appearance: none;
   background: var(--paper);
   color: var(--ink);
-  border: 1px solid var(--ink);
+  border: 1px solid var(--ink-30);
   border-radius: 0;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  padding: 0.25rem 1.6rem 0.25rem 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 1.7rem 0.3rem 0.7rem;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Crect x='0' y='0' width='8' height='2' fill='%230a0a0a'/%3E%3Crect x='2' y='3' width='4' height='2' fill='%230a0a0a'/%3E%3Crect x='4' y='6' width='0' height='0'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230a0a0a' stroke-width='1.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.55rem center;
+  background-position: right 0.6rem center;
+  transition: border-color 200ms ease;
 }
-.select-pixel:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
+.select-pixel:hover { border-color: var(--ink); }
+.select-pixel:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
 
-/* Square progress bar */
+/* Thin progress bar */
 .progress {
-  height: 6px;
+  height: 3px;
   background: var(--ink-10);
   border-radius: 0;
 }
@@ -1341,22 +1225,23 @@ input::file-selector-button,
   height: 100%;
   background: var(--ink);
   border-radius: 0;
-  transition: width 300ms ease;
+  transition: width 400ms ease;
 }
 
-/* Pixel tabs: square, black underline when active */
+/* Tabs: mono label, ink underline when active */
 .tab-pixel {
-  font-family: var(--font-pixel);
-  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   color: var(--muted2);
   background: none;
   border: 0;
-  border-bottom: 2px solid transparent;
+  border-bottom: 1px solid transparent;
   border-radius: 0;
   padding: 0.5rem 0.25rem;
   cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease;
 }
 .tab-pixel:hover { color: var(--ink); }
 .tab-pixel.active,
@@ -1368,27 +1253,36 @@ input::file-selector-button,
 /* copy-btn behaves like a chip */
 .copy-btn { cursor: pointer; }
 
-/* Pixel scrollbar — square black thumb on paper track */
+/* Thin scrollbar — quiet ink thumb on the paper track */
 html {
-  scrollbar-color: var(--ink) var(--paper);
+  scrollbar-color: var(--ink-30) transparent;
 }
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--ink);
-  border: 2px solid var(--paper);
+  background: var(--ink-30);
   border-radius: 0;
 }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-40); }
 
 /* ============================================================
    Polish pass — hero, frames, section rhythm, micro-interactions
    ============================================================ */
 
-/* Outlined display text (pixel stroke, transparent fill) */
+/* Outlined display text: 1px ink stroke, transparent fill */
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 2px var(--ink);
-  text-stroke: 2px var(--ink);
+  -webkit-text-stroke: 1px var(--ink);
+}
+
+/* Thin blinking caret for the hero wordmark */
+.caret {
+  display: inline-block;
+  width: 0.06em;
+  height: 0.78em;
+  margin-left: 0.06em;
+  background: var(--ink);
+  transform: translateY(0.08em);
 }
 
 /* Mono metadata row (status // location // time) */
@@ -1405,22 +1299,12 @@ html {
 }
 .meta-row .sep { color: var(--ink-20); }
 
-/* Framed image with pixel corner notch */
+/* Mounted image: hairline frame with even paper padding, like a print */
 .img-pixel {
-  position: relative;
   display: inline-block;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--divider);
   background: var(--paper);
-  padding: 6px;
-}
-.img-pixel::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 10px;
-  height: 10px;
-  background: var(--ink);
+  padding: 8px;
 }
 .img-pixel img { display: block; }
 
@@ -1446,58 +1330,43 @@ html {
 }
 .section-head h2::before { display: none; }
 
-/* Hard-shadow link chip for "view all" style links */
+/* Underlined mono link for "view all" style links */
 .link-block {
-  font-family: var(--font-pixel);
-  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.16em;
   color: var(--ink);
   text-decoration: none;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 2px;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 3px;
+  transition: opacity 200ms ease;
 }
-.link-block:hover { background: var(--ink); color: var(--paper); }
+.link-block:hover { opacity: 0.55; }
 
-/* Solid black status banner (form success/error) */
+/* Outlined status banner (form success/error) */
 .banner {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-pixel);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
   padding: 0.9rem 1.25rem;
 }
-.banner .dot { background: var(--paper); }
+.banner .dot { background: var(--ink); }
 
-/* Big pixel wordmark */
+/* Big display wordmark */
 .wordmark {
-  font-family: var(--font-pixel);
-  font-weight: 700;
-  font-size: clamp(2.5rem, 8vw, 6rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-family: var(--font-extralight);
+  font-weight: 200;
+  font-size: clamp(3rem, 10vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   color: var(--ink);
-}
-
-/* steps() easing for chunky pixel motion */
-.anim-steps { animation-timing-function: steps(2, end); }
-
-/* Dithered fade divider — checkerboard dissolving into paper (signature motif) */
-.dither-fade {
-  height: 32px;
-  background-image: conic-gradient(
-    var(--ink-10) 25%,
-    transparent 0 50%,
-    var(--ink-10) 0 75%,
-    transparent 0
-  );
-  background-size: 8px 8px;
-  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
-  mask-image: linear-gradient(to bottom, black, transparent);
 }
 
 /* Page title: pixel font + hairline rule (consistent across subpages) */

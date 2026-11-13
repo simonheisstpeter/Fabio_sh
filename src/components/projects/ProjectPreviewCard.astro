@@ -11,16 +11,9 @@ const displayIndex = String(index + 1).padStart(2, "0");
 
 <li class="list-none">
     <article
-        class="group relative overflow-hidden bg-surface border border-divider p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-raised hover:border-ink-30 animate-fadeIn_2200"
+        class="card card-hover group relative overflow-hidden p-8 animate-fadeIn_2200"
         data-delay={String(index * 150)}
     >
-        <!-- Decorative pixel checkerboard corner block -->
-        <div
-            class="pixel-checker absolute -right-4 -top-4 h-24 w-24 group-hover:opacity-100 opacity-70 transition-opacity duration-500"
-            aria-hidden="true"
-        >
-        </div>
-
         <div class="relative z-10 flex flex-col h-full justify-between">
             <div>
                 <span
@@ -29,7 +22,7 @@ const displayIndex = String(index + 1).padStart(2, "0");
                     {displayIndex} // PREVIEW
                 </span>
                 <h3
-                    class="text-xl md:text-2xl font-pixel text-fg group-hover:text-ink transition-colors leading-tight"
+                    class="text-xl md:text-2xl font-display text-fg group-hover:text-ink transition-colors leading-tight"
                 >
                     {title}
                 </h3>
