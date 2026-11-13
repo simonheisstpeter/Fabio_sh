@@ -24,7 +24,7 @@ const errorMessages: Record<string, string> = {
 ---
 
 <!doctype html>
-<html lang="en" class="pixel-bg">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -46,15 +46,10 @@ const errorMessages: Record<string, string> = {
     <title>Admin Setup – fabio.sh</title>
     <meta name="robots" content="noindex,nofollow" />
   </head>
-  <body class="pixel-bg bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-andesNeueLight">
-    <div class="page-frame" aria-hidden="true">
-      <span class="fc fc-tl"></span><span class="fc fc-tr"></span>
-      <span class="fc fc-bl"></span><span class="fc fc-br"></span>
-    </div>
-    <div class="pixel-strip edge-strip edge-strip-top" aria-hidden="true"></div>
-    <div class="pixel-strip edge-strip edge-strip-bottom" aria-hidden="true"></div>
+  <body class="bg-paper text-gray-200 min-h-screen flex items-center justify-center p-6 font-andesNeueLight">
+    <div class="page-frame" aria-hidden="true"></div>
     <div class="card p-8 w-full max-w-md">
-      <h1 class="h-pixel text-xl font-semibold text-gray-50 mb-1">Admin Setup</h1>
+      <h1 class="h-display text-xl font-semibold text-gray-50 mb-1">Admin Setup</h1>
       <p class="text-xs text-gray-500 mb-6">First-time credential registration</p>
 
       {error && (
@@ -70,7 +65,7 @@ const errorMessages: Record<string, string> = {
 
       {!hasPassword && (
         <div>
-          <h2 class="h-pixel text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Email + Password</h2>
+          <h2 class="h-display text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Email + Password</h2>
           <form action="/api/auth/setup-password" method="POST">
             <label for="email" class="block text-xs text-gray-400 mb-1">Email</label>
             <input id="email" name="email" type="email" required autocomplete="email"
@@ -94,7 +89,7 @@ const errorMessages: Record<string, string> = {
 
       {!hasPasskey && (
         <div class={hasPassword ? 'mt-6 pt-6 border-t border-gray-800' : 'mt-6'}>
-          <h2 class="h-pixel text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Passkey (WebAuthn)</h2>
+          <h2 class="h-display text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Passkey (WebAuthn)</h2>
           <button id="register-passkey-btn" type="button"
             class="w-full bg-gray-800 text-gray-200 py-2.5 border border-gray-700 cursor-pointer text-sm hover:bg-gray-700 transition-colors disabled:opacity-50">
             Register Passkey
