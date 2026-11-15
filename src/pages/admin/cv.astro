@@ -6,7 +6,7 @@ const cvFiles = getCvFiles();
 const secrets = getCvSecrets();
 
 function formatDate(dt: string | null): string {
-    if (!dt) return "—";
+    if (!dt) return "-";
     return new Date(dt).toLocaleString("en-GB", {
         day: "2-digit",
         month: "short",

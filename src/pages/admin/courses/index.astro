@@ -45,7 +45,7 @@ const STATUS_CLASS: Record<string, string> = {
           {courses.map(c => (
             <tr class="border-b border-divider hover:bg-ink-10 transition-colors">
               <td class="py-3 pr-4 text-gray-100 font-medium">{c.title}</td>
-              <td class="py-3 pr-4 text-gray-400">{c.platform || '—'}</td>
+              <td class="py-3 pr-4 text-gray-400">{c.platform || '-'}</td>
               <td class="py-3 pr-4">
                 <span class={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_CLASS[c.status]}`}>
                   {STATUS_LABEL[c.status]}
@@ -55,12 +55,12 @@ const STATUS_CLASS: Record<string, string> = {
               <td class="py-3 pr-4">
                 {c.hasCertificate
                   ? <span class="text-ink text-xs">✓</span>
-                  : <span class="text-gray-700 text-xs">—</span>}
+                  : <span class="text-gray-700 text-xs">-</span>}
               </td>
               <td class="py-3 pr-4">
                 {c.published
                   ? <span class="text-ink text-xs">✓</span>
-                  : <span class="text-gray-700 text-xs">—</span>}
+                  : <span class="text-gray-700 text-xs">-</span>}
               </td>
               <td class="py-3">
                 <div class="flex gap-3">

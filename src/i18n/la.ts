@@ -76,7 +76,7 @@ export default {
   cvViewButton: "CV videre",
 
   socialTitle: "Socialia",
-  socialIntro: "Novissimae scriptiones meae — recta ex servitore meo.",
+  socialIntro: "Novissimae scriptiones meae - recta ex servitore meo.",
   socialViewProfile: "Plenum profilum videre",
   socialEmpty: "Nullae adhuc scriptiones.",
   socialError: "Fluxus nunc legi non potuit.",

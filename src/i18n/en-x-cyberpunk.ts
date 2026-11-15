@@ -77,7 +77,7 @@ export default {
   cvViewButton: "Jack In",
 
   socialTitle: "The Feed",
-  socialIntro: "Latest transmissions — straight off my own node.",
+  socialIntro: "Latest transmissions - straight off my own node.",
   socialViewProfile: "Jack into the full profile",
   socialEmpty: "No transmissions yet.",
   socialError: "Signal lost. Feed unreachable.",

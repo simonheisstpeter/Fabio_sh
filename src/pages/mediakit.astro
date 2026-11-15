@@ -8,19 +8,20 @@ const t = getTranslations(locale);
 
 // Keep in sync with the palette tokens in src/styles/globals.css.
 const colors = [
-  { name: 'Ink',     hex: '#0a0a0a', class: 'bg-ink border-2 border-edge' },
-  { name: 'Paper',   hex: '#ffffff', class: 'bg-paper border-2 border-edge' },
-  { name: 'Accent',  hex: '#2b3ff0', class: 'bg-accent border-2 border-edge' },
-  { name: 'Surface', hex: '#f5f5f5', class: 'bg-surface border-2 border-edge' },
-  { name: 'Muted',   hex: '#666666', class: 'bg-ink-soft border-2 border-edge' },
+  { name: 'Ink',     hex: '#1f1f1f', class: 'bg-ink border-2 border-edge' },
+  { name: 'Paper',   hex: '#fffaeb', class: 'bg-paper border-2 border-edge' },
+  { name: 'Accent',  hex: '#fa520f', class: 'bg-accent border-2 border-edge' },
+  { name: 'Surface', hex: '#fff0c2', class: 'bg-surface border-2 border-edge' },
+  { name: 'Muted',   hex: '#6e6252', class: 'bg-ink-soft border-2 border-edge' },
+  { name: 'Block',   hex: 'var(--grad-block)', class: 'border-2 border-edge', style: 'background:linear-gradient(90deg,#ffd900,#ffe295,#ffa110,#ff8105,#fb6424,#fa520f)' },
 ];
 // Dark theme tokens — keep in sync with [data-theme="dark"] in globals.css
 const colorsDark = [
-  { name: 'Paper',   hex: '#0a0a0a', class: 'border-2 border-edge', style: 'background:#0a0a0a' },
-  { name: 'Ink',     hex: '#f2f2f2', class: 'border-2 border-edge', style: 'background:#f2f2f2' },
-  { name: 'Accent',  hex: '#8a94ff', class: 'border-2 border-edge', style: 'background:#8a94ff' },
-  { name: 'Surface', hex: '#161616', class: 'border-2 border-edge', style: 'background:#161616' },
-  { name: 'Divider', hex: '#2a2a2a', class: 'border-2 border-edge', style: 'background:#2a2a2a' },
+  { name: 'Paper',   hex: '#141210', class: 'border-2 border-edge', style: 'background:#141210' },
+  { name: 'Ink',     hex: '#fffaeb', class: 'border-2 border-edge', style: 'background:#fffaeb' },
+  { name: 'Accent',  hex: '#ff7a3d', class: 'border-2 border-edge', style: 'background:#ff7a3d' },
+  { name: 'Surface', hex: '#1d1812', class: 'border-2 border-edge', style: 'background:#1d1812' },
+  { name: 'Divider', hex: '#382e22', class: 'border-2 border-edge', style: 'background:#382e22' },
 ];
 ---
 
@@ -43,11 +44,18 @@ const colorsDark = [
       </h2>
       <div class="md:w-2/3 text-fg space-y-6">
         <div>
+          <p class="font-book text-4xl mb-3">Andes Neue Book</p>
+          <button
+            class="copy-btn chip text-left normal-case"
+            data-copy="font-family: 'AndesNeueBook', sans-serif; font-weight: 400; (display + body)"
+          >font-family: 'AndesNeueBook', sans-serif; font-weight: 400; (display + body)</button>
+        </div>
+        <div>
           <p class="font-black text-4xl mb-3 uppercase">Andes Neue Black</p>
           <button
             class="copy-btn chip text-left normal-case"
-            data-copy="font-family: 'AndesNeueBlack', sans-serif; font-weight: 900; (display)"
-          >font-family: 'AndesNeueBlack', sans-serif; font-weight: 900; (display)</button>
+            data-copy="font-family: 'AndesNeueBlack', sans-serif; font-weight: 900; (hero only)"
+          >font-family: 'AndesNeueBlack', sans-serif; font-weight: 900; (hero only)</button>
         </div>
         <div>
           <p class="font-andesNeueMedium text-3xl mb-3">Andes Neue Medium</p>
