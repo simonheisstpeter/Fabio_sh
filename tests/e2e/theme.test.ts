@@ -42,12 +42,17 @@ describe("dark/light theme system", () => {
     }
   });
 
-  it("serves the Andes Neue faces and preloads ExtraLight; pixel fonts are gone", async () => {
+  it("preloads exactly the four used Andes Neue faces; pixel fonts are gone", async () => {
     const html = await (await anon.get("/")).text();
-    expect(html).toContain("/fonts/AndesNeue-ExtraLight.woff2");
+    for (const face of ["AndesNeue-Medium", "AndesNeue-Light", "AndesNeue-Black", "AndesNeue-Book"]) {
+      expect(html).toContain(`/fonts/${face}.woff2`);
+    }
+    // ExtraLight + Bold were never referenced by a family/class and are not shipped
+    expect(html).not.toContain("AndesNeue-ExtraLight.woff2");
+    expect(html).not.toContain("AndesNeue-Bold.woff2");
     expect(html).not.toContain("handjet");
     expect(html).not.toContain("silkscreen");
-    const font = await anon.get("/fonts/AndesNeue-ExtraLight.woff2");
+    const font = await anon.get("/fonts/AndesNeue-Book.woff2");
     expect(font.status).toBe(200);
     expect(font.headers.get("content-type")).toContain("font/woff2");
   });
@@ -66,7 +71,11 @@ describe("dark/light theme system", () => {
     expect(css).toContain(".font-display");
     expect(css).toContain(".h-display");
     expect(css).toContain(".caret");
-    expect(css).toContain('"AndesNeueExtraLight"');
+    for (const fam of ['"AndesNeueMedium"', '"AndesNeueLight"', '"AndesNeueBlack"', '"AndesNeueBook"']) {
+      expect(css, fam).toContain(fam);
+    }
+    expect(css).not.toContain("AndesNeueExtraLight");
+    expect(css).not.toContain("AndesNeueBold");
     expect(css).not.toContain("Handjet");
     expect(css).not.toContain("Silkscreen");
     expect(css).not.toContain(".pixel-strip");

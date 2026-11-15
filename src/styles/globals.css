@@ -59,7 +59,6 @@
   --font-light: "AndesNeueLight", sans-serif;
   --font-black: "AndesNeueBlack", "AndesNeueMedium", sans-serif;
   --font-display: "AndesNeueBook", "AndesNeueLight", sans-serif;
-  --font-extralight: "AndesNeueExtraLight", "AndesNeueLight", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   --cursor-fabiosh: url(/f.cur), pointer;
@@ -117,12 +116,6 @@ html[data-theme="dark"] .cursor-fabiosh { cursor: pointer; }
   font-display: swap;
 }
 @font-face {
-  font-family: "AndesNeueExtraLight";
-  src: url("/fonts/AndesNeue-ExtraLight.woff2") format("woff2");
-  font-weight: 200;
-  font-display: swap;
-}
-@font-face {
   font-family: "AndesNeueBook";
   src: url("/fonts/AndesNeue-Book.woff2") format("woff2");
   font-weight: 400;
@@ -132,12 +125,6 @@ html[data-theme="dark"] .cursor-fabiosh { cursor: pointer; }
   font-family: "AndesNeueBlack";
   src: url("/fonts/AndesNeue-Black.woff2") format("woff2");
   font-weight: 900;
-  font-display: swap;
-}
-@font-face {
-  font-family: "AndesNeueBold";
-  src: url("/fonts/AndesNeue-Bold.woff2") format("woff2");
-  font-weight: 700;
   font-display: swap;
 }
 
@@ -746,7 +733,6 @@ html[data-theme="dark"] .select-pixel {
 .font-andesNeueLight { font-family: var(--font-light); }
 .font-display { font-family: var(--font-display); }
 .font-black { font-family: var(--font-black); font-weight: 900; }
-.font-extralight { font-family: var(--font-extralight); font-weight: 200; }
 .font-book { font-family: "AndesNeueBook", sans-serif; font-weight: 400; }
 .font-mono { font-family: var(--font-mono); }
 .font-sans { font-family: var(--font-sans); }

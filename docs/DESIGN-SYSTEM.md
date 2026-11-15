@@ -82,9 +82,13 @@ persists it.
 
 ## 3. Type scale
 
-Self-hosted Andes Neue (all weights in `public/fonts/`). Hierarchy is carried
-by size and color, not weight; maximum two font families (only Andes Neue is
-loaded).
+Self-hosted Andes Neue: four faces in `public/fonts/`, all preloaded in
+`default.astro` (Light 300, Book 400, Medium 500, Black 900). ExtraLight and
+Bold were dropped in the v8 perf pass — no family/class ever referenced them,
+and `.font-bold` / `.font-semibold` synthesize from the inherited face, so
+rendered output is unchanged while ~88 KB of unused woff2 is no longer
+preloaded. Hierarchy is carried by size and color, not weight; maximum two
+font families (only Andes Neue is loaded).
 
 | Role | Face | Weight | Notes |
 |---|---|---|---|
@@ -96,8 +100,8 @@ loaded).
 | Outlined display | `.text-outline` | 400 (900 in hero) | transparent fill, `2px` `-webkit-text-stroke` ink |
 
 Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
-`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. Black is preloaded in
-`default.astro`.
+`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. All four faces are
+preloaded in `default.astro`.
 
 ## 4. Motifs
 
