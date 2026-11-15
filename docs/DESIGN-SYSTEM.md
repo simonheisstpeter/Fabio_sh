@@ -87,26 +87,30 @@ persists it.
 
 ## 3. Type scale
 
-Self-hosted Andes Neue: four faces in `public/fonts/`, all preloaded in
-`default.astro` (Light 300, Book 400, Medium 500, Black 900). ExtraLight and
-Bold were dropped in the v8 perf pass — no family/class ever referenced them,
-and `.font-bold` / `.font-semibold` synthesize from the inherited face, so
-rendered output is unchanged while ~88 KB of unused woff2 is no longer
-preloaded. Hierarchy is carried by size and color, not weight; maximum two
-font families (only Andes Neue is loaded).
+Self-hosted Andes Neue: two faces in `public/fonts/`, both preloaded in
+`default.astro` (Black 900, Book 400). Light/Medium were dropped in the v8
+perf pass — `--font-light` / `--font-medium` now resolve to Book, so the
+`.font-andesNeueLight` / `.font-andesNeueMedium` classes render Book and
+~87 KB of woff2 is no longer downloaded per page. ExtraLight and Bold files
+were never referenced by a family/class and are not shipped; `.font-bold` /
+`.font-semibold` synthesize from the inherited face. Hierarchy is carried by
+size and color, not weight; maximum two font families (only Andes Neue is
+loaded).
 
 | Role | Face | Weight | Notes |
 |---|---|---|---|
 | Hero display (index `h1` only) | `AndesNeueBlack` | 900 | `.font-black` on the hero; `clamp`-scale, `-0.02em`+, uppercase |
 | Display (h1/h2 elsewhere, `.h-display`, `.wordmark`, 404, preview indexes) | `AndesNeueBook` | 400 | `letter-spacing: -0.02em`, `text-transform: uppercase`, `line-height: 0.85–1.1` |
 | Body | `AndesNeueBook` | 400 | `1rem / 1.6` |
-| Emphasis | `AndesNeueLight` / `AndesNeueMedium` | 300 / 500 | paragraphs and nav labels |
+| Emphasis | `AndesNeueBook` | 400 | paragraphs and nav labels (former Light/Medium classes) |
 | Labels / meta / chips / buttons / tabs | `ui-monospace` stack | 400 | `0.66–0.72rem`, uppercase, `letter-spacing: 0.14–0.25em` |
 | Outlined display | `.text-outline` | 400 (900 in hero) | transparent fill, `2px` `-webkit-text-stroke` ink |
 
 Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
-`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. All four faces are
-preloaded in `default.astro`.
+`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. Only Black and Book
+are preloaded in `default.astro`. The `/about` portrait ships as
+`meta_pic.webp` (576px, ~6 KB) inside a `<picture>` with the PNG fallback;
+the PNG stays for `og:image` and seeded project data.
 
 ## 4. Motifs
 

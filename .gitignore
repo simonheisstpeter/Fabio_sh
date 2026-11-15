@@ -50,3 +50,6 @@ yarn-error.log*
 
 .claude/*
 
+
+# generated at build time by scripts/gen-webp.mjs
+/public/meta_pic.webp

@@ -76,11 +76,11 @@
   --gray-600: #7e9388;
   --gray-700: #c2d8cc;
   --gray-800: #cbe7d8;
-  --font-book: "AndesNeueBook", "AndesNeueLight", sans-serif;
-  --font-medium: "AndesNeueMedium", sans-serif;
-  --font-light: "AndesNeueLight", sans-serif;
-  --font-black: "AndesNeueBlack", "AndesNeueMedium", sans-serif;
-  --font-display: "AndesNeueBook", "AndesNeueLight", sans-serif;
+  --font-book: "AndesNeueBook", sans-serif;
+  --font-medium: "AndesNeueBook", sans-serif;
+  --font-light: "AndesNeueBook", sans-serif;
+  --font-black: "AndesNeueBlack", sans-serif;
+  --font-display: "AndesNeueBook", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   --cursor-fabiosh: url(/f.cur), pointer;
@@ -125,18 +125,6 @@ html[data-theme="dark"] {
 /* The black F cursor is invisible on the dark canvas — fall back to pointer */
 html[data-theme="dark"] .cursor-fabiosh { cursor: pointer; }
 
-@font-face {
-  font-family: "AndesNeueMedium";
-  src: url("/fonts/AndesNeue-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: "AndesNeueLight";
-  src: url("/fonts/AndesNeue-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-display: swap;
-}
 @font-face {
   font-family: "AndesNeueBook";
   src: url("/fonts/AndesNeue-Book.woff2") format("woff2");

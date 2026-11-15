@@ -42,12 +42,15 @@ describe("dark/light theme system", () => {
     }
   });
 
-  it("preloads exactly the four used Andes Neue faces; pixel fonts are gone", async () => {
+  it("preloads exactly the two used Andes Neue faces; pixel fonts are gone", async () => {
     const html = await (await anon.get("/")).text();
-    for (const face of ["AndesNeue-Medium", "AndesNeue-Light", "AndesNeue-Black", "AndesNeue-Book"]) {
+    for (const face of ["AndesNeue-Black", "AndesNeue-Book"]) {
       expect(html).toContain(`/fonts/${face}.woff2`);
     }
+    // Medium + Light were dropped in the v8 perf pass (Book covers body text);
     // ExtraLight + Bold were never referenced by a family/class and are not shipped
+    expect(html).not.toContain("AndesNeue-Medium.woff2");
+    expect(html).not.toContain("AndesNeue-Light.woff2");
     expect(html).not.toContain("AndesNeue-ExtraLight.woff2");
     expect(html).not.toContain("AndesNeue-Bold.woff2");
     expect(html).not.toContain("handjet");
@@ -71,9 +74,11 @@ describe("dark/light theme system", () => {
     expect(css).toContain(".font-display");
     expect(css).toContain(".h-display");
     expect(css).toContain(".caret");
-    for (const fam of ['"AndesNeueMedium"', '"AndesNeueLight"', '"AndesNeueBlack"', '"AndesNeueBook"']) {
+    for (const fam of ['"AndesNeueBlack"', '"AndesNeueBook"']) {
       expect(css, fam).toContain(fam);
     }
+    expect(css).not.toContain("AndesNeueMedium");
+    expect(css).not.toContain("AndesNeueLight");
     expect(css).not.toContain("AndesNeueExtraLight");
     expect(css).not.toContain("AndesNeueBold");
     expect(css).not.toContain("Handjet");
