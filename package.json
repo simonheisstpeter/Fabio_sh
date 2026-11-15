@@ -22,10 +22,10 @@
     "test:all": "vitest run && vitest run -c vitest.e2e.config.ts"
   },
   "dependencies": {
-    "@astrojs/node": "^11.1.12",
+    "@astrojs/node": "^11.1.13",
     "@simplewebauthn/browser": "^14.0.0",
     "@simplewebauthn/server": "^14.1.0",
-    "astro": "^7.4.10",
+    "astro": "^7.4.12",
     "astro-mail-obfuscation": "^3.0.1"
   },
   "overrides": {
