@@ -1,1 +1,60 @@
-[object Object]
+---
+const { t, isJa } = Astro.props;
+---
+
+<section class="container mx-auto pt-24 md:pt-40 px-6 md:pl-12 relative overflow-hidden">
+    <!-- mono metadata strip -->
+    <div class="meta-row mb-10 animate-fadeIn_2000">
+        <span class="flex items-center gap-2">
+            <span class="dot bg-accent animate-pulse"></span>
+            {t.statusOnline}
+        </span>
+        <span class="sep" aria-hidden="true">//</span>
+        <span>Vienna, AT [48.2082° N, 16.3738° E]</span>
+        <span class="sep" aria-hidden="true">//</span>
+        <span><span id="vienna-time">00:00:00</span> CET</span>
+    </div>
+
+    <!-- poster headline: stacked black display type, second line outlined -->
+    <h1
+        class={`w-fit max-w-full font-black uppercase leading-[0.85] tracking-tighter block animate-fadeIn_2000 text-ink relative text-[17vw] md:text-[12rem] ${isJa ? "space-y-2" : ""}`}
+    >
+        <span class="block">{t.name}</span>
+        <span class="block text-outline"
+            >{t.lastname}<span class="caret animate-blink" aria-hidden="true"></span></span
+        >
+    </h1>
+
+    <!-- sticker row: rotated accent label + solid F block + mono taglines -->
+    <div class="mt-10 flex flex-wrap items-center gap-6 animate-fadeIn_2200">
+        <span class="sticker">\ digital media &amp; IT</span>
+        <span
+            class="inline-flex h-12 w-12 items-center justify-center border-2 border-ink bg-ink font-black text-paper text-2xl leading-none shadow-lg select-none"
+            aria-hidden="true">F</span
+        >
+        <span
+            class="font-mono text-xs md:text-sm text-muted2 tracking-[0.2em] uppercase"
+        >
+            Vienna &middot; Europe
+        </span>
+    </div>
+
+    <!-- CTAs -->
+    <div class="mt-10 flex flex-wrap gap-4 animate-fadeIn_2500">
+        <a href="#projects" class="btn btn-solid text-sm">{t.menuProjects}</a>
+        <a href="#contact" class="btn text-sm">{t.menuContact}</a>
+    </div>
+</section>
+
+<script>
+    function updateTime() {
+        const el = document.getElementById("vienna-time");
+        if (!el) return;
+        el.textContent = new Date().toLocaleTimeString("en-GB", {
+            timeZone: "Europe/Vienna",
+            hour12: false,
+        });
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>

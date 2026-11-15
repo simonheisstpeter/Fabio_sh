@@ -1,1 +1,17 @@
-[object Object]
+---
+interface Props {
+    big?: boolean;
+}
+const { big = false }: Props = Astro.props;
+---
+
+<div class={big ? "" : "mr-7 inline-block"} aria-hidden="true">
+    <!-- "F" mark: a single black letter in a solid ink block with a hard shadow -->
+    <span
+        class={big
+            ? "inline-flex h-45 w-45 items-center justify-center border-2 border-ink bg-ink font-black text-paper text-9xl leading-none shadow-lg"
+            : "inline-flex h-8 w-8 translate-y-0.5 items-center justify-center border-2 border-ink bg-ink font-black text-paper text-sm leading-none shadow-lg"}
+        >F</span
+    >
+    <span class="sr-only">Home</span>
+</div>
