@@ -214,7 +214,7 @@ preloaded in `default.astro`.
 |---|---|---|
 | Button | `.btn` | Mono uppercase label, 2px ink border, px-corner steps, 4px emerald hard shadow; hover sweeps an ink block in from the left (label flips to paper, lift 2px + 6px accent shadow), `:active` presses flat |
 | Primary button | `.btn-solid` | Accent bg, `--on-accent` text, ink border + shadow |
-| Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 1px `ink-30` hairline border, px-corner steps, resting 6px emerald hard shadow; hover/focus turns the border full ink, lifts 4px with a 12px shadow, and wakes the card's pixel field; `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover. Contact form card adds a mini-mosaic + ink rule header row inside |
+| Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 1px `ink-30` hairline border, px-corner steps, resting 6px emerald hard shadow; hover/focus turns the border full ink, lifts 4px with a 12px shadow, and wakes the card's pixel field; `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover. Contact form card is a split card: a 108px panel of 18px square tiles on the left (full-width 36px tile band on mobile) with a paper `// contact` chip, form on the right; on mobile a mini-mosaic + ink rule header row shows instead |
 | Card pixel field | `.px-field` (canvas injected into every `.card` by `default.astro`) | 18px square emerald cells (hero cell size) appear around the pointer and fade slowly (decay 0.008); hover-only, no ambient pixels; rAF loop runs only while hovered/focused or pixels are alive; off under `prefers-reduced-motion`; card content sits above via `.card > :not(.px-field)` z-index |
 | Chip / filter | `.chip`, `.filter-btn`, `.sort-btn` | Mono label, hairline border; active = accent bg |
 | Field | `.field` | 2px `ink-30` border, px-corner steps; focus = ink border + 4px accent hard shadow |
@@ -252,6 +252,7 @@ preloaded in `default.astro`.
   hover forced on via `.demo-active`. The pixel field reuses the hero
   canvas logic (`canvas.pxfield`, `data-decay`/`data-ambient` attributes).
   Linked from the mediakit page ("// designs" section). Animations respect
-  `prefers-reduced-motion`. Variant Q (pixel field + hairline) was promoted
-  to the shipped `.card` (see Components); the pages remain as the
-  experiment log.
+  `prefers-reduced-motion`. Promoted so far: variant Q (pixel field +
+  hairline) became the shipped `.card`, and the contact page's V2 (split
+  mosaic panel) became the shipped `ContactForm.astro` card; the pages
+  remain as the experiment log.

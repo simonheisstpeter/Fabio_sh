@@ -1,0 +1,122 @@
+---
+import MiniMosaic from '../../../components/MiniMosaic.astro';
+import FormFields from './FormFields.astro';
+
+// Contact-card preview variants. All sit on the shipped .card (hairline +
+// pixel field, injected by the layout script), so hover a card to wake the
+// field. Mosaic elements are 18px square tiles (hero cell size).
+interface Props {
+    variant: string;
+}
+const { variant } = Astro.props;
+
+const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const bandTiles = Array.from({ length: 96 }, (_, i) => ({ color: RAMP[i % 6] }));
+const panelTiles = Array.from({ length: 40 }, (_, i) => {
+    const col = i % 6;
+    const row = Math.floor(i / 6);
+    return { color: RAMP[(row + col) % 6] };
+});
+---
+
+{variant === "band" && (
+    <div class="card card-hover overflow-hidden">
+        <div class="sq-band" aria-hidden="true">
+            {bandTiles.map((t) => <span style={`background:${t.color}`} />)}
+        </div>
+        <div class="p-8 md:p-16">
+            <p class="font-mono text-xs uppercase tracking-widest text-ink-soft mb-2">// contact</p>
+            <h2 class="h-display text-2xl md:text-3xl text-fg mb-10">Send a message</h2>
+            <FormFields />
+        </div>
+    </div>
+)}
+
+{variant === "split" && (
+    <div class="card card-hover overflow-hidden flex flex-col md:flex-row">
+        <div class="sq-panel" aria-hidden="true">
+            {panelTiles.map((t) => <span style={`background:${t.color}`} />)}
+            <span class="sq-panel-label">// contact</span>
+        </div>
+        <div class="flex-1 p-8 md:p-12">
+            <p class="font-mono text-xs uppercase tracking-widest text-ink-soft mb-2 md:hidden">// contact</p>
+            <h2 class="h-display text-2xl md:text-3xl text-fg mb-10">Send a message</h2>
+            <FormFields />
+        </div>
+    </div>
+)}
+
+{variant === "ink" && (
+    <div class="card card-hover overflow-hidden">
+        <div class="bg-ink text-paper p-8 md:p-10 flex items-center gap-4">
+            <MiniMosaic />
+            <h2 class="h-display text-2xl md:text-3xl">Send a message</h2>
+            <span class="ml-auto font-mono text-xs uppercase tracking-widest opacity-60">// contact</span>
+        </div>
+        <div class="p-8 md:p-16">
+            <FormFields />
+        </div>
+    </div>
+)}
+
+{variant === "minimal" && (
+    <div class="card card-hover p-6 md:p-10">
+        <div class="flex items-center gap-3 mb-8">
+            <MiniMosaic />
+            <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">// contact</span>
+        </div>
+        <FormFields wide />
+    </div>
+)}
+
+<style>
+  /* 18px square-tile band across the card top */
+  .sq-band {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 18px);
+    grid-auto-rows: 18px;
+    height: 36px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--ink-30);
+  }
+  .sq-band span { display: block; }
+
+  /* split variant: band on mobile, 108px square-tile column on md+ */
+  .sq-panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 18px);
+    grid-auto-rows: 18px;
+    overflow: hidden;
+    height: 36px;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--ink-30);
+  }
+  .sq-panel span { display: block; }
+  .sq-panel-label { display: none; }
+  @media (min-width: 768px) {
+    .sq-panel {
+      width: 108px;
+      height: auto;
+      border-bottom: none;
+      border-right: 1px solid var(--ink-30);
+      grid-template-columns: repeat(6, 18px);
+    }
+    .sq-panel-label {
+      display: block;
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--paper);
+      border: 1px solid var(--ink-30);
+      padding: 2px 6px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+  }
+</style>

@@ -10,6 +10,7 @@ const t = getTranslations(locale);
 
 // Live design experiments (English-only preview pages under /mediakit/designs)
 const designsUrl = getRelativeLocaleUrl(locale, '/mediakit/designs/cards');
+const designsContactUrl = getRelativeLocaleUrl(locale, '/mediakit/designs/contact');
 
 // Keep in sync with the palette tokens in src/styles/globals.css.
 const colors = [
@@ -157,16 +158,24 @@ const colorsDark = [
       </h2>
       <div class="md:w-2/3">
         <p class="text-fg text-sm mb-4">
-          Live design experiments and component previews. Currently: card design options
-          (English only).
+          Live design experiments and component previews (English only).
         </p>
-        <a
-          href={designsUrl}
-          class="inline-flex items-center gap-2 border-2 border-ink px-4 py-2 text-sm text-ink hover:bg-ink hover:text-paper transition-colors duration-200"
-        >
-          /mediakit/designs/cards
-          <span aria-hidden="true">-&gt;</span>
-        </a>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={designsUrl}
+            class="inline-flex items-center gap-2 border-2 border-ink px-4 py-2 text-sm text-ink hover:bg-ink hover:text-paper transition-colors duration-200"
+          >
+            /mediakit/designs/cards
+            <span aria-hidden="true">-&gt;</span>
+          </a>
+          <a
+            href={designsContactUrl}
+            class="inline-flex items-center gap-2 border-2 border-ink px-4 py-2 text-sm text-ink hover:bg-ink hover:text-paper transition-colors duration-200"
+          >
+            /mediakit/designs/contact
+            <span aria-hidden="true">-&gt;</span>
+          </a>
+        </div>
       </div>
     </section>
 
