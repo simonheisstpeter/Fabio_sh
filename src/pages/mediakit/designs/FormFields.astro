@@ -1,0 +1,35 @@
+---
+// Static form fields for the contact-card preview (non-functional).
+interface Props {
+    wide?: boolean;
+}
+const { wide = false } = Astro.props;
+---
+
+<div class="flex flex-col gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="flex flex-col gap-2">
+            <span class="label"><span class="text-accent">01 //</span> Name</span>
+            <input class="field" type="text" placeholder="John Doe" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <span class="label"><span class="text-accent">02 //</span> Email</span>
+            <input class="field" type="email" placeholder="hello@example.com" />
+        </div>
+    </div>
+    <div class="flex flex-col gap-2">
+        <span class="label"><span class="text-accent">03 //</span> Message</span>
+        <textarea class="field" rows="5" placeholder="Your message..."></textarea>
+        <span class="ml-auto font-mono text-xs text-muted3">0 / 2000</span>
+    </div>
+    <div class="pt-2 flex flex-wrap items-center gap-4">
+        <button type="button" class={`btn btn-solid px-10 py-4 ${wide ? "w-full" : ""}`}>
+            Send message -&gt;
+        </button>
+        {!wide && (
+            <span class="font-mono text-xs uppercase tracking-widest text-muted3">
+                // replies within 48h
+            </span>
+        )}
+    </div>
+</div>

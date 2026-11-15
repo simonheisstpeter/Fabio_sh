@@ -1,0 +1,89 @@
+---
+import Layout from '../../../layouts/default.astro';
+import MosaicHead from '../../../components/MosaicHead.astro';
+import ContactSample from './ContactSample.astro';
+
+// Design experiment page: contact-card variants. English only, linked from
+// the mediakit page ("// designs").
+
+const options = [
+    {
+        id: "V1",
+        variant: "band",
+        name: "Mosaic band header",
+        desc: "A 36px band of 18px square tiles across the card top, then label + display title + form. The pixel field wakes on hover behind the form.",
+        best: "Default look: mosaic signature without eating form space.",
+    },
+    {
+        id: "V2",
+        variant: "split",
+        name: "Split mosaic panel",
+        desc: "Left column of 18px square tiles (band on mobile) with a paper '// contact' chip; form on the right. Asymmetric, editorial.",
+        best: "When the contact block is the page's main moment (e.g. /contact).",
+    },
+    {
+        id: "V3",
+        variant: "ink",
+        name: "Ink header block",
+        desc: "A solid ink header row (MiniMosaic + title + // contact in paper) above the paper form body. Strong contrast, very mistral-like.",
+        best: "A bold anchor at the bottom of the index page.",
+    },
+    {
+        id: "V4",
+        variant: "minimal",
+        name: "Minimal, field-first",
+        desc: "No header block at all: MiniMosaic + label, tight spacing, full-width submit. The hairline card and the hover pixel field do the talking.",
+        best: "Dense pages where the form should feel quiet until hovered.",
+    },
+];
+---
+
+<Layout title="Contact card options – fabio.sh" description="Local preview of contact card designs">
+  <div class="container mx-auto pt-24 md:pt-32 font-andesNeueLight px-6 md:px-12 pb-24">
+    <MosaicHead />
+    <h1 class="h-display page-title text-3xl md:text-5xl mb-6 text-fg">Contact card options</h1>
+    <p class="text-muted2 max-w-2xl mb-16">
+      Local preview, not part of the site (static fields, form does not submit).
+      All variants sit on the shipped card: hairline border + hard shadow, and a
+      hover-only pixel field of 18px square cells. Hover a card to wake it.
+    </p>
+
+    {options.map((opt) => (
+      <section class="mb-20">
+        <header class="opt-head">
+          <span class="opt-badge">{opt.id}</span>
+          <div>
+            <h2 class="text-xl font-semibold text-fg">{opt.name}</h2>
+            <p class="text-sm text-muted2">{opt.desc}</p>
+            <p class="text-xs text-muted2 mt-1"><span class="text-ink font-medium">Best for:</span> {opt.best}</p>
+          </div>
+        </header>
+        <div class="max-w-2xl">
+          <ContactSample variant={opt.variant} />
+        </div>
+      </section>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .opt-head {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .opt-badge {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+</style>

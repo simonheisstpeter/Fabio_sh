@@ -1,0 +1,325 @@
+---
+import Layout from '../../../layouts/default.astro';
+import MosaicHead from '../../../components/MosaicHead.astro';
+import CardSample from './CardSample.astro';
+
+// Design experiment page: card design options with big mosaic elements.
+// English only, linked from the mediakit page ("// designs").
+
+const options = [
+    {
+        id: "A",
+        variant: "a",
+        name: "Mosaic Masthead",
+        desc: "A band of big tiles (28px) forms the card header; on hover the tiles pop back in with a diagonal stagger.",
+        best: "Project cards, feature teasers: the mosaic becomes the card's face.",
+    },
+    {
+        id: "B",
+        variant: "b",
+        name: "Split Mosaic Rail",
+        desc: "A vertical rail of big tiles (42px) on the left edge, full height; on hover the tiles march downwards.",
+        best: "List-like cards, CV entries, admin rows: strong left anchor, very editorial.",
+    },
+    {
+        id: "C",
+        variant: "c",
+        name: "Corner Mosaic Anchor",
+        desc: "A 4x4 tile square (20px tiles) seated into the top-right corner; on hover a wave re-pops the tiles.",
+        best: "Compact cards in grids: mosaic signature without stealing content space.",
+    },
+    {
+        id: "D",
+        variant: "d",
+        name: "Checker Mosaic Frame",
+        desc: "The whole card is framed in a 28px checker mosaic with the paper content inset; on hover the checker marches diagonally.",
+        best: "Highlight / callout cards: the frame is the statement.",
+    },
+    {
+        id: "E",
+        variant: "e",
+        name: "Tile Bloom Field",
+        desc: "On hover, 18px square tiles (hero-canvas cell size) bloom across the whole card at low opacity behind the content, staggered tile by tile.",
+        best: "Any card: the current ramp strip stays, the hover adds a full-field mosaic moment.",
+    },
+    {
+        id: "F",
+        variant: "f",
+        name: "Ink Block",
+        desc: "Entirely different: a solid ink card with paper type and a mosaic band on the bottom edge; on hover the band pops and the card lifts with an accent shadow.",
+        best: "Featured / CTA cards: the one dark block on a page that everything else points at.",
+    },
+    {
+        id: "G",
+        variant: "g",
+        name: "Hero Pixel Field",
+        desc: "The hero's cursor-reactive pixel canvas as the card background: 18px emerald cells light up around the pointer and fade out, with ambient drift.",
+        best: "One special card per page (e.g. the index teaser): move the mouse over it.",
+    },
+    {
+        id: "H",
+        variant: "h",
+        name: "Bracket Frame + Side Panel",
+        desc: "Different border and layout: ink corner brackets instead of a full border (they grow on hover), content left, a mosaic panel of 18px square tiles on the right.",
+        best: "Wide cards, about / media rows: asymmetric split layout.",
+    },
+    {
+        id: "I",
+        variant: "i",
+        name: "Bracket Frame + Pixel Panel",
+        desc: "Option H's bracket border and side-panel layout, but the right panel runs the hero's cursor-reactive pixel canvas instead of static tiles.",
+        best: "Wide cards where the mosaic moment should react to the cursor: move the mouse over the right panel.",
+    },
+    {
+        id: "J",
+        variant: "j",
+        name: "Double Frame + Side Panel",
+        desc: "H's side-panel layout with a different border: a 2px border plus a second offset outline (double frame); on hover the outline moves further out.",
+        best: "Cards that should feel extra deliberate, e.g. the contact card or a featured project.",
+    },
+    {
+        id: "K",
+        variant: "k",
+        name: "Borderless + Side Panel",
+        desc: "H's side-panel layout with no border at all: only a hard offset shadow separates the card from the page, and it grows on hover. The panel (18px square tiles) keeps its divider line.",
+        best: "Soft-minimal spots where a full frame would feel heavy, while keeping the mosaic panel.",
+    },
+    {
+        id: "L",
+        variant: "l",
+        name: "Borderless Pixel Field (slow)",
+        desc: "G's cursor-reactive pixel canvas but without any border (hard shadow only), and with a much slower fade: the pixels linger around the pointer instead of vanishing quickly.",
+        best: "A calm, ambient hero-style card: move the mouse slowly across it.",
+    },
+    {
+        id: "M",
+        variant: "m",
+        name: "Borderless Pixel Field (slow, hover-only)",
+        desc: "L but the field stays completely empty at rest: no ambient pixels, the 18px squares only appear around the pointer on hover and fade out slowly.",
+        best: "A card that reveals its effect only on interaction: hover the left card, watch it come alive.",
+    },
+    {
+        id: "N",
+        variant: "n",
+        name: "Pixel Field + Ramp Strip",
+        desc: "M's slow hover-only pixel field, with the standard 2px ink border plus the 6px ramp strip on the top edge (marches on hover).",
+        best: "The current card look, but the background comes alive on hover.",
+    },
+    {
+        id: "O",
+        variant: "o",
+        name: "Pixel Field + Bracket Frame",
+        desc: "M's slow hover-only pixel field inside H's corner-bracket border (brackets grow on hover).",
+        best: "Wide cards with the interactive field and the viewfinder border.",
+    },
+    {
+        id: "P",
+        variant: "p",
+        name: "Pixel Field + Double Frame",
+        desc: "M's slow hover-only pixel field inside J's double frame (2px border + offset outline that moves out on hover).",
+        best: "Deliberate, framed cards with a hidden interactive layer.",
+    },
+    {
+        id: "Q",
+        variant: "q",
+        name: "Pixel Field + Hairline",
+        desc: "M's slow hover-only pixel field with a clean 1px hairline border (ink-30) that turns full ink on hover.",
+        best: "Minimal, professional cards in dense grids.",
+    },
+    {
+        id: "R",
+        variant: "r",
+        name: "Pixel Field + Accent Rule",
+        desc: "M's field behind a hairline divider border with a 3px accent rule on the top edge.",
+        best: "Sectioned lists where each card needs a quiet accent marker.",
+    },
+    {
+        id: "S",
+        variant: "s",
+        name: "Pixel Field + Top/Bottom Rules",
+        desc: "M's field with no side borders at all: 1px ink rules on top and bottom only, plus the hard shadow.",
+        best: "Editorial, ledger-like rows that still react on hover.",
+    },
+];
+---
+
+<Layout title="Card options – fabio.sh" description="Local preview of card design options">
+  <div class="container mx-auto pt-24 md:pt-32 font-andesNeueLight px-6 md:px-12 pb-24">
+    <MosaicHead />
+    <h1 class="h-display page-title text-3xl md:text-5xl mb-6 text-fg">Card design options</h1>
+    <p class="text-muted2 max-w-2xl mb-4">
+      Local preview, not part of the site. Every option is shown twice: left is the
+      resting state, right has the hover state forced on (<code>.demo-active</code>), so
+      you can compare both at once. Hover the left cards to see the motion.
+    </p>
+    <p class="text-muted2 max-w-2xl mb-16">
+      All options keep the turquoise mosaic and work in both themes; every mosaic
+      element is a fixed-size square tile (never a stretched rectangle), like the
+      hero canvas cells; animations are off under reduced motion.
+    </p>
+
+    <!-- Reference: current card -->
+    <section class="mb-20">
+      <header class="opt-head">
+        <span class="opt-badge">0</span>
+        <div>
+          <h2 class="text-xl font-semibold text-fg">Current card (reference)</h2>
+          <p class="text-sm text-muted2">6px ramp strip on top + small corner cluster on hover.</p>
+        </div>
+      </header>
+      <div class="grid gap-6 md:grid-cols-2">
+        <article class="card card-hover p-6 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="chip">Online</span>
+            <span class="text-xs text-muted2">2025</span>
+          </div>
+          <h3 class="text-lg font-semibold text-fg">Project Mosaic</h3>
+          <p class="text-sm text-fg leading-relaxed">A sample card body with a short description, tags and a link, so each option can be judged with realistic content.</p>
+          <div class="flex flex-wrap gap-1 mt-1">
+            <span class="chip">Astro</span><span class="chip">Design</span><span class="chip">CSS</span>
+          </div>
+          <span class="text-xs text-ink mt-2">Visit website -&gt;</span>
+        </article>
+        <article class="card card-hover p-6 flex flex-col gap-2" tabindex="0">
+          <div class="flex items-center justify-between">
+            <span class="chip">Online</span>
+            <span class="text-xs text-muted2">2025</span>
+          </div>
+          <h3 class="text-lg font-semibold text-fg">Project Mosaic</h3>
+          <p class="text-sm text-fg leading-relaxed">A sample card body with a short description, tags and a link, so each option can be judged with realistic content.</p>
+          <div class="flex flex-wrap gap-1 mt-1">
+            <span class="chip">Astro</span><span class="chip">Design</span><span class="chip">CSS</span>
+          </div>
+          <span class="text-xs text-ink mt-2">Visit website -&gt;</span>
+        </article>
+      </div>
+    </section>
+
+    {options.map((opt) => (
+      <section class="mb-20">
+        <header class="opt-head">
+          <span class="opt-badge">{opt.id}</span>
+          <div>
+            <h2 class="text-xl font-semibold text-fg">{opt.name}</h2>
+            <p class="text-sm text-muted2">{opt.desc}</p>
+            <p class="text-xs text-muted2 mt-1"><span class="text-ink font-medium">Best for:</span> {opt.best}</p>
+          </div>
+        </header>
+        <div class="grid gap-6 md:grid-cols-2">
+          <CardSample variant={opt.variant} />
+          <CardSample variant={opt.variant} active />
+        </div>
+      </section>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .opt-head {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .opt-badge {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  // Options G, I, L and M: the hero's cursor-reactive pixel field, one canvas
+  // per field (full card for G, L and M, side panel for I). Same behavior as the
+  // index hero (18px square emerald cells light up around the pointer and fade,
+  // plus ambient spawns); data-ambient="0" (M) disables ambient spawns so the
+  // field is empty until hover; static scatter when reduced motion is set.
+  document.addEventListener("astro:page-load", () => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const CELL = 18;
+    const COLORS = ["#10B981", "#34D399", "#6EE7B7", "#A7F3D0", "#047857"];
+
+    document.querySelectorAll("canvas.pxfield").forEach((canvasEl) => {
+      const canvas = canvasEl as HTMLCanvasElement;
+      const area = canvas.parentElement as HTMLElement | null;
+      if (!area || canvas.dataset.fieldInit) return;
+      canvas.dataset.fieldInit = "1";
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const live = new Map<string, { x: number; y: number; life: number; color: string }>();
+      // data-decay controls how fast pixels fade (hero uses 0.02, slow variants 0.008);
+      // data-ambient="0" disables the ambient spawns: pixels only on pointermove
+      const decay = parseFloat(canvas.dataset.decay ?? "0.02");
+      const ambient = canvas.dataset.ambient !== "0";
+      const resize = () => {
+        canvas.width = area.clientWidth;
+        canvas.height = area.clientHeight;
+      };
+      resize();
+      window.addEventListener("resize", resize);
+
+      const spawn = (px: number, py: number) => {
+        const cx = Math.floor(px / CELL);
+        const cy = Math.floor(py / CELL);
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            if (Math.random() > 0.65) continue;
+            live.set(`${cx + dx},${cy + dy}`, {
+              x: (cx + dx) * CELL,
+              y: (cy + dy) * CELL,
+              life: 1,
+              color: COLORS[(Math.random() * COLORS.length) | 0],
+            });
+          }
+        }
+      };
+
+      area.addEventListener("pointermove", (e) => {
+        const r = area.getBoundingClientRect();
+        spawn(e.clientX - r.left, e.clientY - r.top);
+      });
+
+      if (reduced) {
+        if (ambient) {
+          for (let i = 0; i < 30; i++) spawn(Math.random() * canvas.width, Math.random() * canvas.height);
+        }
+        for (const c of live.values()) {
+          ctx.globalAlpha = 0.35;
+          ctx.fillStyle = c.color;
+          ctx.fillRect(c.x, c.y, CELL - 2, CELL - 2);
+        }
+        ctx.globalAlpha = 1;
+        return;
+      }
+
+      const frame = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const [key, c] of live) {
+          c.life -= decay;
+          if (c.life <= 0) {
+            live.delete(key);
+            continue;
+          }
+          ctx.globalAlpha = Math.max(0, c.life) * 0.5;
+          ctx.fillStyle = c.color;
+          ctx.fillRect(c.x, c.y, CELL - 2, CELL - 2);
+        }
+        ctx.globalAlpha = 1;
+        if (ambient && live.size < 60 && Math.random() < 0.3) {
+          spawn(Math.random() * canvas.width, Math.random() * canvas.height);
+        }
+        requestAnimationFrame(frame);
+      };
+      requestAnimationFrame(frame);
+    });
+  });
+</script>

@@ -1,0 +1,473 @@
+---
+// Design experiment helper: renders one sample card per variant.
+// `active` forces the hover state on. Styles live in this component so the
+// scoped CSS reaches the markup. RAMP matches globals.css tokens.
+const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+
+interface Props {
+    variant: string;
+    active?: boolean;
+}
+const { variant, active = false } = Astro.props;
+
+// All mosaic elements are fixed-size SQUARE tiles (like the hero canvas
+// cells), never stretched rectangles: grids use fixed px columns/rows +
+// overflow hidden, so extra tiles clip at the card edge.
+const mastTiles = Array.from({ length: 48 }, (_, i) => ({
+    color: RAMP[i % 6],
+    delay: i * 16,
+}));
+const cornerTiles = Array.from({ length: 16 }, (_, i) => {
+    const col = i % 4;
+    const row = Math.floor(i / 4);
+    return { color: RAMP[(row + col) % 6], delay: (col + row) * 40 };
+});
+// E and the side panels use 18px squares, the same cell size as the hero
+// canvas / pixel-field cards
+const fieldTiles = Array.from({ length: 480 }, (_, i) => ({
+    color: RAMP[i % 6],
+    delay: i * 4,
+}));
+const bandTiles = Array.from({ length: 40 }, (_, i) => ({
+    color: RAMP[i % 6],
+    delay: i * 18,
+}));
+const panelTiles = Array.from({ length: 60 }, (_, i) => {
+    const col = i % 6;
+    const row = Math.floor(i / 6);
+    return { color: RAMP[(row + col) % 6], delay: (row + col) * 40 };
+});
+
+const sample = {
+    status: "Online",
+    title: "Project Mosaic",
+    text: "A sample card body with a short description, tags and a link, so each option can be judged with realistic content.",
+    tags: ["Astro", "Design", "CSS"],
+    link: "Visit website",
+};
+---
+
+<article class={`opt-card opt-${variant}${active ? " demo-active" : ""}`} tabindex={active ? "0" : undefined}>
+    {variant === "a" && (
+        <div class="mast" aria-hidden="true">
+            {mastTiles.map((t) => <span style={`background:${t.color};--d:${t.delay}ms`} />)}
+        </div>
+    )}
+    {variant === "e" && (
+        <div class="field" aria-hidden="true">
+            {fieldTiles.map((t) => <span style={`background:${t.color};--d:${t.delay}ms`} />)}
+        </div>
+    )}
+    {variant === "g" && <canvas class="pxfield" aria-hidden="true"></canvas>}
+    {variant === "l" && <canvas class="pxfield" data-decay="0.008" aria-hidden="true"></canvas>}
+    {variant === "m" && <canvas class="pxfield" data-decay="0.008" data-ambient="0" aria-hidden="true"></canvas>}
+    {["n", "o", "p", "q", "r", "s"].includes(variant) && <canvas class="pxfield" data-decay="0.008" data-ambient="0" aria-hidden="true"></canvas>}
+    {variant === "b" && <div class="rail" aria-hidden="true"></div>}
+    {variant === "c" && (
+        <div class="corner" aria-hidden="true">
+            {cornerTiles.map((t) => <span style={`background:${t.color};--d:${t.delay}ms`} />)}
+        </div>
+    )}
+
+    <div class="opt-body">
+        <div class="flex items-center justify-between opt-toprow">
+            <span class="chip">{sample.status}</span>
+            <span class="text-xs text-muted2">2025</span>
+        </div>
+        <h3 class="text-lg font-semibold text-fg">{sample.title}</h3>
+        <p class="text-sm text-fg leading-relaxed">{sample.text}</p>
+        <div class="flex flex-wrap gap-1 mt-1">
+            {sample.tags.map((t) => <span class="chip">{t}</span>)}
+        </div>
+        <span class="text-xs text-ink mt-2">{sample.link} -&gt;</span>
+    </div>
+
+    {["h", "j", "k"].includes(variant) && (
+        <div class="panel" aria-hidden="true">
+            {panelTiles.map((t) => <span style={`background:${t.color};--d:${t.delay}ms`} />)}
+        </div>
+    )}
+    {variant === "i" && (
+        <div class="panel panel-px" aria-hidden="true"><canvas class="pxfield"></canvas></div>
+    )}
+    {variant === "f" && (
+        <div class="band" aria-hidden="true">
+            {bandTiles.map((t) => <span style={`background:${t.color};--d:${t.delay}ms`} />)}
+        </div>
+    )}
+</article>
+
+<style>
+  /* Shared card base: same paper + 2px ink rule + hard shadow lift as .card */
+  .opt-card {
+    position: relative;
+    display: flex;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    overflow: hidden;
+    transition: transform 200ms ease, box-shadow 200ms ease, background-size 200ms ease;
+  }
+  .opt-card:hover,
+  .opt-card.demo-active {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0 var(--shadow);
+  }
+  .opt-body {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+  }
+  .opt-toprow { margin-bottom: 0.25rem; }
+
+  @keyframes tile-pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+  /* local ramp-march keyframes (the global one was removed when .card
+     switched to the pixel field); Astro scopes this to the component */
+  @keyframes ramp-march {
+    to { background-position: 72px 0; }
+  }
+
+  /* A: mosaic masthead — a band of 28px square tiles, clipped at the edge */
+  .opt-a { flex-direction: column; }
+  .opt-a .mast {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 28px);
+    grid-auto-rows: 28px;
+    height: 56px;
+    overflow: hidden;
+    border-bottom: 2px solid var(--ink);
+    flex-shrink: 0;
+  }
+  .opt-a .mast span { display: block; }
+  .opt-a:hover .mast span,
+  .opt-a.demo-active .mast span {
+    animation: tile-pop 0.45s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* B: split rail — one column of 56px square tiles, marching on hover */
+  .opt-b .rail {
+    flex-shrink: 0;
+    width: 56px;
+    border-right: 2px solid var(--ink);
+    background: repeating-linear-gradient(
+      180deg,
+      #a7f3d0 0 56px,
+      #6ee7b7 56px 112px,
+      #34d399 112px 168px,
+      #10b981 168px 224px,
+      #059669 224px 280px,
+      #047857 280px 336px
+    );
+  }
+  @keyframes rail-march {
+    to { background-position: 0 336px; }
+  }
+  .opt-b:hover .rail,
+  .opt-b.demo-active .rail {
+    animation: rail-march 0.9s linear infinite;
+  }
+
+  /* C: corner anchor */
+  .opt-c .corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(4, 20px);
+    grid-auto-rows: 20px;
+    border-left: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .opt-c .corner span { display: block; }
+  .opt-c .opt-toprow { padding-right: 6rem; }
+  .opt-c:hover .corner span,
+  .opt-c.demo-active .corner span {
+    animation: tile-pop 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* D: checker mosaic frame around an inset paper block */
+  .opt-d {
+    padding: 12px;
+    background: repeating-conic-gradient(#10b981 0% 25%, #a7f3d0 0% 50%) 0 0 / 28px 28px;
+  }
+  .opt-d .opt-body {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 1.5rem;
+  }
+  @keyframes checker-march {
+    to { background-position: 28px 28px; }
+  }
+  .opt-d:hover,
+  .opt-d.demo-active {
+    animation: checker-march 0.8s linear infinite;
+  }
+
+  /* E: full-field tile bloom behind the content */
+  .opt-e { flex-direction: column; }
+  .opt-e::before {
+    content: "";
+    display: block;
+    height: 6px;
+    background: var(--ramp-h);
+    flex-shrink: 0;
+  }
+  .opt-e:hover::before,
+  .opt-e.demo-active::before {
+    animation: ramp-march 0.9s linear infinite;
+  }
+  .opt-e .field {
+    position: absolute;
+    inset: 6px 0 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 18px);
+    grid-auto-rows: 18px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .opt-e .field span {
+    display: block;
+    opacity: 0;
+  }
+  @keyframes tile-bloom {
+    from { opacity: 0; transform: scale(0.6); }
+    to { opacity: 0.16; transform: scale(1); }
+  }
+  .opt-e:hover .field span,
+  .opt-e.demo-active .field span {
+    animation: tile-bloom 0.5s ease forwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* F: ink block — solid ink card, paper type, mosaic band on the bottom edge */
+  .opt-f {
+    flex-direction: column;
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .opt-f .opt-body { order: 1; }
+  .opt-f :is(h3, p, .text-fg, .text-ink) { color: var(--paper); }
+  .opt-f .text-muted2 { color: rgb(var(--paper-rgb) / 0.65); }
+  .opt-f .chip {
+    background: transparent;
+    color: rgb(var(--paper-rgb) / 0.8);
+    border-color: rgb(var(--paper-rgb) / 0.3);
+  }
+  .opt-f .band {
+    order: 2;
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 24px);
+    grid-auto-rows: 24px;
+    height: 48px;
+    overflow: hidden;
+    border-top: 2px solid var(--paper);
+  }
+  .opt-f .band span { display: block; }
+  .opt-f:hover .band span,
+  .opt-f.demo-active .band span {
+    animation: tile-pop 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+  .opt-f:hover,
+  .opt-f.demo-active {
+    box-shadow: 10px 10px 0 var(--accent);
+  }
+
+  /* G / I / L / M / N / O / P: hero pixel field canvas (filled by JS),
+     full card or side panel */
+  .pxfield {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  /* H / I / O: corner-bracket border (grows on hover) + right panel */
+  .opt-h,
+  .opt-i,
+  .opt-o {
+    border: none;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--ink), var(--ink)),
+      linear-gradient(var(--ink), var(--ink)),
+      linear-gradient(var(--ink), var(--ink)),
+      linear-gradient(var(--ink), var(--ink)),
+      linear-gradient(var(--ink), var(--ink)),
+      linear-gradient(var(--ink), var(--ink)),
+      linear-gradient(var(--ink), var(--ink)),
+      linear-gradient(var(--ink), var(--ink));
+    background-repeat: no-repeat;
+    background-position:
+      left top, left top,
+      right top, right top,
+      left bottom, left bottom,
+      right bottom, right bottom;
+    background-size:
+      28px 4px, 4px 28px,
+      28px 4px, 4px 28px,
+      28px 4px, 4px 28px,
+      28px 4px, 4px 28px;
+  }
+  .opt-h:hover,
+  .opt-h.demo-active,
+  .opt-i:hover,
+  .opt-i.demo-active,
+  .opt-o:hover,
+  .opt-o.demo-active {
+    background-size:
+      44px 4px, 4px 44px,
+      44px 4px, 4px 44px,
+      44px 4px, 4px 44px,
+      44px 4px, 4px 44px;
+  }
+  .opt-h .opt-body,
+  .opt-i .opt-body,
+  .opt-j .opt-body,
+  .opt-k .opt-body { padding-right: 1.25rem; }
+  .opt-i .panel-px {
+    position: relative;
+    flex-shrink: 0;
+    width: 108px;
+    border-left: 2px solid var(--ink);
+    overflow: hidden;
+  }
+  .opt-h .panel,
+  .opt-j .panel,
+  .opt-k .panel {
+    flex-shrink: 0;
+    width: 108px;
+    border-left: 2px solid var(--ink);
+    display: grid;
+    grid-template-columns: repeat(6, 18px);
+    grid-auto-rows: 18px;
+    overflow: hidden;
+  }
+  .opt-h .panel span,
+  .opt-j .panel span,
+  .opt-k .panel span { display: block; }
+  .opt-h:hover .panel span,
+  .opt-h.demo-active .panel span,
+  .opt-j:hover .panel span,
+  .opt-j.demo-active .panel span,
+  .opt-k:hover .panel span,
+  .opt-k.demo-active .panel span {
+    animation: tile-pop 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* J / P: double frame border — 2px border plus an offset outline that
+     grows on hover (J adds the side panel, P the pixel field) */
+  .opt-j,
+  .opt-p {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+    transition: transform 200ms ease, box-shadow 200ms ease, outline-offset 200ms ease;
+  }
+  .opt-j:hover,
+  .opt-j.demo-active,
+  .opt-p:hover,
+  .opt-p.demo-active {
+    outline-offset: 9px;
+  }
+
+  /* K: same side-panel layout, no border at all — a hard shadow separates
+     the card from the page, and grows on hover */
+  .opt-k {
+    border: none;
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-k:hover,
+  .opt-k.demo-active {
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+
+  /* L / M: borderless canvas cards (like G's pixel field, like K's
+     borderless frame); data-decay="0.008" makes the pixels fade out much
+     slower than the hero field; M adds data-ambient="0" so the field stays
+     empty until the pointer moves over the card */
+  .opt-l,
+  .opt-m {
+    border: none;
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-l:hover,
+  .opt-l.demo-active,
+  .opt-m:hover,
+  .opt-m.demo-active {
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+
+  /* N: standard 2px ink border plus the 6px ramp strip on top (marches on
+     hover), with the slow hover-only pixel field behind the content */
+  .opt-n::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--ramp-h);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .opt-n:hover::before,
+  .opt-n.demo-active::before {
+    animation: ramp-march 0.9s linear infinite;
+  }
+
+  /* Q / R / S: clean, professional border alternatives for the slow
+     hover-only pixel field — hairline, accent rule, top/bottom rules */
+  .opt-q {
+    border: 1px solid var(--ink-30);
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-q:hover,
+  .opt-q.demo-active {
+    border-color: var(--ink);
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+  .opt-r {
+    border: 1px solid var(--divider);
+    border-top: 3px solid var(--accent);
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-r:hover,
+  .opt-r.demo-active {
+    border-color: var(--ink-30);
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+  .opt-s {
+    border: none;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-s:hover,
+  .opt-s.demo-active {
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .opt-card,
+    .opt-card *,
+    .opt-card::before {
+      animation: none !important;
+      transition: none !important;
+    }
+    .opt-e .field span { opacity: 0; }
+  }
+</style>

@@ -16,13 +16,29 @@ const {
     error = false,
     action = "/api/contact",
 }: Props = Astro.props;
+
+// Split mosaic panel (designs variant V2): 18px square tiles, the hero
+// canvas cell size. A full-width band on mobile, a 108px column on md+.
+const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const panelTiles = Array.from({ length: 40 }, (_, i) => {
+    const col = i % 6;
+    const row = Math.floor(i / 6);
+    return { color: RAMP[(row + col) % 6] };
+});
 ---
 
 <div class="relative w-full max-w-2xl mx-auto my-20 animate-fadeIn_2200">
     <div
-        class="card relative overflow-hidden p-8 md:p-16"
+        class="card card-hover relative overflow-hidden flex flex-col md:flex-row"
     >
-        <div class="flex items-center gap-4 mb-10">
+        <div class="contact-panel" aria-hidden="true">
+            {panelTiles.map((t) => (
+                <span class="tile" style={`background:${t.color}`} />
+            ))}
+            <span class="contact-panel-label">// contact</span>
+        </div>
+        <div class="flex-1 p-8 md:p-16">
+        <div class="flex items-center gap-4 mb-10 md:hidden">
             <MiniMosaic />
             <span class="flex-1 h-px bg-ink" aria-hidden="true"></span>
             <span
@@ -211,6 +227,7 @@ const {
                 </button>
             </div>
         </form>
+        </div>
     </div>
 </div>
 
@@ -230,6 +247,46 @@ const {
     textarea[aria-invalid="true"] {
         border-color: var(--ink);
         border-width: 2px;
+    }
+
+    /* Split mosaic panel: 18px square-tile band across the top on mobile,
+       108px tile column on the left on md+, with a paper label chip */
+    .contact-panel {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 18px);
+        grid-auto-rows: 18px;
+        overflow: hidden;
+        height: 36px;
+        flex-shrink: 0;
+        border-bottom: 1px solid var(--ink-30);
+    }
+    .contact-panel .tile { display: block; }
+    .contact-panel-label { display: none; }
+    @media (min-width: 768px) {
+        .contact-panel {
+            width: 108px;
+            height: auto;
+            border-bottom: none;
+            border-right: 1px solid var(--ink-30);
+            grid-template-columns: repeat(6, 18px);
+        }
+        .contact-panel-label {
+            display: block;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--paper);
+            border: 1px solid var(--ink-30);
+            padding: 2px 6px;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            white-space: nowrap;
+        }
     }
 
     @keyframes shimmer {

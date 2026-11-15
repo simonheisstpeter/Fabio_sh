@@ -523,6 +523,92 @@ const NavLinks = [
                 });
             }
 
+            // Card pixel fields: inject a hover-only canvas into every .card.
+            // 18px square cells (same cell size as the hero field) appear
+            // around the pointer and fade slowly (decay 0.008). No ambient
+            // pixels at rest; the rAF loop runs only while the pointer is
+            // over the card (or focus is inside it) or pixels are still
+            // alive. Skipped entirely under prefers-reduced-motion.
+            function initCardPixelFields() {
+                if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+                const CELL = 18;
+                const COLORS = ["#10B981", "#34D399", "#6EE7B7", "#A7F3D0", "#047857"];
+                document.querySelectorAll<HTMLElement>(".card").forEach((card) => {
+                    if (card.querySelector("canvas.px-field")) return;
+                    const canvas = document.createElement("canvas");
+                    canvas.className = "px-field";
+                    canvas.setAttribute("aria-hidden", "true");
+                    card.prepend(canvas);
+                    const ctx = canvas.getContext("2d");
+                    if (!ctx) return;
+                    const live = new Map<
+                        string,
+                        { x: number; y: number; life: number; color: string }
+                    >();
+                    let raf = 0;
+                    let active = false;
+                    const resize = () => {
+                        canvas.width = card.clientWidth;
+                        canvas.height = card.clientHeight;
+                    };
+                    resize();
+                    new ResizeObserver(resize).observe(card);
+                    const spawn = (px: number, py: number) => {
+                        const cx = Math.floor(px / CELL);
+                        const cy = Math.floor(py / CELL);
+                        for (let dy = -1; dy <= 1; dy++) {
+                            for (let dx = -1; dx <= 1; dx++) {
+                                if (Math.random() > 0.65) continue;
+                                live.set(`${cx + dx},${cy + dy}`, {
+                                    x: (cx + dx) * CELL,
+                                    y: (cy + dy) * CELL,
+                                    life: 1,
+                                    color: COLORS[(Math.random() * COLORS.length) | 0],
+                                });
+                            }
+                        }
+                    };
+                    const frame = () => {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        for (const [key, c] of live) {
+                            c.life -= 0.008;
+                            if (c.life <= 0) {
+                                live.delete(key);
+                                continue;
+                            }
+                            ctx.globalAlpha = Math.max(0, c.life) * 0.5;
+                            ctx.fillStyle = c.color;
+                            ctx.fillRect(c.x, c.y, CELL - 2, CELL - 2);
+                        }
+                        ctx.globalAlpha = 1;
+                        if (active || live.size > 0) {
+                            raf = requestAnimationFrame(frame);
+                        } else {
+                            raf = 0;
+                        }
+                    };
+                    const wake = () => {
+                        active = true;
+                        if (!raf) raf = requestAnimationFrame(frame);
+                    };
+                    const sleep = () => {
+                        active = false;
+                    };
+                    card.addEventListener("pointerenter", wake);
+                    card.addEventListener("pointerleave", sleep);
+                    card.addEventListener("pointermove", (e) => {
+                        const r = card.getBoundingClientRect();
+                        spawn(e.clientX - r.left, e.clientY - r.top);
+                    });
+                    // keyboard focus gets the same treatment, spawned at the center
+                    card.addEventListener("focusin", () => {
+                        wake();
+                        spawn(card.clientWidth / 2, card.clientHeight / 2);
+                    });
+                    card.addEventListener("focusout", sleep);
+                });
+            }
+
             // Theme toggle: flips data-theme on <html>, persists to localStorage.
             // The pre-paint inline script in <head> already set the initial value.
             function initThemeToggle() {
@@ -560,6 +646,7 @@ const NavLinks = [
                 initScrollSpy();
                 initScrollProgress();
                 initThemeToggle();
+                initCardPixelFields();
             });
 
             consoleMessage();

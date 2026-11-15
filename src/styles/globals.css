@@ -32,8 +32,8 @@
     #059669 80%,
     #047857 100%
   );
-  /* hard-stop ramp strips (same tiles as .divider-tiles), for card top
-     edges and list row edges; identical in both themes */
+  /* hard-stop ramp strips (same tiles as .divider-tiles), for list row
+     edges (and the /mediakit/designs previews); identical in both themes */
   --ramp-h: repeating-linear-gradient(
     90deg,
     #a7f3d0 0 12px,
@@ -1244,55 +1244,40 @@ input::file-selector-button,
   color: var(--paper);
 }
 
-/* Card: paper block on a 2px ink rule; lifts with a bigger hard shadow.
-   Pixel-mosaic pass: every card carries a 6px hard-stop ramp strip on its
-   top edge (marches one tile on hover), and hover cards grow a 3-square
-   mosaic cluster in the bottom-left corner. */
+/* Card (v8 "pixel field + hairline"): paper block with a 1px ink-30
+   hairline and a resting hard shadow; on hover/focus the border turns full
+   ink, the shadow grows to 12px, and the card's pixel field lights up.
+   The field is a canvas injected into every .card by default.astro
+   (.px-field): 18px square cells (hero cell size) appear around the
+   pointer and fade slowly; hover-only, no ambient pixels, and the rAF
+   loop runs only while the pointer is over the card or pixels are alive.
+   Skipped entirely under prefers-reduced-motion. Card content sits above
+   the field via the z-index rule below. */
 .card,
 .px-card {
   position: relative;
   background: var(--paper);
-  border: 2px solid var(--ink);
+  border: 1px solid var(--ink-30);
+  box-shadow: 6px 6px 0 var(--shadow);
 }
-.card::before {
-  content: "";
+.card > :not(.px-field) {
+  position: relative;
+  z-index: 1;
+}
+.px-field {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: var(--ramp-h);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-}
-@keyframes ramp-march {
-  to { background-position: 72px 0; }
-}
-.card-hover:hover::before,
-.card-hover:focus-visible::before {
-  animation: ramp-march 0.9s linear infinite;
-}
-.card-hover::after {
-  content: "";
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  width: 10px;
-  height: 10px;
-  background: #10b981;
-  box-shadow: 10px -10px 0 #6ee7b7, 20px -20px 0 #a7f3d0;
-  opacity: 0;
-  transition: opacity 150ms ease;
-  pointer-events: none;
-}
-.card-hover:hover::after,
-.card-hover:focus-visible::after {
-  opacity: 1;
+  z-index: 0;
 }
 .card-hover { transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease, color 200ms ease; }
 .card-hover:hover,
 .card-hover:focus-visible {
+  border-color: var(--ink);
   transform: translate(-4px, -4px);
-  box-shadow: 10px 10px 0 var(--shadow);
+  box-shadow: 12px 12px 0 var(--shadow);
 }
 
 /* Project cards invert on hover: ink block, paper type, accent shadow */

@@ -177,9 +177,10 @@ preloaded in `default.astro`.
   the steps, on purpose). System-wide on `.card`, `.btn` and `.field`;
   `.px-corner` opts in anywhere else (hero sticker, hero F mark).
 - **Hero pixel field** — `.hero-field`: canvas behind the index hero, 18px
-  cells in the emerald ramp light up around the pointer and fade out
+  square cells in the emerald ramp light up around the pointer and fade out
   (rAF-throttled, vanilla JS in `Hero.astro`). Static scatter under
-  `prefers-reduced-motion`. Index hero only.
+  `prefers-reduced-motion`. Index hero only; the same 18px cell size is used
+  by the card pixel fields (`.px-field`).
 - **Sticker** — `.sticker`: rotated (-2deg) accent label, 2px ink border,
   emerald 4px hard shadow, `.px-corner` steps. Used for the hero role label.
 - **Marquee** — `.marquee`: ink strip with 2px ink rules, mono uppercase
@@ -213,7 +214,8 @@ preloaded in `default.astro`.
 |---|---|---|
 | Button | `.btn` | Mono uppercase label, 2px ink border, px-corner steps, 4px emerald hard shadow; hover sweeps an ink block in from the left (label flips to paper, lift 2px + 6px accent shadow), `:active` presses flat |
 | Primary button | `.btn-solid` | Accent bg, `--on-accent` text, ink border + shadow |
-| Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 2px ink border, px-corner steps, 6px hard-stop ramp strip on the top edge (`--ramp-h`, marches one tile on hover); hover lifts 4px with 10px emerald shadow and grows a 3-square mosaic cluster bottom-left (`::after`); `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover. Contact form card adds a mini-mosaic + ink rule header row inside |
+| Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 1px `ink-30` hairline border, px-corner steps, resting 6px emerald hard shadow; hover/focus turns the border full ink, lifts 4px with a 12px shadow, and wakes the card's pixel field; `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover. Contact form card is a split card: a 108px panel of 18px square tiles on the left (full-width 36px tile band on mobile) with a paper `// contact` chip, form on the right; on mobile a mini-mosaic + ink rule header row shows instead |
+| Card pixel field | `.px-field` (canvas injected into every `.card` by `default.astro`) | 18px square emerald cells (hero cell size) appear around the pointer and fade slowly (decay 0.008); hover-only, no ambient pixels; rAF loop runs only while hovered/focused or pixels are alive; off under `prefers-reduced-motion`; card content sits above via `.card > :not(.px-field)` z-index |
 | Chip / filter | `.chip`, `.filter-btn`, `.sort-btn` | Mono label, hairline border; active = accent bg |
 | Field | `.field` | 2px `ink-30` border, px-corner steps; focus = ink border + 4px accent hard shadow |
 | Section head | `.section-head` | Mini-mosaic + `idx` + title over a 2px ink rule with an accent segment |
@@ -239,3 +241,18 @@ preloaded in `default.astro`.
 | Hero pixel field | `.hero-field` | Canvas behind the index hero, pointer-reactive ramp cells (index only) |
 | Theme toggle | `[data-theme-toggle]` | `.btn-ink` square, stroke sun/moon swapped by `data-theme` |
 | Marquee | `Marquee.astro` | Ink strip, mono items, accent square separators |
+
+## 6. Design experiments (live previews)
+
+- **Preview pages** — `src/pages/mediakit/designs/` holds English-only
+  design previews (currently `cards.astro` + `CardSample.astro`: card
+  variants 0 + A-S with square-tile mosaic elements, bracket/double/
+  borderless/hairline frames, and the hero pixel-field canvas as card
+  background or side panel). Each variant renders twice: resting state and
+  hover forced on via `.demo-active`. The pixel field reuses the hero
+  canvas logic (`canvas.pxfield`, `data-decay`/`data-ambient` attributes).
+  Linked from the mediakit page ("// designs" section). Animations respect
+  `prefers-reduced-motion`. Promoted so far: variant Q (pixel field +
+  hairline) became the shipped `.card`, and the contact page's V2 (split
+  mosaic panel) became the shipped `ContactForm.astro` card; the pages
+  remain as the experiment log.
