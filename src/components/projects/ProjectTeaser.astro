@@ -59,13 +59,26 @@ const { projects, locale, t, plain = false }: Props = Astro.props;
             </div>
         </div>
 
-        <ul class="list-none grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
-        >
+        <ul class="list-none bento-grid">
             {
                 projects.map((p, index) => (
-                    <ProjectPreviewCard title={p.title} index={index} />
+                    <ProjectPreviewCard
+                        title={p.title}
+                        index={index}
+                        big={index === 0}
+                    />
                 ))
             }
+            <li>
+                <a
+                    href={getRelativeLocaleUrl(locale, "/projects")}
+                    class="card card-hover flex items-center justify-center p-8 h-full no-underline group"
+                >
+                    <span class="font-mono text-xs uppercase tracking-[0.18em] text-ink group-hover:text-accent transition-colors">
+                        {t.toProjectsLink} -&gt;
+                    </span>
+                </a>
+            </li>
         </ul>
     </div>
 </section>

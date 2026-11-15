@@ -1,0 +1,18 @@
+---
+// 3x3 diagonal ramp sample as real tiles, so each tile can pop with a
+// stagger (--d) when the parent section head reveals on scroll.
+const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const tiles = Array.from({ length: 9 }, (_, i) => {
+    const col = i % 3;
+    const row = Math.floor(i / 3);
+    return { color: RAMP[(row + col) % 6], delay: (row + col) * 60 };
+});
+---
+
+<span class="mini-mosaic-grid" aria-hidden="true">
+    {
+        tiles.map((t) => (
+            <span style={`background:${t.color};--d:${t.delay}ms`} />
+        ))
+    }
+</span>

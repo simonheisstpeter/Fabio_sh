@@ -1,0 +1,21 @@
+---
+// 12x2 mosaic header strip above subpage titles; tiles cascade in on load
+// with animate-pop delays, like a wide hero F.
+const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const tiles = Array.from({ length: 24 }, (_, i) => {
+    const col = i % 12;
+    const row = Math.floor(i / 12);
+    return { color: RAMP[(row + col) % 6], delay: 150 + i * 40 };
+});
+---
+
+<div class="mosaic-head mb-8" aria-hidden="true">
+    {
+        tiles.map((t) => (
+            <span
+                class="animate-pop"
+                style={`background:${t.color};animation-delay:${t.delay}ms`}
+            />
+        ))
+    }
+</div>

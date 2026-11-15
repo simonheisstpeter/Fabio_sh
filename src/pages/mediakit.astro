@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/default.astro';
 import Loader from '../components/Loader.astro';
+import MosaicHead from '../components/MosaicHead.astro';
 import { getTranslations } from '../i18n/index';
 
 const locale = Astro.currentLocale ?? 'de';
@@ -31,6 +32,7 @@ const colorsDark = [
   description="Brand guidelines and media kit for fabio.sh"
 >
   <div class="container mx-auto pt-24 md:pt-32 font-andesNeueLight px-6 md:px-12 pb-12">
+    <MosaicHead />
     <h1 class="h-display page-title text-3xl md:text-5xl mb-12 text-fg animate-fadeIn_2000">
       {t.mediakitTitle}
     </h1>

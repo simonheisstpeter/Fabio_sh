@@ -1175,15 +1175,33 @@ input::file-selector-button,
   box-shadow: 4px 4px 0 var(--shadow);
   cursor: pointer;
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
   transition: transform 150ms ease, box-shadow 150ms ease,
     background-color 150ms ease, color 150ms ease;
 }
-.btn:hover {
+/* Hover sweep: an ink block slides in from the left and the label flips to
+   paper (solid buttons sweep ink over the accent block). Shared hover
+   language with the card sweeps. */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: var(--ink);
+  transform: translateX(-101%);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn:hover::before,
+.btn:focus-visible::before { transform: translateX(0); }
+.btn:hover,
+.btn:focus-visible {
+  background: var(--paper);
   color: var(--paper);
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 var(--accent);
 }
+.btn:hover > *,
+.btn:focus-visible > * { color: inherit; }
 .btn:active {
   transform: translate(3px, 3px);
   box-shadow: 0 0 0 var(--ink);
@@ -1196,9 +1214,10 @@ input::file-selector-button,
   color: var(--on-accent);
   border-color: var(--ink);
 }
-.btn-solid:hover {
+.btn-solid:hover,
+.btn-solid:focus-visible {
   background: var(--accent);
-  color: var(--on-accent);
+  color: var(--paper);
 }
 
 /* Card: paper block on a 2px ink rule; lifts with a bigger hard shadow */
@@ -1509,13 +1528,6 @@ html {
   padding-bottom: 0.75rem;
   margin-bottom: 2rem;
 }
-.section-head::before {
-  content: "";
-  width: 18px;
-  height: 18px;
-  align-self: center;
-  flex-shrink: 0;
-}
 .section-head::after {
   content: "";
   position: absolute;
@@ -1686,9 +1698,9 @@ html {
    ============================================================ */
 
 /* Mini mosaic: 3x3 diagonal sample of the block ramp on a 6px grid,
-   one element with nine solid layers. The marker form of the hero F. */
-.mini-mosaic,
-.section-head::before {
+   one element with nine solid layers. The marker form of the hero F
+   (nav brand, preview-card ticks). */
+.mini-mosaic {
   background-image:
     linear-gradient(#a7f3d0, #a7f3d0),
     linear-gradient(#6ee7b7, #6ee7b7),
@@ -1712,6 +1724,111 @@ html {
   height: 18px;
   flex-shrink: 0;
 }
+
+/* Section-head marker as a real 3x3 tile grid (MiniMosaic.astro), so each
+   tile pops with a diagonal stagger when the section head reveals on scroll.
+   Armed by the global .reveal/.in IntersectionObserver; without JS the
+   tiles are simply visible. */
+.mini-mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 6px);
+  grid-auto-rows: 6px;
+  align-self: center;
+  flex-shrink: 0;
+}
+.mini-mosaic-grid span { display: block; }
+.reveal:not(.in) .mini-mosaic-grid span { opacity: 0; }
+.reveal.in .mini-mosaic-grid span {
+  animation: scale-in 0.45s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Mosaic header strip: 12x2 cascading ramp tiles above subpage titles
+   (MosaicHead.astro) */
+.mosaic-head {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: 48px;
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  overflow: hidden;
+}
+.mosaic-head span { display: block; }
+
+/* Bento teaser grid on the index: first card spans 2x2 on md+ */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 11rem;
+    gap: 1.5rem;
+  }
+  .bento-big { grid-column: span 2; grid-row: span 2; }
+}
+
+/* Image tile-reveal on project cards: a ramp tile overlay scales out
+   staggered on hover, revealing the color image underneath. Touch devices
+   and reduced-motion get the plain image, no overlay. */
+.tile-img { position: relative; }
+.tile-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 1fr;
+}
+.tile-overlay span {
+  display: block;
+  transition: transform 0.35s ease;
+  transition-delay: var(--d, 0ms);
+}
+.card:hover .tile-overlay span,
+.card:focus-visible .tile-overlay span { transform: scale(0); }
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .tile-overlay { display: none; }
+}
+
+/* Scrollspy rail on long pages (e.g. /projects): fixed left rail, 2xl+
+   where the centered container leaves room. Active section gets an accent
+   square, toggled by an IntersectionObserver in default.astro. */
+.rail {
+  position: fixed;
+  left: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: none;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+@media (min-width: 1536px) {
+  .rail { display: flex; }
+}
+.rail a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted2);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+.rail a::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--divider);
+  transition: background-color 150ms ease;
+}
+.rail a.active { color: var(--accent); }
+.rail a.active::before { background: var(--accent); }
 
 /* Tiled divider: full-bleed strip of the same hard-stop ramp tiles
    between major sections; doubles as the footer's top rule. */

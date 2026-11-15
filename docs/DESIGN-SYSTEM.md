@@ -19,15 +19,17 @@ washes, shadows, scrollbar, selection and caret.
 ### Public pages
 | Route | What it is | v8 decision |
 |---|---|---|
-| `/` (index) | Hero + marquee + project teaser + contact form | Hero: stacked `FABIO` / outlined `GSCHEWIDL`, Black only here (hero moment), accent caret, rotated accent sticker with stepped pixel corners, mosaic F mark (`.f-mosaic`, 6x6 emerald-ramp tiles cascading in), cursor-reactive pixel field behind the hero (`.hero-field` canvas), chunky CTAs. One marquee strip under the hero (`.marquee`, the only one on the site). Tiled divider (`.divider-tiles`) between the projects and contact sections. Fixed tiled sunset stripe (`.sunset-stripe`, hard-stop color tiles) at the very bottom of the index page only |
-| `/projects` | Filterable project grid/list | `.card` blocks with 2px ink borders; hover lifts 4px with a 10px emerald hard shadow; project cards additionally invert (`.card-invert`: ink bg, paper type, accent shadow). Upcoming/finished rows sit in one 2px ink frame (`.list-frame`) with a mono index tile per row (`.row-idx`, accent fill + accent edge bar on hover), separated by `.divider-tiles`. Active filter = accent chip |
+| `/` (index) | Hero + marquee + bento project teaser + contact form | Hero: stacked `FABIO` / outlined `GSCHEWIDL`, Black only here (hero moment), accent caret, rotated accent sticker with stepped pixel corners, mosaic F mark (`.f-mosaic`, 6x6 emerald-ramp tiles cascading in), cursor-reactive pixel field behind the hero (`.hero-field` canvas), chunky CTAs. One marquee strip under the hero (`.marquee`, the only one on the site). Bento teaser (`.bento-grid`: first card 2x2 with mini-mosaic tick, "all projects" tile). Tiled divider (`.divider-tiles`) between the projects and contact sections. Fixed tiled sunset stripe (`.sunset-stripe`, hard-stop color tiles) at the very bottom of the index page only |
+| `/projects` | Filterable project grid/list, scrollspy rail | Mosaic header strip above the title; fixed left `.rail` (2xl+) with the active section marked. `.card` blocks with 2px ink borders; hover lifts 4px with a 10px emerald hard shadow and reveals the image through a ramp tile overlay (`.tile-overlay`); project cards additionally invert (`.card-invert`: ink bg, paper type, accent shadow). Upcoming/finished rows sit in one 2px ink frame (`.list-frame`) with a mono index tile per row (`.row-idx`, accent fill + accent edge bar on hover), separated by `.divider-tiles`. Active filter = accent chip |
 | `/about` | Bio + Tidal now-playing + status | Article measure (`.measure`, max 68ch), bio as `.pull-quote` bordered block on mint, mounted portrait in `.img-pixel` (2px ink + emerald 8px offset shadow) |
 | `/contact` | Contact form page | `.field` 2px border, focus = ink border + 4px accent hard shadow; `.banner` status with 2px border + emerald hard shadow |
 | `/courses` | Course progress cards | Cards inherit; `.progress` is a 10px ink-framed bar with accent fill |
 | `/cv` | Gated CV viewer (iframe) | `.tab-pixel` active tab gets a 3px accent underline |
 | `/social` | ATProto feed embeds | Restyled cards inherit the 2px system |
 | `/mediakit` | Brand assets | Palette lists the v8 tokens incl. emerald-500 and the block ramp swatch; type list leads with Andes Neue Book (400), Black marked "hero only" |
-| `/404` | Error page | Giant `404` in Book with 2px stroke outline, chunky `.btn` back link |
+| `/404` | Error page | Giant `404` in Book with 2px stroke outline over a cascading 6x6 `.f-mosaic`, chunky `.btn` back link |
+
+All subpages (/projects, /about, /contact, /courses, /social, /cv, /mediakit) open with the `.mosaic-head` strip above the page title.
 | `/llms.txt`, `/robots.txt`, `/sitemap.xml`, `/.well-known/atproto-did` | Machine-readable | Untouched |
 
 ### Admin (internal, same system)
@@ -114,10 +116,29 @@ preloaded in `default.astro`.
   header's own 2px bottom border reads as the frame's top segment.
 - **Mini mosaic** — `.mini-mosaic`: 3x3 diagonal sample of the block ramp,
   one element with nine solid 6px layers. Sits in the nav brand next to
-  the Loader F and as `.section-head::before` on every section head.
-- **Section head** — `.section-head`: mini-mosaic + mono accent index +
+  the Loader F and as the corner tick on preview cards. As a real tile
+  grid (`MiniMosaic.astro` → `.mini-mosaic-grid`) it marks every
+  `.section-head` and each tile pops with a diagonal stagger when the
+  head reveals on scroll (armed by the global `.reveal`/`.in` observer;
+  visible statically without JS).
+- **Mosaic header strip** — `.mosaic-head` (`MosaicHead.astro`): 12x2 ramp
+  strip above the title of every subpage (/projects, /about, /contact,
+  /courses, /social, /cv, /mediakit), tiles cascading in on load with
+  `animate-pop` delays. The 404 page instead puts a 6x6 `.f-mosaic`
+  behind the outline number.
+- **Section head** — `.section-head`: MiniMosaic + mono accent index +
   title over a 2px ink rule; `.section-head::after` paints an accent
   segment over the left 4.5rem of that rule.
+- **Bento teaser** — `.bento-grid` + `.bento-big` on the index: the first
+  preview card spans 2x2 (bigger outline number + type), the rest fill a
+  4-column grid, closed by an "all projects" link tile.
+- **Image tile-reveal** — `.tile-img` + `.tile-overlay` on project card
+  images: an 18-tile ramp overlay scales out staggered on hover/focus,
+  revealing the color image beneath. Hidden entirely on touch devices
+  and under `prefers-reduced-motion`.
+- **Scrollspy rail** — `.rail` on /projects (2xl+ only): fixed left rail
+  with the section index; the section in view gets an accent square
+  (IntersectionObserver in `default.astro`).
 - **Tiled dividers** — `.divider-tiles`: full-bleed 8px strip of the same
   hard-stop ramp tiles as `.sunset-stripe`, between major sections (index,
   /projects) and as the footer's top rule on every page.
@@ -181,7 +202,7 @@ preloaded in `default.astro`.
 
 | Component | Class | Look |
 |---|---|---|
-| Button | `.btn` | Mono uppercase label, 2px ink border, px-corner steps, 4px emerald hard shadow; hover lifts 2px with 6px accent shadow, `:active` presses flat |
+| Button | `.btn` | Mono uppercase label, 2px ink border, px-corner steps, 4px emerald hard shadow; hover sweeps an ink block in from the left (label flips to paper, lift 2px + 6px accent shadow), `:active` presses flat |
 | Primary button | `.btn-solid` | Accent bg, `--on-accent` text, ink border + shadow |
 | Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 2px ink border, px-corner steps; hover lifts 4px with 10px emerald shadow; `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover |
 | Chip / filter | `.chip`, `.filter-btn`, `.sort-btn` | Mono label, hairline border; active = accent bg |
@@ -189,7 +210,12 @@ preloaded in `default.astro`.
 | Section head | `.section-head` | Mini-mosaic + `idx` + title over a 2px ink rule with an accent segment |
 | Divider | `.divider-tiles` | Full-bleed 8px strip of hard-stop ramp tiles between sections / above the footer |
 | List frame | `.list-frame` + `.row-idx` | 2px ink frame around project rows; mono index tile per row, accent on hover |
-| Mini mosaic | `.mini-mosaic` | 3x3 diagonal ramp sample (nine 6px layers), nav brand + section heads |
+| Mini mosaic | `.mini-mosaic` | 3x3 diagonal ramp sample (nine 6px layers), nav brand + preview-card ticks |
+| Mini mosaic grid | `MiniMosaic.astro` (`.mini-mosaic-grid`) | Real 3x3 tile grid in every `.section-head`; tiles pop staggered on scroll reveal |
+| Mosaic header | `MosaicHead.astro` (`.mosaic-head`) | 12x2 cascading ramp strip above subpage titles |
+| Bento grid | `.bento-grid` + `.bento-big` | Index teaser: first card 2x2, 4-column grid, link tile |
+| Tile reveal | `.tile-img` + `.tile-overlay` | Ramp overlay on project card images, scales out on hover |
+| Rail | `.rail` | Fixed scrollspy section rail on long pages (2xl+) |
 | Label | `.label` | Mono uppercase muted |
 | Table | `.table-pixel` | 2px ink frame, mono header on surface over 2px ink rule |
 | Select | `.select-pixel` | 2px border, chevron caret (SVG data-URI, dark-mode override) |

@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/default.astro";
+import MosaicHead from "../components/MosaicHead.astro";
 import ProjectCard from "../components/projects/ProjectCard.astro";
 import ProjectRow from "../components/projects/ProjectRow.astro";
 import CategoryButton from "../components/CategoryButton.astro";
@@ -27,7 +28,21 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
     title={`${t.menuProjects} – fabio.sh`}
     description="All projects by Fabio Gschweidl – web development, design and conception"
 >
+    <!-- scrollspy rail, 2xl+ only (see .rail in globals.css) -->
+    <nav class="rail" aria-label="Page sections">
+        <a href="#current" data-spy="current"
+            ><span class="idx">01 //</span> {t.currentProjects}</a
+        >
+        <a href="#upcoming" data-spy="upcoming"
+            ><span class="idx">02 //</span> {t.upcomingProjects}</a
+        >
+        <a href="#finished" data-spy="finished"
+            ><span class="idx">03 //</span> {t.finishedProjects}</a
+        >
+    </nav>
+
     <div class="container mx-auto h-full px-4 md:px-12 pb-12">
+        <MosaicHead />
         <h1 class="h-display page-title my-20 text-5xl animate-fadeIn_2000">
             {t.menuProjects}
         </h1>
@@ -88,7 +103,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
         </div>
 
         <!-- Current -->
-        <section data-section aria-labelledby="current-heading">
+        <section id="current" data-section aria-labelledby="current-heading" class="scroll-mt-32">
             <h2
                 id="current-heading"
                 class="mb-6 text-lg font-display text-ink"
@@ -110,7 +125,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
         <div class="divider-tiles my-20" aria-hidden="true"></div>
 
         <!-- Upcoming / Paused -->
-        <section data-section aria-labelledby="upcoming-heading">
+        <section id="upcoming" data-section aria-labelledby="upcoming-heading" class="scroll-mt-32">
             <h2 id="upcoming-heading" class="mb-6 text-lg font-display">
                 {t.upcomingProjects}
             </h2>
@@ -126,7 +141,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
         <div class="divider-tiles my-20" aria-hidden="true"></div>
 
         <!-- Finished -->
-        <section data-section aria-labelledby="finished-heading" class="mb-20">
+        <section id="finished" data-section aria-labelledby="finished-heading" class="mb-20 scroll-mt-32">
             <h2 id="finished-heading" class="mb-6 text-lg font-display">
                 {t.finishedProjects}
             </h2>

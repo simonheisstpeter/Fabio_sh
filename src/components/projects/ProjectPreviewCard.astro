@@ -2,23 +2,24 @@
 interface Props {
     title: string;
     index: number;
+    big?: boolean;
 }
 
-const { title, index }: Props = Astro.props;
+const { title, index, big = false }: Props = Astro.props;
 // Format index to 01, 02, etc.
 const displayIndex = String(index + 1).padStart(2, "0");
 ---
 
-<li class="list-none">
+<li class={`list-none ${big ? "bento-big" : ""}`}>
     <article
-        class="card card-hover preview-card group relative overflow-hidden p-8 animate-fadeIn_2200"
+        class={`card card-hover preview-card group relative overflow-hidden p-8 h-full animate-fadeIn_2200 ${big ? "md:p-10" : ""}`}
         data-delay={String(index * 150)}
     >
         <span class="mini-mosaic preview-tick" aria-hidden="true"></span>
         <div class="relative z-10 flex flex-col h-full justify-between">
             <div>
                 <span
-                    class="preview-num block font-display text-6xl leading-none text-outline mb-3 select-none"
+                    class={`preview-num block font-display leading-none text-outline mb-3 select-none ${big ? "text-8xl" : "text-6xl"}`}
                     aria-hidden="true"
                 >
                     {displayIndex}
@@ -29,7 +30,7 @@ const displayIndex = String(index + 1).padStart(2, "0");
                     // preview
                 </span>
                 <h3
-                    class="mt-2 text-xl md:text-2xl font-display text-fg group-hover:text-ink transition-colors leading-tight"
+                    class={`mt-2 font-display text-fg group-hover:text-ink transition-colors leading-tight ${big ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"}`}
                 >
                     {title}
                 </h3>
