@@ -60,8 +60,8 @@ describe("dark/light theme system", () => {
     for (const href of hrefs) css += await (await anon.get(href)).text();
     // built CSS is minified: attribute quotes and spaces after colons are stripped
     expect(css).toContain("html[data-theme=dark]");
-    expect(css).toContain("--ink-rgb:255 250 235");
-    expect(css).toContain("--paper:#141210");
+    expect(css).toContain("--ink-rgb:230 251 242");
+    expect(css).toContain("--paper:#0a1512");
     expect(css).toContain(".page-frame");
     expect(css).toContain(".font-display");
     expect(css).toContain(".h-display");
