@@ -10,18 +10,19 @@ const t = getTranslations(locale);
 const colors = [
   { name: 'Ink',     hex: '#1f1f1f', class: 'bg-ink border-2 border-edge' },
   { name: 'Paper',   hex: '#fffaeb', class: 'bg-paper border-2 border-edge' },
-  { name: 'Accent',  hex: '#fa520f', class: 'bg-accent border-2 border-edge' },
-  { name: 'Surface', hex: '#fff0c2', class: 'bg-surface border-2 border-edge' },
-  { name: 'Muted',   hex: '#6e6252', class: 'bg-ink-soft border-2 border-edge' },
-  { name: 'Block',   hex: 'var(--grad-block)', class: 'border-2 border-edge', style: 'background:linear-gradient(90deg,#ffd900,#ffe295,#ffa110,#ff8105,#fb6424,#fa520f)' },
+  { name: 'Accent',  hex: '#047857', class: 'bg-accent border-2 border-edge' },
+  { name: 'Emerald-500', hex: '#10b981', class: 'border-2 border-edge', style: 'background:#10b981' },
+  { name: 'Surface', hex: '#e9f7f0', class: 'bg-surface border-2 border-edge' },
+  { name: 'Muted',   hex: '#5c7268', class: 'bg-ink-soft border-2 border-edge' },
+  { name: 'Block',   hex: 'var(--grad-block)', class: 'border-2 border-edge', style: 'background:linear-gradient(90deg,#a7f3d0,#6ee7b7,#34d399,#10b981,#059669,#047857)' },
 ];
 // Dark theme tokens — keep in sync with [data-theme="dark"] in globals.css
 const colorsDark = [
-  { name: 'Paper',   hex: '#141210', class: 'border-2 border-edge', style: 'background:#141210' },
-  { name: 'Ink',     hex: '#fffaeb', class: 'border-2 border-edge', style: 'background:#fffaeb' },
-  { name: 'Accent',  hex: '#ff7a3d', class: 'border-2 border-edge', style: 'background:#ff7a3d' },
-  { name: 'Surface', hex: '#1d1812', class: 'border-2 border-edge', style: 'background:#1d1812' },
-  { name: 'Divider', hex: '#382e22', class: 'border-2 border-edge', style: 'background:#382e22' },
+  { name: 'Paper',   hex: '#0a1512', class: 'border-2 border-edge', style: 'background:#0a1512' },
+  { name: 'Ink',     hex: '#e6fbf2', class: 'border-2 border-edge', style: 'background:#e6fbf2' },
+  { name: 'Accent',  hex: '#34d399', class: 'border-2 border-edge', style: 'background:#34d399' },
+  { name: 'Surface', hex: '#12211c', class: 'border-2 border-edge', style: 'background:#12211c' },
+  { name: 'Divider', hex: '#234237', class: 'border-2 border-edge', style: 'background:#234237' },
 ];
 ---
 
@@ -146,6 +147,7 @@ const colorsDark = [
         <Loader big />
       </div>
     </section>
+
   </div>
 </Layout>
 
