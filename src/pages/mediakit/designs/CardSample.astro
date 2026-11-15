@@ -10,28 +10,31 @@ interface Props {
 }
 const { variant, active = false } = Astro.props;
 
-const mastTiles = Array.from({ length: 16 }, (_, i) => {
-    const col = i % 8;
-    const row = Math.floor(i / 8);
-    return { color: RAMP[(row + col) % 6], delay: (row + col) * 45 };
-});
+// All mosaic elements are fixed-size SQUARE tiles (like the hero canvas
+// cells), never stretched rectangles: grids use fixed px columns/rows +
+// overflow hidden, so extra tiles clip at the card edge.
+const mastTiles = Array.from({ length: 48 }, (_, i) => ({
+    color: RAMP[i % 6],
+    delay: i * 16,
+}));
 const cornerTiles = Array.from({ length: 16 }, (_, i) => {
     const col = i % 4;
     const row = Math.floor(i / 4);
     return { color: RAMP[(row + col) % 6], delay: (col + row) * 40 };
 });
-const fieldTiles = Array.from({ length: 24 }, (_, i) => ({
+// E and the side panels use 18px squares, the same cell size as the hero
+// canvas / pixel-field cards
+const fieldTiles = Array.from({ length: 480 }, (_, i) => ({
     color: RAMP[i % 6],
-    delay: i * 28,
+    delay: i * 4,
 }));
-const bandTiles = Array.from({ length: 16 }, (_, i) => {
-    const col = i % 8;
-    const row = Math.floor(i / 8);
-    return { color: RAMP[(row + col) % 6], delay: (row + col) * 40 };
-});
-const panelTiles = Array.from({ length: 24 }, (_, i) => {
-    const col = i % 4;
-    const row = Math.floor(i / 4);
+const bandTiles = Array.from({ length: 40 }, (_, i) => ({
+    color: RAMP[i % 6],
+    delay: i * 18,
+}));
+const panelTiles = Array.from({ length: 60 }, (_, i) => {
+    const col = i % 6;
+    const row = Math.floor(i / 6);
     return { color: RAMP[(row + col) % 6], delay: (row + col) * 40 };
 });
 
@@ -57,6 +60,8 @@ const sample = {
     )}
     {variant === "g" && <canvas class="pxfield" aria-hidden="true"></canvas>}
     {variant === "l" && <canvas class="pxfield" data-decay="0.008" aria-hidden="true"></canvas>}
+    {variant === "m" && <canvas class="pxfield" data-decay="0.008" data-ambient="0" aria-hidden="true"></canvas>}
+    {["n", "o", "p", "q", "r", "s"].includes(variant) && <canvas class="pxfield" data-decay="0.008" data-ambient="0" aria-hidden="true"></canvas>}
     {variant === "b" && <div class="rail" aria-hidden="true"></div>}
     {variant === "c" && (
         <div class="corner" aria-hidden="true">
@@ -123,13 +128,20 @@ const sample = {
     from { transform: scale(0); }
     to { transform: scale(1); }
   }
+  /* local ramp-march keyframes (the global one was removed when .card
+     switched to the pixel field); Astro scopes this to the component */
+  @keyframes ramp-march {
+    to { background-position: 72px 0; }
+  }
 
-  /* A: mosaic masthead */
+  /* A: mosaic masthead — a band of 28px square tiles, clipped at the edge */
   .opt-a { flex-direction: column; }
   .opt-a .mast {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(auto-fill, 28px);
     grid-auto-rows: 28px;
+    height: 56px;
+    overflow: hidden;
     border-bottom: 2px solid var(--ink);
     flex-shrink: 0;
   }
@@ -140,23 +152,23 @@ const sample = {
     animation-delay: var(--d, 0ms);
   }
 
-  /* B: split rail of big vertical tiles, marching on hover */
+  /* B: split rail — one column of 56px square tiles, marching on hover */
   .opt-b .rail {
     flex-shrink: 0;
-    width: 84px;
+    width: 56px;
     border-right: 2px solid var(--ink);
     background: repeating-linear-gradient(
       180deg,
-      #a7f3d0 0 42px,
-      #6ee7b7 42px 84px,
-      #34d399 84px 126px,
-      #10b981 126px 168px,
-      #059669 168px 210px,
-      #047857 210px 252px
+      #a7f3d0 0 56px,
+      #6ee7b7 56px 112px,
+      #34d399 112px 168px,
+      #10b981 168px 224px,
+      #059669 224px 280px,
+      #047857 280px 336px
     );
   }
   @keyframes rail-march {
-    to { background-position: 0 252px; }
+    to { background-position: 0 336px; }
   }
   .opt-b:hover .rail,
   .opt-b.demo-active .rail {
@@ -218,8 +230,9 @@ const sample = {
     position: absolute;
     inset: 6px 0 0 0;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, 18px);
+    grid-auto-rows: 18px;
+    overflow: hidden;
     pointer-events: none;
   }
   .opt-e .field span {
@@ -255,8 +268,10 @@ const sample = {
     order: 2;
     flex-shrink: 0;
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-auto-rows: 18px;
+    grid-template-columns: repeat(auto-fill, 24px);
+    grid-auto-rows: 24px;
+    height: 48px;
+    overflow: hidden;
     border-top: 2px solid var(--paper);
   }
   .opt-f .band span { display: block; }
@@ -270,7 +285,8 @@ const sample = {
     box-shadow: 10px 10px 0 var(--accent);
   }
 
-  /* G / I: hero pixel field canvas (filled by JS), full card or side panel */
+  /* G / I / L / M / N / O / P: hero pixel field canvas (filled by JS),
+     full card or side panel */
   .pxfield {
     position: absolute;
     inset: 0;
@@ -279,9 +295,10 @@ const sample = {
     pointer-events: none;
   }
 
-  /* H / I: corner-bracket border (grows on hover) + right panel */
+  /* H / I / O: corner-bracket border (grows on hover) + right panel */
   .opt-h,
-  .opt-i {
+  .opt-i,
+  .opt-o {
     border: none;
     background-color: var(--paper);
     background-image:
@@ -308,7 +325,9 @@ const sample = {
   .opt-h:hover,
   .opt-h.demo-active,
   .opt-i:hover,
-  .opt-i.demo-active {
+  .opt-i.demo-active,
+  .opt-o:hover,
+  .opt-o.demo-active {
     background-size:
       44px 4px, 4px 44px,
       44px 4px, 4px 44px,
@@ -322,7 +341,7 @@ const sample = {
   .opt-i .panel-px {
     position: relative;
     flex-shrink: 0;
-    width: 112px;
+    width: 108px;
     border-left: 2px solid var(--ink);
     overflow: hidden;
   }
@@ -330,11 +349,12 @@ const sample = {
   .opt-j .panel,
   .opt-k .panel {
     flex-shrink: 0;
-    width: 112px;
+    width: 108px;
     border-left: 2px solid var(--ink);
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(6, 18px);
+    grid-auto-rows: 18px;
+    overflow: hidden;
   }
   .opt-h .panel span,
   .opt-j .panel span,
@@ -349,15 +369,18 @@ const sample = {
     animation-delay: var(--d, 0ms);
   }
 
-  /* J: same side-panel layout, double frame border — 2px border plus an
-     offset outline that grows on hover */
-  .opt-j {
+  /* J / P: double frame border — 2px border plus an offset outline that
+     grows on hover (J adds the side panel, P the pixel field) */
+  .opt-j,
+  .opt-p {
     outline: 2px solid var(--ink);
     outline-offset: 4px;
     transition: transform 200ms ease, box-shadow 200ms ease, outline-offset 200ms ease;
   }
   .opt-j:hover,
-  .opt-j.demo-active {
+  .opt-j.demo-active,
+  .opt-p:hover,
+  .opt-p.demo-active {
     outline-offset: 9px;
   }
 
@@ -372,15 +395,69 @@ const sample = {
     box-shadow: 12px 12px 0 var(--shadow);
   }
 
-  /* L: borderless canvas card (like G's pixel field, like K's borderless
-     frame); the canvas carries data-decay="0.008" so the pixels fade out
-     much slower than the hero field */
-  .opt-l {
+  /* L / M: borderless canvas cards (like G's pixel field, like K's
+     borderless frame); data-decay="0.008" makes the pixels fade out much
+     slower than the hero field; M adds data-ambient="0" so the field stays
+     empty until the pointer moves over the card */
+  .opt-l,
+  .opt-m {
     border: none;
     box-shadow: 6px 6px 0 var(--shadow);
   }
   .opt-l:hover,
-  .opt-l.demo-active {
+  .opt-l.demo-active,
+  .opt-m:hover,
+  .opt-m.demo-active {
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+
+  /* N: standard 2px ink border plus the 6px ramp strip on top (marches on
+     hover), with the slow hover-only pixel field behind the content */
+  .opt-n::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--ramp-h);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .opt-n:hover::before,
+  .opt-n.demo-active::before {
+    animation: ramp-march 0.9s linear infinite;
+  }
+
+  /* Q / R / S: clean, professional border alternatives for the slow
+     hover-only pixel field — hairline, accent rule, top/bottom rules */
+  .opt-q {
+    border: 1px solid var(--ink-30);
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-q:hover,
+  .opt-q.demo-active {
+    border-color: var(--ink);
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+  .opt-r {
+    border: 1px solid var(--divider);
+    border-top: 3px solid var(--accent);
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-r:hover,
+  .opt-r.demo-active {
+    border-color: var(--ink-30);
+    box-shadow: 12px 12px 0 var(--shadow);
+  }
+  .opt-s {
+    border: none;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+  .opt-s:hover,
+  .opt-s.demo-active {
     box-shadow: 12px 12px 0 var(--shadow);
   }
 
