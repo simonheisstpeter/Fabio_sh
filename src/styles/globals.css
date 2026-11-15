@@ -1998,3 +1998,73 @@ header nav ul a[aria-current="page"]::before {
   height: 6px;
   margin-right: 0.45rem;
   background: var(--accent);
+  vertical-align: 0.08em;
+}
+
+/* Article reading measure (about page) */
+.measure {
+  max-width: 68ch;
+}
+
+/* Pull quote: bordered block on a mint surface, like the news article pages */
+.pull-quote {
+  border: 2px solid var(--ink);
+  background: var(--surface);
+  padding: 1.25rem 1.5rem;
+  font-family: var(--font-book);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+
+/* Sticker: rotated accent label with ink rule and hard shadow */
+.sticker {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0.45rem 1rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  transform: rotate(-2deg);
+  white-space: nowrap;
+}
+
+/* Marquee strip: one per page max, 2px ink rules top and bottom */
+.marquee {
+  overflow: hidden;
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  padding-block: 0.6rem;
+}
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: marquee 24s linear infinite;
+}
+.marquee-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  white-space: nowrap;
+}
+.marquee-track span::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
