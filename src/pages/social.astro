@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/default.astro";
 import ExternalLinkIcon from "../components/ExternalLinkIcon.astro";
+import MosaicHead from "../components/MosaicHead.astro";
 import { getTranslations } from "../i18n/index";
 import {
     getSocialFeed,
@@ -44,6 +45,7 @@ function formatDate(iso: string): string {
     description={t.socialIntro}
 >
     <div class="container mx-auto py-24 md:py-36 px-4 md:px-12">
+        <MosaicHead />
         <div
             class="grid gap-12 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16 lg:items-start"
         >

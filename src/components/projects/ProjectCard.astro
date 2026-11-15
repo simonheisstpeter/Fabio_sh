@@ -20,6 +20,14 @@ const description =
     "";
 
 const hasImage = !project.finished && project.published && project.image;
+
+// Ramp tile overlay on the card image: scales out staggered on hover,
+// revealing the color image underneath (see .tile-overlay in globals.css)
+const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const overlayTiles = Array.from({ length: 18 }, (_, i) => ({
+    color: RAMP[i % 6],
+    delay: i * 30,
+}));
 ---
 
 <li
@@ -35,7 +43,7 @@ const hasImage = !project.finished && project.published && project.image;
     >
         {
             hasImage ? (
-                <picture class="block max-h-80 overflow-hidden border-b-2 border-ink">
+                <picture class="tile-img block max-h-80 overflow-hidden border-b-2 border-ink">
                     <img
                         src={project.image}
                         width="800"
@@ -45,6 +53,11 @@ const hasImage = !project.finished && project.published && project.image;
                         decoding="async"
                         class="max-h-80 w-full bg-ink object-cover grayscale duration-200 hover:grayscale-0"
                     />
+                    <span class="tile-overlay" aria-hidden="true">
+                        {overlayTiles.map((t) => (
+                            <span style={`background:${t.color};--d:${t.delay}ms`} />
+                        ))}
+                    </span>
                 </picture>
             ) : (
                 <div class="h-1.5 bg-ink" />

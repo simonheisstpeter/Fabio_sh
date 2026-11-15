@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/default.astro';
 import ContactForm from '../components/ContactForm.astro';
+import MosaicHead from '../components/MosaicHead.astro';
 import { getTranslations } from '../i18n/index';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
@@ -15,7 +16,8 @@ const error = Astro.url.searchParams.get('error') === '1';
   title={`${t.menuContact} – fabio.sh`}
   description="Contact Fabio Gschweidl"
 >
-  <div class="container mx-auto pt-24 md:pt-40 px-4 md:px-12 pb-12">
+  <div class="container mx-auto pt-24 md:pt-40 px-4 md:px-12 pb-24">
+    <MosaicHead />
     <h1 class="h-display page-title text-3xl md:text-5xl mb-4 animate-fadeIn_2000">
       {t.contactTitle}
     </h1>

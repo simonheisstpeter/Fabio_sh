@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/default.astro";
 import Loader from "../components/Loader.astro";
+import MosaicHead from "../components/MosaicHead.astro";
 import { getTranslations } from "../i18n/index";
 import { getLastPlayed } from "../lib/tidal";
 import { getSocialFeed } from "../lib/atproto";
@@ -34,6 +35,7 @@ function formatStatusDate(iso: string): string {
     description="About Fabio Gschweidl – developer, designer, music enthusiast"
 >
     <div class="container mx-auto py-24 md:py-36 px-4 md:px-12">
+        <MosaicHead />
         <h1 class="h-display page-title text-5xl mb-20 animate-fadeIn_2000">
             {t.aboutTitle}
         </h1>

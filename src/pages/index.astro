@@ -4,6 +4,7 @@ import Hero from "../components/Hero.astro";
 import Marquee from "../components/Marquee.astro";
 
 import ContactForm from "../components/ContactForm.astro";
+import MiniMosaic from "../components/MiniMosaic.astro";
 import ProjectTeaser from "../components/projects/ProjectTeaser.astro";
 import { getTranslations } from "../i18n/index";
 import { getAllProjects } from "../lib/db";
@@ -26,7 +27,7 @@ const previewProjects = getAllProjects()
     <Hero t={t} isJa={isJa} />
 
     <!-- marquee strip -->
-    <div class="mt-16 md:mt-24">
+    <div class="mt-20 md:mt-32">
         <Marquee
             items={[
                 "fabio.sh",
@@ -40,8 +41,9 @@ const previewProjects = getAllProjects()
     </div>
 
     <!-- 01 // PROJECTS -->
-    <div id="projects" class="container mx-auto px-4 md:px-12 mt-16 md:mt-24 scroll-mt-24">
+    <div id="projects" class="container mx-auto px-4 md:px-12 mt-20 md:mt-32 scroll-mt-24">
         <div class="section-head">
+            <MiniMosaic />
             <span class="idx">01 //</span>
             <h2 class="h-display text-3xl md:text-5xl">{t.menuProjects}</h2>
         </div>
@@ -49,15 +51,16 @@ const previewProjects = getAllProjects()
     </div>
 
     <!-- tiled divider between the major sections -->
-    <div class="divider-tiles my-16 md:my-24" aria-hidden="true"></div>
+    <div class="divider-tiles my-20 md:my-32" aria-hidden="true"></div>
 
     <!-- 02 // CONTACT -->
     <section
         id="contact"
-        class="container mx-auto px-4 md:px-12 pb-24 scroll-mt-24"
+        class="container mx-auto px-4 md:px-12 pb-32 scroll-mt-24"
         aria-labelledby="contact-heading"
     >
         <div class="section-head">
+            <MiniMosaic />
             <span class="idx">02 //</span>
             <h2 id="contact-heading" class="h-display text-3xl md:text-5xl">
                 {t.contactTitle}

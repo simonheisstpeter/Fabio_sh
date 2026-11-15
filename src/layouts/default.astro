@@ -480,6 +480,32 @@ const NavLinks = [
                 });
             }
 
+            // Scrollspy rail (long pages like /projects): the rail link of the
+            // section currently in view gets the accent square
+            function initScrollSpy() {
+                const links =
+                    document.querySelectorAll<HTMLAnchorElement>("[data-spy]");
+                const secs =
+                    document.querySelectorAll<HTMLElement>("[data-section]");
+                if (!links.length || !secs.length) return;
+                if (!("IntersectionObserver" in window)) return;
+                const spy = new IntersectionObserver(
+                    (entries) => {
+                        for (const e of entries) {
+                            if (!e.isIntersecting) continue;
+                            links.forEach((l) =>
+                                l.classList.toggle(
+                                    "active",
+                                    l.dataset.spy === e.target.id,
+                                ),
+                            );
+                        }
+                    },
+                    { rootMargin: "-30% 0px -60% 0px" },
+                );
+                secs.forEach((s) => spy.observe(s));
+            }
+
             // Reading progress bar: width follows scroll position (rAF-throttled)
             function initScrollProgress() {
                 const bar = document.querySelector(".scroll-progress");
@@ -531,6 +557,7 @@ const NavLinks = [
                 initMobileLangSelect("lang-select-mobile");
                 initMobileMenuTrap();
                 initScrollReveal();
+                initScrollSpy();
                 initScrollProgress();
                 initThemeToggle();
             });
