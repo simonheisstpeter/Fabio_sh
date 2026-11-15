@@ -239,3 +239,17 @@ preloaded in `default.astro`.
 | Hero pixel field | `.hero-field` | Canvas behind the index hero, pointer-reactive ramp cells (index only) |
 | Theme toggle | `[data-theme-toggle]` | `.btn-ink` square, stroke sun/moon swapped by `data-theme` |
 | Marquee | `Marquee.astro` | Ink strip, mono items, accent square separators |
+
+## 6. Design experiments (live previews)
+
+- **Preview pages** — `src/pages/mediakit/designs/` holds English-only,
+  in-progress design previews (currently `cards.astro` + `CardSample.astro`:
+  card variants A-L with big mosaic elements, bracket/double/borderless
+  frames, and the hero pixel-field canvas as card background or side
+  panel). Each variant renders twice: resting state and hover forced on
+  via `.demo-active`. The pixel field reuses the hero canvas logic
+  (`canvas.pxfield`, `data-decay` controls fade speed). Linked from the
+  mediakit page ("// designs" section). Animations respect
+  `prefers-reduced-motion`. These pages are experiments, not part of the
+  shipped component set; promote a variant into `globals.css` + the real
+  components when it is chosen.
