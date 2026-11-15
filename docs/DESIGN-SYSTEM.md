@@ -46,7 +46,8 @@ inherit the poster components.
 2. **Umami analytics + console easter egg** — invisible on the page, kept.
 3. **Novelty locales `en-x-*`** — kept (excluded from sitemap).
 4. **Green Web badge** — mono chip in the footer.
-5. **No em-dashes in visible UI copy** — hyphens only (v7 hard rule).
+5. **No em-dashes and no hyphen-minus in visible UI copy** — where a dash is
+   needed, use an en dash (`–`), as in ranges like `2–100` (v8 rule).
 
 ## 2. Tokens
 
