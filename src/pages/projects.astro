@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/default.astro";
 import MosaicHead from "../components/MosaicHead.astro";
+import MiniMosaic from "../components/MiniMosaic.astro";
 import ProjectCard from "../components/projects/ProjectCard.astro";
 import ProjectRow from "../components/projects/ProjectRow.astro";
 import CategoryButton from "../components/CategoryButton.astro";
@@ -104,12 +105,12 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
 
         <!-- Current -->
         <section id="current" data-section aria-labelledby="current-heading" class="scroll-mt-32">
-            <h2
-                id="current-heading"
-                class="mb-6 text-lg font-display text-ink"
-            >
-                {t.currentProjects}
-            </h2>
+            <div class="list-head mb-6">
+                <MiniMosaic />
+                <h2 id="current-heading" class="text-lg font-display text-ink">
+                    {t.currentProjects}
+                </h2>
+            </div>
             <ul
                 data-sortable
                 class="list-none grid grid-cols-1 gap-8 lg:grid-cols-2"
@@ -126,10 +127,13 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
 
         <!-- Upcoming / Paused -->
         <section id="upcoming" data-section aria-labelledby="upcoming-heading" class="scroll-mt-32">
-            <h2 id="upcoming-heading" class="mb-6 text-lg font-display">
-                {t.upcomingProjects}
-            </h2>
-            <ol data-sortable class="list-none flex flex-col list-frame">
+            <div class="list-head mb-6">
+                <MiniMosaic />
+                <h2 id="upcoming-heading" class="text-lg font-display">
+                    {t.upcomingProjects}
+                </h2>
+            </div>
+            <ol data-sortable class="list-none list-ramp">
                 {
                     upcomingProjects.map((project) => (
                         <ProjectRow project={project} locale={locale} t={t} />
@@ -142,10 +146,13 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
 
         <!-- Finished -->
         <section id="finished" data-section aria-labelledby="finished-heading" class="mb-20 scroll-mt-32">
-            <h2 id="finished-heading" class="mb-6 text-lg font-display">
-                {t.finishedProjects}
-            </h2>
-            <ol data-sortable class="list-none flex flex-col list-frame">
+            <div class="list-head mb-6">
+                <MiniMosaic />
+                <h2 id="finished-heading" class="text-lg font-display">
+                    {t.finishedProjects}
+                </h2>
+            </div>
+            <ol data-sortable class="list-none list-ramp">
                 {
                     finishedProjects.map((project) => (
                         <ProjectRow project={project} locale={locale} t={t} />

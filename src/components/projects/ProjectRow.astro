@@ -29,9 +29,8 @@ const shownCategories = project.categories.slice(0, 2);
     data-categories={JSON.stringify(project.categories)}
     data-created={project.createdAt}
 >
-    <div
-        class="flex flex-wrap items-center gap-x-4 gap-y-1 border-b-2 border-ink-20 py-3 transition-colors hover:bg-ink-05"
-    >
+    <div class="ramp-edge" aria-hidden="true"></div>
+    <div class="list-ramp-row">
         <span class="row-idx" aria-hidden="true"></span>
 
         <div class="min-w-0 flex-1">
