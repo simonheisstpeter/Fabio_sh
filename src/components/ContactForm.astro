@@ -17,9 +17,9 @@ const {
 }: Props = Astro.props;
 ---
 
-<div class="relative w-full max-w-2xl mx-auto my-12 animate-fadeIn_2200">
+<div class="relative w-full max-w-2xl mx-auto my-20 animate-fadeIn_2200">
     <div
-        class="card relative overflow-hidden p-8 md:p-12"
+        class="card relative overflow-hidden p-8 md:p-16"
     >
         {
             sent && (
@@ -50,7 +50,7 @@ const {
             id="contact-form"
             action={action}
             method="POST"
-            class="space-y-8 text-fg"
+            class="space-y-10 text-fg"
             data-success={t.contactSuccess}
             data-error={t.contactError}
             data-err-name={t.contactErrName}
@@ -65,7 +65,7 @@ const {
             </div>
             <input type="hidden" name="_t" id="form-ts" value="" />
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <!-- Name -->
                 <div class="group flex flex-col gap-3">
                     <label
@@ -142,7 +142,7 @@ const {
                     minlength={CONTACT_LIMITS.messageMin}
                     maxlength={CONTACT_LIMITS.messageMax}
                     aria-describedby="contact-message-error"
-                    rows="5"
+                    rows="6"
                     placeholder={`${t.contactMessage}...`}
                     class="field"
                 ></textarea>
@@ -173,7 +173,7 @@ const {
             </div>
 
             <!-- Submit Button -->
-            <div class="pt-4">
+            <div class="pt-6">
                 <button
                     type="submit"
                     id="contact-submit"

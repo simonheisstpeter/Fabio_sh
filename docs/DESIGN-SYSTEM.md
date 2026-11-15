@@ -127,8 +127,14 @@ preloaded in `default.astro`.
   `animate-pop` delays. The 404 page instead puts a 6x6 `.f-mosaic`
   behind the outline number.
 - **Section head** — `.section-head`: MiniMosaic + mono accent index +
-  title over a 2px ink rule; `.section-head::after` paints an accent
-  segment over the left 4.5rem of that rule.
+  title over a 2px ink rule (1rem above the rule, 3rem below it to the
+  content); `.section-head::after` paints an accent segment over the
+  left 4.5rem of that rule.
+- **Vertical rhythm** — index sections breathe at 5rem mobile / 8rem
+  desktop (`mt-20 md:mt-32`, `my-20 md:my-32` on `.divider-tiles`,
+  `pb-32` on the last section); `.mosaic-head` sits `mb-12` above
+  subpage titles; the contact card is `p-8 md:p-16` with `space-y-10`
+  field spacing and a 6-row message field.
 - **Bento teaser** — `.bento-grid` + `.bento-big` on the index: the first
   preview card spans 2x2 (bigger outline number + type), the rest fill a
   4-column grid, closed by an "all projects" link tile.
