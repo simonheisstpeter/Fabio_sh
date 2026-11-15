@@ -1,6 +1,7 @@
 ---
 import type { Translations } from "../i18n/index";
 import { CONTACT_LIMITS } from "../lib/contact-rules.js";
+import MiniMosaic from "./MiniMosaic.astro";
 
 interface Props {
     t: Translations;
@@ -21,6 +22,14 @@ const {
     <div
         class="card relative overflow-hidden p-8 md:p-16"
     >
+        <div class="flex items-center gap-4 mb-10">
+            <MiniMosaic />
+            <span class="flex-1 h-px bg-ink" aria-hidden="true"></span>
+            <span
+                class="font-mono text-xs uppercase tracking-widest text-ink-soft"
+                >// contact</span
+            >
+        </div>
         {
             sent && (
                 <div

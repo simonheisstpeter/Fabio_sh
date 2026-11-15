@@ -20,7 +20,7 @@ washes, shadows, scrollbar, selection and caret.
 | Route | What it is | v8 decision |
 |---|---|---|
 | `/` (index) | Hero + marquee + bento project teaser + contact form | Hero: stacked `FABIO` / outlined `GSCHEWIDL`, Black only here (hero moment), accent caret, rotated accent sticker with stepped pixel corners, mosaic F mark (`.f-mosaic`, 6x6 emerald-ramp tiles cascading in), cursor-reactive pixel field behind the hero (`.hero-field` canvas), chunky CTAs. One marquee strip under the hero (`.marquee`, the only one on the site). Bento teaser (`.bento-grid`: first card 2x2 with mini-mosaic tick, "all projects" tile). Tiled divider (`.divider-tiles`) between the projects and contact sections. Fixed tiled sunset stripe (`.sunset-stripe`, hard-stop color tiles) at the very bottom of the index page only |
-| `/projects` | Filterable project grid/list, scrollspy rail | Mosaic header strip above the title; fixed left `.rail` (2xl+) with the active section marked. `.card` blocks with 2px ink borders; hover lifts 4px with a 10px emerald hard shadow and reveals the image through a ramp tile overlay (`.tile-overlay`); project cards additionally invert (`.card-invert`: ink bg, paper type, accent shadow). Upcoming/finished rows sit in one 2px ink frame (`.list-frame`) with a mono index tile per row (`.row-idx`, accent fill + accent edge bar on hover), separated by `.divider-tiles`. Active filter = accent chip |
+| `/projects` | Filterable project grid/list, scrollspy rail | Mosaic header strip above the title; fixed left `.rail` (2xl+) with the active section marked. `.card` blocks with 2px ink borders; hover lifts 4px with a 10px emerald hard shadow and reveals the image through a ramp tile overlay (`.tile-overlay`); project cards additionally invert (`.card-invert`: ink bg, paper type, accent shadow). Upcoming/finished rows use the ramp-edge list (`.list-ramp`: vertical ramp edge per row, mono accent index, surface tint on hover) under mini-mosaic group headers (`.list-head`), separated by `.divider-tiles`. Active filter = accent chip |
 | `/about` | Bio + Tidal now-playing + status | Article measure (`.measure`, max 68ch), bio as `.pull-quote` bordered block on mint, mounted portrait in `.img-pixel` (2px ink + emerald 8px offset shadow) |
 | `/contact` | Contact form page | `.field` 2px border, focus = ink border + 4px accent hard shadow; `.banner` status with 2px border + emerald hard shadow |
 | `/courses` | Course progress cards | Cards inherit; `.progress` is a 10px ink-framed bar with accent fill |
@@ -148,9 +148,12 @@ preloaded in `default.astro`.
 - **Tiled dividers** — `.divider-tiles`: full-bleed 8px strip of the same
   hard-stop ramp tiles as `.sunset-stripe`, between major sections (index,
   /projects) and as the footer's top rule on every page.
-- **Framed lists** — `.list-frame` + `.row-idx`: one 2px ink frame around
-  the upcoming/finished project rows; CSS-counter index tile per row
-  (fills accent on row hover) and an inset 4px accent edge bar.
+- **Ramp-edge lists** — `.list-ramp` + `.ramp-edge` + `.row-idx`: no box
+  frame around the upcoming/finished project rows; each row is a grid with
+  a 10px vertical ramp edge on the left, 2px ink rules between rows, a
+  small mono accent CSS-counter index, and a surface tint + 4px nudge on
+  hover. List group headers (`.list-head`) carry the 3x3 mini-mosaic marker
+  over a 2px ink rule.
 - **Wordmark dot** — `.wordmark-dot`: the "." of the footer `fabio.sh`
   wordmark as a block-ramp tile with a 2px ink border.
 - **Active nav marker** — `header nav ul a[aria-current="page"]::before`:
@@ -210,12 +213,12 @@ preloaded in `default.astro`.
 |---|---|---|
 | Button | `.btn` | Mono uppercase label, 2px ink border, px-corner steps, 4px emerald hard shadow; hover sweeps an ink block in from the left (label flips to paper, lift 2px + 6px accent shadow), `:active` presses flat |
 | Primary button | `.btn-solid` | Accent bg, `--on-accent` text, ink border + shadow |
-| Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 2px ink border, px-corner steps; hover lifts 4px with 10px emerald shadow; `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover |
+| Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 2px ink border, px-corner steps, 6px hard-stop ramp strip on the top edge (`--ramp-h`, marches one tile on hover); hover lifts 4px with 10px emerald shadow and grows a 3-square mosaic cluster bottom-left (`::after`); `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover. Contact form card adds a mini-mosaic + ink rule header row inside |
 | Chip / filter | `.chip`, `.filter-btn`, `.sort-btn` | Mono label, hairline border; active = accent bg |
 | Field | `.field` | 2px `ink-30` border, px-corner steps; focus = ink border + 4px accent hard shadow |
 | Section head | `.section-head` | Mini-mosaic + `idx` + title over a 2px ink rule with an accent segment |
 | Divider | `.divider-tiles` | Full-bleed 8px strip of hard-stop ramp tiles between sections / above the footer |
-| List frame | `.list-frame` + `.row-idx` | 2px ink frame around project rows; mono index tile per row, accent on hover |
+| Ramp-edge list | `.list-ramp` + `.ramp-edge` + `.row-idx` | Frameless project rows: vertical ramp edge, 2px ink row rules, mono accent counter index, surface tint + nudge on hover |
 | Mini mosaic | `.mini-mosaic` | 3x3 diagonal ramp sample (nine 6px layers), nav brand + preview-card ticks |
 | Mini mosaic grid | `MiniMosaic.astro` (`.mini-mosaic-grid`) | Real 3x3 tile grid in every `.section-head`; tiles pop staggered on scroll reveal |
 | Mosaic header | `MosaicHead.astro` (`.mosaic-head`) | 12x2 cascading ramp strip above subpage titles |
