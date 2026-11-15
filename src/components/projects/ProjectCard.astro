@@ -1,1 +1,109 @@
-[object Object]
+---
+import type { Project } from "../../lib/db";
+import type { Translations } from "../../i18n/index";
+import ProjectStatus from "./ProjectStatus.astro";
+import ProjectCategories from "./ProjectCategories.astro";
+import ProjectLanguages from "./ProjectLanguages.astro";
+
+interface Props {
+    project: Project;
+    locale: string;
+    t: Translations;
+}
+
+const { project, locale, t }: Props = Astro.props;
+
+const description =
+    project.description[locale] ||
+    project.description["en"] ||
+    project.description["de"] ||
+    "";
+
+const hasImage = !project.finished && project.published && project.image;
+---
+
+<li
+    class="project-item"
+    data-title={project.title.toLowerCase()}
+    data-description={description.toLowerCase()}
+    data-categories={JSON.stringify(project.categories)}
+    data-created={project.createdAt}
+>
+    <article
+        class="card card-hover card-invert cursor-fabiosh flex flex-col h-full"
+        tabindex="0"
+    >
+        {
+            hasImage ? (
+                <picture class="block max-h-80 overflow-hidden border-b-2 border-ink">
+                    <img
+                        src={project.image}
+                        width="800"
+                        height="400"
+                        alt={project.title}
+                        loading="lazy"
+                        decoding="async"
+                        class="max-h-80 w-full bg-ink object-cover grayscale duration-200 hover:grayscale-0"
+                    />
+                </picture>
+            ) : (
+                <div class="h-1.5 bg-ink" />
+            )
+        }
+
+        <div class="p-6 text-sm flex flex-col flex-1 gap-1">
+            <ProjectStatus
+                title={project.title}
+                online={project.online}
+                finished={project.finished}
+            />
+
+            {
+                description && (
+                    <p class="mb-2 text-base text-fg font-andesNeueLight leading-relaxed">
+                        {description}
+                    </p>
+                )
+            }
+
+            <ul class="list-none m-0 mb-2 block text-muted2">
+                {
+                    project.languages.map((language) => (
+                        <ProjectLanguages language={language} />
+                    ))
+                }
+            </ul>
+
+            {
+                project.url && (
+                    <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="mb-3 w-fit inline-flex items-center gap-1 text-ink hover:text-ink transition duration-200 text-xs"
+                    >
+                        {t.website}
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                            class="h-3 w-3"
+                            aria-hidden="true"
+                        >
+                            <path d="M6.22 8.72a.75.75 0 001.06 1.06l5.22-5.22v1.69a.75.75 0 001.5 0v-3.5a.75.75 0 00-.75-.75h-3.5a.75.75 0 000 1.5h1.69L6.22 8.72z" />
+                            <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 007 4H4.75A2.75 2.75 0 002 6.75v4.5A2.75 2.75 0 004.75 14h4.5A2.75 2.75 0 0012 11.25V9a.75.75 0 00-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5z" />
+                        </svg>
+                    </a>
+                )
+            }
+
+            <ul class="list-none m-0 mt-auto p-0 pt-2 flex flex-wrap gap-1">
+                {
+                    project.categories.map((category) => (
+                        <ProjectCategories category={category} />
+                    ))
+                }
+            </ul>
+        </div>
+    </article>
+</li>
