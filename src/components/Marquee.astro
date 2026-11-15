@@ -1,1 +1,19 @@
-[object Object]
+---
+interface Props {
+    items: string[];
+}
+
+const { items }: Props = Astro.props;
+// Render the sequence twice so the -50% keyframe loops seamlessly.
+const sequence = [...items, ...items];
+---
+
+<div class="marquee select-none" aria-hidden="true">
+    <div class="marquee-track">
+        {
+            sequence.map((item) => (
+                <span>{item}</span>
+            ))
+        }
+    </div>
+</div>
