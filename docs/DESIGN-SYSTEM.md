@@ -118,9 +118,18 @@ Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
 - **Caret** — `.caret` + `.animate-blink`: 0.06em accent bar, `steps(1)`.
 - **Selection** — accent bg, `--on-accent` text; **scrollbar** — 8px,
   `ink-30` thumb.
-- **Motion** — 150–500ms eases, fade/slide-in hero (`animate-fadeIn_*`),
-  IntersectionObserver `.reveal`; all disabled under
-  `prefers-reduced-motion` (marquee pauses too).
+- **Reading progress** — `.scroll-progress`: 3px accent line fixed at the
+  very top, width follows scroll (rAF-throttled, JS in `default.astro`).
+- **Motion** (mistral-baseline pass) — entrance rise `fade`
+  (`animate-fadeIn_*`, 0.7s ease-out with 0/0.15/0.3s stagger), headline
+  line mask reveal (`animate-line-1/2`, clip-path wipe), overshoot pop on
+  the hero F block (`scale-in` baked into `.f-block`), slow `grad-pan` on
+  the block gradient (`.f-block`, `.sunset-stripe`), `.dot-live` ripple on
+  the online status marker, staggered scroll-hint chevrons in the hero
+  (`animate-scroll-hint-1/2/3`), springy overshoot on the
+  IntersectionObserver `.reveal`, and a view-transition page rise
+  (`transition:name="main-content"` + `vt-page-in`, ClientRouter). All
+  animation is disabled under `prefers-reduced-motion` (marquee pauses too).
 
 ## 5. Components
 

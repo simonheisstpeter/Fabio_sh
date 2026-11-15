@@ -189,6 +189,8 @@ const NavLinks = [
         <SkipLink />
         <!-- Viewport frame: thick ink poster border around the whole page -->
         <div class="page-frame" aria-hidden="true"></div>
+        <!-- Reading progress: thin accent line at the very top -->
+        <div class="scroll-progress" aria-hidden="true"></div>
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
             >top</a
         >
@@ -366,7 +368,7 @@ const NavLinks = [
                 </nav>
             </header>
 
-            <main id="main-content" class="font-book">
+            <main id="main-content" class="font-book" transition:name="main-content">
                 <slot />
             </main>
 
@@ -488,6 +490,23 @@ const NavLinks = [
                 });
             }
 
+            // Reading progress bar: width follows scroll position (rAF-throttled)
+            function initScrollProgress() {
+                const bar = document.querySelector(".scroll-progress");
+                if (!bar || bar.dataset.progressInit) return;
+                bar.dataset.progressInit = "1";
+                const update = () => {
+                    const h = document.documentElement;
+                    const max = h.scrollHeight - h.clientHeight;
+                    (bar as HTMLElement).style.width =
+                        (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+                };
+                update();
+                document.addEventListener("scroll", () => requestAnimationFrame(update), {
+                    passive: true,
+                });
+            }
+
             // Theme toggle: flips data-theme on <html>, persists to localStorage.
             // The pre-paint inline script in <head> already set the initial value.
             function initThemeToggle() {
@@ -522,6 +541,7 @@ const NavLinks = [
                 initMobileLangSelect("lang-select-mobile");
                 initMobileMenuTrap();
                 initScrollReveal();
+                initScrollProgress();
                 initThemeToggle();
             });
 

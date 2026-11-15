@@ -371,14 +371,78 @@ html[data-theme="dark"] .select-pixel {
 }
 
 /* ---------- keyframes ---------- */
+/* Entrance rise (mistral-style): quick ease-out from below */
 @keyframes fade {
   0% {
-    transform: translate(-20px, 0);
+    transform: translateY(24px);
     opacity: 0;
   }
   100% {
-    transform: translate(0, 0);
+    transform: translateY(0);
     opacity: 1;
+  }
+}
+/* Overshoot pop for the hero F block / logo moments */
+@keyframes scale-in {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/* Headline line mask reveal (clip-path wipe from top) */
+@keyframes line-reveal {
+  0% {
+    clip-path: inset(0 0 105% 0);
+  }
+  100% {
+    clip-path: inset(0 0 -5% 0);
+  }
+}
+/* Slow pan across the block gradient (the one brand moment) */
+@keyframes grad-pan {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+/* Status dot ripple */
+@keyframes dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(250 82 15 / 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 9px rgb(250 82 15 / 0);
+  }
+}
+/* Scroll-down chevrons, staggered */
+@keyframes scroll-hint {
+  0%,
+  40% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  60%,
+  100% {
+    opacity: 0.2;
+  }
+}
+/* View-transition page enter (rise + fade) */
+@keyframes vt-page-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 @keyframes pulse {
@@ -886,11 +950,43 @@ html[data-theme="dark"] .select-pixel {
 .duration-300 { transition-duration: 300ms; }
 .duration-500 { transition-duration: 500ms; }
 
-.animate-fadeIn_2000 { animation: fade 2s both; }
-.animate-fadeIn_2200 { animation: fade 2.2s both; }
-.animate-fadeIn_2500 { animation: fade 2.5s both; }
+.animate-fadeIn_2000 { animation: fade 0.7s 0s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-fadeIn_2200 { animation: fade 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-fadeIn_2500 { animation: fade 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .animate-pulse { animation: pulse 2s ease-in-out infinite; }
 .animate-blink { animation: blink 1.1s steps(1) infinite; }
+.animate-pop { animation: scale-in 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards; }
+.animate-line-1 { animation: line-reveal 0.8s 0.05s cubic-bezier(0.64, 0, 0.36, 1) both; }
+.animate-line-2 { animation: line-reveal 0.8s 0.2s cubic-bezier(0.64, 0, 0.36, 1) both; }
+.animate-scroll-hint-1 { animation: scroll-hint 2s 0s linear infinite; }
+.animate-scroll-hint-2 { animation: scroll-hint 2s 0.2s linear infinite; }
+.animate-scroll-hint-3 { animation: scroll-hint 2s 0.4s linear infinite; }
+
+/* Live status dot: expanding accent ripple */
+.dot-live {
+  animation: dot-pulse 2s linear infinite;
+  background: var(--accent);
+}
+
+/* Reading progress bar: thin accent line fixed at the very top */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--accent);
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* View transitions (ClientRouter): pages rise in on navigation */
+::view-transition-old(main-content) {
+  animation: none;
+}
+::view-transition-new(main-content) {
+  animation: vt-page-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
 /* ---------- state variants ---------- */
 .hover\:text-ink:hover { color: var(--ink); }
@@ -1482,11 +1578,13 @@ html {
   margin-bottom: 2.5rem;
 }
 
-/* Scroll reveal (added via JS, respects prefers-reduced-motion) */
+/* Scroll reveal (added via JS, respects prefers-reduced-motion):
+   springy overshoot settle, mistral bento-fall flavoured */
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 500ms ease, transform 500ms ease;
+  transform: translateY(18px) scale(0.985);
+  transition: opacity 450ms ease,
+    transform 550ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 .reveal.in {
   opacity: 1;
@@ -1502,9 +1600,12 @@ html {
    ============================================================ */
 
 /* Hero F block: the one block-gradient brand moment (never as text fill
-   or a background wash over content) */
+   or a background wash over content). The gradient slowly pans. */
 .f-block {
-  background: var(--grad-block);
+  background-image: var(--grad-block);
+  background-size: 220% 100%;
+  animation: grad-pan 14s ease-in-out infinite alternate,
+    scale-in 0.5s 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55) backwards;
   color: var(--ink);
 }
 
@@ -1516,7 +1617,9 @@ html {
   right: 0;
   bottom: 0;
   height: 10px;
-  background: var(--grad-block);
+  background-image: var(--grad-block);
+  background-size: 220% 100%;
+  animation: grad-pan 14s ease-in-out infinite alternate;
   z-index: 50;
   pointer-events: none;
 }
