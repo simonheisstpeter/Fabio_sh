@@ -88,7 +88,7 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
         </div>
 
         <!-- Current -->
-        <section data-section aria-labelledby="current-heading" class="mb-20">
+        <section data-section aria-labelledby="current-heading">
             <h2
                 id="current-heading"
                 class="mb-6 text-lg font-display text-ink"
@@ -107,12 +107,14 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             </ul>
         </section>
 
+        <div class="divider-tiles my-20" aria-hidden="true"></div>
+
         <!-- Upcoming / Paused -->
-        <section data-section aria-labelledby="upcoming-heading" class="mb-20">
+        <section data-section aria-labelledby="upcoming-heading">
             <h2 id="upcoming-heading" class="mb-6 text-lg font-display">
                 {t.upcomingProjects}
             </h2>
-            <ol data-sortable class="list-none flex flex-col">
+            <ol data-sortable class="list-none flex flex-col list-frame">
                 {
                     upcomingProjects.map((project) => (
                         <ProjectRow project={project} locale={locale} t={t} />
@@ -121,12 +123,14 @@ const otherCategories = allCategories.filter((cat, index) => index >= 4);
             </ol>
         </section>
 
+        <div class="divider-tiles my-20" aria-hidden="true"></div>
+
         <!-- Finished -->
         <section data-section aria-labelledby="finished-heading" class="mb-20">
             <h2 id="finished-heading" class="mb-6 text-lg font-display">
                 {t.finishedProjects}
             </h2>
-            <ol data-sortable class="list-none flex flex-col">
+            <ol data-sortable class="list-none flex flex-col list-frame">
                 {
                     finishedProjects.map((project) => (
                         <ProjectRow project={project} locale={locale} t={t} />

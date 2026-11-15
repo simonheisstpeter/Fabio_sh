@@ -32,6 +32,8 @@ const shownCategories = project.categories.slice(0, 2);
     <div
         class="flex flex-wrap items-center gap-x-4 gap-y-1 border-b-2 border-ink-20 py-3 transition-colors hover:bg-ink-05"
     >
+        <span class="row-idx" aria-hidden="true"></span>
+
         <div class="min-w-0 flex-1">
             <ProjectStatus
                 title={project.title}

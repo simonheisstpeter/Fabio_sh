@@ -6,7 +6,9 @@ surface, near-black ink, one turquoise accent family (emerald-500 `#10B981`
 in fills and the block ramp, emerald-700 `#047857` for text-level accent so
 body copy stays AA on ivory), emerald-tinted hard offset shadows,
 weight-400 display type (Black reserved for the hero), and the signature
-mistral-style color blocks used exactly once per page. The `data-theme`
+mistral-style color blocks: mini-mosaic markers in the nav brand and every
+section head, tiled divider stripes between sections, and one big brand
+moment per page. The `data-theme`
 dark/light system stays: dark mode flips to a deep green-black canvas with
 mint ink and emerald-400 `#34D399`. Every tint still derives from
 `--ink-rgb` / `--paper-rgb`, so one attribute flip re-themes borders,
@@ -15,10 +17,10 @@ washes, shadows, scrollbar, selection and caret.
 ## 1. Site audit — every route and its fate
 
 ### Public pages
-| Route | What it is | v7 decision |
+| Route | What it is | v8 decision |
 |---|---|---|
-| `/` (index) | Hero + marquee + project teaser + contact form | Hero: stacked `FABIO` / outlined `GSCHEWIDL`, Black only here (hero moment), accent caret, rotated accent sticker with stepped pixel corners, mosaic F mark (`.f-mosaic`, 6x6 emerald-ramp tiles cascading in), cursor-reactive pixel field behind the hero (`.hero-field` canvas), chunky CTAs. One marquee strip under the hero (`.marquee`, the only one on the site). Fixed tiled sunset stripe (`.sunset-stripe`, hard-stop color tiles) at the very bottom of the index page only |
-| `/projects` | Filterable project grid/list | `.card` blocks with 2px ink borders; hover lifts 4px with a 10px emerald hard shadow; project cards additionally invert (`.card-invert`: ink bg, paper type, accent shadow). Rows get 2px `ink-20` dividers; active filter = accent chip |
+| `/` (index) | Hero + marquee + project teaser + contact form | Hero: stacked `FABIO` / outlined `GSCHEWIDL`, Black only here (hero moment), accent caret, rotated accent sticker with stepped pixel corners, mosaic F mark (`.f-mosaic`, 6x6 emerald-ramp tiles cascading in), cursor-reactive pixel field behind the hero (`.hero-field` canvas), chunky CTAs. One marquee strip under the hero (`.marquee`, the only one on the site). Tiled divider (`.divider-tiles`) between the projects and contact sections. Fixed tiled sunset stripe (`.sunset-stripe`, hard-stop color tiles) at the very bottom of the index page only |
+| `/projects` | Filterable project grid/list | `.card` blocks with 2px ink borders; hover lifts 4px with a 10px emerald hard shadow; project cards additionally invert (`.card-invert`: ink bg, paper type, accent shadow). Upcoming/finished rows sit in one 2px ink frame (`.list-frame`) with a mono index tile per row (`.row-idx`, accent fill + accent edge bar on hover), separated by `.divider-tiles`. Active filter = accent chip |
 | `/about` | Bio + Tidal now-playing + status | Article measure (`.measure`, max 68ch), bio as `.pull-quote` bordered block on mint, mounted portrait in `.img-pixel` (2px ink + emerald 8px offset shadow) |
 | `/contact` | Contact form page | `.field` 2px border, focus = ink border + 4px accent hard shadow; `.banner` status with 2px border + emerald hard shadow |
 | `/courses` | Course progress cards | Cards inherit; `.progress` is a 10px ink-framed bar with accent fill |
@@ -82,9 +84,13 @@ persists it.
 
 ## 3. Type scale
 
-Self-hosted Andes Neue (all weights in `public/fonts/`). Hierarchy is carried
-by size and color, not weight; maximum two font families (only Andes Neue is
-loaded).
+Self-hosted Andes Neue: four faces in `public/fonts/`, all preloaded in
+`default.astro` (Light 300, Book 400, Medium 500, Black 900). ExtraLight and
+Bold were dropped in the v8 perf pass — no family/class ever referenced them,
+and `.font-bold` / `.font-semibold` synthesize from the inherited face, so
+rendered output is unchanged while ~88 KB of unused woff2 is no longer
+preloaded. Hierarchy is carried by size and color, not weight; maximum two
+font families (only Andes Neue is loaded).
 
 | Role | Face | Weight | Notes |
 |---|---|---|---|
@@ -96,13 +102,32 @@ loaded).
 | Outlined display | `.text-outline` | 400 (900 in hero) | transparent fill, `2px` `-webkit-text-stroke` ink |
 
 Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
-`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. Black is preloaded in
-`default.astro`.
+`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. All four faces are
+preloaded in `default.astro`.
 
 ## 4. Motifs
 
 - **Viewport frame** — `.page-frame`: one fixed `2px solid var(--ink)` rule,
-  inset 10px / 6px mobile, around the whole page. No corner blocks.
+  inset 10px / 6px mobile, around the whole page. No corner blocks. The
+  desktop header and mobile nav are opaque `z-50` and sit above the frame
+  (`z-40`), so the frame's top rule never crosses the nav items; the
+  header's own 2px bottom border reads as the frame's top segment.
+- **Mini mosaic** — `.mini-mosaic`: 3x3 diagonal sample of the block ramp,
+  one element with nine solid 6px layers. Sits in the nav brand next to
+  the Loader F and as `.section-head::before` on every section head.
+- **Section head** — `.section-head`: mini-mosaic + mono accent index +
+  title over a 2px ink rule; `.section-head::after` paints an accent
+  segment over the left 4.5rem of that rule.
+- **Tiled dividers** — `.divider-tiles`: full-bleed 8px strip of the same
+  hard-stop ramp tiles as `.sunset-stripe`, between major sections (index,
+  /projects) and as the footer's top rule on every page.
+- **Framed lists** — `.list-frame` + `.row-idx`: one 2px ink frame around
+  the upcoming/finished project rows; CSS-counter index tile per row
+  (fills accent on row hover) and an inset 4px accent edge bar.
+- **Wordmark dot** — `.wordmark-dot`: the "." of the footer `fabio.sh`
+  wordmark as a block-ramp tile with a 2px ink border.
+- **Active nav marker** — `header nav ul a[aria-current="page"]::before`:
+  a 6px accent square before the active link's label.
 - **Emerald hard offset shadows** — the only elevation: `4px 4px 0` on
   buttons, `10px 10px 0 var(--shadow)` on card hover, accent shadow on
   invert/focus. Shadow color is the emerald/ink mix `--shadow`, never pure
@@ -118,8 +143,9 @@ Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
 - **Mosaic F** — `.f-mosaic`: 6x6 grid of ramp-colored tiles with 2px ink
   border and hard shadow; tiles pop in diagonally (`animate-pop` with inline
   `animation-delay`, 55ms per diagonal step). Index hero only.
-- **Pixel corners** — `.px-corner`: stepped 4px `clip-path` corners (clips
-  the border at the steps, on purpose). On the hero sticker and the F mark.
+- **Pixel corners** — stepped 4px `clip-path` corners (clips the border at
+  the steps, on purpose). System-wide on `.card`, `.btn` and `.field`;
+  `.px-corner` opts in anywhere else (hero sticker, hero F mark).
 - **Hero pixel field** — `.hero-field`: canvas behind the index hero, 18px
   cells in the emerald ramp light up around the pointer and fade out
   (rAF-throttled, vanilla JS in `Hero.astro`). Static scatter under
@@ -155,11 +181,15 @@ Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
 
 | Component | Class | Look |
 |---|---|---|
-| Button | `.btn` | Mono uppercase label, 2px ink border, 4px emerald hard shadow; hover lifts 2px with 6px accent shadow, `:active` presses flat |
+| Button | `.btn` | Mono uppercase label, 2px ink border, px-corner steps, 4px emerald hard shadow; hover lifts 2px with 6px accent shadow, `:active` presses flat |
 | Primary button | `.btn-solid` | Accent bg, `--on-accent` text, ink border + shadow |
-| Card | `.card` (+`.card-hover`, `.card-invert`) | Paper bg, 2px ink border; hover lifts 4px with 10px emerald shadow; `.card-invert` inverts to ink bg + accent shadow |
+| Card | `.card` (+`.card-hover`, `.card-invert`, `.preview-card`) | Paper bg, 2px ink border, px-corner steps; hover lifts 4px with 10px emerald shadow; `.card-invert` inverts to ink bg + accent shadow; `.preview-card` adds a mini-mosaic tick and fills the outline index with accent on hover |
 | Chip / filter | `.chip`, `.filter-btn`, `.sort-btn` | Mono label, hairline border; active = accent bg |
-| Field | `.field` | 2px `ink-30` border; focus = ink border + 4px accent hard shadow |
+| Field | `.field` | 2px `ink-30` border, px-corner steps; focus = ink border + 4px accent hard shadow |
+| Section head | `.section-head` | Mini-mosaic + `idx` + title over a 2px ink rule with an accent segment |
+| Divider | `.divider-tiles` | Full-bleed 8px strip of hard-stop ramp tiles between sections / above the footer |
+| List frame | `.list-frame` + `.row-idx` | 2px ink frame around project rows; mono index tile per row, accent on hover |
+| Mini mosaic | `.mini-mosaic` | 3x3 diagonal ramp sample (nine 6px layers), nav brand + section heads |
 | Label | `.label` | Mono uppercase muted |
 | Table | `.table-pixel` | 2px ink frame, mono header on surface over 2px ink rule |
 | Select | `.select-pixel` | 2px border, chevron caret (SVG data-URI, dark-mode override) |
@@ -167,7 +197,7 @@ Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
 | Tabs | `.tab-pixel` | Mono, 3px accent underline when active |
 | Tooltip | `.tooltip` | Solid ink block, paper mono text |
 | Progress | `.progress` | 10px bar, 2px ink frame, accent fill |
-| Logo mark | `Loader.astro` | "F" in a solid ink block, 2px border, emerald hard shadow (small in nav, `big` in mediakit) |
+| Logo mark | `Loader.astro` | "F" in a solid ink block, 2px border, emerald hard shadow; in the nav it sits next to a `.mini-mosaic` tile (small in nav, `big` in mediakit) |
 | Hero F mark | `.f-mosaic` (+`.px-corner`) | 6x6 emerald-ramp tiles, 2px ink border, emerald shadow, diagonal cascade pop (index hero only) |
 | Gradient block | `.f-block` | Block ramp bg with slow `grad-pan`, ink border |
 | Sunset stripe | `.sunset-stripe` | Fixed 10px bar of hard-stop ramp tiles at the page bottom (index only) |

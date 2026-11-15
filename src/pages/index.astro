@@ -48,10 +48,13 @@ const previewProjects = getAllProjects()
         <ProjectTeaser projects={previewProjects} locale={locale} t={t} plain />
     </div>
 
+    <!-- tiled divider between the major sections -->
+    <div class="divider-tiles my-16 md:my-24" aria-hidden="true"></div>
+
     <!-- 02 // CONTACT -->
     <section
         id="contact"
-        class="container mx-auto px-4 md:px-12 mt-16 md:mt-24 pb-24 scroll-mt-24"
+        class="container mx-auto px-4 md:px-12 pb-24 scroll-mt-24"
         aria-labelledby="contact-heading"
     >
         <div class="section-head">
