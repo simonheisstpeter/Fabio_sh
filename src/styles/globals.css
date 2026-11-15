@@ -1,17 +1,33 @@
-/* fabio.sh — v6 design system: constructivist poster.
-   Plain CSS, no framework: 2px ink borders, hard offset block shadows,
-   Andes Neue Black display type, mono micro-labels, one electric-blue
-   accent, rotated sticker chips, a single marquee strip. Dark/light via
-   html[data-theme] inverts paper and ink, accent stays. */
+/* fabio.sh — v7 design system: warm poster.
+   Plain CSS, no framework: 2px ink borders, warm hard offset block shadows,
+   weight-400 display type (Black only in the hero), mono micro-labels, one
+   warm orange accent, rotated sticker chips, a single marquee strip, and the
+   signature block gradient used once per page (hero F block / sunset
+   stripe). Dark/light via html[data-theme] flips paper and ink; every tint
+   derives from --ink-rgb / --paper-rgb. */
 
 :root {
   color-scheme: light;
-  --paper: #ffffff;
-  --paper-rgb: 255 255 255;
-  --ink: #0a0a0a;
-  --ink-rgb: 10 10 10;
-  --accent: #2b3ff0;
+  --paper: #fffaeb;
+  --paper-rgb: 255 250 235;
+  --ink: #1f1f1f;
+  --ink-rgb: 31 31 31;
+  --accent: #fa520f;
   --on-accent: #ffffff;
+  /* pure white is reserved for popovers / contrast cards only */
+  --popover: #ffffff;
+  /* hard offset shadows are an amber/ink mix, never pure black */
+  --shadow: #8c3817;
+  /* the signature block gradient: one brand moment per page */
+  --grad-block: linear-gradient(
+    90deg,
+    #ffd900 0%,
+    #ffe295 20%,
+    #ffa110 40%,
+    #ff8105 60%,
+    #fb6424 80%,
+    #fa520f 100%
+  );
   --ink-05: rgb(var(--ink-rgb) / 0.05);
   --ink-10: rgb(var(--ink-rgb) / 0.1);
   --ink-15: rgb(var(--ink-rgb) / 0.15);
@@ -19,27 +35,28 @@
   --ink-30: rgb(var(--ink-rgb) / 0.3);
   --ink-40: rgb(var(--ink-rgb) / 0.4);
   --ink-80: rgb(var(--ink-rgb) / 0.8);
-  --ink-soft: #555555;
-  --surface: #f5f5f5;
-  --raised: #ececec;
-  --divider: #e2e2e2;
-  --edge: #0a0a0a;
-  --muted1: #444444;
-  --muted2: #666666;
-  --muted3: #8a8a8a;
-  --gray-50: #0a0a0a;
-  --gray-100: #1a1a1a;
-  --gray-200: #333333;
-  --gray-300: #4d4d4d;
-  --gray-400: #595959;
-  --gray-500: #737373;
-  --gray-600: #8c8c8c;
-  --gray-700: #d4d4d4;
-  --gray-800: #e5e5e5;
+  --ink-soft: #6e6252;
+  --surface: #fff0c2;
+  --raised: #f6e3b4;
+  --divider: #ebdcbb;
+  --edge: #1f1f1f;
+  --muted1: #5c5142;
+  --muted2: #7c6f5b;
+  --muted3: #9c8d76;
+  --gray-50: #1f1f1f;
+  --gray-100: #2e2a24;
+  --gray-200: #4a4237;
+  --gray-300: #5c5142;
+  --gray-400: #6e6252;
+  --gray-500: #857763;
+  --gray-600: #9c8d76;
+  --gray-700: #d9c9a8;
+  --gray-800: #ebdcbb;
+  --font-book: "AndesNeueBook", "AndesNeueLight", sans-serif;
   --font-medium: "AndesNeueMedium", sans-serif;
   --font-light: "AndesNeueLight", sans-serif;
   --font-black: "AndesNeueBlack", "AndesNeueMedium", sans-serif;
-  --font-display: "AndesNeueBlack", "AndesNeueMedium", sans-serif;
+  --font-display: "AndesNeueBook", "AndesNeueLight", sans-serif;
   --font-extralight: "AndesNeueExtraLight", "AndesNeueLight", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -49,35 +66,37 @@
   --grad-to: transparent;
 }
 
-/* Dark theme: same monochrome system, ink and paper inverted.
+/* Dark theme: warm near-black canvas, ivory ink, brightened accent.
    Every tint derives from --ink-rgb, so flipping the channel re-themes
-   borders, washes, shadows, the pixel grid, scrollbar and selection. */
+   borders, washes, shadows, scrollbar and selection. */
 html[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #0a0a0a;
-  --paper-rgb: 10 10 10;
-  --ink: #f2f2f2;
-  --ink-rgb: 242 242 242;
-  /* lighter blue so the accent keeps contrast on the black canvas */
-  --accent: #8a94ff;
-  --on-accent: #0a0a0a;
-  --ink-soft: #aaaaaa;
-  --surface: #161616;
-  --raised: #1f1f1f;
-  --divider: #2a2a2a;
-  --edge: #f2f2f2;
-  --muted1: #c4c4c4;
-  --muted2: #9c9c9c;
-  --muted3: #7d7d7d;
-  --gray-50: #f2f2f2;
-  --gray-100: #e5e5e5;
-  --gray-200: #d4d4d4;
-  --gray-300: #b8b8b8;
-  --gray-400: #a8a8a8;
-  --gray-500: #8c8c8c;
-  --gray-600: #737373;
-  --gray-700: #2e2e2e;
-  --gray-800: #262626;
+  --paper: #141210;
+  --paper-rgb: 20 18 16;
+  --ink: #fffaeb;
+  --ink-rgb: 255 250 235;
+  /* brighter orange so the accent keeps contrast on the warm black canvas */
+  --accent: #ff7a3d;
+  --on-accent: #1f1f1f;
+  --popover: #241e16;
+  --shadow: #c14e1e;
+  --ink-soft: #b3a48c;
+  --surface: #1d1812;
+  --raised: #282017;
+  --divider: #382e22;
+  --edge: #fffaeb;
+  --muted1: #cbbfa9;
+  --muted2: #a3937b;
+  --muted3: #7e7160;
+  --gray-50: #fffaeb;
+  --gray-100: #ebdfc7;
+  --gray-200: #d6c6a8;
+  --gray-300: #bba98c;
+  --gray-400: #a3937b;
+  --gray-500: #857763;
+  --gray-600: #6e6252;
+  --gray-700: #3a3125;
+  --gray-800: #2e271e;
 }
 
 /* The black F cursor is invisible on the dark canvas — fall back to pointer */
@@ -136,8 +155,9 @@ body {
   padding: 0;
   background-color: var(--paper);
   color: var(--ink);
-  font-family: var(--font-light);
-  line-height: 1.5;
+  font-family: var(--font-book);
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 h1,
@@ -153,12 +173,12 @@ h6 {
   margin: 0 0 0.5em;
 }
 
-/* Poster headlines: Andes Neue Black, tight and loud */
+/* Poster headlines: weight-400 display, size and color carry the hierarchy.
+   Black (900) is reserved for the biggest hero moment via .font-black. */
 h1,
 h2 {
-  font-family: var(--font-black);
-  font-weight: 900;
-  letter-spacing: -0.03em;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
@@ -308,7 +328,7 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
 /* Dark-mode select caret (the data-URI is baked with a fixed stroke) */
 html[data-theme="dark"] .select-pixel {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23f2f2f2' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23fffaeb' stroke-width='1.5'/%3E%3C/svg%3E");
 }
 
 /* Outlined utility button (theme toggle etc.): 2px ink rule, hard offset
@@ -318,7 +338,7 @@ html[data-theme="dark"] .select-pixel {
   color: var(--ink);
   border: 2px solid var(--ink);
   border-radius: 0;
-  box-shadow: 3px 3px 0 var(--ink);
+  box-shadow: 3px 3px 0 var(--shadow);
   transition: transform 120ms ease, box-shadow 120ms ease,
     background-color 120ms ease, color 120ms ease;
 }
@@ -333,9 +353,10 @@ html[data-theme="dark"] .select-pixel {
   box-shadow: 0 0 0 var(--ink);
 }
 
-/* The hard offset block shadow — the poster elevation of the system */
+/* The hard offset block shadow — the poster elevation of the system,
+   warm-tinted (amber/ink mix), never pure black */
 .block-shadow {
-  box-shadow: 10px 10px 0 var(--ink);
+  box-shadow: 10px 10px 0 var(--shadow);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -836,10 +857,10 @@ html[data-theme="dark"] .select-pixel {
 .backdrop-blur-xs { backdrop-filter: blur(2px); }
 .backdrop-blur-3xl { backdrop-filter: blur(64px); }
 .backdrop-blur-\[10px\] { backdrop-filter: blur(10px); }
-.drop-shadow-xs { filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.15)); }
-.shadow-xs { box-shadow: 0 1px 2px rgb(0 0 0 / 0.08); }
-.shadow-sm { box-shadow: 0 1px 3px rgb(0 0 0 / 0.12); }
-.shadow-lg { box-shadow: 6px 6px 0 var(--ink); }
+.drop-shadow-xs { filter: drop-shadow(0 1px 1px rgb(250 82 15 / 0.25)); }
+.shadow-xs { box-shadow: 0 1px 2px rgb(250 82 15 / 0.15); }
+.shadow-sm { box-shadow: 0 1px 3px rgb(250 82 15 / 0.2); }
+.shadow-lg { box-shadow: 6px 6px 0 var(--shadow); }
 .shadow-glow { box-shadow: 8px 8px 0 var(--accent); }
 
 /* ---------- transforms ---------- */
@@ -887,7 +908,7 @@ html[data-theme="dark"] .select-pixel {
 .hover\:border-paper:hover { border-color: var(--paper); }
 .hover\:underline:hover { text-decoration: underline; }
 .hover\:grayscale-0:hover { filter: grayscale(0); }
-.hover\:shadow-sm:hover { box-shadow: 0 1px 3px rgb(0 0 0 / 0.12); }
+.hover\:shadow-sm:hover { box-shadow: 0 1px 3px rgb(250 82 15 / 0.2); }
 .hover\:scale-\[1\.02\]:hover { transform: scale(1.02); }
 .hover\:-translate-y-1:hover { transform: translateY(-0.25rem); }
 .hover\:-translate-y-2:hover { transform: translateY(-0.5rem); }
@@ -1065,7 +1086,7 @@ input::file-selector-button,
   color: var(--ink);
   border: 2px solid var(--ink);
   border-radius: 0;
-  box-shadow: 4px 4px 0 var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
   cursor: pointer;
   text-decoration: none;
   transition: transform 150ms ease, box-shadow 150ms ease,
@@ -1105,7 +1126,7 @@ input::file-selector-button,
 .card-hover:hover,
 .card-hover:focus-visible {
   transform: translate(-4px, -4px);
-  box-shadow: 10px 10px 0 var(--ink);
+  box-shadow: 10px 10px 0 var(--shadow);
 }
 
 /* Project cards invert on hover: ink block, paper type, accent shadow */
@@ -1214,11 +1235,12 @@ input::file-selector-button,
 .table-pixel tbody tr { transition: background-color 150ms ease; }
 .table-pixel tbody tr:hover { background: var(--surface); }
 
-/* Display heading (Andes Neue Black, tight tracking, uppercase) */
+/* Display heading: weight-400 Book, tight tracking, uppercase —
+   hierarchy comes from size, not weight (Black lives in the hero only) */
 .h-display {
-  font-family: var(--font-black);
-  font-weight: 900;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
@@ -1287,7 +1309,7 @@ input::file-selector-button,
   letter-spacing: 0.06em;
   padding: 0.3rem 1.7rem 0.3rem 0.7rem;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230a0a0a' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%231f1f1f' stroke-width='1.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.6rem center;
   transition: border-color 200ms ease;
@@ -1380,13 +1402,13 @@ html {
 }
 .meta-row .sep { color: var(--accent); }
 
-/* Mounted image: thick ink frame, paper padding, hard offset shadow */
+/* Mounted image: thick ink frame, paper padding, warm hard offset shadow */
 .img-pixel {
   display: inline-block;
   border: 2px solid var(--ink);
   background: var(--paper);
   padding: 10px;
-  box-shadow: 8px 8px 0 var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
 }
 .img-pixel img { display: block; }
 
@@ -1433,7 +1455,7 @@ html {
   gap: 0.75rem;
   background: var(--paper);
   border: 2px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
   color: var(--ink);
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -1442,13 +1464,13 @@ html {
 }
 .banner .dot { background: var(--accent); }
 
-/* Big display wordmark */
+/* Big display wordmark: clamp(3rem, 10vw, 8rem), weight-400 Book */
 .wordmark {
-  font-family: var(--font-black);
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-size: clamp(3rem, 10vw, 8rem);
   line-height: 0.95;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--ink);
 }
@@ -1475,8 +1497,45 @@ html {
 }
 
 /* ============================================================
-   v6 poster components — stickers and the marquee strip
+   v7 warm poster components — gradient block, sunset stripe,
+   stickers and the marquee strip
    ============================================================ */
+
+/* Hero F block: the one block-gradient brand moment (never as text fill
+   or a background wash over content) */
+.f-block {
+  background: var(--grad-block);
+  color: var(--ink);
+}
+
+/* Sunset stripe: thin fixed gradient bar at the very bottom of the page.
+   Index page only; purely decorative, never intercepts clicks. */
+.sunset-stripe {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10px;
+  background: var(--grad-block);
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* Article reading measure (about page) */
+.measure {
+  max-width: 68ch;
+}
+
+/* Pull quote: bordered block on a warm surface, like the news article pages */
+.pull-quote {
+  border: 2px solid var(--ink);
+  background: var(--surface);
+  padding: 1.25rem 1.5rem;
+  font-family: var(--font-book);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  box-shadow: 6px 6px 0 var(--shadow);
+}
 
 /* Sticker: rotated accent label with ink rule and hard shadow */
 .sticker {
@@ -1489,7 +1548,7 @@ html {
   background: var(--accent);
   color: var(--on-accent);
   border: 2px solid var(--ink);
-  box-shadow: 4px 4px 0 var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
   transform: rotate(-2deg);
   white-space: nowrap;
 }

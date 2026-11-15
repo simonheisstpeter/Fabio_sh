@@ -77,7 +77,7 @@ export default {
   cvViewButton: "Visa CV",
 
   socialTitle: "Socialt",
-  socialIntro: "Mina senaste inlägg — direkt från min egen server.",
+  socialIntro: "Mina senaste inlägg - direkt från min egen server.",
   socialViewProfile: "Visa hela profilen",
   socialEmpty: "Inga inlägg än.",
   socialError: "Flödet kunde inte laddas just nu.",

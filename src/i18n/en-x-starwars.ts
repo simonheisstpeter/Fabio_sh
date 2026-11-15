@@ -77,7 +77,7 @@ export default {
   cvViewButton: "Access Dossier",
 
   socialTitle: "Transmissions",
-  socialIntro: "My latest dispatches — straight from my own outpost.",
+  socialIntro: "My latest dispatches - straight from my own outpost.",
   socialViewProfile: "View the full dossier",
   socialEmpty: "No dispatches yet.",
   socialError: "The transmission could not be received.",

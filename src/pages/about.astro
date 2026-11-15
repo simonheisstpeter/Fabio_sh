@@ -38,19 +38,33 @@ function formatStatusDate(iso: string): string {
             {t.aboutTitle}
         </h1>
 
-        <p class="font-andesNeueMedium text-2xl text-fg mb-6 max-w-2xl">
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16 items-start">
+            <!-- mounted portrait with warm frame -->
+            <span class="img-pixel block w-fit">
+                <img
+                    src="/meta_pic.png"
+                    alt="Fabio Gschweidl"
+                    width="288"
+                    loading="lazy"
+                    decoding="async"
+                    class="grayscale duration-200 hover:grayscale-0"
+                />
+            </span>
+
+            <div class="measure">
+        <p class="pull-quote mb-8">
             {t.aboutBio}
         </p>
 
-        <p class="font-andesNeueLight text-base text-muted1 mb-8 max-w-2xl leading-relaxed">
+        <p class="font-andesNeueLight text-base text-muted1 mb-8 leading-relaxed">
             {t.aboutBody}
         </p>
 
-        <p class="font-andesNeueLight text-sm text-muted2 mb-16 max-w-xl">
+        <p class="font-andesNeueLight text-sm text-muted2 mb-16">
             {t.aboutCv} <a href={locale === 'de' ? '/projects' : `/${locale}/projects`} class="text-ink hover:underline">/projects</a>
         </p>
 
-        <p class="font-andesNeueLight text-sm text-muted2 mb-8 max-w-xl">
+        <p class="font-andesNeueLight text-sm text-muted2 mb-8">
             {t.aboutTidalIntro}
         </p>
 
@@ -143,5 +157,7 @@ function formatStatusDate(iso: string): string {
                 </section>
             )
         }
+            </div>
+        </div>
     </div>
 </Layout>

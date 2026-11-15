@@ -138,6 +138,27 @@ const NavLinks = [
             type="font/woff2"
             crossorigin="anonymous"
         />
+        <link
+            rel="preload"
+            href="/fonts/AndesNeue-Book.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="/fonts/AndesNeue-Bold.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="/fonts/AndesNeue-ExtraLight.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
 
         <!-- Hreflang for SEO — the en-x-* novelty variants are left out on
              purpose, same as in sitemap.xml. -->
@@ -213,7 +234,7 @@ const NavLinks = [
                 <div class="bg-paper h-screen pt-24 pl-8 text-left">
                     <nav
                         id="mobile-menu-panel"
-                        class="grid grid-cols-1 text-5xl gap-8 font-black uppercase tracking-tighter"
+                        class="grid grid-cols-1 text-5xl gap-8 font-display uppercase tracking-tighter"
                     >
                         <div>
                             <ul class="list-none flex flex-col gap-4">
@@ -345,7 +366,7 @@ const NavLinks = [
                 </nav>
             </header>
 
-            <main id="main-content" class="font-andesNeueLight">
+            <main id="main-content" class="font-book">
                 <slot />
             </main>
 
