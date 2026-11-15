@@ -181,9 +181,10 @@ const NavLinks = [
             >top</a
         >
 
-        <!-- Mobile nav -->
+        <!-- Mobile nav. z-50 + opaque bg: sits above the page-frame (z-40) so
+             the frame's top rule never crosses the nav items -->
         <nav
-            class="fixed top-0 z-20 w-full bg-paper/95 backdrop-blur-sm border-b-2 border-ink md:hidden"
+            class="fixed top-0 z-50 w-full bg-paper border-b-2 border-ink md:hidden"
             aria-label={t.menuHome}
         >
             <details id="mobile-menu" class="group">
@@ -281,8 +282,9 @@ const NavLinks = [
         <div id="page-content">
             <!-- <BetaRibbon /> -->
 
-            <!-- Desktop nav -->
-            <header class="hidden md:block sticky top-0 z-20 bg-paper/95 backdrop-blur-sm border-b-2 border-ink">
+            <!-- Desktop nav. z-50 + opaque bg: sits above the page-frame (z-40)
+                 so the frame's top rule never crosses the nav items -->
+            <header class="hidden md:block sticky top-0 z-50 bg-paper border-b-2 border-ink">
                 <nav
                     class="flex items-center justify-between px-10 py-6"
                     aria-label="Main navigation"
@@ -291,8 +293,9 @@ const NavLinks = [
                         href={getRelativeLocaleUrl(locale, "/")}
                         aria-current={isHome ? "page" : undefined}
                         aria-label={t.menuHome}
-                        class="no-underline"
+                        class="no-underline flex items-center gap-3"
                     >
+                        <span class="mini-mosaic" aria-hidden="true"></span>
                         <Loader />
                     </a>
 
@@ -359,6 +362,7 @@ const NavLinks = [
             </main>
 
             <ScrollToTop label={t.scrollTop} />
+            <div class="divider-tiles" aria-hidden="true"></div>
             <Footer locale={locale} t={t} />
         </div>
 

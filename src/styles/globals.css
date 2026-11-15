@@ -4,7 +4,9 @@
    micro-labels, one turquoise accent family (emerald-500 #10B981 in fills
    and the block ramp, emerald-700 #047857 for text on light), rotated
    sticker chips, a single marquee strip, and the signature mistral-style
-   color blocks used once per page (mosaic hero F / tiled sunset stripe).
+   color blocks: mini-mosaic markers in the nav brand and section heads,
+   tiled divider stripes between sections, and one big brand moment per
+   page (mosaic hero F / tiled sunset stripe / footer stripe).
    Dark/light via html[data-theme] flips paper and ink; every tint derives
    from --ink-rgb / --paper-rgb. */
 
@@ -1496,14 +1498,32 @@ html {
 }
 .img-pixel img { display: block; }
 
-/* Section header: mono accent index + black title + 2px ink rule */
+/* Section header: mini-mosaic marker + mono accent index + title over a
+   2px ink rule with an accent segment at the left end of the rule */
 .section-head {
+  position: relative;
   display: flex;
   align-items: baseline;
   gap: 1rem;
   border-bottom: 2px solid var(--ink);
   padding-bottom: 0.75rem;
   margin-bottom: 2rem;
+}
+.section-head::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  align-self: center;
+  flex-shrink: 0;
+}
+.section-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 4.5rem;
+  height: 2px;
+  background: var(--accent);
 }
 .section-head .idx {
   font-family: var(--font-mono);
@@ -1612,8 +1632,13 @@ html {
 }
 .f-tile { display: block; }
 
-/* Stepped 4px pixel corners (clips the border at the steps, on purpose) */
-.px-corner {
+/* Stepped 4px pixel corners (clips the border at the steps, on purpose).
+   System-wide on cards, buttons and fields; .px-corner opts in anywhere else. */
+.px-corner,
+.card,
+.px-card,
+.btn,
+.field {
   clip-path: polygon(
     0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
     100% 0, 100% calc(100% - 8px),
@@ -1651,6 +1676,132 @@ html {
   );
   z-index: 50;
   pointer-events: none;
+}
+
+/* ============================================================
+   v8 mosaic system — the block ramp as small markers everywhere:
+   nav brand + section heads (mini-mosaic), section dividers
+   (divider-tiles), framed lists with index tiles (list-frame),
+   footer stripe + wordmark dot, active nav square
+   ============================================================ */
+
+/* Mini mosaic: 3x3 diagonal sample of the block ramp on a 6px grid,
+   one element with nine solid layers. The marker form of the hero F. */
+.mini-mosaic,
+.section-head::before {
+  background-image:
+    linear-gradient(#a7f3d0, #a7f3d0),
+    linear-gradient(#6ee7b7, #6ee7b7),
+    linear-gradient(#34d399, #34d399),
+    linear-gradient(#6ee7b7, #6ee7b7),
+    linear-gradient(#34d399, #34d399),
+    linear-gradient(#10b981, #10b981),
+    linear-gradient(#34d399, #34d399),
+    linear-gradient(#10b981, #10b981),
+    linear-gradient(#059669, #059669);
+  background-size: 6px 6px;
+  background-position:
+    0 0, 6px 0, 12px 0,
+    0 6px, 6px 6px, 12px 6px,
+    0 12px, 6px 12px, 12px 12px;
+  background-repeat: no-repeat;
+}
+.mini-mosaic {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Tiled divider: full-bleed strip of the same hard-stop ramp tiles
+   between major sections; doubles as the footer's top rule. */
+.divider-tiles {
+  height: 8px;
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  background-image: repeating-linear-gradient(
+    90deg,
+    #a7f3d0 0 12px,
+    #6ee7b7 12px 24px,
+    #34d399 24px 36px,
+    #10b981 36px 48px,
+    #059669 48px 60px,
+    #047857 60px 72px
+  );
+}
+
+/* Framed project list (upcoming / finished on /projects): one 2px ink
+   frame around the rows, a mono index tile per row that fills accent on
+   row hover, and an accent edge bar on the hovered row. */
+.list-frame {
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  counter-reset: px-row;
+}
+.list-frame .project-item { counter-increment: px-row; }
+.list-frame .project-item > div {
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+}
+.list-frame .project-item:last-child > div { border-bottom: 0; }
+.list-frame .project-item > div:hover {
+  background: var(--surface);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.row-idx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted2);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+.row-idx::before { content: counter(px-row, decimal-leading-zero); }
+.list-frame .project-item > div:hover .row-idx {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Preview teaser cards: mini-mosaic tick in the top corner; the big
+   outline index fills with accent on card hover */
+.preview-tick {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+}
+.preview-num {
+  transition: color 200ms ease, -webkit-text-stroke-color 200ms ease;
+}
+.preview-card:hover .preview-num,
+.preview-card:focus-visible .preview-num {
+  color: var(--accent);
+  -webkit-text-stroke-color: var(--accent);
+}
+
+/* Footer wordmark: the "." of fabio.sh as a block-ramp tile */
+.wordmark-dot {
+  display: inline-block;
+  width: 0.14em;
+  height: 0.14em;
+  margin: 0 0.03em;
+  border: 2px solid var(--ink);
+  background-image: var(--grad-block);
+}
+
+/* Active nav link gets a small accent square before the label */
+header nav ul a[aria-current="page"]::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.45rem;
+  background: var(--accent);
+  vertical-align: 0.08em;
 }
 
 /* Article reading measure (about page) */
