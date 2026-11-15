@@ -6,7 +6,7 @@ const { t, isJa } = Astro.props;
     <!-- mono metadata strip -->
     <div class="meta-row mb-10 animate-fadeIn_2000">
         <span class="flex items-center gap-2">
-            <span class="dot bg-accent animate-pulse"></span>
+            <span class="dot dot-live bg-accent"></span>
             {t.statusOnline}
         </span>
         <span class="sep" aria-hidden="true">//</span>
@@ -17,10 +17,10 @@ const { t, isJa } = Astro.props;
 
     <!-- poster headline: stacked black display type, second line outlined -->
     <h1
-        class={`w-fit max-w-full font-black uppercase leading-[0.85] tracking-tighter block animate-fadeIn_2000 text-ink relative text-[17vw] md:text-[12rem] ${isJa ? "space-y-2" : ""}`}
+        class={`w-fit max-w-full font-black uppercase leading-[0.85] tracking-tighter block text-ink relative text-[17vw] md:text-[12rem] ${isJa ? "space-y-2" : ""}`}
     >
-        <span class="block">{t.name}</span>
-        <span class="block text-outline"
+        <span class="block animate-line-1">{t.name}</span>
+        <span class="block text-outline animate-line-2"
             >{t.lastname}<span class="caret animate-blink" aria-hidden="true"></span></span
         >
     </h1>
@@ -43,6 +43,16 @@ const { t, isJa } = Astro.props;
     <div class="mt-10 flex flex-wrap gap-4 animate-fadeIn_2500">
         <a href="#projects" class="btn btn-solid text-sm">{t.menuProjects}</a>
         <a href="#contact" class="btn text-sm">{t.menuContact}</a>
+    </div>
+
+    <!-- scroll hint: three staggered chevrons -->
+    <div
+        class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center text-muted2"
+        aria-hidden="true"
+    >
+        <svg class="h-4 w-4 animate-scroll-hint-1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l5 5 5-5" stroke-linecap="square"/></svg>
+        <svg class="h-4 w-4 -mt-2 animate-scroll-hint-2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l5 5 5-5" stroke-linecap="square"/></svg>
+        <svg class="h-4 w-4 -mt-2 animate-scroll-hint-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l5 5 5-5" stroke-linecap="square"/></svg>
     </div>
 </section>
 
