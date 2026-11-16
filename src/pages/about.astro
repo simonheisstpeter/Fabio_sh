@@ -43,14 +43,17 @@ function formatStatusDate(iso: string): string {
         <div class="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-16 items-start">
             <!-- mounted portrait with emerald frame -->
             <span class="img-pixel block w-fit">
-                <img
-                    src="/meta_pic.png"
-                    alt="Fabio Gschweidl"
-                    width="288"
-                    loading="lazy"
-                    decoding="async"
-                    class="grayscale duration-200 hover:grayscale-0"
-                />
+                <picture>
+                    <source srcset="/meta_pic.webp" type="image/webp" />
+                    <img
+                        src="/meta_pic.png"
+                        alt="Fabio Gschweidl"
+                        width="288"
+                        loading="lazy"
+                        decoding="async"
+                        class="grayscale duration-200 hover:grayscale-0"
+                    />
+                </picture>
             </span>
 
             <div class="measure">
@@ -72,7 +75,7 @@ function formatStatusDate(iso: string): string {
 
         <section aria-labelledby="tidal-heading" class="mt-4">
             <h2 id="tidal-heading" class="text-2xl font-display mb-6">
-                Tidal - {track ? t.nowPlaying : t.notPlaying}
+                Tidal – {track ? t.nowPlaying : t.notPlaying}
             </h2>
 
             {

@@ -76,11 +76,11 @@
   --gray-600: #7e9388;
   --gray-700: #c2d8cc;
   --gray-800: #cbe7d8;
-  --font-book: "AndesNeueBook", "AndesNeueLight", sans-serif;
-  --font-medium: "AndesNeueMedium", sans-serif;
-  --font-light: "AndesNeueLight", sans-serif;
-  --font-black: "AndesNeueBlack", "AndesNeueMedium", sans-serif;
-  --font-display: "AndesNeueBook", "AndesNeueLight", sans-serif;
+  --font-book: "AndesNeueBook", sans-serif;
+  --font-medium: "AndesNeueBook", sans-serif;
+  --font-light: "AndesNeueBook", sans-serif;
+  --font-black: "AndesNeueBlack", sans-serif;
+  --font-display: "AndesNeueBook", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   --cursor-fabiosh: url(/f.cur), pointer;
@@ -125,18 +125,6 @@ html[data-theme="dark"] {
 /* The black F cursor is invisible on the dark canvas — fall back to pointer */
 html[data-theme="dark"] .cursor-fabiosh { cursor: pointer; }
 
-@font-face {
-  font-family: "AndesNeueMedium";
-  src: url("/fonts/AndesNeue-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: "AndesNeueLight";
-  src: url("/fonts/AndesNeue-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-display: swap;
-}
 @font-face {
   font-family: "AndesNeueBook";
   src: url("/fonts/AndesNeue-Book.woff2") format("woff2");
@@ -1935,6 +1923,30 @@ html {
   color: var(--accent);
 }
 .row-idx::before { content: counter(px-row, decimal-leading-zero); }
+
+/* ProjectStatus' mb-2 would collapse through its wrapper and push the row
+   text above center; rows are single-line flex, so drop it in this context */
+.list-ramp-row .mb-2 { margin-bottom: 0; }
+
+/* Meta items (chips, link, year) sit inline in the row on desktop */
+.row-meta { display: contents; }
+
+@media (max-width: 767px) {
+  /* Mobile: two tidy lines, index + title, then the meta indented under
+     the title, instead of everything wrapping into one cramped cluster */
+  .list-ramp-row {
+    row-gap: 0.5rem;
+    padding: 1rem 0.5rem 1rem 1rem;
+  }
+  .row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    flex-basis: 100%;
+    margin-left: 3rem; /* 2rem index + 1rem column gap */
+  }
+}
 
 /* List group header: mini-mosaic marker + title over a 2px ink rule */
 .list-head {

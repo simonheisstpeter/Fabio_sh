@@ -77,7 +77,7 @@ export default {
   cvViewButton: "View CV",
 
   socialTitle: "Social",
-  socialIntro: "My latest posts - straight from my own server.",
+  socialIntro: "My latest posts – straight from my own server.",
   socialViewProfile: "View full profile",
   socialEmpty: "No posts yet.",
   socialError: "The feed could not be loaded right now.",

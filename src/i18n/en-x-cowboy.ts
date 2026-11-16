@@ -78,7 +78,7 @@ export default {
   cvViewButton: "Take a Look",
 
   socialTitle: "The Town Square",
-  socialIntro: "My latest word - straight off my own homestead.",
+  socialIntro: "My latest word – straight off my own homestead.",
   socialViewProfile: "Mosey on over to the full profile",
   socialEmpty: "Ain't posted nothin' yet.",
   socialError: "Couldn't fetch the feed just now, partner.",

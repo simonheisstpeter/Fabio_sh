@@ -75,7 +75,7 @@ export default {
   cvViewButton: "צפה בקורות חיים",
 
   socialTitle: "חברתי",
-  socialIntro: "הפוסטים האחרונים שלי - ישירות מהשרת שלי.",
+  socialIntro: "הפוסטים האחרונים שלי – ישירות מהשרת שלי.",
   socialViewProfile: "צפייה בפרופיל המלא",
   socialEmpty: "אין עדיין פוסטים.",
   socialError: "לא ניתן לטעון את הפיד כרגע.",

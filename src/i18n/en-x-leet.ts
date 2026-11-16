@@ -76,7 +76,7 @@ export default {
   cvViewButton: "V13w CV",
 
   socialTitle: "50c14l",
-  socialIntro: "my l47357 p0575 - 57r41gh7 0ff my 0wn 53rv3r.",
+  socialIntro: "my l47357 p0575 – 57r41gh7 0ff my 0wn 53rv3r.",
   socialViewProfile: "V13w full pr0f1l3",
   socialEmpty: "N0 p0575 y37.",
   socialError: "F33d f41l3d 70 l04d.",

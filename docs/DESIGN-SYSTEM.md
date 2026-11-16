@@ -46,7 +46,8 @@ inherit the poster components.
 2. **Umami analytics + console easter egg** — invisible on the page, kept.
 3. **Novelty locales `en-x-*`** — kept (excluded from sitemap).
 4. **Green Web badge** — mono chip in the footer.
-5. **No em-dashes in visible UI copy** — hyphens only (v7 hard rule).
+5. **No em-dashes and no hyphen-minus in visible UI copy** — where a dash is
+   needed, use an en dash (`–`), as in ranges like `2–100` (v8 rule).
 
 ## 2. Tokens
 
@@ -86,26 +87,30 @@ persists it.
 
 ## 3. Type scale
 
-Self-hosted Andes Neue: four faces in `public/fonts/`, all preloaded in
-`default.astro` (Light 300, Book 400, Medium 500, Black 900). ExtraLight and
-Bold were dropped in the v8 perf pass — no family/class ever referenced them,
-and `.font-bold` / `.font-semibold` synthesize from the inherited face, so
-rendered output is unchanged while ~88 KB of unused woff2 is no longer
-preloaded. Hierarchy is carried by size and color, not weight; maximum two
-font families (only Andes Neue is loaded).
+Self-hosted Andes Neue: two faces in `public/fonts/`, both preloaded in
+`default.astro` (Black 900, Book 400). Light/Medium were dropped in the v8
+perf pass — `--font-light` / `--font-medium` now resolve to Book, so the
+`.font-andesNeueLight` / `.font-andesNeueMedium` classes render Book and
+~87 KB of woff2 is no longer downloaded per page. ExtraLight and Bold files
+were never referenced by a family/class and are not shipped; `.font-bold` /
+`.font-semibold` synthesize from the inherited face. Hierarchy is carried by
+size and color, not weight; maximum two font families (only Andes Neue is
+loaded).
 
 | Role | Face | Weight | Notes |
 |---|---|---|---|
 | Hero display (index `h1` only) | `AndesNeueBlack` | 900 | `.font-black` on the hero; `clamp`-scale, `-0.02em`+, uppercase |
 | Display (h1/h2 elsewhere, `.h-display`, `.wordmark`, 404, preview indexes) | `AndesNeueBook` | 400 | `letter-spacing: -0.02em`, `text-transform: uppercase`, `line-height: 0.85–1.1` |
 | Body | `AndesNeueBook` | 400 | `1rem / 1.6` |
-| Emphasis | `AndesNeueLight` / `AndesNeueMedium` | 300 / 500 | paragraphs and nav labels |
+| Emphasis | `AndesNeueBook` | 400 | paragraphs and nav labels (former Light/Medium classes) |
 | Labels / meta / chips / buttons / tabs | `ui-monospace` stack | 400 | `0.66–0.72rem`, uppercase, `letter-spacing: 0.14–0.25em` |
 | Outlined display | `.text-outline` | 400 (900 in hero) | transparent fill, `2px` `-webkit-text-stroke` ink |
 
 Classes: `.font-black`, `.font-display`, `.font-book`, `.font-andesNeueLight`,
-`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. All four faces are
-preloaded in `default.astro`.
+`.font-andesNeueMedium`, `.font-mono`, `.text-outline`. Only Black and Book
+are preloaded in `default.astro`. The `/about` portrait ships as
+`meta_pic.webp` (576px, ~6 KB) inside a `<picture>` with the PNG fallback;
+the PNG stays for `og:image` and seeded project data.
 
 ## 4. Motifs
 
@@ -152,7 +157,13 @@ preloaded in `default.astro`.
   frame around the upcoming/finished project rows; each row is a grid with
   a 10px vertical ramp edge on the left, 2px ink rules between rows, a
   small mono accent CSS-counter index, and a surface tint + 4px nudge on
-  hover. List group headers (`.list-head`) carry the 3x3 mini-mosaic marker
+  hover. Row content is vertically centered (`align-items: center`; the
+  `ProjectStatus` `mb-2` is zeroed in this context so it can't push the
+  text off-center). Meta items (chips, link, year) live in `.row-meta`:
+  `display: contents` on desktop so they sit inline in the row; on mobile
+  (<768px) `.row-meta` wraps to its own line, indented 3rem under the
+  title, with 0.5rem row gap. List group headers (`.list-head`) carry the
+  3x3 mini-mosaic marker
   over a 2px ink rule.
 - **Wordmark dot** — `.wordmark-dot`: the "." of the footer `fabio.sh`
   wordmark as a block-ramp tile with a 2px ink border.
@@ -220,7 +231,7 @@ preloaded in `default.astro`.
 | Field | `.field` | 2px `ink-30` border, px-corner steps; focus = ink border + 4px accent hard shadow |
 | Section head | `.section-head` | Mini-mosaic + `idx` + title over a 2px ink rule with an accent segment |
 | Divider | `.divider-tiles` | Full-bleed 8px strip of hard-stop ramp tiles between sections / above the footer |
-| Ramp-edge list | `.list-ramp` + `.ramp-edge` + `.row-idx` | Frameless project rows: vertical ramp edge, 2px ink row rules, mono accent counter index, surface tint + nudge on hover |
+| Ramp-edge list | `.list-ramp` + `.ramp-edge` + `.row-idx` + `.row-meta` | Frameless project rows: vertical ramp edge, 2px ink row rules, mono accent counter index, vertically centered content, surface tint + nudge on hover; meta on its own indented line on mobile |
 | Mini mosaic | `.mini-mosaic` | 3x3 diagonal ramp sample (nine 6px layers), nav brand + preview-card ticks |
 | Mini mosaic grid | `MiniMosaic.astro` (`.mini-mosaic-grid`) | Real 3x3 tile grid in every `.section-head`; tiles pop staggered on scroll reveal |
 | Mosaic header | `MosaicHead.astro` (`.mosaic-head`) | 12x2 cascading ramp strip above subpage titles |

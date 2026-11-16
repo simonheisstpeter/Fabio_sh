@@ -76,7 +76,7 @@ export default {
   cvViewButton: "Переглянути CV",
 
   socialTitle: "Соцмережі",
-  socialIntro: "Мої останні дописи - просто з мого власного сервера.",
+  socialIntro: "Мої останні дописи – просто з мого власного сервера.",
   socialViewProfile: "Переглянути повний профіль",
   socialEmpty: "Дописів ще немає.",
   socialError: "Не вдалося завантажити стрічку зараз.",
