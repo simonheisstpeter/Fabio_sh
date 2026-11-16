@@ -157,7 +157,13 @@ the PNG stays for `og:image` and seeded project data.
   frame around the upcoming/finished project rows; each row is a grid with
   a 10px vertical ramp edge on the left, 2px ink rules between rows, a
   small mono accent CSS-counter index, and a surface tint + 4px nudge on
-  hover. List group headers (`.list-head`) carry the 3x3 mini-mosaic marker
+  hover. Row content is vertically centered (`align-items: center`; the
+  `ProjectStatus` `mb-2` is zeroed in this context so it can't push the
+  text off-center). Meta items (chips, link, year) live in `.row-meta`:
+  `display: contents` on desktop so they sit inline in the row; on mobile
+  (<768px) `.row-meta` wraps to its own line, indented 3rem under the
+  title, with 0.5rem row gap. List group headers (`.list-head`) carry the
+  3x3 mini-mosaic marker
   over a 2px ink rule.
 - **Wordmark dot** — `.wordmark-dot`: the "." of the footer `fabio.sh`
   wordmark as a block-ramp tile with a 2px ink border.
@@ -225,7 +231,7 @@ the PNG stays for `og:image` and seeded project data.
 | Field | `.field` | 2px `ink-30` border, px-corner steps; focus = ink border + 4px accent hard shadow |
 | Section head | `.section-head` | Mini-mosaic + `idx` + title over a 2px ink rule with an accent segment |
 | Divider | `.divider-tiles` | Full-bleed 8px strip of hard-stop ramp tiles between sections / above the footer |
-| Ramp-edge list | `.list-ramp` + `.ramp-edge` + `.row-idx` | Frameless project rows: vertical ramp edge, 2px ink row rules, mono accent counter index, surface tint + nudge on hover |
+| Ramp-edge list | `.list-ramp` + `.ramp-edge` + `.row-idx` + `.row-meta` | Frameless project rows: vertical ramp edge, 2px ink row rules, mono accent counter index, vertically centered content, surface tint + nudge on hover; meta on its own indented line on mobile |
 | Mini mosaic | `.mini-mosaic` | 3x3 diagonal ramp sample (nine 6px layers), nav brand + preview-card ticks |
 | Mini mosaic grid | `MiniMosaic.astro` (`.mini-mosaic-grid`) | Real 3x3 tile grid in every `.section-head`; tiles pop staggered on scroll reveal |
 | Mosaic header | `MosaicHead.astro` (`.mosaic-head`) | 12x2 cascading ramp strip above subpage titles |

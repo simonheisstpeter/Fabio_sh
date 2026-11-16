@@ -1924,6 +1924,30 @@ html {
 }
 .row-idx::before { content: counter(px-row, decimal-leading-zero); }
 
+/* ProjectStatus' mb-2 would collapse through its wrapper and push the row
+   text above center; rows are single-line flex, so drop it in this context */
+.list-ramp-row .mb-2 { margin-bottom: 0; }
+
+/* Meta items (chips, link, year) sit inline in the row on desktop */
+.row-meta { display: contents; }
+
+@media (max-width: 767px) {
+  /* Mobile: two tidy lines, index + title, then the meta indented under
+     the title, instead of everything wrapping into one cramped cluster */
+  .list-ramp-row {
+    row-gap: 0.5rem;
+    padding: 1rem 0.5rem 1rem 1rem;
+  }
+  .row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    flex-basis: 100%;
+    margin-left: 3rem; /* 2rem index + 1rem column gap */
+  }
+}
+
 /* List group header: mini-mosaic marker + title over a 2px ink rule */
 .list-head {
   display: flex;
