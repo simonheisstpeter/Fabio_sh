@@ -26,9 +26,8 @@ const tiles = Array.from({ length: 36 }, (_, i) => i);
     <h1
         class={`w-fit max-w-full font-black uppercase leading-[0.85] tracking-tighter block text-ink relative text-[17vw] md:text-[12rem] ${isJa ? "space-y-2" : ""}`}
     >
-        <span class="block animate-line-1">{t.name}</span>
-        <span class="block text-outline animate-line-2"
-            >{t.lastname}<span class="caret animate-blink" aria-hidden="true"></span></span
+        <span class="block animate-line-1"
+            >{t.name}<span class="caret animate-blink" aria-hidden="true"></span></span
         >
     </h1>
 
