@@ -42,22 +42,12 @@ describe("dark/light theme system", () => {
     }
   });
 
-  it("preloads exactly the two used Andes Neue faces; pixel fonts are gone", async () => {
+  it("v11: monospace baseline only — no webfonts preloaded, no decorative fonts", async () => {
     const html = await (await anon.get("/")).text();
-    for (const face of ["AndesNeue-Black", "AndesNeue-Book"]) {
-      expect(html).toContain(`/fonts/${face}.woff2`);
-    }
-    // Medium + Light were dropped in the v8 perf pass (Book covers body text);
-    // ExtraLight + Bold were never referenced by a family/class and are not shipped
-    expect(html).not.toContain("AndesNeue-Medium.woff2");
-    expect(html).not.toContain("AndesNeue-Light.woff2");
-    expect(html).not.toContain("AndesNeue-ExtraLight.woff2");
-    expect(html).not.toContain("AndesNeue-Bold.woff2");
+    expect(html).not.toContain(".woff2");
+    expect(html).not.toContain("AndesNeue");
     expect(html).not.toContain("handjet");
     expect(html).not.toContain("silkscreen");
-    const font = await anon.get("/fonts/AndesNeue-Book.woff2");
-    expect(font.status).toBe(200);
-    expect(font.headers.get("content-type")).toContain("font/woff2");
   });
 
   it("ships dark tokens, the frame and the display type system in the built CSS", async () => {
@@ -74,13 +64,15 @@ describe("dark/light theme system", () => {
     expect(css).toContain(".font-display");
     expect(css).toContain(".h-display");
     expect(css).toContain(".caret");
-    for (const fam of ['"AndesNeueBlack"', '"AndesNeueBook"']) {
-      expect(css, fam).toContain(fam);
-    }
+    // v11: monospace is the single baseline typeface
+    expect(css).toContain("ui-monospace");
+    expect(css).toContain("--font-book:ui-monospace");
     expect(css).not.toContain("AndesNeueMedium");
     expect(css).not.toContain("AndesNeueLight");
     expect(css).not.toContain("AndesNeueExtraLight");
     expect(css).not.toContain("AndesNeueBold");
+    expect(css).not.toContain("AndesNeueBlack");
+    expect(css).not.toContain("AndesNeueBook");
     expect(css).not.toContain("Handjet");
     expect(css).not.toContain("Silkscreen");
     expect(css).not.toContain(".pixel-strip");
