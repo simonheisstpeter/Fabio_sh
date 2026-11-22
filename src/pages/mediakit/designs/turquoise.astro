@@ -1,0 +1,119 @@
+---
+import Layout from "../../../layouts/default.astro";
+import MosaicWord from "../../../components/MosaicWord.astro";
+// Three side-by-side design directions for the turquoise mosaic glass overhaul.
+// Each variant is a self-contained section with its own scoped overrides.
+---
+
+<Layout title="Turquoise options – fabio.sh" description="Design variants">
+    <div class="container mx-auto px-6 md:px-12 py-24 space-y-24">
+
+        <!-- OPTION A: deep turquoise mosaic + medium glass -->
+        <section id="opt-a" class="variant-a border-2 border-dashed border-ink/20 p-6 md:p-10">
+            <p class="font-mono text-xs uppercase tracking-widest mb-6">Option A — “Turquoise Mosaic” · vivid ramp, frosted cards</p>
+            <MosaicWord label="FABIO" word="FABIO" />
+            <div class="mt-10 grid md:grid-cols-2 gap-6 max-w-3xl">
+                <div class="card p-6">
+                    <p class="font-pixel text-lg mb-2">Project card</p>
+                    <p class="text-sm text-muted2">Glass card over the 18px dot grid, turquoise-tinted hard shadow.</p>
+                </div>
+                <div class="card p-6">
+                    <p class="font-pixel text-lg mb-2">Second card</p>
+                    <p class="text-sm text-muted2">Same ramp family, staggered tile pop on scroll.</p>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <a class="btn btn-solid text-sm" href="#">Projects</a>
+                <a class="btn text-sm" href="#">Contact</a>
+            </div>
+        </section>
+
+        <!-- OPTION B: deep glass / heavy frost -->
+        <section id="opt-b" class="variant-b border-2 border-dashed border-ink/20 p-6 md:p-10">
+            <p class="font-mono text-xs uppercase tracking-widest mb-6">Option B — “Deep Glass” · heavy frost, turquoise hairlines</p>
+            <MosaicWord label="FABIO" word="FABIO" />
+            <div class="mt-10 grid md:grid-cols-2 gap-6 max-w-3xl">
+                <div class="card p-6">
+                    <p class="font-pixel text-lg mb-2">Deep frosted card</p>
+                    <p class="text-sm text-muted2">20px blur, 55% paper, turquoise border glow.</p>
+                </div>
+                <div class="card p-6">
+                    <p class="font-pixel text-lg mb-2">Even frostier</p>
+                    <p class="text-sm text-muted2">Content stays readable over the pixel field.</p>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <a class="btn btn-solid text-sm" href="#">Projects</a>
+                <a class="btn text-sm" href="#">Contact</a>
+            </div>
+        </section>
+
+        <!-- OPTION C: mosaic-dominant poster -->
+        <section id="opt-c" class="variant-c border-2 border-dashed border-ink/20 p-6 md:p-10">
+            <p class="font-mono text-xs uppercase tracking-widest mb-6">Option C — “Mosaic Poster” · giant tiles, tiled dividers, glass chrome only</p>
+            <MosaicWord label="FABIO" word="FABIO" />
+            <div class="divider-tiles my-8" aria-hidden="true"></div>
+            <div class="grid md:grid-cols-2 gap-6 max-w-3xl">
+                <div class="card p-6">
+                    <p class="font-pixel text-lg mb-2">Poster card</p>
+                    <p class="text-sm text-muted2">Opaque card on a loud tiled divider — mosaic does the talking.</p>
+                </div>
+                <div class="glass px-corner p-6">
+                    <p class="font-pixel text-lg mb-2">Glass chrome</p>
+                    <p class="text-sm text-muted2">Glass reserved for nav/CTA surfaces.</p>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <a class="btn btn-solid text-sm" href="#">Projects</a>
+                <a class="btn text-sm" href="#">Contact</a>
+            </div>
+        </section>
+
+    </div>
+</Layout>
+
+<style>
+    /* A — vivid turquoise ramp everywhere, medium glass */
+    .variant-a {
+        --accent: #0d9488;
+        --shadow: #0f766e;
+    }
+    .variant-a .mosaic-word { --tile: clamp(10px, 2.8vw, 28px); }
+    .variant-a .card {
+        background: color-mix(in srgb, var(--paper) 70%, transparent);
+        backdrop-filter: blur(10px);
+        border-color: rgba(13, 148, 136, 0.45);
+        box-shadow: 7px 7px 0 var(--shadow);
+    }
+
+    /* B — deep glass, heavy frost, turquoise hairlines */
+    .variant-b {
+        --accent: #14b8a6;
+        --shadow: #0d9488;
+    }
+    .variant-b .mosaic-word { --tile: clamp(9px, 2.4vw, 24px); }
+    .variant-b .card {
+        background: color-mix(in srgb, var(--paper) 52%, transparent);
+        -webkit-backdrop-filter: blur(20px) saturate(1.3);
+        backdrop-filter: blur(20px) saturate(1.3);
+        border: 1px solid rgba(20, 184, 166, 0.55);
+        box-shadow: 0 0 0 1px rgba(20, 184, 166, 0.15), 8px 8px 0 var(--shadow);
+    }
+    .variant-b .btn { border-color: var(--accent); }
+
+    /* C — mosaic dominant: giant tiles, opaque cards, glass only on chrome */
+    .variant-c {
+        --accent: #0d9488;
+        --shadow: #115e59;
+    }
+    .variant-c .mosaic-word {
+        --tile: clamp(12px, 3.4vw, 34px);
+        box-shadow: 10px 10px 0 var(--shadow);
+    }
+    .variant-c .card { background: var(--paper); }
+    .variant-c .glass {
+        background: color-mix(in srgb, var(--paper) 62%, transparent);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+    }
+</style>
