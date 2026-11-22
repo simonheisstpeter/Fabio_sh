@@ -1,7 +1,8 @@
 ---
-// Big mosaic wordmark: "FABIO" rendered as a tile grid (5x7 pixel font per
-// letter), each filled tile colored by diagonal step of the block ramp —
-// same language as the 18px MiniMosaic, scaled up. Tiles pop in staggered.
+// Big mosaic wordmark: "FABIO" as a tile grid. Own 5x7 pixel font below —
+// every glyph is 5 cols x 7 rows, 1 = filled tile. Uniform tile size
+// (--tile) everywhere; the caret is positioned absolutely so it never
+// wraps into the grid.
 interface Props {
     word?: string;
     label: string;
@@ -9,28 +10,54 @@ interface Props {
 
 const { word = "FABIO", label }: Props = Astro.props;
 
-const RAMP = ["#ccfbf1", "#99f6e4", "#5eead4", "#2dd4bf", "#0d9488", "#0f766e"];
+// turquoise ramp stays in sync with --tq-* in globals.css
+const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
 
-// 5x7 pixel font
+// 5x7 pixel font — bold stems, unambiguous letters
 const FONT: Record<string, string[]> = {
-    F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
     A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
     B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+    C: ["01110", "10001", "10000", "10000", "10000", "10001", "01110"],
+    D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+    E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+    F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+    G: ["01110", "10001", "10000", "10111", "10001", "10001", "01111"],
+    H: ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
     I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+    J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+    K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+    L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+    M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+    N: ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
     O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+    P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+    Q: ["01110", "10001", "10001", "10101", "10010", "10100", "01011"],
+    R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+    S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+    T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+    U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+    V: ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+    W: ["10001", "10001", "10001", "10101", "10101", "11011", "10001"],
+    X: ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+    Y: ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+    Z: ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
 };
 
 const letters = word.toUpperCase().split("");
-const cols = letters.length * 5 + (letters.length - 1); // 5 per letter + 1 gap
+const GLYPH_W = 5;
+const GLYPH_H = 7;
+const GAP = 1; // empty column between letters
+const cols = letters.length * (GLYPH_W + GAP) - GAP;
+
 const cells: { color: string | null; delay: number }[] = [];
 letters.forEach((ch, li) => {
     const glyph = FONT[ch] ?? FONT["I"];
-    for (let r = 0; r < 7; r++) {
-        for (let c = 0; c < 5; c++) {
-            if (glyph[r][c] === "1") {
-                const col = li * 6 + c;
+    for (let r = 0; r < GLYPH_H; r++) {
+        for (let c = 0; c < GLYPH_W; c++) {
+            if (glyph[r]?.[c] === "1") {
+                const col = li * (GLYPH_W + GAP) + c;
                 cells.push({
-                    color: RAMP[(r + col) % 6],
+                    color: RAMP[(r + col) % RAMP.length],
                     delay: 150 + (r + col) * 45,
                 });
             } else {
@@ -42,23 +69,25 @@ letters.forEach((ch, li) => {
 ---
 
 <h1 class="sr-only">{label}</h1>
-<span
-    class="mosaic-word px-corner"
-    style={`--cols:${cols}`}
-    role="img"
-    aria-label={label}
->
-    {
-        cells.map((cell) =>
-            cell.color ? (
-                <span
-                    class="mw-tile animate-pop"
-                    style={`background:${cell.color};animation-delay:${cell.delay}ms`}
-                />
-            ) : (
-                <span class="mw-tile mw-empty" />
-            ),
-        )
-    }
-    <span class="mw-tile mw-caret animate-blink" aria-hidden="true" />
+<span class="mosaic-word-wrap">
+    <span
+        class="mosaic-word px-corner"
+        style={`--cols:${cols}`}
+        role="img"
+        aria-label={label}
+    >
+        {
+            cells.map((cell) =>
+                cell.color ? (
+                    <span
+                        class="mw-tile animate-pop"
+                        style={`background:${cell.color};animation-delay:${cell.delay}ms`}
+                    />
+                ) : (
+                    <span class="mw-tile mw-empty" />
+                ),
+            )
+        }
+    </span>
+    <span class="mw-caret animate-blink" aria-hidden="true"></span>
 </span>
