@@ -2065,3 +2065,38 @@ header nav ul a[aria-current="page"]::before {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
 }
+
+/* ============================================================
+   Mosaic wordmark + glass sections
+   ============================================================ */
+
+/* Big mosaic word: tile grid sized by --tile (defaults near the 18px
+   mini-mosaic, scales down on mobile), ramp-colored filled tiles,
+   framed with ink border + hard offset shadow, stepped corners. */
+.mosaic-word {
+  --tile: clamp(7px, 1.9vw, 18px);
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--tile));
+  grid-auto-rows: var(--tile);
+  gap: 0;
+  width: fit-content;
+  padding: calc(var(--tile) * 0.9);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
+}
+.mw-tile { display: block; width: var(--tile); height: var(--tile); }
+.mw-empty { background: transparent; }
+.mw-caret { background: var(--accent); }
+
+/* Glass panel: frosted paper over the pixel field / checkerboard.
+   Used on the sticky header and homepage sections. */
+.glass {
+  background: color-mix(in srgb, var(--paper) 68%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid rgba(var(--ink-rgb), 0.14);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glass { transition: background 200ms ease; }
+}

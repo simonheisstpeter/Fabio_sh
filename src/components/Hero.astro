@@ -1,4 +1,5 @@
 ---
+import MosaicWord from "./MosaicWord.astro";
 const { t, isJa } = Astro.props;
 
 // 6x6 diagonal ramp mosaic for the hero F mark (mistral-style color blocks)
@@ -22,14 +23,10 @@ const tiles = Array.from({ length: 36 }, (_, i) => i);
         <span><span id="vienna-time">00:00:00</span> CET</span>
     </div>
 
-    <!-- poster headline: stacked black display type, second line outlined -->
-    <h1
-        class={`w-fit max-w-full font-black uppercase leading-[0.85] tracking-tighter block text-ink relative text-[17vw] md:text-[12rem] ${isJa ? "space-y-2" : ""}`}
-    >
-        <span class="block animate-line-1"
-            >{t.name}<span class="caret animate-blink" aria-hidden="true"></span></span
-        >
-    </h1>
+    <!-- mosaic wordmark: FABIO as a ramp-tile grid (18px language, scaled up) -->
+    <div class="animate-line-1">
+        <MosaicWord label={t.name} word="FABIO" />
+    </div>
 
     <!-- sticker row: rotated accent label + solid F block + mono taglines -->
     <div class="mt-10 flex flex-wrap items-center gap-6 animate-fadeIn_2200">
