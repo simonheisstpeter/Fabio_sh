@@ -3,7 +3,7 @@ import MosaicWord from "./MosaicWord.astro";
 const { t, isJa } = Astro.props;
 
 // 6x6 diagonal ramp mosaic for the hero F mark (mistral-style color blocks)
-const RAMP = ["#A7F3D0", "#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const RAMP = ["#ccfbf1", "#99f6e4", "#5eead4", "#2dd4bf", "#0d9488", "#0f766e"];
 const tiles = Array.from({ length: 36 }, (_, i) => i);
 ---
 
@@ -48,8 +48,8 @@ const tiles = Array.from({ length: 36 }, (_, i) => i);
 
     <!-- CTAs -->
     <div class="mt-10 flex flex-wrap gap-4 animate-fadeIn_2500">
-        <a href="#projects" class="btn btn-solid text-sm">{t.menuProjects}</a>
-        <a href="#contact" class="btn text-sm">{t.menuContact}</a>
+        <a href="#projects" class="btn btn-solid liquid-solid text-sm">{t.menuProjects}</a>
+        <a href="#contact" class="btn liquid-btn text-sm">{t.menuContact}</a>
     </div>
 
     <!-- scroll hint: three staggered chevrons -->

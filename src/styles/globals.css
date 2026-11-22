@@ -2105,3 +2105,138 @@ header nav ul a[aria-current="page"]::before {
 @media (prefers-reduced-motion: no-preference) {
   .glass { transition: background 200ms ease; }
 }
+
+/* ============================================================
+   Liquid Glass × turquoise mosaic — v9
+   Apple-style liquid glass: heavy blur+saturation, translucent
+   gradient fill, inner specular highlight, turquoise-tinted rim
+   and shadow. Mosaic ramp supplies the color moments.
+   ============================================================ */
+
+:root {
+  /* turquoise ramp (teal family) — the one accent system */
+  --tq-100: #ccfbf1;
+  --tq-200: #99f6e4;
+  --tq-300: #5eead4;
+  --tq-400: #2dd4bf;
+  --tq-500: #14b8a6;
+  --tq-600: #0d9488;
+  --tq-700: #0f766e;
+  --tq-800: #115e59;
+  --accent: var(--tq-600);
+  --shadow: var(--tq-800);
+}
+
+/* faint turquoise ambient glows so the glass has something to refract */
+body {
+  background-image:
+    radial-gradient(rgba(var(--ink-rgb), 0.055) 1px, transparent 1px),
+    radial-gradient(600px 420px at 85% -5%, rgba(94, 234, 212, 0.20), transparent 70%),
+    radial-gradient(520px 380px at -10% 30%, rgba(45, 212, 191, 0.12), transparent 70%),
+    radial-gradient(700px 500px at 50% 110%, rgba(13, 148, 136, 0.10), transparent 70%);
+  background-size: 18px 18px, auto, auto, auto;
+}
+
+/* --- liquid glass surface --- */
+.liquid {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 255, 255, 0.28) 45%,
+    rgba(204, 251, 241, 0.22) 100%
+  );
+  -webkit-backdrop-filter: blur(22px) saturate(1.8) brightness(1.04);
+  backdrop-filter: blur(22px) saturate(1.8) brightness(1.04);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(13, 148, 136, 0.18),
+    0 10px 30px rgba(15, 118, 110, 0.18),
+    8px 8px 0 rgba(15, 118, 110, 0.55);
+}
+/* specular sheen sweeping the top edge */
+.liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.12) 28%,
+    transparent 45%
+  );
+  pointer-events: none;
+}
+
+/* liquid glass buttons */
+.btn.liquid-btn {
+  background: linear-gradient(135deg, rgba(255,255,255,0.55), rgba(94,234,212,0.25));
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  backdrop-filter: blur(14px) saturate(1.6);
+  border: 1px solid rgba(13, 148, 136, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 4px 4px 0 rgba(15,118,110,0.5);
+  color: var(--ink);
+}
+.btn.liquid-btn:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(94,234,212,0.4));
+  transform: translate(-2px, -2px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 6px 6px 0 rgba(15,118,110,0.6);
+}
+.btn-solid.liquid-solid {
+  background: linear-gradient(135deg, var(--tq-400), var(--tq-600));
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 5px 5px 0 rgba(15,118,110,0.65);
+}
+.btn-solid.liquid-solid:hover {
+  filter: brightness(1.06);
+  transform: translate(-2px, -2px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 7px 7px 0 rgba(15,118,110,0.7);
+}
+
+/* upgrade existing surfaces to liquid */
+.glass { /* keep for compat, alias to liquid look */ }
+.card,
+.px-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.66) 0%,
+    rgba(255, 255, 255, 0.30) 50%,
+    rgba(204, 251, 241, 0.24) 100%
+  );
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    6px 6px 0 rgba(15, 118, 110, 0.5);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(255,255,255,0.6), transparent 40%);
+  pointer-events: none;
+}
+
+/* turquoise ramp for the mosaic word + dividers */
+.mosaic-word {
+  --tile: clamp(10px, 2.8vw, 28px);
+  background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(153,246,228,0.35));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    10px 10px 0 rgba(15, 118, 110, 0.55);
+}
+.mw-caret { background: var(--tq-500); }
+
+/* tiled dividers in the turquoise ramp */
+.divider-tiles {
+  background-image: linear-gradient(90deg,
+    var(--tq-200) 0 16.6%, var(--tq-300) 0 33.3%, var(--tq-400) 0 50%,
+    var(--tq-500) 0 66.6%, var(--tq-600) 0 83.3%, var(--tq-700) 0 100%);
+}

@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/default.astro";
+import MosaicWord from "../../../components/MosaicWord.astro";
+// v9 showcase: Apple liquid glass × turquoise mosaic
+---
+
+<Layout title="Liquid glass × turquoise mosaic – fabio.sh" description="v9 showcase">
+    <div class="container mx-auto px-6 md:px-12 py-24 space-y-16">
+        <section class="liquid px-corner p-8 md:p-12">
+            <p class="font-mono text-xs uppercase tracking-widest mb-6 text-ink/60">
+                v9 — liquid glass × turquoise mosaic
+            </p>
+            <MosaicWord label="FABIO" word="FABIO" />
+            <div class="mt-10 flex flex-wrap gap-4">
+                <a class="btn btn-solid liquid-solid text-sm" href="#">Projects</a>
+                <a class="btn liquid-btn text-sm" href="#">Contact</a>
+            </div>
+        </section>
+
+        <div class="divider-tiles" aria-hidden="true"></div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="card p-6">
+                <p class="font-pixel text-lg mb-2">Liquid card</p>
+                <p class="text-sm text-ink/60">
+                    16px blur + saturation, white specular top edge, turquoise
+                    rim light and hard offset shadow. Sits over the dot grid +
+                    ambient turquoise glows.
+                </p>
+            </div>
+            <div class="card p-6">
+                <p class="font-pixel text-lg mb-2">Mosaic in glass</p>
+                <p class="text-sm text-ink/60">
+                    Mini-mosaics and the FABIO wordmark use the turquoise ramp;
+                    dividers are solid ramp tiles.
+                </p>
+            </div>
+        </div>
+    </div>
+</Layout>
