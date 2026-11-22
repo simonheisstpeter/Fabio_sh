@@ -42,12 +42,14 @@ const previewProjects = getAllProjects()
 
     <!-- 01 // PROJECTS -->
     <div id="projects" class="container mx-auto px-4 md:px-12 mt-20 md:mt-32 scroll-mt-24">
+        <div class="glass px-corner p-6 md:p-10">
         <div class="section-head">
             <MiniMosaic />
             <span class="idx">01 //</span>
             <h2 class="h-display text-3xl md:text-5xl">{t.menuProjects}</h2>
         </div>
         <ProjectTeaser projects={previewProjects} locale={locale} t={t} plain />
+        </div>
     </div>
 
     <!-- tiled divider between the major sections -->
@@ -59,6 +61,7 @@ const previewProjects = getAllProjects()
         class="container mx-auto px-4 md:px-12 pb-32 scroll-mt-24"
         aria-labelledby="contact-heading"
     >
+        <div class="glass px-corner p-6 md:p-10">
         <div class="section-head">
             <MiniMosaic />
             <span class="idx">02 //</span>
@@ -68,6 +71,7 @@ const previewProjects = getAllProjects()
         </div>
 
         <ContactForm t={t} sent={sent} error={error} />
+        </div>
     </section>
 
     <!-- sunset stripe: the one block-gradient brand moment on the index page -->
