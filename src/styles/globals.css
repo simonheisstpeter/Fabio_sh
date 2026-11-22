@@ -153,6 +153,9 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--paper);
+  /* faint 18px pixel-dot grid (mosaic tile language) so glass panels frost over it */
+  background-image: radial-gradient(rgba(var(--ink-rgb), 0.055) 1px, transparent 1px);
+  background-size: 18px 18px;
   color: var(--ink);
   font-family: var(--font-book);
   font-size: 1rem;
@@ -1244,7 +1247,9 @@ input::file-selector-button,
 .card,
 .px-card {
   position: relative;
-  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 74%, transparent);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
   border: 1px solid var(--ink-30);
   box-shadow: 6px 6px 0 var(--shadow);
 }
@@ -2074,7 +2079,7 @@ header nav ul a[aria-current="page"]::before {
    mini-mosaic, scales down on mobile), ramp-colored filled tiles,
    framed with ink border + hard offset shadow, stepped corners. */
 .mosaic-word {
-  --tile: clamp(7px, 1.9vw, 18px);
+  --tile: clamp(9px, 2.6vw, 26px);
   display: grid;
   grid-template-columns: repeat(var(--cols), var(--tile));
   grid-auto-rows: var(--tile);
