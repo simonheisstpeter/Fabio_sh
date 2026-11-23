@@ -84,6 +84,13 @@ const navLink =
                         : undefined}
                     class={navLink}>CV</a
                 ></li>
+                    <li>     <a
+                    href="/admin/settings"
+                    aria-current={path.startsWith("/admin/settings")
+                        ? "page"
+                        : undefined}
+                    class={navLink}>Settings</a
+                ></li>
                 </ul>
             </nav>
             <form action="/api/auth/logout" method="POST" class="ml-auto">

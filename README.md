@@ -49,6 +49,10 @@ scp user@your-vps:/app/backups/fabio-2026-05-04T14-30-00.db .
 
 A "Download Database" button is also available in the admin dashboard.
 
+### Manage passkeys (admin settings)
+
+Signed in, open **/admin/settings** to list your passkeys, register a new one, remove a single passkey, or reset all of them (asks for your password again). Removals never take away your last way to sign in: the last credential can't be removed, and a full passkey reset needs a password to exist, so first-run setup never reopens to strangers.
+
 ### Reset admin credentials
 
 Clears `admin_password`, `webauthn_credentials`, `admin_sessions` and pending challenges so you can re-register at `/admin/register`. Useful when locked out. (Credential enrolment is only open to a signed-in admin, or while nothing is registered — hence passkeys are cleared too.)
