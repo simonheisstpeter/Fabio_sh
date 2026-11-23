@@ -147,7 +147,9 @@ export async function fetchBlob(
 
     const contentType = res.headers.get("content-type") ?? "application/octet-stream";
     // Only ever hand back images/video; the PDS holds other blob types too.
-    if (!contentType.startsWith("image/") && !contentType.startsWith("video/")) {
+    // SVG is a document that can carry script, and it would run on fabio.sh.
+    const svg = contentType.toLowerCase().includes("svg");
+    if (svg || (!contentType.startsWith("image/") && !contentType.startsWith("video/"))) {
       await res.body.cancel();
       return null;
     }

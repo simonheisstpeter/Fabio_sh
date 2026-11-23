@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import type { DatabaseSync } from "node:sqlite";
 import { getDb } from "../../lib/db";
 import { invalidContactFields } from "../../lib/contact-rules.js";
-import { checkRateLimit, rateLimitKeyFor } from "../../lib/rate-limit";
+import { checkRateLimit, clientIp, rateLimitKeyFor } from "../../lib/rate-limit";
 import { jsonError, jsonOk, redirectGet, redirectTo } from "../../lib/response";
 
 type Stmts = {
@@ -83,7 +83,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (invalidField) return jsonError(FIELD_ERRORS[invalidField], 422, { field: invalidField });
 
   // ── 4. Rate limiting (single atomic UPSERT — see lib/rate-limit.ts) ───────
-  const ipHash = rateLimitKeyFor(clientAddress, "contact");
+  const ipHash = rateLimitKeyFor(clientIp(request, clientAddress), "contact");
   if (!checkRateLimit(ipHash, RATE_LIMIT, RATE_WINDOW).allowed) {
     return jsonError("Too many submissions. Please try again later.", 429);
   }

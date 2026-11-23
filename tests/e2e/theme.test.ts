@@ -22,6 +22,14 @@ describe("dark/light theme system", () => {
     expect(html).toContain("prefers-color-scheme: dark");
   });
 
+  it("keeps the chosen theme across client-side navigations", async () => {
+    // ClientRouter swaps <html> attributes for the incoming page's, which has no
+    // data-theme; the head script copies the current theme onto it first.
+    const html = await (await anon.get("/")).text();
+    expect(html).toContain('"astro:before-swap"');
+    expect(html).toContain("e.newDocument.documentElement.dataset.theme = cur");
+  });
+
   it("renders theme toggle buttons (desktop nav + mobile menu) with a localized label", async () => {
     const html = await (await anon.get("/")).text();
     const toggles = html.match(/data-theme-toggle/g) ?? [];
@@ -50,13 +58,15 @@ describe("dark/light theme system", () => {
     expect(admin).not.toContain('data-design="site"');
   });
 
-  it("the index hero renders variant 1 by default and previews others via ?hero=", async () => {
+  it("the index hero renders variant 7 by default and previews others via ?hero=", async () => {
     const def = await (await anon.get("/")).text();
-    expect(def).toContain('class="gh gh-v1"');
+    expect(def).toContain('class="gh gh-v7"');
+    expect(def).toContain('class="gh-veil"');
+    expect((await (await anon.get("/?hero=8")).text())).toContain('class="gh gh-v8 gh-v5"');
     const v3 = await (await anon.get("/?hero=3")).text();
     expect(v3).toContain('class="gh gh-v3"');
     const bogus = await (await anon.get("/?hero=99")).text();
-    expect(bogus).toContain('class="gh gh-v1"');
+    expect(bogus).toContain('class="gh gh-v7"');
   });
 
   it("preloads exactly the two used Andes Neue faces; pixel fonts are gone", async () => {

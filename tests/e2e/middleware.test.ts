@@ -160,11 +160,19 @@ describe("public page caching", () => {
     },
   );
 
+  it.each(["/cv", "/admin/login", "/does-not-exist"])(
+    "%s tells shared caches (the CDN) not to store it",
+    async (path) => {
+      const res = await anon.get(path);
+      expect(res.headers.get("cache-control")).toBe("private, no-store");
+    },
+  );
+
   it("never caches an authenticated page publicly", async () => {
     const admin = await signedInClient(s);
     for (const path of ["/admin", "/admin/projects", "/cv"]) {
       const res = await admin.get(path);
-      expect(res.headers.get("cache-control") ?? "", path).not.toContain("public");
+      expect(res.headers.get("cache-control") ?? "", path).toBe("private, no-store");
     }
   });
 });
@@ -214,4 +222,33 @@ describe("ATProto blob proxy", () => {
       expect((await anon.get(`/api/blob?cid=${cid}`)).status).toBe(404);
     },
   );
+});
+
+describe("CDN-only access (ORIGIN_SECRET)", () => {
+  const SECRET = "a".repeat(20) + "-origin-secret-" + "b".repeat(20);
+  let locked: Server;
+  let client: Client;
+  beforeAll(async () => {
+    locked = await startServer({ ORIGIN_SECRET: SECRET });
+    client = new Client(locked.url);
+  });
+  afterAll(() => locked.stop());
+
+  it("refuses requests that did not come through the CDN", async () => {
+    for (const path of ["/", "/admin/login", "/api/contact"]) {
+      const res = await client.get(path);
+      expect(res.status, path).toBe(403);
+      expect(res.headers.get("x-content-type-options"), path).toBe("nosniff");
+    }
+    expect((await client.get("/", { "x-origin-secret": "wrong" })).status).toBe(403);
+    expect((await client.get("/", { "x-origin-secret": SECRET.slice(0, -1) + "c" })).status).toBe(403);
+  });
+
+  it("serves requests carrying the secret", async () => {
+    expect((await client.get("/", { "x-origin-secret": SECRET })).status).toBe(200);
+  });
+
+  it("keeps the health check open", async () => {
+    expect((await client.get("/robots.txt")).status).toBe(200);
+  });
 });

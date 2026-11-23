@@ -90,6 +90,16 @@ const NavLinks = [
                 } catch (e) {
                     document.documentElement.dataset.theme = "light";
                 }
+                // ClientRouter replaces <html> attributes with the incoming page's,
+                // which the server renders without data-theme, and this script does
+                // not run again. Carry the current theme over before every swap.
+                if (!window.__themeSwap) {
+                    window.__themeSwap = true;
+                    document.addEventListener("astro:before-swap", function (e) {
+                        var cur = document.documentElement.dataset.theme;
+                        if (cur) e.newDocument.documentElement.dataset.theme = cur;
+                    });
+                }
             })();
         </script>
         <title>{title}</title>

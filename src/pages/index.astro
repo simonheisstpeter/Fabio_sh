@@ -15,9 +15,9 @@ const t = getTranslations(locale);
 const sent = Astro.url.searchParams.get("sent") === "1";
 const error = Astro.url.searchParams.get("error") === "1";
 
-// /?hero=2..6 previews the other hero compositions on the live page
+// /?hero=1..8 previews the other hero compositions on the live page
 const heroParam = Number(Astro.url.searchParams.get("hero"));
-const heroVariant = ([1, 2, 3, 4, 5, 6].includes(heroParam) ? heroParam : 1) as HeroVariant;
+const heroVariant = ([1, 2, 3, 4, 5, 6, 7, 8].includes(heroParam) ? heroParam : 7) as HeroVariant;
 
 const previewProjects = getAllProjects()
     .filter((p) => p.published && !p.finished && p.online)
