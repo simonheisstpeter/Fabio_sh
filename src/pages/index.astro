@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/default.astro";
-import Hero from "../components/Hero.astro";
+import HeroGlass, { type HeroVariant } from "../components/HeroGlass.astro";
 import Marquee from "../components/Marquee.astro";
 
 import ContactForm from "../components/ContactForm.astro";
@@ -15,7 +15,9 @@ const t = getTranslations(locale);
 const sent = Astro.url.searchParams.get("sent") === "1";
 const error = Astro.url.searchParams.get("error") === "1";
 
-const isJa = locale === "ja";
+// /?hero=2..6 previews the other hero compositions on the live page
+const heroParam = Number(Astro.url.searchParams.get("hero"));
+const heroVariant = ([1, 2, 3, 4, 5, 6].includes(heroParam) ? heroParam : 1) as HeroVariant;
 
 const previewProjects = getAllProjects()
     .filter((p) => p.published && !p.finished && p.online)
@@ -24,7 +26,7 @@ const previewProjects = getAllProjects()
 
 <Layout title="fabio.sh" description="Fabio Gschweidl – digital media & IT">
     <!-- 00 // HERO -->
-    <Hero t={t} isJa={isJa} />
+    <HeroGlass t={t} variant={heroVariant} />
 
     <!-- marquee strip -->
     <div class="mt-20 md:mt-32">

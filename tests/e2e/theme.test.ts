@@ -29,17 +29,34 @@ describe("dark/light theme system", () => {
     expect(html).toContain('aria-label="Farbschema wechseln"'); // default locale de
   });
 
-  it("renders the hairline viewport frame on every page — no pixel strips or corner blocks", async () => {
-    // fresh DB has no admin yet, so /admin/login redirects to /admin/register
-    for (const path of ["/", "/projects", "/about", "/contact", "/courses", "/404", "/admin/register"]) {
+  it("public pages render the v9 glass world; admin keeps the v8 frame — no pixel strips or corner blocks", async () => {
+    // v9 "Prism Tile": public layout opts in via data-design="site" and a fixed
+    // glowing tile grid; the brutalist page frame is retired there
+    for (const path of ["/", "/projects", "/about", "/contact", "/courses", "/404"]) {
       const res = await anon.get(path);
       expect([200, 404], path).toContain(res.status); // /404 renders with status 404
       const html = await res.text();
-      expect(html, path).toContain('class="page-frame"');
+      expect(html, path).toContain('data-design="site"');
+      expect(html, path).toContain("g-world g-world-c");
+      expect(html, path).not.toContain('class="page-frame"');
       expect(html, path).not.toContain("edge-strip");
       expect(html, path).not.toContain("pixel-strip");
       expect(html, path).not.toContain("fc fc-");
     }
+    // fresh DB has no admin yet, so /admin/login redirects to /admin/register;
+    // the admin layout never opts into the public design layer
+    const admin = await (await anon.get("/admin/register")).text();
+    expect(admin).toContain('class="page-frame"');
+    expect(admin).not.toContain('data-design="site"');
+  });
+
+  it("the index hero renders variant 1 by default and previews others via ?hero=", async () => {
+    const def = await (await anon.get("/")).text();
+    expect(def).toContain('class="gh gh-v1"');
+    const v3 = await (await anon.get("/?hero=3")).text();
+    expect(v3).toContain('class="gh gh-v3"');
+    const bogus = await (await anon.get("/?hero=99")).text();
+    expect(bogus).toContain('class="gh gh-v1"');
   });
 
   it("preloads exactly the two used Andes Neue faces; pixel fonts are gone", async () => {
@@ -71,6 +88,10 @@ describe("dark/light theme system", () => {
     expect(css).toContain("--ink-rgb:230 251 242");
     expect(css).toContain("--paper:#0a1512");
     expect(css).toContain(".page-frame");
+    // v9 public design layer: emerald glass tokens for both themes
+    expect(css).toContain("html[data-design=site]");
+    expect(css).toContain("--paper:#050b09");
+    expect(css).toContain("backdrop-filter");
     expect(css).toContain(".font-display");
     expect(css).toContain(".h-display");
     expect(css).toContain(".caret");

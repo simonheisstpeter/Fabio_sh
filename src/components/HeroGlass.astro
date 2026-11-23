@@ -1,0 +1,202 @@
+---
+// Index hero, option C "Prism Tile" (Liquid Glass × emerald mosaic).
+// Sits on the site-wide glowing grid (GlassWorld in default.astro) and
+// differs only in composition. Variant 1 is the default; /?hero=N previews
+// the others on the live index.
+//   1 Grid     — wordmark open on the glowing grid
+//   2 Plate    — the wordmark on one dark glass plate over the grid
+//   3 Split    — statement left, a window of glowing tiles + glass card right
+//   4 Lens     — a liquid glass lens lights up the grid under the pointer
+//   5 Bloom    — no grid: giant glowing wordmark, a glass bar refracting it
+//   6 Reactive — grid tiles light up along the pointer's path
+import type { Translations } from "../i18n/index";
+import "../styles/hero-glass.css";
+
+export type HeroVariant = 1 | 2 | 3 | 4 | 5 | 6;
+
+interface Props {
+    t: Translations;
+    variant?: HeroVariant;
+}
+const { t, variant = 1 }: Props = Astro.props;
+
+// FABIO in a 5x7 pixel font; each tile takes the ramp step of its diagonal
+const FONT: Record<string, string[]> = {
+    F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+    A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+    B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+    I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+    O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+};
+const letters = "FABIO".split("");
+const wordCols = letters.length * 6 + 1;
+const word: { cls: string; d: number }[] = [];
+for (let r = 0; r < 7; r++) {
+    letters.forEach((ch, li) => {
+        for (let c = 0; c < 5; c++) {
+            const col = li * 6 + c;
+            const on = FONT[ch][r][c] === "1";
+            word.push({ cls: on ? `t on s${(r + col) % 6}` : "t", d: on ? 120 + (r + col) * 26 : 0 });
+        }
+        word.push({ cls: "t", d: 0 });
+    });
+    word.push({ cls: r === 6 ? "t caret" : "t", d: 0 });
+}
+
+// Split variant: an 8x8 window of tiles, a few of them lit
+const LIT: Record<number, number> = { 4: 3, 5: 2, 13: 4, 12: 1, 22: 3, 48: 2, 56: 4, 57: 3, 61: 5, 26: 0 };
+const windowCells = Array.from({ length: 64 }, (_, i) => (i in LIT ? `lit s${LIT[i]}` : ""));
+---
+
+<section class={`gh gh-v${variant}`} aria-label={t.name} data-gh data-variant={variant}>
+    {variant === 4 && <div class="gh-lens" aria-hidden="true" data-lens></div>}
+    {variant === 5 && <div class="gh-bloom" aria-hidden="true"></div>}
+
+    <div class="gh-inner">
+        <div class="gh-stack">
+            <div class={variant === 2 ? "gh-plate gh-glass" : "gh-copy"}>
+                <div class="gh-meta">
+                    <span class="gh-dot" aria-hidden="true"></span>
+                    <span>{t.statusOnline}</span>
+                    <span class="gh-sep" aria-hidden="true"></span>
+                    <span>Vienna, AT <span class="gh-coord">[48.2082° N, 16.3738° E]</span></span>
+                    <span class="gh-sep" aria-hidden="true"></span>
+                    <span><span data-gh-clock>00:00:00</span> CET</span>
+                </div>
+
+                <h1 class="sr-only">{t.name}</h1>
+                {
+                    variant === 3 ? (
+                        <p class="gh-statement">digital media &amp; IT</p>
+                    ) : (
+                        <div class="gh-wordwrap">
+                            <span class="gh-word" style={`--cols:${wordCols}`} role="img" aria-label={t.name}>
+                                {word.map((w) => <span class={w.cls} style={w.d ? `--d:${w.d}ms` : undefined} />)}
+                            </span>
+                        </div>
+                    )
+                }
+
+                {variant !== 3 && variant !== 5 && <p class="gh-role">digital media &amp; IT</p>}
+
+                {
+                    variant !== 5 && (
+                        <div class="gh-cta">
+                            <a href="#projects" class="gh-btn gh-btn-primary">{t.menuProjects}</a>
+                            <a href="#contact" class="gh-btn gh-btn-glass gh-glass">{t.menuContact}</a>
+                        </div>
+                    )
+                }
+            </div>
+
+            {
+                variant === 3 && (
+                    <div class="gh-window" aria-hidden="true">
+                        <div class="gh-window-grid">
+                            {windowCells.map((c) => <i class={c || undefined} />)}
+                        </div>
+                        <div class="gh-card gh-glass">
+                            <span class="gh-word gh-word-sm" style={`--cols:${wordCols}`}>
+                                {word.map((w) => <span class={w.cls} style={w.d ? `--d:${w.d}ms` : undefined} />)}
+                            </span>
+                            <span class="gh-card-foot"><span>fabio.sh</span><span>Vienna</span></span>
+                        </div>
+                    </div>
+                )
+            }
+
+            {
+                variant === 5 && (
+                    <div class="gh-bar gh-glass">
+                        <p class="gh-role">digital media &amp; IT</p>
+                        <div class="gh-cta">
+                            <a href="#projects" class="gh-btn gh-btn-primary">{t.menuProjects}</a>
+                            <a href="#contact" class="gh-btn gh-btn-ghost">{t.menuContact}</a>
+                        </div>
+                    </div>
+                )
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    let shimmer = 0;
+
+    function initHeroGlass() {
+        const hero = document.querySelector<HTMLElement>("[data-gh]");
+        if (!hero || hero.dataset.ghInit) return;
+        hero.dataset.ghInit = "1";
+        const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+        // Vienna clock
+        const clock = hero.querySelector<HTMLElement>("[data-gh-clock]");
+        const tick = () => {
+            if (clock && hero.isConnected)
+                clock.textContent = new Date().toLocaleTimeString("en-GB", { timeZone: "Europe/Vienna", hour12: false });
+        };
+        tick();
+        const timer = setInterval(tick, 1000);
+
+        // pause hero animation while it is off-screen
+        new IntersectionObserver(([e]) => hero.classList.toggle("is-idle", !e.isIntersecting)).observe(hero);
+
+        // 4 · liquid lens eases toward the pointer (fine pointers, motion allowed)
+        const lens = hero.querySelector<HTMLElement>("[data-lens]");
+        if (lens && fine && !still) {
+            let tx = 0, ty = 0, x = 0, y = 0, raf = 0, placed = false;
+            const step = () => {
+                x += (tx - x) * 0.14;
+                y += (ty - y) * 0.14;
+                lens.style.transform = `translate(${x}px, ${y}px)`;
+                raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.3 ? requestAnimationFrame(step) : 0;
+            };
+            hero.addEventListener("pointermove", (e) => {
+                const r = hero.getBoundingClientRect();
+                tx = e.clientX - r.left - lens.offsetWidth / 2;
+                ty = e.clientY - r.top - lens.offsetHeight / 2;
+                if (!placed) {
+                    const m = new DOMMatrix(getComputedStyle(lens).transform);
+                    x = m.m41;
+                    y = m.m42;
+                    placed = true;
+                }
+                if (!raf) raf = requestAnimationFrame(step);
+            });
+        }
+
+        // 6 · light up the site grid under the pointer, plus an idle shimmer
+        const grid = document.querySelector<HTMLElement>(".g-world .grid");
+        if (grid && hero.dataset.variant === "6" && !still) {
+            const cells = [...grid.children] as HTMLElement[];
+            const cols = Number(getComputedStyle(grid).getPropertyValue("--cols")) || 16;
+            const light = (i: number) => {
+                const c = cells[i];
+                if (!c || c.classList.contains("lit")) return;
+                c.classList.remove("flash");
+                void c.offsetWidth;
+                c.classList.add("flash");
+            };
+            let last = -1;
+            hero.addEventListener("pointermove", (e) => {
+                const g = grid.getBoundingClientRect();
+                const step = cells[1].getBoundingClientRect().left - cells[0].getBoundingClientRect().left;
+                const i = Math.floor((e.clientY - g.top) / step) * cols + Math.floor((e.clientX - g.left) / step);
+                if (i !== last) {
+                    last = i;
+                    light(i);
+                }
+            });
+            clearInterval(shimmer);
+            shimmer = window.setInterval(() => {
+                if (!hero.isConnected) return clearInterval(shimmer);
+                if (!hero.classList.contains("is-idle")) light(Math.floor(Math.random() * cells.length));
+            }, 650);
+        }
+
+        document.addEventListener("astro:before-swap", () => clearInterval(timer), { once: true });
+    }
+    initHeroGlass();
+    document.addEventListener("astro:page-load", initHeroGlass);
+</script>
