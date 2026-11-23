@@ -230,3 +230,59 @@ describe("WebAuthn challenges", () => {
     expect(rows).toEqual([{ challenge: "new" }]);
   });
 });
+
+describe("passkey management", () => {
+  const addPasskey = (db: { prepare: (q: string) => { run: (...a: unknown[]) => unknown } }, id: string, extra: Record<string, unknown> = {}) =>
+    db
+      .prepare("INSERT INTO webauthn_credentials (credential_id, public_key, device_type, backed_up, transports) VALUES (?, 'k', ?, ?, ?)")
+      .run(id, extra.device_type ?? null, extra.backed_up ?? 0, extra.transports ?? null);
+  const addPassword = (db: { prepare: (q: string) => { run: (...a: unknown[]) => unknown } }) =>
+    db.prepare("INSERT INTO admin_password (id, email, hash) VALUES (1, 'a@b.c', 'h')").run();
+
+  it("lists passkeys with parsed transports and tolerates bad JSON", async () => {
+    const { auth, db } = await setup();
+    addPasskey(db, "p1", { device_type: "multiDevice", backed_up: 1, transports: '["internal","hybrid"]' });
+    addPasskey(db, "p2", { transports: "not json" });
+    const list = auth.listPasskeys();
+    expect(list.map((p) => p.id)).toEqual(["p1", "p2"]);
+    expect(list[0]).toMatchObject({ deviceType: "multiDevice", backedUp: true, transports: ["internal", "hybrid"] });
+    expect(list[1]).toMatchObject({ deviceType: null, backedUp: false, transports: [] });
+  });
+
+  it("removes a passkey while another way to sign in remains", async () => {
+    const { auth, db } = await setup();
+    addPasskey(db, "p1");
+    addPasskey(db, "p2");
+    expect(auth.removePasskey("p1")).toBe("removed");
+    expect(auth.credentialCounts().passkeys).toBe(1);
+  });
+
+  it("refuses to remove the last credential of any kind", async () => {
+    const { auth, db } = await setup();
+    addPasskey(db, "only");
+    expect(auth.removePasskey("only")).toBe("last-credential");
+    expect(auth.credentialCounts().passkeys).toBe(1);
+    // with a password as fallback, the last passkey may go
+    addPassword(db);
+    expect(auth.removePasskey("only")).toBe("removed");
+    // enrolment stays closed to anonymous visitors
+    expect(auth.canEnrolCredential(fakeCookies().cookies)).toBe(false);
+  });
+
+  it("reports unknown passkeys", async () => {
+    const { auth } = await setup();
+    expect(auth.removePasskey("nope")).toBe("not-found");
+  });
+
+  it("resets all passkeys only while a password exists", async () => {
+    const { auth, db } = await setup();
+    addPasskey(db, "p1");
+    addPasskey(db, "p2");
+    expect(auth.resetPasskeys()).toEqual({ status: "no-password" });
+    expect(auth.credentialCounts().passkeys).toBe(2);
+    addPassword(db);
+    expect(auth.resetPasskeys()).toEqual({ status: "reset", removed: 2 });
+    expect(auth.credentialCounts()).toEqual({ passkeys: 0, passwords: 1 });
+    expect(auth.canEnrolCredential(fakeCookies().cookies)).toBe(false);
+  });
+});

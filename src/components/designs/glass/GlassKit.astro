@@ -1,0 +1,385 @@
+---
+// Component options: every component in 3–4 variants, rendered with the
+// direction's own tokens and world, so variants can be mixed per component.
+// Markup is identical for B and C; look comes from tokens + glass-kit.css.
+import type { Project } from "../../../lib/db";
+import { getTranslations } from "../../../i18n/index";
+import GlassMini from "./GlassMini.astro";
+import GlassNav from "./GlassNav.astro";
+
+interface Props {
+    option: "b" | "c";
+    name: string;
+    projects: Project[];
+    numbering: "no" | "slash";
+}
+const { option, name, projects, numbering }: Props = Astro.props;
+const t = getTranslations("en");
+const idx = (n: number) => {
+    const p = String(n).padStart(2, "0");
+    return numbering === "no" ? `N° ${p}` : `${p} //`;
+};
+const desc = (p: Project) => p.description.en || p.description.de || "";
+const [p0, p1, p2] = projects;
+const ramp = (n: number) => Array.from({ length: n }, (_, i) => `s${i % 6}`);
+const grid = (cols: number, rows: number) =>
+    Array.from({ length: cols * rows }, (_, i) => `s${(Math.floor(i / cols) + (i % cols)) % 6}`);
+
+const sections = [
+    { id: "nav", title: "Navigation" },
+    { id: "buttons", title: "Buttons" },
+    { id: "cards", title: "Project cards" },
+    { id: "heads", title: "Section heads" },
+    { id: "fields", title: "Form fields" },
+    { id: "select", title: "Selection" },
+    { id: "feedback", title: "Feedback" },
+    { id: "footer", title: "Footer" },
+];
+const arrow = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>`;
+const ext = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg>`;
+const check = `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.4 2.4L13.8 7.6"/></svg>`;
+---
+
+<a class="sr-only" href="#main">Skip to content</a>
+<GlassNav links={sections.slice(0, 4).map((s) => ({ href: `#${s.id}`, text: s.title }))} />
+
+<main id="main" class="g-page k-page">
+    <header class="g-wrap k-intro">
+        <div class="k-intro-panel g-glass">
+        <span class="kicker k-kick"><GlassMini /><span class="g-label">{name} · component options</span></span>
+        <h1 class="g-display">Components</h1>
+        <p class="g-muted k-lede">
+            Every component in three or four variants. Mix freely: pick one variant per component and
+            the system stays coherent, because all of them share the same tokens and glass recipe.
+        </p>
+        <nav class="k-toc" aria-label="Components">
+            {sections.map((s, i) => <a href={`#${s.id}`} class="g-chip">{String(i + 1).padStart(2, "0")} {s.title}</a>)}
+        </nav>
+        </div>
+    </header>
+
+    <!-- 01 NAVIGATION -->
+    <section id="nav" class="g-wrap k-sec" aria-labelledby="k-nav">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(1)}</span></span><h2 id="k-nav" class="g-display">Navigation</h2></div>
+        <div class="k-grid k-grid-1">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Floating pill</b><span>One centered glass capsule. What the option pages use; quiet and compact.</span></figcaption>
+                <div class="k-stage">
+                    <div class="k-nav1 g-glass">
+                        <span class="g-brand"><GlassMini /><span>fabio.sh</span></span>
+                        <span class="k-links"><a aria-current="page">Projects</a><a>About Me</a><a>Social</a><a>Contact</a></span>
+                        <span class="g-locale">DE</span>
+                    </div>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Split islands</b><span>Brand, links and actions as three separate glass islands. More architectural; the world shows between them.</span></figcaption>
+                <div class="k-stage">
+                    <div class="k-nav2">
+                        <span class="g-glass k-island"><GlassMini /><span>fabio.sh</span></span>
+                        <span class="g-glass k-island k-links"><a aria-current="page">Projects</a><a>About Me</a><a>Social</a><a>Contact</a></span>
+                        <span class="g-glass k-island"><span class="g-locale">DE</span></span>
+                    </div>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Mosaic rail</b><span>Full-width glass bar; the active link sits on a lit mosaic tile and a hairline of ramp tiles runs along the bottom edge.</span></figcaption>
+                <div class="k-stage">
+                    <div class="k-nav3 g-glass">
+                        <span class="g-brand"><GlassMini /><span>fabio.sh</span></span>
+                        <span class="k-links"><a aria-current="page">Projects</a><a>About Me</a><a>Social</a><a>Contact</a></span>
+                        <span class="g-locale">DE</span>
+                        <span class="k-rail" aria-hidden="true">{ramp(48).map((c) => <i class={c} />)}</span>
+                    </div>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V4 · Bottom dock</b><span>iOS-style dock for phones: thumb-reachable, icon plus label, the active item gets a glass thumb.</span></figcaption>
+                <div class="k-stage k-stage-dock">
+                    <div class="k-dock g-glass">
+                        <a aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>Projects</a>
+                        <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>About</a>
+                        <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 5h14v10H9l-4 4z"/></svg>Social</a>
+                        <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="m3 8 9 6 9-6"/></svg>Contact</a>
+                    </div>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 02 BUTTONS -->
+    <section id="buttons" class="g-wrap k-sec" aria-labelledby="k-buttons">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(2)}</span></span><h2 id="k-buttons" class="g-display">Buttons</h2></div>
+        <div class="k-grid">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Gloss pill</b><span>Solid emerald with a top gloss; secondary is a tinted capsule.</span></figcaption>
+                <div class="k-stage k-row">
+                    <button class="g-btn g-btn-primary" type="button">Projects</button>
+                    <button class="g-btn g-btn-secondary" type="button">Contact</button>
+                    <button class="g-btn g-btn-ghost" type="button">All projects</button>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Liquid glass</b><span>Real glass buttons: the primary is emerald-tinted glass with a glowing rim, so the mosaic shows through.</span></figcaption>
+                <div class="k-stage k-row">
+                    <button class="g-btn k-btn-glass is-primary g-glass" type="button">Projects</button>
+                    <button class="g-btn k-btn-glass g-glass" type="button">Contact</button>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Tile key</b><span>Squarer keycap with a 2×2 mosaic glyph; the tiles rotate on hover. Most "mosaic".</span></figcaption>
+                <div class="k-stage k-row">
+                    <button class="k-btn-tile is-primary" type="button"><span class="k-glyph" aria-hidden="true"><i class="s1" /><i class="s3" /><i class="s2" /><i class="s5" /></span>Projects</button>
+                    <button class="k-btn-tile" type="button"><span class="k-glyph" aria-hidden="true"><i class="s0" /><i class="s2" /><i class="s1" /><i class="s4" /></span>Contact</button>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V4 · Arrow link</b><span>Text-first call to action: a ramp-tile underline grows on hover, the arrow slides.</span></figcaption>
+                <div class="k-stage k-row">
+                    <a class="k-btn-link" href="#buttons">All projects <Fragment set:html={arrow} /></a>
+                    <a class="k-btn-link" href="#buttons">Write me <Fragment set:html={arrow} /></a>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 03 PROJECT CARDS -->
+    <section id="cards" class="g-wrap k-sec" aria-labelledby="k-cards">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(3)}</span></span><h2 id="k-cards" class="g-display">Project cards</h2></div>
+        <div class="k-grid">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Inset image</b><span>Image inset in a glass frame, text below. Clear and even.</span></figcaption>
+                <article class="g-card g-glass g-spec g-lift k-card-1">
+                    <div class="g-card-media"><img src={p1.image || "/meta_pic.png"} alt="" loading="lazy" decoding="async" /></div>
+                    <div class="g-card-body">
+                        <h3 class="g-card-title"><span class="g-dot" aria-hidden="true" />{p1.title}</h3>
+                        <p class="g-card-desc">{desc(p1)}</p>
+                        <div class="g-card-meta">{p1.categories.slice(0, 3).map((c) => <span class="g-chip">{c}</span>)}</div>
+                    </div>
+                </article>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Glass caption</b><span>The image fills the card and a glass caption floats over it, refracting the picture itself. The most Liquid Glass.</span></figcaption>
+                <article class="k-card-2 g-lift">
+                    <img src={p2.image || "/ri_meta_pic.png"} alt="" loading="lazy" decoding="async" />
+                    <div class="k-caption g-glass g-spec">
+                        <h3 class="g-card-title"><span class="g-dot" aria-hidden="true" />{p2.title}</h3>
+                        <p class="g-card-desc">{desc(p2)}</p>
+                        <a class="g-link" href={p2.url || "#cards"}>{t.website} <Fragment set:html={ext} /></a>
+                    </div>
+                </article>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Mosaic face</b><span>No screenshot needed: a band of glossy tiles is the card's face and re-pops on hover. Works for projects without images.</span></figcaption>
+                <article class="k-card-3 g-glass g-spec g-lift">
+                    <span class="k-face" aria-hidden="true">{grid(12, 3).map((c, i) => <i class={c} style={`--i:${i}`} />)}</span>
+                    <div class="g-card-body">
+                        <h3 class="g-card-title"><span class="g-dot" aria-hidden="true" />{p0.title}</h3>
+                        <p class="g-card-desc">{desc(p0)}</p>
+                        <div class="g-card-meta">{p0.categories.slice(0, 3).map((c) => <span class="g-chip">{c}</span>)}</div>
+                    </div>
+                </article>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V4 · Glass row</b><span>Dense list row for /projects and archives: thumbnail, title, tags, year. Rows share one glass sheet.</span></figcaption>
+                <ul class="k-rows g-glass">
+                    {projects.map((p, i) => (
+                        <li>
+                            <span class="k-thumb">{p.image ? <img src={p.image} alt="" loading="lazy" decoding="async" /> : <span class="k-face k-face-sm" aria-hidden="true">{grid(3, 3).map((c) => <i class={c} />)}</span>}</span>
+                            <span class="k-row-title">{p.title}<small>{p.categories.slice(0, 2).join(" · ")}</small></span>
+                            <span class="g-label">{2026 - i}</span>
+                            <span class="k-row-go"><Fragment set:html={arrow} /></span>
+                        </li>
+                    ))}
+                </ul>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 04 SECTION HEADS -->
+    <section id="heads" class="g-wrap k-sec" aria-labelledby="k-heads">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(4)}</span></span><h2 id="k-heads" class="g-display">Section heads</h2></div>
+        <div class="k-grid k-grid-1">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Marker + index</b><span>Mini mosaic, small index, big title. Lightest touch.</span></figcaption>
+                <div class="k-stage k-stage-left"><div class="g-head" style="margin:0"><span class="kicker"><GlassMini /><span class="g-label">{idx(1)}</span></span><p class="g-display k-h">Projects</p></div></div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Giant index</b><span>An outlined index number at display size carries the section; the title sits beside it on the baseline.</span></figcaption>
+                <div class="k-stage k-stage-left"><div class="k-head2"><span class="k-num g-display" aria-hidden="true">01</span><p class="g-display k-h">Projects</p><span class="g-muted">Selected work, 2019–2026</span></div></div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Tile strip</b><span>A strip of glossy ramp tiles opens the section and cascades in on scroll; title and intro split below.</span></figcaption>
+                <div class="k-stage k-stage-left"><div class="k-head3"><span class="k-strip" aria-hidden="true">{ramp(16).map((c, i) => <i class={c} style={`--i:${i}`} />)}</span><div class="k-head3-row"><p class="g-display k-h">Projects</p><p class="g-muted">Websites, platforms and tools I've built or run, most of them still online.</p></div></div></div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 05 FORM FIELDS -->
+    <section id="fields" class="g-wrap k-sec" aria-labelledby="k-fields">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(5)}</span></span><h2 id="k-fields" class="g-display">Form fields</h2></div>
+        <div class="k-grid k-grid-3">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Inset well</b><span>Recessed field with an emerald focus halo.</span></figcaption>
+                <div class="k-stage k-stage-panel g-glass k-fieldset">
+                    <label class="g-field"><span class="g-label">{t.contactName}</span><input id="kf1a" class="g-input" placeholder="Ada Lovelace" /></label>
+                    <label class="g-field"><span class="g-label">{t.contactEMail} · focus</span><input id="kf1b" class="g-input is-focus" value="ada@example.com" /></label>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Hairline</b><span>Just a baseline; on focus an emerald line grows from the left. Most editorial.</span></figcaption>
+                <div class="k-stage k-stage-panel g-glass k-fieldset">
+                    <label class="k-line"><span class="g-label">{t.contactName}</span><input id="kf2a" placeholder="Ada Lovelace" /><i aria-hidden="true" /></label>
+                    <label class="k-line is-focus"><span class="g-label">{t.contactEMail} · focus</span><input id="kf2b" value="ada@example.com" /><i aria-hidden="true" /></label>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Floating label</b><span>Label sits inside the field and floats up on focus or when filled. Compact.</span></figcaption>
+                <div class="k-stage k-stage-panel g-glass k-fieldset">
+                    <label class="k-float"><input id="kf3a" placeholder=" " /><span>{t.contactName}</span></label>
+                    <label class="k-float"><input id="kf3b" class="is-focus" value="ada@example.com" placeholder=" " /><span>{t.contactEMail}</span></label>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 06 SELECTION -->
+    <section id="select" class="g-wrap k-sec" aria-labelledby="k-select">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(6)}</span></span><h2 id="k-select" class="g-display">Selection</h2></div>
+        <div class="k-grid k-grid-3">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Pill chips</b><span>Category filters as capsules; active is solid emerald.</span></figcaption>
+                <div class="k-stage k-row k-stage-panel g-glass">
+                    <span class="g-chip is-active">All</span><span class="g-chip">Web</span><span class="g-chip">Design</span><span class="g-chip">Podcast</span>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Sliding segment</b><span>A glass thumb glides between options with spring easing. Click it.</span></figcaption>
+                <div class="k-stage k-stage-panel g-glass">
+                    <div class="k-seg" role="tablist" aria-label="View" data-seg>
+                        <span class="k-seg-thumb" aria-hidden="true"></span>
+                        <button role="tab" aria-selected="true" type="button">Grid</button>
+                        <button role="tab" aria-selected="false" type="button" tabindex="-1">List</button>
+                        <button role="tab" aria-selected="false" type="button" tabindex="-1">Archive</button>
+                    </div>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Tile chips</b><span>Square chips with a ramp tile marker; the active chip's tile fills the chip.</span></figcaption>
+                <div class="k-stage k-row k-stage-panel g-glass">
+                    <span class="k-tchip is-active"><i class="s3" />All</span><span class="k-tchip"><i class="s1" />Web</span><span class="k-tchip"><i class="s4" />Design</span><span class="k-tchip"><i class="s2" />Podcast</span>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 07 FEEDBACK -->
+    <section id="feedback" class="g-wrap k-sec" aria-labelledby="k-feedback">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(7)}</span></span><h2 id="k-feedback" class="g-display">Feedback</h2></div>
+        <div class="k-grid k-grid-3">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Inline banner</b><span>Tinted emerald strip under the form.</span></figcaption>
+                <div class="k-stage k-stage-panel g-glass"><div class="g-banner" role="status"><Fragment set:html={check} /><span>{t.contactSuccess}</span></div></div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Glass toast</b><span>Floating glass toast with a mosaic icon and an action; slides in from the bottom.</span></figcaption>
+                <div class="k-stage">
+                    <div class="k-toast g-glass" role="status">
+                        <span class="k-face k-face-sm" aria-hidden="true">{grid(3, 3).map((c) => <i class={c} />)}</span>
+                        <span><b>Message sent</b><small class="g-muted">I'll reply within two days.</small></span>
+                        <button class="g-btn g-btn-ghost" type="button">Undo</button>
+                    </div>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Ramp edge</b><span>A vertical strip of ramp tiles marks the status; reads as part of the mosaic.</span></figcaption>
+                <div class="k-stage k-stage-panel g-glass">
+                    <div class="k-edge" role="status">
+                        <span class="k-edge-tiles" aria-hidden="true">{ramp(6).map((c) => <i class={c} />)}</span>
+                        <span><b>{t.contactSuccess}</b><small class="g-muted">Sent to fabio@fabio.sh at 18:04.</small></span>
+                    </div>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 08 FOOTER -->
+    <section id="footer" class="g-wrap k-sec" aria-labelledby="k-footer">
+        <div class="g-head"><span class="kicker"><GlassMini /><span class="g-label">{idx(8)}</span></span><h2 id="k-footer" class="g-display">Footer</h2></div>
+        <div class="k-grid k-grid-1">
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V1 · Glass slab</b><span>One glass panel with the big wordmark; what the option pages use.</span></figcaption>
+                <div class="k-foot1 g-glass">
+                    <div class="g-footmark g-display k-footmark" aria-hidden="true">fabio<span class="dot"></span>sh</div>
+                    <div class="k-foot-row"><span>fabio@fabio.sh</span><span class="k-foot-links"><a>Mediakit</a><a>llms.txt</a><a>CV</a><a>Courses</a></span><span class="g-chip">Green hosting ✓</span></div>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V2 · Mosaic band</b><span>A full-width band of glossy tiles (the old sunset stripe, reborn) with a slim glass row floating over its top edge.</span></figcaption>
+                <div class="k-foot2">
+                    <span class="k-band" aria-hidden="true">{grid(36, 3).map((c) => <i class={c} />)}</span>
+                    <div class="k-foot2-bar g-glass"><span class="g-brand"><GlassMini /><span>fabio.sh</span></span><span class="k-foot-links"><a>Mediakit</a><a>llms.txt</a><a>CV</a><a>Courses</a></span><span>fabio@fabio.sh</span></div>
+                </div>
+            </figure>
+            <figure class="k-spec">
+                <figcaption class="k-cap"><b>V3 · Open columns</b><span>No panel: a small tile wordmark and link columns sit directly on the world, separated by a hairline.</span></figcaption>
+                <div class="k-foot3 g-onworld">
+                    <span class="k-face k-face-word" aria-hidden="true">{grid(8, 2).map((c) => <i class={c} />)}</span>
+                    <div><span class="g-label">Contact</span><span>fabio@fabio.sh</span><span>mu.social · Bluesky</span></div>
+                    <div><span class="g-label">Site</span><span>Mediakit</span><span>llms.txt</span><span>CV · Courses</span></div>
+                    <div><span class="g-label">Hosting</span><span>Green hosting ✓</span><span>Vienna, AT</span></div>
+                </div>
+            </figure>
+        </div>
+    </section>
+</main>
+
+<nav class="g-switcher" aria-label="Design options">
+    <a href="/mediakit/designs/glass">All</a>
+    <a href={`/mediakit/designs/glass-${option}`}>Page</a>
+    <a href="/mediakit/designs/glass-b-kit" aria-current={option === "b" ? "page" : undefined}>B kit</a>
+    <a href="/mediakit/designs/glass-c-kit" aria-current={option === "c" ? "page" : undefined}>C kit</a>
+</nav>
+
+<script>
+    // sliding segmented control
+    document.querySelectorAll<HTMLElement>("[data-seg]").forEach((seg) => {
+        const thumb = seg.querySelector<HTMLElement>(".k-seg-thumb");
+        const tabs = [...seg.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+        const place = (tab: HTMLButtonElement) => {
+            if (!thumb) return;
+            thumb.style.width = `${tab.offsetWidth}px`;
+            thumb.style.transform = `translateX(${tab.offsetLeft - 4}px)`;
+        };
+        const select = (tab: HTMLButtonElement, focus = true) => {
+            tabs.forEach((x) => {
+                x.setAttribute("aria-selected", String(x === tab));
+                x.tabIndex = x === tab ? 0 : -1;
+            });
+            place(tab);
+            if (focus) tab.focus();
+        };
+        tabs.forEach((tab, i) => {
+            tab.addEventListener("click", () => select(tab));
+            tab.addEventListener("keydown", (e) => {
+                if (e.key === "ArrowRight") select(tabs[(i + 1) % tabs.length]);
+                if (e.key === "ArrowLeft") select(tabs[(i - 1 + tabs.length) % tabs.length]);
+            });
+        });
+        const init = () => select(tabs.find((x) => x.getAttribute("aria-selected") === "true") ?? tabs[0], false);
+        document.fonts?.ready.then(init);
+        init();
+        addEventListener("resize", init);
+    });
+
+    // pointer highlight on kit glass (same as the option pages)
+    if (matchMedia("(hover: hover) and (pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.querySelectorAll<HTMLElement>(".g-spec").forEach((el) => {
+            el.addEventListener("pointermove", (e) => {
+                const r = el.getBoundingClientRect();
+                el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+                el.style.setProperty("--my", `${e.clientY - r.top}px`);
+            });
+        });
+    }
+</script>

@@ -1,0 +1,200 @@
+---
+import AdminLayout from "../../components/AdminLayout.astro";
+import { credentialCounts, listPasskeys } from "../../lib/admin-auth";
+
+// Sign-in settings: list, add, remove and reset passkeys. The middleware
+// keeps this page (and /api/admin/**) behind a valid admin session.
+const passkeys = listPasskeys();
+const { passwords } = credentialCounts();
+const hasPassword = passwords > 0;
+// Removing a passkey must leave at least one way in (see removePasskey).
+const canRemove = passkeys.length + passwords > 1;
+
+const ok = Astro.url.searchParams.get("ok");
+const error = Astro.url.searchParams.get("error");
+const removedCount = Number(Astro.url.searchParams.get("n") ?? 0);
+
+const okMessages: Record<string, string> = {
+    removed: "Passkey removed.",
+    reset: `All passkeys reset (${removedCount} removed). Register a new one below.`,
+    added: "New passkey registered.",
+};
+const errorMessages: Record<string, string> = {
+    last: "That is your last way to sign in. Add another passkey or set a password first.",
+    notfound: "That passkey no longer exists.",
+    password: "Wrong password. Nothing was changed.",
+    nopassword: "Set a password first, so you keep a way to sign in after the reset.",
+    ratelimit: "Too many attempts. Try again in 15 minutes.",
+    form: "The form could not be read. Please try again.",
+};
+
+const dateFmt = (iso: string) => {
+    const d = new Date(iso.includes("T") ? iso : `${iso.replace(" ", "T")}Z`);
+    return Number.isNaN(d.getTime())
+        ? iso
+        : d.toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Vienna" });
+};
+const shortId = (id: string) => (id.length > 14 ? `${id.slice(0, 6)}…${id.slice(-6)}` : id);
+const deviceLabel = (t: string | null) =>
+    t === "multiDevice" ? "Synced passkey" : t === "singleDevice" ? "Hardware key" : "Passkey";
+---
+
+<AdminLayout title="Settings">
+    <h1 class="h-display text-2xl font-semibold text-gray-50 mb-2">Settings</h1>
+    <p class="text-sm text-muted2 mb-8">How you sign in to the admin.</p>
+
+    {ok && okMessages[ok] && (
+        <div role="status" class="banner mb-6" data-settings-ok={ok}>
+            <span class="dot" />
+            {okMessages[ok]}
+        </div>
+    )}
+    {error && (
+        <div role="alert" class="banner mb-6" data-settings-error={error}>
+            <span class="dot" />
+            {errorMessages[error] ?? "Something went wrong."}
+        </div>
+    )}
+
+    <section class="card p-6 mb-8" aria-labelledby="passkeys-heading">
+        <div class="flex items-center justify-between gap-4 flex-wrap mb-4">
+            <h2 id="passkeys-heading" class="h-display text-lg mb-0">Passkeys</h2>
+            <button id="add-passkey" type="button" class="btn btn-solid">Register new passkey</button>
+        </div>
+        <p id="add-passkey-status" class="text-xs text-muted2 min-h-5" aria-live="polite"></p>
+
+        {
+            passkeys.length === 0 ? (
+                <p class="text-sm text-muted2">No passkeys registered. You sign in with your password.</p>
+            ) : (
+                <ul class="list-none m-0 p-0" data-passkey-list>
+                    {passkeys.map((pk) => (
+                        <li class="flex items-center justify-between gap-4 flex-wrap py-3 border-t border-divider" data-passkey={pk.id}>
+                            <div class="min-w-0">
+                                <div class="text-sm text-ink">{deviceLabel(pk.deviceType)}</div>
+                                <div class="text-xs text-muted2">
+                                    Added {dateFmt(pk.createdAt)}
+                                    {pk.backedUp && " · backed up"}
+                                    {pk.transports.length > 0 && ` · ${pk.transports.join(", ")}`}
+                                </div>
+                                <div class="text-xs text-muted3 font-mono wrap-break-word" title={pk.id}>{shortId(pk.id)}</div>
+                            </div>
+                            <form
+                                method="POST"
+                                action={`/api/admin/passkeys/${encodeURIComponent(pk.id)}`}
+                                data-confirm="Remove this passkey? You will no longer be able to sign in with it."
+                            >
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button
+                                    type="submit"
+                                    class="btn"
+                                    disabled={!canRemove}
+                                    title={canRemove ? undefined : "Your last way to sign in can't be removed"}
+                                >
+                                    Remove
+                                </button>
+                            </form>
+                        </li>
+                    ))}
+                </ul>
+            )
+        }
+        {!canRemove && passkeys.length > 0 && (
+            <p class="text-xs text-muted2 mt-3">
+                This passkey is your only way to sign in, so it can't be removed. Register another passkey or{" "}
+                <a href="/admin/register">set a password</a> first.
+            </p>
+        )}
+    </section>
+
+    <section class="card p-6 mb-8" aria-labelledby="reset-heading">
+        <h2 id="reset-heading" class="h-display text-lg mb-2">Reset all passkeys</h2>
+        <p class="text-sm text-muted2 mb-4 max-w-xl">
+            Lost a device, or want to start over? This removes every registered passkey. You stay signed in, can
+            sign in with your password, and can register a new passkey right after.
+        </p>
+        {
+            hasPassword ? (
+                <form
+                    method="POST"
+                    action="/api/admin/passkeys/reset"
+                    class="flex items-end gap-3 flex-wrap"
+                    data-confirm="Remove all passkeys? This can't be undone."
+                >
+                    <label class="flex flex-col gap-1 text-xs text-muted2">
+                        Confirm with your password
+                        <input
+                            class="field"
+                            type="password"
+                            name="password"
+                            required
+                            autocomplete="current-password"
+                            maxlength="1024"
+                        />
+                    </label>
+                    <button type="submit" class="btn" disabled={passkeys.length === 0}>
+                        Reset passkeys
+                    </button>
+                </form>
+            ) : (
+                <p class="text-sm text-muted2">
+                    No password is set, so a reset would lock you out.{" "}
+                    <a href="/admin/register">Set a password</a> first, or remove single passkeys above once you have
+                    registered a replacement.
+                </p>
+            )
+        }
+    </section>
+
+    <section class="card p-6" aria-labelledby="password-heading">
+        <h2 id="password-heading" class="h-display text-lg mb-2">Password</h2>
+        <p class="text-sm text-muted2">
+            {hasPassword ? "A password is set." : "No password is set."}
+            {!hasPassword && (
+                <>
+                    {" "}
+                    <a href="/admin/register">Set one</a> as a fallback sign-in.
+                </>
+            )}
+        </p>
+    </section>
+</AdminLayout>
+
+<script>
+    // Destructive forms ask once before submitting
+    document.querySelectorAll<HTMLFormElement>("form[data-confirm]").forEach((form) => {
+        form.addEventListener("submit", (e) => {
+            if (!window.confirm(form.dataset.confirm ?? "Are you sure?")) e.preventDefault();
+        });
+    });
+
+    // Register a new passkey (same server flow as the setup page)
+    const btn = document.getElementById("add-passkey") as HTMLButtonElement | null;
+    const status = document.getElementById("add-passkey-status");
+    btn?.addEventListener("click", async () => {
+        btn.disabled = true;
+        const say = (msg: string) => {
+            if (status) status.textContent = msg;
+        };
+        try {
+            say("Requesting options…");
+            const optRes = await fetch("/api/auth/register-start", { method: "POST" });
+            if (!optRes.ok) throw new Error((await optRes.json().catch(() => null))?.error ?? "Could not start");
+            const options = await optRes.json();
+            say("Waiting for your passkey…");
+            const { startRegistration } = await import("@simplewebauthn/browser");
+            const attResp = await startRegistration({ optionsJSON: options });
+            say("Verifying…");
+            const finRes = await fetch("/api/auth/register-finish", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(attResp),
+            });
+            if (!finRes.ok) throw new Error((await finRes.json().catch(() => null))?.error ?? "Verification failed");
+            window.location.href = "/admin/settings?ok=added";
+        } catch (err) {
+            say(`Not registered: ${err instanceof Error ? err.message : "error"}`);
+            btn.disabled = false;
+        }
+    });
+</script>

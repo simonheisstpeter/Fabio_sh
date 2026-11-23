@@ -1,0 +1,306 @@
+/* Option B — "Tessellate", emerald edition: light-first ivory and mint
+   from the v8 palette. A crisp geometric mosaic with visible grout lines
+   and diagonal split tiles; the glass is milky ivory, the typography
+   editorial (uppercase Book, N° indexes in mono). Only the v8 emerald
+   ramp (#A7F3D0 → #047857) is used for color; neutrals are the v8 paper,
+   ink and green-black canvas. Scoped to html[data-design="glass-b"]. */
+
+html[data-design="glass-b"] {
+  --bg: #fffaeb;
+  --grout: #ece4cf;
+  --ink: #1f1f1f;
+  --ink-2: #33403a;
+  --ink-3: #5c7268;
+  --accent: #047857;
+  --accent-fill: #047857;
+  --on-accent: #f2fbf7;
+  --accent-glow: rgb(4 120 87 / 0.4);
+  --accent-halo: rgb(16 185 129 / 0.14);
+  --accent-line: rgb(4 120 87 / 0.3);
+  --counter: #10b981;
+  --on-counter: #052018;
+
+  --g-fill: rgb(255 250 235 / 0.2);
+  --g-blur: 30px;
+  --g-sat: 1.3;
+  --g-bright: 1.05;
+  --g-rim-hi: rgb(255 255 255 / 0.95);
+  --g-rim-lo: rgb(255 255 255 / 0.55);
+  --g-inner: rgb(255 255 255 / 0.4);
+  --g-sheen: rgb(255 255 255 / 0.3);
+  --g-spec: rgb(255 255 255 / 0.55);
+  --g-shadow: rgb(11 92 64 / 0.24);
+  --g-shadow-near: rgb(11 92 64 / 0.08);
+  --g-fallback: #fffdf5;
+  --g-scrim: rgb(255 250 235 / 0.88);
+  --g-tint: rgb(255 255 255 / 0.5);
+  --g-line: rgb(31 31 31 / 0.1);
+  --g-hover: rgb(31 31 31 / 0.06);
+  --g-thumb: #ffffff;
+  --g-field: rgb(255 255 255 / 0.62);
+  --g-field-focus: #ffffff;
+
+  --w0: #a7f3d0;
+  --w1: #6ee7b7;
+  --w2: #34d399;
+  --w3: #10b981;
+  --w4: #059669;
+  --w5: #047857;
+  --tc0: #fffaeb;
+  --tc1: #e9f7f0;
+  --tc2: #cbe7d8;
+  --tc3: #a7f3d0;
+  --tc4: #34d399;
+  --tc5: #059669;
+
+  --r-panel: 22px;
+  --r-card: 20px;
+  --r-field: 12px;
+  --f-display: var(--f-book);
+  --display-tt: uppercase;
+  --display-ls: -0.012em;
+  --label-f: var(--f-mono);
+  --label-tt: uppercase;
+  --label-ls: 0.16em;
+  --label-size: 0.68rem;
+}
+
+html[data-design="glass-b"][data-theme="dark"] {
+  --bg: #0a1512;
+  --grout: #060e0b;
+  --ink: #e6fbf2;
+  --ink-2: #b9d9cb;
+  --ink-3: #8fb4a2;
+  --accent: #34d399;
+  --accent-fill: #34d399;
+  --on-accent: #052018;
+  --accent-glow: rgb(52 211 153 / 0.35);
+  --accent-halo: rgb(52 211 153 / 0.14);
+  --accent-line: rgb(52 211 153 / 0.32);
+  --counter: #6ee7b7;
+  --on-counter: #052018;
+
+  --g-fill: rgb(18 33 28 / 0.2);
+  --g-blur: 30px;
+  --g-sat: 1.2;
+  --g-bright: 0.55;
+  --g-rim-hi: rgb(255 255 255 / 0.32);
+  --g-rim-lo: rgb(255 255 255 / 0.1);
+  --g-inner: rgb(255 255 255 / 0.04);
+  --g-sheen: rgb(255 255 255 / 0.05);
+  --g-spec: rgb(255 255 255 / 0.1);
+  --g-shadow: rgb(0 0 0 / 0.7);
+  --g-shadow-near: rgb(0 0 0 / 0.3);
+  --g-fallback: #12211c;
+  --g-scrim: rgb(10 21 18 / 0.72);
+  --g-tint: rgb(255 255 255 / 0.06);
+  --g-line: rgb(255 255 255 / 0.11);
+  --g-hover: rgb(255 255 255 / 0.08);
+  --g-thumb: rgb(255 255 255 / 0.14);
+  --g-field: rgb(0 0 0 / 0.22);
+  --g-field-focus: rgb(0 0 0 / 0.32);
+
+  --w0: #a7f3d0;
+  --w1: #6ee7b7;
+  --w2: #34d399;
+  --w3: #10b981;
+  --w4: #059669;
+  --w5: #047857;
+  --tc0: #0d1a16;
+  --tc1: #12211c;
+  --tc2: #17291f;
+  --tc3: #0e4a35;
+  --tc4: #065f46;
+  --tc5: #059669;
+}
+
+/* world: a real tessellation, grout = the container background */
+html[data-design="glass-b"] .g-world {
+  background: var(--grout);
+}
+html[data-design="glass-b"] .g-world .tess {
+  --cell: max(64px, calc(100vw / 20));
+  position: absolute;
+  inset: -2px;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  grid-auto-rows: var(--cell);
+  gap: 3px;
+}
+html[data-design="glass-b"] .g-world .tc {
+  position: relative;
+  border-radius: 3px;
+  background: var(--tc);
+}
+html[data-design="glass-b"] .g-world .c0 {
+  --tc: var(--tc0);
+  --tl: var(--tc0);
+}
+html[data-design="glass-b"] .g-world .c1 {
+  --tc: var(--tc1);
+  --tl: var(--tc0);
+}
+html[data-design="glass-b"] .g-world .c2 {
+  --tc: var(--tc2);
+  --tl: var(--tc1);
+}
+html[data-design="glass-b"] .g-world .c3 {
+  --tc: var(--tc3);
+  --tl: var(--tc2);
+}
+html[data-design="glass-b"] .g-world .c4 {
+  --tc: var(--tc4);
+  --tl: var(--tc3);
+}
+html[data-design="glass-b"] .g-world .c5 {
+  --tc: var(--tc5);
+  --tl: var(--tc4);
+}
+/* diagonal split tiles: the tessellation's second shape */
+html[data-design="glass-b"] .g-world .sp1 {
+  background: linear-gradient(135deg, var(--tc) 49.5%, var(--grout) 49.5% 51%, var(--tl) 51%);
+}
+html[data-design="glass-b"] .g-world .sp2 {
+  background: linear-gradient(45deg, var(--tl) 49.5%, var(--grout) 49.5% 51%, var(--tc) 51%);
+}
+/* a few tiles breathe: a pearl wash fades in and out (opacity only) */
+html[data-design="glass-b"] .g-world .br::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--tc0);
+  opacity: 0;
+  animation: gb-breathe 11s ease-in-out var(--delay) infinite;
+}
+@keyframes gb-breathe {
+  50% {
+    opacity: 0.75;
+  }
+}
+
+/* glass: milky body + faint grout echo on the panel edge */
+html[data-design="glass-b"] .g-glass {
+  box-shadow:
+    inset 0 1px 0 0 var(--g-rim-hi),
+    inset 0 -1px 0 0 var(--g-rim-lo),
+    inset 0 0 0 1px var(--g-line),
+    inset 0 0 40px 0 var(--g-inner),
+    0 1px 3px var(--g-shadow-near),
+    0 24px 60px -30px var(--g-shadow);
+}
+
+/* editorial type */
+html[data-design="glass-b"] .g-display {
+  line-height: 0.95;
+}
+html[data-design="glass-b"] .g-head h2 {
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+}
+html[data-design="glass-b"] .g-head {
+  border-top: 1px solid var(--g-line);
+  padding-top: 18px;
+}
+html[data-design="glass-b"] .g-panel > .g-head {
+  border-top: 0;
+  padding-top: 0;
+}
+html[data-design="glass-b"] .g-role {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+}
+html[data-design="glass-b"] .g-card-title {
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  font-size: 1.15rem;
+}
+html[data-design="glass-b"] .g-btn {
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+html[data-design="glass-b"] .g-chip {
+  border-radius: 8px;
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+html[data-design="glass-b"] .g-tabs {
+  border-radius: 12px;
+}
+html[data-design="glass-b"] .g-tabs button {
+  border-radius: 9px;
+}
+html[data-design="glass-b"] .g-meta {
+  border-radius: 10px;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+html[data-design="glass-b"] .g-footmark {
+  text-transform: uppercase;
+}
+
+/* wordmark: crisp square tiles, wider grout, subtle gloss */
+html[data-design="glass-b"] .g-word {
+  --tile-r: 0.12;
+  --gap: max(2px, calc(var(--tile) * 0.14));
+  --tile-gloss: linear-gradient(160deg, rgb(255 255 255 / 0.35), rgb(255 255 255 / 0) 40%);
+  --tile-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.1), 0 1px 0 rgb(255 255 255 / 0.6);
+}
+html[data-design="glass-b"][data-theme="dark"] .g-word {
+  --tile-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.25);
+}
+html[data-design="glass-b"] .g-mini {
+  --mini-r: 1px;
+  --mini-gap: 2px;
+}
+
+/* hero: the wordmark sits on one large milky plate over the tessellation
+   (B's single focal surface; A and C leave the hero open on the world) */
+html[data-design="glass-b"] .g-hero-plate {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  padding: clamp(24px, 4.5vw, 64px);
+  border-radius: var(--r-panel);
+  background: linear-gradient(180deg, var(--g-sheen) 0%, transparent 42%), var(--g-fill);
+  -webkit-backdrop-filter: blur(var(--g-blur)) saturate(var(--g-sat)) brightness(var(--g-bright));
+  backdrop-filter: blur(var(--g-blur)) saturate(var(--g-sat)) brightness(var(--g-bright));
+  box-shadow:
+    inset 0 1px 0 0 var(--g-rim-hi),
+    inset 0 -1px 0 0 var(--g-rim-lo),
+    inset 0 0 0 1px var(--g-line),
+    inset 0 0 60px 0 var(--g-inner),
+    0 1px 3px var(--g-shadow-near),
+    0 40px 80px -40px var(--g-shadow);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html[data-design="glass-b"] .g-hero-plate {
+    background: var(--g-fallback);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html[data-design="glass-b"] .g-hero-plate {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--g-fallback);
+  }
+}
+html[data-design="glass-b"][data-transparency="off"] .g-hero-plate {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--g-fallback);
+}
+html[data-design="glass-b"] .g-hero-plate .g-meta {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+/* inside the plate the wordmark sizes against the plate padding too
+   (31 tiles + 30 gaps of max(2px, 0.14 tile)) */
+html[data-design="glass-b"] .g-hero-plate .g-word {
+  --word-w: calc(100vw - 2 * var(--gutter) - 2 * clamp(24px, 4.5vw, 64px));
+  --tile: clamp(5px, min((var(--word-w) - 62px) / 31, var(--word-w) / 35.4), 30px);
+}

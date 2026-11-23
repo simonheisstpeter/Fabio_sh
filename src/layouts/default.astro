@@ -7,7 +7,9 @@ import Footer from "../components/Footer.astro";
 import Loader from "../components/Loader.astro";
 import SkipLink from "../components/SkipLink.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
+import GlassWorld from "../components/GlassWorld.astro";
 import "../styles/globals.css";
+import "../styles/site-glass.css";
 
 interface Props {
     title?: string;
@@ -68,7 +70,7 @@ const NavLinks = [
 ---
 
 <!doctype html>
-<html lang={locale} class="scroll-smooth">
+<html lang={locale} class="scroll-smooth" data-design="site">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -160,8 +162,9 @@ const NavLinks = [
         class="cursor-fabiosh min-h-screen bg-canvas text-fg font-andesNeueLight relative"
     >
         <SkipLink />
-        <!-- Viewport frame: thick ink poster border around the whole page -->
-        <div class="page-frame" aria-hidden="true"></div>
+        <!-- v9 world: fixed glowing tile grid behind every public page;
+             persisted across view transitions so it never re-renders -->
+        <div transition:persist="site-world"><GlassWorld variant="c" /></div>
         <!-- Reading progress: thin accent line at the very top -->
         <div class="scroll-progress" aria-hidden="true"></div>
         <a href="#" id="top" class="sr-only" tabindex="-1" aria-hidden="true"
@@ -171,7 +174,7 @@ const NavLinks = [
         <!-- Mobile nav. z-50 + opaque bg: sits above the page-frame (z-40) so
              the frame's top rule never crosses the nav items -->
         <nav
-            class="fixed top-0 z-50 w-full bg-paper border-b-2 border-ink md:hidden"
+            class="site-mnav fixed top-0 z-50 w-full md:hidden"
             aria-label={t.menuHome}
         >
             <details id="mobile-menu" class="group">
@@ -271,7 +274,7 @@ const NavLinks = [
 
             <!-- Desktop nav. z-50 + opaque bg: sits above the page-frame (z-40)
                  so the frame's top rule never crosses the nav items -->
-            <header class="hidden md:block sticky top-0 z-50 glass border-b-2 border-ink">
+            <header class="site-nav hidden md:block">
                 <nav
                     class="flex items-center justify-between px-10 py-6"
                     aria-label="Main navigation"
@@ -344,12 +347,14 @@ const NavLinks = [
                 </nav>
             </header>
 
-            <main id="main-content" class="font-book" transition:name="main-content">
+            <!-- no transition:name here: an element with a view-transition name
+                 is a backdrop root, which would stop every glass surface inside
+                 <main> from blurring the fixed world behind the page -->
+            <main id="main-content" class="font-book">
                 <slot />
             </main>
 
             <ScrollToTop label={t.scrollTop} />
-            <div class="divider-tiles" aria-hidden="true"></div>
             <Footer locale={locale} t={t} />
         </div>
 
@@ -518,6 +523,8 @@ const NavLinks = [
             // alive. Skipped entirely under prefers-reduced-motion.
             function initCardPixelFields() {
                 if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+                // v9 glass cards have no pixel field
+                if (document.documentElement.dataset.design === "site") return;
                 const CELL = 18;
                 const COLORS = ["#10B981", "#34D399", "#6EE7B7", "#A7F3D0", "#047857"];
                 document.querySelectorAll<HTMLElement>(".card").forEach((card) => {

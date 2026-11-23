@@ -137,3 +137,72 @@ export function consumeChallenge(cookies: AstroCookies, purpose: ChallengePurpos
 
   return row?.challenge ?? null;
 }
+
+// ── Passkey management (admin settings) ─────────────────────────────────────
+// Removing credentials must never leave the admin with nothing to sign in
+// with: zero credentials re-opens first-run enrolment to *anyone*
+// (canEnrolCredential). Every removal therefore keeps at least one way in.
+
+export type Passkey = {
+  id: string;
+  deviceType: string | null;
+  backedUp: boolean;
+  transports: string[];
+  createdAt: string;
+};
+
+export function listPasskeys(): Passkey[] {
+  const rows = getDb()
+    .prepare(
+      `SELECT credential_id, device_type, backed_up, transports, created_at
+       FROM webauthn_credentials ORDER BY created_at, credential_id`,
+    )
+    .all() as {
+    credential_id: string;
+    device_type: string | null;
+    backed_up: number;
+    transports: string | null;
+    created_at: string;
+  }[];
+  return rows.map((r) => {
+    let transports: string[] = [];
+    try {
+      const parsed = JSON.parse(r.transports ?? "[]");
+      if (Array.isArray(parsed)) transports = parsed.filter((t) => typeof t === "string");
+    } catch {
+      transports = [];
+    }
+    return {
+      id: r.credential_id,
+      deviceType: r.device_type,
+      backedUp: r.backed_up === 1,
+      transports,
+      createdAt: r.created_at,
+    };
+  });
+}
+
+export type RemovePasskeyResult = "removed" | "not-found" | "last-credential";
+
+/** Removes one passkey, unless it is the last credential of any kind. */
+export function removePasskey(id: string): RemovePasskeyResult {
+  const db = getDb();
+  const exists = db.prepare("SELECT 1 FROM webauthn_credentials WHERE credential_id = ?").get(id);
+  if (!exists) return "not-found";
+  const { passkeys, passwords } = credentialCounts();
+  if (passkeys - 1 + passwords < 1) return "last-credential";
+  db.prepare("DELETE FROM webauthn_credentials WHERE credential_id = ?").run(id);
+  return "removed";
+}
+
+export type ResetPasskeysResult = { status: "reset"; removed: number } | { status: "no-password" };
+
+/**
+ * Removes every passkey (lost or replaced devices). Only allowed while a
+ * password exists, so the admin keeps a way in and enrolment stays closed.
+ */
+export function resetPasskeys(): ResetPasskeysResult {
+  if (credentialCounts().passwords < 1) return { status: "no-password" };
+  const { changes } = getDb().prepare("DELETE FROM webauthn_credentials").run();
+  return { status: "reset", removed: Number(changes) };
+}

@@ -12,23 +12,21 @@ const t = getTranslations(locale);
 const designsUrl = getRelativeLocaleUrl(locale, '/mediakit/designs/cards');
 const designsContactUrl = getRelativeLocaleUrl(locale, '/mediakit/designs/contact');
 
-// Keep in sync with the palette tokens in src/styles/globals.css.
+// Keep in sync with the v9 palette tokens in src/styles/site-glass.css.
 const colors = [
-  { name: 'Ink',     hex: '#1f1f1f', class: 'bg-ink border-2 border-edge' },
-  { name: 'Paper',   hex: '#fffaeb', class: 'bg-paper border-2 border-edge' },
-  { name: 'Accent',  hex: '#047857', class: 'bg-accent border-2 border-edge' },
-  { name: 'Emerald-500', hex: '#10b981', class: 'border-2 border-edge', style: 'background:#10b981' },
-  { name: 'Surface', hex: '#e9f7f0', class: 'bg-surface border-2 border-edge' },
-  { name: 'Muted',   hex: '#5c7268', class: 'bg-ink-soft border-2 border-edge' },
-  { name: 'Block',   hex: 'var(--grad-block)', class: 'border-2 border-edge', style: 'background:linear-gradient(90deg,#a7f3d0,#6ee7b7,#34d399,#10b981,#059669,#047857)' },
+  { name: 'Canvas',  hex: '#e9f7f0', class: 'swatch', style: 'background:#e9f7f0' },
+  { name: 'Ink',     hex: '#0b1a14', class: 'swatch', style: 'background:#0b1a14' },
+  { name: 'Accent',  hex: '#047857', class: 'swatch', style: 'background:#047857' },
+  { name: 'Muted',   hex: '#33473e', class: 'swatch', style: 'background:#33473e' },
+  { name: 'Ramp',    hex: '#a7f3d0 → #047857', class: 'swatch', style: 'background:linear-gradient(90deg,#a7f3d0,#6ee7b7,#34d399,#10b981,#059669,#047857)' },
+  { name: 'Emerald-500', hex: '#10b981', class: 'swatch', style: 'background:#10b981' },
 ];
-// Dark theme tokens — keep in sync with [data-theme="dark"] in globals.css
+
 const colorsDark = [
-  { name: 'Paper',   hex: '#0a1512', class: 'border-2 border-edge', style: 'background:#0a1512' },
-  { name: 'Ink',     hex: '#e6fbf2', class: 'border-2 border-edge', style: 'background:#e6fbf2' },
-  { name: 'Accent',  hex: '#34d399', class: 'border-2 border-edge', style: 'background:#34d399' },
-  { name: 'Surface', hex: '#12211c', class: 'border-2 border-edge', style: 'background:#12211c' },
-  { name: 'Divider', hex: '#234237', class: 'border-2 border-edge', style: 'background:#234237' },
+  { name: 'Canvas',  hex: '#050b09', class: 'swatch', style: 'background:#050b09' },
+  { name: 'Tile',    hex: '#0a1512', class: 'swatch', style: 'background:#0a1512' },
+  { name: 'Ink',     hex: '#e6fbf2', class: 'swatch', style: 'background:#e6fbf2' },
+  { name: 'Accent',  hex: '#34d399', class: 'swatch', style: 'background:#34d399' },
 ];
 ---
 
@@ -36,7 +34,7 @@ const colorsDark = [
   title={`${t.mediakitTitle} – fabio.sh`}
   description="Brand guidelines and media kit for fabio.sh"
 >
-  <div class="container mx-auto pt-24 md:pt-32 font-andesNeueLight px-6 md:px-12 pb-24">
+  <div class="container mx-auto pt-24 md:pt-32 font-andesNeueLight px-6 md:px-12 pb-24 page-sheet">
     <MosaicHead />
     <h1 class="h-display page-title text-3xl md:text-5xl mb-12 text-fg animate-fadeIn_2000">
       {t.mediakitTitle}
@@ -91,13 +89,13 @@ const colorsDark = [
         {t.mediakitColors}
       </h2>
       <ul class="list-none md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 text-fg">
-        {colors.map(({ name, hex, class: cls }) => (
+        {colors.map(({ name, hex, class: cls, style }) => (
           <li>
             <button
               class="copy-btn text-center bg-transparent border-0 cursor-pointer group p-0"
               data-copy={hex}
             >
-              <div class={`h-20 w-20 mx-auto ${cls} mb-4 transition-transform duration-200 group-hover:scale-105`}></div>
+              <div class={`h-20 w-20 mx-auto ${cls} mb-4 transition-transform duration-200 group-hover:scale-105`} style={style}></div>
               <span class="block text-sm">{name}</span>
               <span class="block text-xs text-ink font-mono mt-1">{hex}</span>
             </button>

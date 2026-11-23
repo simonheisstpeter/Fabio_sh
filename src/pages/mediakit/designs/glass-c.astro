@@ -1,0 +1,17 @@
+---
+// Liquid Glass × turquoise mosaic, option C: "Prism Tile". Design preview
+// only (English, noindex). All styling is scoped to
+// html[data-design="glass-c"] and imported only by this page.
+import GlassLayout from "../../../components/designs/glass/GlassLayout.astro";
+import GlassWorld from "../../../components/GlassWorld.astro";
+import GlassDemo from "../../../components/designs/glass/GlassDemo.astro";
+import { previewProjects } from "../../../components/designs/glass/projects";
+import "../../../styles/designs/glass-c.css";
+
+const projects = previewProjects();
+---
+
+<GlassLayout title="Glass C: Prism Tile – fabio.sh" design="glass-c">
+    <GlassWorld variant="c" />
+    <GlassDemo option="c" projects={projects} numbering="slash" />
+</GlassLayout>
