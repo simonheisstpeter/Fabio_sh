@@ -1,19 +1,20 @@
 import type { APIRoute } from "astro";
+import { rpName, rpId } from "../../../lib/webauthn-config";
 import {
   generateRegistrationOptions,
   type GenerateRegistrationOptionsOpts,
 } from "@simplewebauthn/server";
 import { getDb } from "../../../lib/db";
 import { canEnrolCredential, issueChallenge } from "../../../lib/admin-auth";
-import { checkRateLimit, rateLimitKeyFor } from "../../../lib/rate-limit";
+import { checkRateLimit, clientIp, rateLimitKeyFor } from "../../../lib/rate-limit";
 import { jsonError, jsonOk, redirectGet } from "../../../lib/response";
 
 export const GET = redirectGet("/admin/register");
 
-export const POST: APIRoute = async ({ cookies, clientAddress }) => {
+export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   // Only a signed-in admin (or first-run bootstrap) may add a credential.
   if (!canEnrolCredential(cookies)) return jsonError("Unauthorized", 401);
-  if (!checkRateLimit(rateLimitKeyFor(clientAddress, "webauthn"), 30, 600).allowed) {
+  if (!checkRateLimit(rateLimitKeyFor(clientIp(request, clientAddress), "webauthn"), 30, 600).allowed) {
     return jsonError("Too many requests", 429);
   }
 
@@ -22,8 +23,8 @@ export const POST: APIRoute = async ({ cookies, clientAddress }) => {
     .all() as { credential_id: string }[];
 
   const opts: GenerateRegistrationOptionsOpts = {
-    rpName: import.meta.env.ADMIN_RP_NAME ?? "fabio.sh admin",
-    rpID: import.meta.env.ADMIN_RP_ID ?? "localhost",
+    rpName: rpName(),
+    rpID: rpId(),
     userName: "admin",
     userDisplayName: "Admin",
     attestationType: "none",

@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { rpId, rpOrigin } from "../../../lib/webauthn-config";
 import { verifyAuthenticationResponse } from "@simplewebauthn/server";
 import { getDb } from "../../../lib/db";
 import { consumeChallenge, createSession } from "../../../lib/admin-auth";
@@ -36,8 +37,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const verification = await verifyAuthenticationResponse({
       response: body as unknown as Parameters<typeof verifyAuthenticationResponse>[0]["response"],
       expectedChallenge: challenge,
-      expectedOrigin: import.meta.env.ADMIN_ORIGIN ?? "http://localhost:4321",
-      expectedRPID: import.meta.env.ADMIN_RP_ID ?? "localhost",
+      expectedOrigin: rpOrigin(),
+      expectedRPID: rpId(),
       credential: {
         id: credRow.credential_id,
         publicKey: Buffer.from(credRow.public_key, "base64url"),

@@ -1,15 +1,16 @@
 import type { APIRoute } from "astro";
+import { rpId } from "../../../lib/webauthn-config";
 import { generateAuthenticationOptions } from "@simplewebauthn/server";
 import { getDb } from "../../../lib/db";
 import { issueChallenge } from "../../../lib/admin-auth";
-import { checkRateLimit, rateLimitKeyFor } from "../../../lib/rate-limit";
+import { checkRateLimit, clientIp, rateLimitKeyFor } from "../../../lib/rate-limit";
 import { jsonError, jsonOk, redirectGet } from "../../../lib/response";
 
 export const GET = redirectGet("/admin/login");
 
-export const POST: APIRoute = async ({ cookies, clientAddress }) => {
+export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   // Also bounds how many challenge rows an anonymous caller can create.
-  if (!checkRateLimit(rateLimitKeyFor(clientAddress, "webauthn"), 30, 600).allowed) {
+  if (!checkRateLimit(rateLimitKeyFor(clientIp(request, clientAddress), "webauthn"), 30, 600).allowed) {
     return jsonError("Too many requests", 429);
   }
 
@@ -21,7 +22,7 @@ export const POST: APIRoute = async ({ cookies, clientAddress }) => {
   // Omit allowCredentials so the browser surfaces all discoverable passkeys for
   // this rpID. The server verifies the credential is authorized in login-finish.
   const options = await generateAuthenticationOptions({
-    rpID: import.meta.env.ADMIN_RP_ID ?? "localhost",
+    rpID: rpId(),
     userVerification: "required",
   });
 

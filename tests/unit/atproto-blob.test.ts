@@ -63,7 +63,7 @@ describe("fetchBlob", () => {
     expect((await fetchBlob(CID))?.contentType).toBe("video/mp4");
   });
 
-  it.each(["text/html", "application/json", "application/octet-stream"])(
+  it.each(["text/html", "application/json", "application/octet-stream", "image/svg+xml", "IMAGE/SVG+XML; charset=utf-8"])(
     "refuses non-media content (%s)",
     async (type) => {
       stubFetch(new Response("<script>", { headers: { "content-type": type } }));

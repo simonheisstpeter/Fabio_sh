@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { verifyPassword, DUMMY_HASH } from "../../../lib/password";
 import { getDb } from "../../../lib/db";
 import { createSession } from "../../../lib/admin-auth";
-import { checkRateLimit, rateLimitKeyFor, resetRateLimit } from "../../../lib/rate-limit";
+import { checkRateLimit, clientIp, rateLimitKeyFor, resetRateLimit } from "../../../lib/rate-limit";
 import { jsonError, jsonOk, redirectGet } from "../../../lib/response";
 
 const WINDOW_SECONDS = 15 * 60;
@@ -25,7 +25,7 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   if (ts && Date.now() - ts < 1000) return new Response(null, { status: 200 });
 
   // Every attempt counts (one atomic UPSERT); a successful login clears it.
-  const limitKey = rateLimitKeyFor(clientAddress, "login");
+  const limitKey = rateLimitKeyFor(clientIp(request, clientAddress), "login");
   if (!checkRateLimit(limitKey, MAX_ATTEMPTS, WINDOW_SECONDS).allowed) {
     return jsonError("Too many attempts. Try again later.", 429);
   }

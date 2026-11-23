@@ -160,11 +160,19 @@ describe("public page caching", () => {
     },
   );
 
+  it.each(["/cv", "/admin/login", "/does-not-exist"])(
+    "%s tells shared caches (the CDN) not to store it",
+    async (path) => {
+      const res = await anon.get(path);
+      expect(res.headers.get("cache-control")).toBe("private, no-store");
+    },
+  );
+
   it("never caches an authenticated page publicly", async () => {
     const admin = await signedInClient(s);
     for (const path of ["/admin", "/admin/projects", "/cv"]) {
       const res = await admin.get(path);
-      expect(res.headers.get("cache-control") ?? "", path).not.toContain("public");
+      expect(res.headers.get("cache-control") ?? "", path).toBe("private, no-store");
     }
   });
 });

@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCvSecretByValue, recordCvAccess, CV_COOKIE } from "../../../lib/db";
 import { secureCookie } from "../../../lib/admin-auth";
-import { checkRateLimit, rateLimitKeyFor } from "../../../lib/rate-limit";
+import { checkRateLimit, clientIp, rateLimitKeyFor } from "../../../lib/rate-limit";
 
 const RATE_LIMIT = 10; // max guesses
 const RATE_WINDOW = 3600; // per hour (seconds)
@@ -9,7 +9,7 @@ const DENIED = "/cv?error=1";
 
 export const POST: APIRoute = async ({ request, cookies, redirect, clientAddress }) => {
   // Own namespace keeps guess attempts off the contact-form counter.
-  if (!checkRateLimit(rateLimitKeyFor(clientAddress, "cv"), RATE_LIMIT, RATE_WINDOW).allowed) {
+  if (!checkRateLimit(rateLimitKeyFor(clientIp(request, clientAddress), "cv"), RATE_LIMIT, RATE_WINDOW).allowed) {
     return redirect(DENIED);
   }
 

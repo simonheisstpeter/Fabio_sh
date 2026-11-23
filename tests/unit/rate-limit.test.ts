@@ -100,6 +100,36 @@ describe("rateLimitKeyFor", () => {
   });
 });
 
+describe("clientIp", () => {
+  const req = (headers: Record<string, string>) => new Request("http://x/", { headers });
+  const withHeader = async (value: string | undefined) => {
+    if (value === undefined) delete process.env.CLIENT_IP_HEADER;
+    else process.env.CLIENT_IP_HEADER = value;
+    const { rate } = freshEnv({ IP_HASH_SECRET: "s" });
+    return (await rate()).clientIp;
+  };
+  afterEach(() => {
+    delete process.env.CLIENT_IP_HEADER;
+  });
+
+  it("uses Astro's address when no header is configured", async () => {
+    const clientIp = await withHeader(undefined);
+    expect(clientIp(req({ "x-real-ip": "6.6.6.6" }), "1.2.3.4")).toBe("1.2.3.4");
+  });
+
+  it("uses the configured header, right-most hop (what the edge appended)", async () => {
+    const clientIp = await withHeader("X-Forwarded-For");
+    // the visitor forged the first hop; the CDN appended the real one
+    expect(clientIp(req({ "x-forwarded-for": "6.6.6.6, 203.0.113.9" }), "10.0.0.1")).toBe("203.0.113.9");
+  });
+
+  it("falls back to Astro's address when the configured header is missing", async () => {
+    const clientIp = await withHeader("x-real-ip");
+    expect(clientIp(req({}), "10.0.0.1")).toBe("10.0.0.1");
+    expect(clientIp(req({ "x-real-ip": "203.0.113.9" }), "10.0.0.1")).toBe("203.0.113.9");
+  });
+});
+
 describe("hashIp", () => {
   it("is keyed: the same address hashes differently under a different secret", async () => {
     const a = await freshEnv({ IP_HASH_SECRET: "secret-a" }).db();

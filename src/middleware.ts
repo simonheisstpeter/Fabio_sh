@@ -136,6 +136,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
     isCacheablePage(pathname)
   ) {
     headers.set("Cache-Control", PUBLIC_PAGE_CACHE);
+  } else if (!headers.has("Cache-Control") || headers.getSetCookie().length > 0) {
+    // Behind a CDN (Bunny pull zone) a response without Cache-Control is cached
+    // at the edge's discretion. Admin pages, API JSON, /cv and anything that
+    // sets a cookie must never be stored and replayed to another visitor.
+    headers.set("Cache-Control", "private, no-store");
   }
 
   return new Response(response.body, { status, headers });

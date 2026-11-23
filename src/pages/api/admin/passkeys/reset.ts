@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { getDb } from "../../../../lib/db";
 import { resetPasskeys } from "../../../../lib/admin-auth";
 import { DUMMY_HASH, verifyPassword } from "../../../../lib/password";
-import { checkRateLimit, rateLimitKeyFor, resetRateLimit } from "../../../../lib/rate-limit";
+import { checkRateLimit, clientIp, rateLimitKeyFor, resetRateLimit } from "../../../../lib/rate-limit";
 import { redirectGet, redirectTo } from "../../../../lib/response";
 
 // Session + same-origin are enforced for /api/admin/** by the middleware.
@@ -23,7 +23,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return redirectTo(`${SETTINGS}?error=form`);
   }
 
-  const limitKey = rateLimitKeyFor(clientAddress, "reauth");
+  const limitKey = rateLimitKeyFor(clientIp(request, clientAddress), "reauth");
   if (!checkRateLimit(limitKey, MAX_ATTEMPTS, WINDOW_SECONDS).allowed) {
     return redirectTo(`${SETTINGS}?error=ratelimit`);
   }

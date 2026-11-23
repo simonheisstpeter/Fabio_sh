@@ -39,10 +39,33 @@ export function resetRateLimit(key: string): void {
 }
 
 /**
- * The one place a client identity is derived. `clientAddress` is Astro's own
- * value: the socket peer, or the first `X-Forwarded-For` hop only when the
- * request host passes `security.allowedDomains`. Reading the header ourselves
- * would let anyone pick their own bucket.
+ * The client address rate limits are keyed on.
+ *
+ * Astro's `clientAddress` is the *left-most* `X-Forwarded-For` hop once the
+ * Host passes `security.allowedDomains`. Behind a CDN that appends to the
+ * header (Bunny does), that hop is whatever the visitor sent, so anyone could
+ * pick a fresh bucket per request and brute-force the login.
+ *
+ * Set `CLIENT_IP_HEADER` to the header the edge itself writes (Bunny:
+ * `x-real-ip`). Its right-most entry is used, i.e. the value the nearest
+ * proxy appended. Only trust it when the container can't be reached around
+ * the CDN. Unset, Astro's value is used as before.
+ */
+export function clientIp(request: Request, clientAddress: string | undefined): string | undefined {
+  const header = process.env.CLIENT_IP_HEADER?.trim().toLowerCase();
+  if (header) {
+    const hops = (request.headers.get(header) ?? "")
+      .split(",")
+      .map((h) => h.trim())
+      .filter(Boolean);
+    if (hops.length > 0) return hops[hops.length - 1];
+  }
+  return clientAddress;
+}
+
+/**
+ * The one place a rate-limit key is derived. Pass `clientIp(...)`, never a
+ * header read ad hoc: that would let anyone pick their own bucket.
  */
 export function rateLimitKeyFor(clientAddress: string | undefined, namespace: string): string {
   return `${namespace}:${hashIp(clientAddress ?? "unknown")}`;

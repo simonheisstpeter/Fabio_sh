@@ -22,6 +22,14 @@ describe("dark/light theme system", () => {
     expect(html).toContain("prefers-color-scheme: dark");
   });
 
+  it("keeps the chosen theme across client-side navigations", async () => {
+    // ClientRouter swaps <html> attributes for the incoming page's, which has no
+    // data-theme; the head script copies the current theme onto it first.
+    const html = await (await anon.get("/")).text();
+    expect(html).toContain('"astro:before-swap"');
+    expect(html).toContain("e.newDocument.documentElement.dataset.theme = cur");
+  });
+
   it("renders theme toggle buttons (desktop nav + mobile menu) with a localized label", async () => {
     const html = await (await anon.get("/")).text();
     const toggles = html.match(/data-theme-toggle/g) ?? [];
