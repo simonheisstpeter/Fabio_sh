@@ -1,0 +1,48 @@
+---
+// Standalone shell for the Liquid Glass design previews. Deliberately does
+// NOT use layouts/default.astro (and so never loads globals.css): each
+// option is judged on its own tokens only. Keeps the live theme mechanism:
+// the same pre-paint script and the same "theme" localStorage key.
+import "../../../styles/designs/glass-core.css";
+
+interface Props {
+    title: string;
+    design: string;
+    description?: string;
+}
+
+const { title, design, description = "Liquid Glass × turquoise mosaic, design preview" }: Props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-design={design}>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="robots" content="noindex" />
+        <script is:inline>
+            (function () {
+                try {
+                    var t = localStorage.getItem("theme");
+                    if (t !== "dark" && t !== "light") {
+                        t = window.matchMedia("(prefers-color-scheme: dark)").matches
+                            ? "dark"
+                            : "light";
+                    }
+                    document.documentElement.dataset.theme = t;
+                } catch (e) {
+                    document.documentElement.dataset.theme = "light";
+                }
+            })();
+        </script>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="icon" href="/carp-streamer.ico" />
+        <link rel="preload" href="/fonts/AndesNeue-Black.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+        <link rel="preload" href="/fonts/AndesNeue-Book.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    </head>
+    <body>
+        <slot />
+    </body>
+</html>

@@ -1,0 +1,17 @@
+---
+// Liquid Glass × turquoise mosaic, option A: "Aqua Depth". Design preview
+// only (English, noindex). All styling is scoped to
+// html[data-design="glass-a"] and imported only by this page.
+import GlassLayout from "../../../components/designs/glass/GlassLayout.astro";
+import GlassWorld from "../../../components/designs/glass/GlassWorld.astro";
+import GlassDemo from "../../../components/designs/glass/GlassDemo.astro";
+import { previewProjects } from "../../../components/designs/glass/projects";
+import "../../../styles/designs/glass-a.css";
+
+const projects = previewProjects();
+---
+
+<GlassLayout title="Glass A: Aqua Depth – fabio.sh" design="glass-a">
+    <GlassWorld variant="a" />
+    <GlassDemo option="a" projects={projects} numbering="plain" />
+</GlassLayout>

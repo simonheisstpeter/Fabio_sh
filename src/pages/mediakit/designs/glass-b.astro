@@ -1,0 +1,17 @@
+---
+// Liquid Glass × turquoise mosaic, option B: "Tessellate". Design preview
+// only (English, noindex). All styling is scoped to
+// html[data-design="glass-b"] and imported only by this page.
+import GlassLayout from "../../../components/designs/glass/GlassLayout.astro";
+import GlassWorld from "../../../components/designs/glass/GlassWorld.astro";
+import GlassDemo from "../../../components/designs/glass/GlassDemo.astro";
+import { previewProjects } from "../../../components/designs/glass/projects";
+import "../../../styles/designs/glass-b.css";
+
+const projects = previewProjects();
+---
+
+<GlassLayout title="Glass B: Tessellate – fabio.sh" design="glass-b">
+    <GlassWorld variant="b" />
+    <GlassDemo option="b" projects={projects} numbering="no" />
+</GlassLayout>

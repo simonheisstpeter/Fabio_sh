@@ -1,0 +1,364 @@
+---
+// The shared content set every Liquid Glass option renders, so the three
+// directions are compared on identical content: nav, hero, project bento,
+// text section, contact form, component sheet, footer. All look comes from
+// the option's tokens + overrides; markup is identical across options.
+import type { Project } from "../../../lib/db";
+import { getTranslations } from "../../../i18n/index";
+import GlassMini from "./GlassMini.astro";
+import GlassWord from "./GlassWord.astro";
+
+interface Props {
+    option: "a" | "b" | "c";
+    projects: Project[];
+    /** how section indexes read: "01", "N° 01", "01 //" */
+    numbering: "plain" | "no" | "slash";
+}
+
+const { option, projects, numbering }: Props = Astro.props;
+const t = getTranslations("en");
+
+const idx = (n: number) => {
+    const p = String(n).padStart(2, "0");
+    return numbering === "no" ? `N° ${p}` : numbering === "slash" ? `${p} //` : p;
+};
+
+const desc = (p: Project) => p.description.en || p.description.de || "";
+const nav = [
+    { href: "#projects", text: t.menuProjects, current: true },
+    { href: "#about", text: t.menuAbout },
+    { href: "/social", text: t.menuSocial },
+    { href: "#contact", text: t.menuContact },
+];
+const options = [
+    { id: "a", href: "/mediakit/designs/glass-a" },
+    { id: "b", href: "/mediakit/designs/glass-b" },
+    { id: "c", href: "/mediakit/designs/glass-c" },
+];
+---
+
+<a class="sr-only" href="#main">Skip to content</a>
+
+<header class="g-nav g-glass">
+    <a class="g-brand" href="/" aria-label="fabio.sh home">
+        <GlassMini />
+        <span>fabio.sh</span>
+    </a>
+    <nav aria-label="Main">
+        <ul class="g-navlinks">
+            {nav.map((l) => <li><a href={l.href} aria-current={l.current ? "page" : undefined}>{l.text}</a></li>)}
+        </ul>
+    </nav>
+    <a class="g-locale" href="/" hreflang="de" aria-label="Sprache: Deutsch">
+        <abbr title="Deutsch">DE</abbr>
+    </a>
+    <button class="g-iconbtn" type="button" data-theme-toggle aria-label="Toggle dark mode">
+        <svg data-theme-icon="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+        <svg data-theme-icon="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+    <details class="g-menu">
+        <summary class="g-iconbtn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+        </summary>
+        <ul class="g-menu-sheet">
+            {nav.map((l) => <li><a href={l.href}>{l.text}</a></li>)}
+        </ul>
+    </details>
+</header>
+
+<main id="main" class="g-page">
+    <!-- HERO -->
+    <section class="g-hero g-wrap">
+        <div class="g-hero-plate">
+        <div class="g-meta g-rise" style="--d:60ms">
+            <span class="g-dot" aria-hidden="true"></span>
+            <span>{t.statusOnline}</span>
+            <span class="sep" aria-hidden="true"></span>
+            <span>Vienna, AT</span>
+            <span class="sep" aria-hidden="true"></span>
+            <span><span data-clock>00:00</span> CET</span>
+        </div>
+        <div class="g-hero-word">
+            <GlassWord label={t.name} word="FABIO" />
+        </div>
+        <p class="g-role g-rise" style="--d:900ms">
+            Digital media &amp; IT<span class="g-muted">: web development, design and self hosting from Vienna.</span>
+        </p>
+        <div class="g-cta g-rise" style="--d:1050ms">
+            <a href="#projects" class="g-btn g-btn-primary">{t.menuProjects}</a>
+            <a href="#contact" class="g-btn g-btn-secondary">{t.menuContact}</a>
+        </div>
+        </div>
+    </section>
+
+    <!-- 01 PROJECTS -->
+    <section id="projects" class="g-section g-wrap" aria-labelledby="h-projects">
+        <div class="g-head">
+            <span class="kicker"><GlassMini /><span class="g-label">{idx(1)}</span></span>
+            <h2 id="h-projects" class="g-display">{t.menuProjects}</h2>
+        </div>
+        <ul class="g-cards">
+            {
+                projects.map((p, i) => (
+                    <li class={i === 0 ? "is-featured" : undefined}>
+                        <article class="g-card g-glass g-spec g-lift">
+                            {p.image && (
+                                <div class="g-card-media">
+                                    <img src={p.image} alt="" width="800" height="450" loading="lazy" decoding="async" />
+                                </div>
+                            )}
+                            <div class="g-card-body">
+                                <h3 class="g-card-title">
+                                    <span class:list={["g-dot", { "is-off": !p.online }]} aria-hidden="true" />
+                                    <span>{p.title}</span>
+                                    {i === 0 && <span class="g-badge">Featured</span>}
+                                </h3>
+                                {desc(p) && <p class="g-card-desc">{desc(p)}</p>}
+                                <div class="g-card-meta">
+                                    <span class="g-flags" aria-label={p.languages.map((l) => l.lang).join(", ")}>
+                                        {p.languages.slice(0, 4).map((l) => <span aria-hidden="true">{l.flag}</span>)}
+                                    </span>
+                                    {p.categories.slice(0, 3).map((c) => <span class="g-chip">{c}</span>)}
+                                </div>
+                                {p.url && (
+                                    <a class="g-link" href={p.url} target="_blank" rel="noopener noreferrer">
+                                        {t.website}
+                                        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg>
+                                    </a>
+                                )}
+                            </div>
+                        </article>
+                    </li>
+                ))
+            }
+        </ul>
+        <div style="margin-top:28px">
+            <a href="/projects" class="g-btn g-btn-ghost g-onworld">
+                All projects
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- 02 ABOUT (text section) -->
+    <section id="about" class="g-section g-wrap" aria-labelledby="h-about">
+        <div class="g-panel g-glass g-spec">
+            <div class="g-head">
+                <span class="kicker"><GlassMini /><span class="g-label">{idx(2)}</span></span>
+                <h2 id="h-about" class="g-display">{t.aboutTitle}</h2>
+            </div>
+            <div class="g-split">
+                <p class="g-lede">{t.aboutBio}</p>
+                <div class="g-prose">
+                    <p>{t.aboutBody}</p>
+                    <p class="g-muted">{t.aboutCv}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 03 CONTACT -->
+    <section id="contact" class="g-section g-wrap" aria-labelledby="h-contact">
+        <div class="g-split g-panel g-glass">
+            <div class="g-head">
+                <span class="kicker"><GlassMini /><span class="g-label">{idx(3)}</span></span>
+                <h2 id="h-contact" class="g-display">{t.contactTitle}</h2>
+                <p class="g-muted" style="max-width:36ch">
+                    Projects, collaborations or a quick hello. Replies usually within two days.
+                </p>
+            </div>
+            <form class="g-form" data-demo-form novalidate>
+                <div class="g-form-row">
+                    <label class="g-field">
+                        <span class="g-label">{t.contactName}</span>
+                        <input class="g-input" name="name" autocomplete="name" placeholder="Ada Lovelace" />
+                    </label>
+                    <label class="g-field">
+                        <span class="g-label">{t.contactEMail}</span>
+                        <input class="g-input" type="email" name="email" autocomplete="email" placeholder="ada@example.com" />
+                    </label>
+                </div>
+                <label class="g-field">
+                    <span class="g-label">{t.contactMessage}</span>
+                    <textarea class="g-input" name="message" rows="5" placeholder="Hi Fabio,"></textarea>
+                </label>
+                <div class="g-row" style="justify-content:space-between">
+                    <span class="g-label" style="text-transform:none;letter-spacing:0">10–2000 characters</span>
+                    <button class="g-btn g-btn-primary" type="submit">{t.contactButton}</button>
+                </div>
+                <div class="g-banner" role="status" data-demo-banner>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.4 2.4L13.8 7.6"/></svg>
+                    <span>{t.contactSuccess}</span>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- 04 COMPONENT SHEET -->
+    <section id="components" class="g-section g-wrap" aria-labelledby="h-sheet">
+        <div class="g-panel g-glass">
+            <div class="g-head">
+                <span class="kicker"><GlassMini /><span class="g-label">{idx(4)}</span></span>
+                <h2 id="h-sheet" class="g-display">Components</h2>
+            </div>
+            <div class="g-sheet">
+                <div class="g-sheet-group">
+                    <span class="g-label">Buttons</span>
+                    <div class="g-row">
+                        <button class="g-btn g-btn-primary" type="button">Primary</button>
+                        <button class="g-btn g-btn-secondary" type="button">Secondary</button>
+                        <button class="g-btn g-btn-ghost" type="button">Ghost</button>
+                    </div>
+                </div>
+                <div class="g-sheet-group">
+                    <span class="g-label">Chips</span>
+                    <div class="g-row">
+                        <span class="g-chip is-active">All</span>
+                        <span class="g-chip">Web</span>
+                        <span class="g-chip">Design</span>
+                        <span class="g-chip">Self hosting</span>
+                    </div>
+                </div>
+                <div class="g-sheet-group">
+                    <span class="g-label">Tabs</span>
+                    <div class="g-tabs" role="tablist" aria-label="Project view" data-tabs>
+                        <button role="tab" aria-selected="true" type="button">Grid</button>
+                        <button role="tab" aria-selected="false" type="button" tabindex="-1">List</button>
+                        <button role="tab" aria-selected="false" type="button" tabindex="-1">Archive</button>
+                    </div>
+                </div>
+                <div class="g-sheet-group">
+                    <span class="g-label">Input · focus</span>
+                    <input class="g-input is-focus" aria-label="Search projects (focus state demo)" value="mosaic" />
+                </div>
+                <div class="g-sheet-group">
+                    <span class="g-label">Toggle</span>
+                    <label class="g-switch">
+                        <input type="checkbox" checked />
+                        <span class="track" aria-hidden="true"></span>
+                        Transparency
+                    </label>
+                </div>
+                <div class="g-sheet-group">
+                    <span class="g-label">Badge · tooltip</span>
+                    <div class="g-row" style="padding-top:34px">
+                        <span class="g-badge">New</span>
+                        <span class="g-badge g-badge-soft">Beta</span>
+                        <span class="g-tip-host" tabindex="0">
+                            <span class="g-chip"><span class="g-dot" aria-hidden="true"></span>{t.statusOnline}</span>
+                            <span class="g-tip is-shown" role="tooltip">Live and reachable</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="g-wrap">
+        <footer class="g-footer g-glass">
+            <div class="g-footmark g-display" aria-hidden="true">fabio<span class="dot"></span>sh</div>
+            <div class="g-footgrid">
+                <div>
+                    <p class="g-label">{t.contactEMail}</p>
+                    <a href="mailto:fabio@fabio.sh" data-obfuscation="0" style="text-decoration:none">fabio@fabio.sh</a>
+                </div>
+                <ul class="g-footlinks">
+                    <li><a href="/mediakit">Mediakit</a></li>
+                    <li><a href="/llms.txt">llms.txt</a></li>
+                    <li><a href="/cv">CV</a></li>
+                    <li><a href="/courses">Courses</a></li>
+                </ul>
+                <a class="g-chip" href="https://www.thegreenwebfoundation.org/green-web-check/?url=https%3A%2F%2Ffabio.sh" target="_blank" rel="noopener noreferrer" style="text-decoration:none">Green hosting ✓</a>
+            </div>
+        </footer>
+    </div>
+</main>
+
+<nav class="g-switcher" aria-label="Design options">
+    <a href="/mediakit/designs/glass">All</a>
+    {options.map((o) => <a href={o.href} aria-current={o.id === option ? "page" : undefined}>{o.id.toUpperCase()}</a>)}
+</nav>
+
+<script>
+    const root = document.documentElement;
+
+    // theme toggle: same key as the live site
+    document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        try {
+            localStorage.setItem("theme", next);
+        } catch {}
+    });
+
+    // Vienna clock
+    const clock = document.querySelector<HTMLElement>("[data-clock]");
+    const tick = () => {
+        if (clock)
+            clock.textContent = new Date().toLocaleTimeString("en-GB", {
+                timeZone: "Europe/Vienna",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+    };
+    tick();
+    setInterval(tick, 15000);
+
+    // pointer-following specular highlight on key glass surfaces
+    const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (fine && !still) {
+        document.querySelectorAll<HTMLElement>(".g-spec").forEach((el) => {
+            let raf = 0;
+            el.addEventListener("pointermove", (e) => {
+                if (raf) return;
+                raf = requestAnimationFrame(() => {
+                    raf = 0;
+                    const r = el.getBoundingClientRect();
+                    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+                    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+                });
+            });
+            el.addEventListener("pointerleave", () => {
+                el.style.removeProperty("--mx");
+                el.style.removeProperty("--my");
+            });
+        });
+    }
+
+    // tabs (roving tabindex + arrow keys)
+    document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((list) => {
+        const tabs = [...list.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+        const select = (tab: HTMLButtonElement) => {
+            tabs.forEach((x) => {
+                x.setAttribute("aria-selected", String(x === tab));
+                x.tabIndex = x === tab ? 0 : -1;
+            });
+            tab.focus();
+        };
+        tabs.forEach((tab, i) => {
+            tab.addEventListener("click", () => select(tab));
+            tab.addEventListener("keydown", (e) => {
+                if (e.key === "ArrowRight") select(tabs[(i + 1) % tabs.length]);
+                if (e.key === "ArrowLeft") select(tabs[(i - 1 + tabs.length) % tabs.length]);
+            });
+        });
+    });
+
+    // reduce transparency toggle in the sheet: flips the opaque fallback live
+    document.querySelector<HTMLInputElement>(".g-switch input")?.addEventListener("change", (e) => {
+        root.dataset.transparency = (e.target as HTMLInputElement).checked ? "on" : "off";
+    });
+
+    // demo form: never posts, just replays the success banner
+    const form = document.querySelector<HTMLFormElement>("[data-demo-form]");
+    const banner = document.querySelector<HTMLElement>("[data-demo-banner]");
+    form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        banner?.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], {
+            duration: 500,
+            easing: "cubic-bezier(.2,.8,.2,1)",
+        });
+    });
+</script>

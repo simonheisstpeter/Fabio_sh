@@ -1,0 +1,141 @@
+---
+// The mosaic "world" behind the glass. Server-rendered, deterministic
+// (seeded), CSS-animated with transform/opacity only, so the compositor
+// does the work and nothing runs on the main thread. Fixed to the viewport,
+// so every glass surface always has color to refract.
+//   a: drifting soft tiles, light through water
+//   b: a real tessellation with grout lines and diagonal split tiles
+//   c: a near-black grid where a few tiles glow
+interface Props {
+    variant: "a" | "b" | "c";
+}
+const { variant }: Props = Astro.props;
+
+function rng(seed: number) {
+    return () => {
+        seed |= 0;
+        seed = (seed + 0x6d2b79f5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
+
+// ---- A: drifting tiles --------------------------------------------------
+type Drift = { x: number; y: number; s: number; c: number; dur: number; dx: number; dy: number; rot: number; delay: number; o: number };
+const driftTiles: Drift[] = [];
+if (variant === "a") {
+    const r = rng(7);
+    // hand-placed anchors (x%, y%, size vmax, color) keep the composition
+    // intentional: heavier on the right and bottom, calmer behind text
+    const anchors: [number, number, number, number][] = [
+        [82, 10, 24, 3], [97, 40, 14, 4], [66, 64, 7, 2], [86, 70, 20, 2],
+        [62, 88, 13, 3], [4, 80, 18, 2], [24, 98, 12, 1], [-6, 22, 12, 1],
+        [44, -2, 9, 1], [74, 104, 24, 3], [40, 90, 6, 0], [93, 90, 7, 5],
+        [50, 76, 5, 1], [60, 98, 5, 0], [92, 18, 6, 0],
+    ];
+    for (const [x, y, s, c] of anchors) {
+        driftTiles.push({
+            x, y, s, c,
+            dur: 26 + r() * 22,
+            dx: (r() - 0.5) * 8,
+            dy: -3 - r() * 6,
+            rot: (r() - 0.5) * 14,
+            delay: -r() * 30,
+            o: 0.55 + r() * 0.45,
+        });
+    }
+}
+
+// ---- B: tessellation ----------------------------------------------------
+type Cell = { c: number; split: number; breathe: boolean; d: number };
+const bCols = 20;
+const bRows = 16;
+const bCells: Cell[] = [];
+if (variant === "b") {
+    const r = rng(23);
+    for (let y = 0; y < bRows; y++) {
+        for (let x = 0; x < bCols; x++) {
+            // two diagonal currents of color: top right and bottom left,
+            // pearl everywhere else so the page stays calm
+            const a = Math.max(0, 1 - Math.hypot(x - 19, (y - 1) * 1.2) / 7);
+            const b = Math.max(0, 1 - Math.hypot(x - 3, (y - 12) * 1.1) / 6.5);
+            const band = Math.max(0, 1 - Math.abs(x - y * 1.25 - 2) / 2.2) * 0.35;
+            const v = Math.max(a, b, band) + (r() - 0.5) * 0.35;
+            let c = 0;
+            if (v > 0.85) c = 5;
+            else if (v > 0.68) c = 4;
+            else if (v > 0.5) c = 3;
+            else if (v > 0.32) c = 2;
+            else if (v > 0.16) c = 1;
+            const split = c >= 2 && r() < 0.22 ? (r() < 0.5 ? 1 : 2) : 0;
+            bCells.push({ c, split, breathe: c >= 3 && r() < 0.18, d: -r() * 12 });
+        }
+    }
+}
+
+// ---- C: glowing grid ----------------------------------------------------
+const cCols = 16;
+const cRows = 13;
+const lit = new Map<number, { c: number; d: number; dur: number }>();
+if (variant === "c") {
+    const r = rng(41);
+    const spots: [number, number, number][] = [
+        [12, 1, 3], [13, 1, 2], [13, 2, 4], [11, 2, 1], [14, 3, 3],
+        [15, 5, 1], [2, 9, 3], [1, 10, 4], [3, 10, 2], [2, 11, 1],
+        [8, 10, 3], [15, 8, 0], [12, 7, 5], [6, 12, 2],
+    ];
+    for (const [x, y, c] of spots) {
+        lit.set(y * cCols + x, { c, d: -r() * 10, dur: 7 + r() * 7 });
+    }
+}
+---
+
+<div class={`g-world g-world-${variant}`} aria-hidden="true">
+    {
+        variant === "a" && (
+            <>
+                <span class="caustic caustic-1" />
+                <span class="caustic caustic-2" />
+                {driftTiles.map((t) => (
+                    <span
+                        class={`dt c${t.c}`}
+                        style={`left:${t.x}%;top:${t.y}%;--s:${t.s}vmax;--dur:${t.dur.toFixed(1)}s;--dx:${t.dx.toFixed(1)}vmax;--dy:${t.dy.toFixed(1)}vmax;--rot:${t.rot.toFixed(1)}deg;--delay:${t.delay.toFixed(1)}s;--o:${t.o.toFixed(2)}`}
+                    />
+                ))}
+            </>
+        )
+    }
+    {
+        variant === "b" && (
+            <div class="tess" style={`--cols:${bCols}`}>
+                {bCells.map((c) => (
+                    <span
+                        class={`tc c${c.c}${c.split ? ` sp${c.split}` : ""}${c.breathe ? " br" : ""}`}
+                        style={c.breathe ? `--delay:${c.d.toFixed(1)}s` : undefined}
+                    />
+                ))}
+            </div>
+        )
+    }
+    {
+        variant === "c" && (
+            <>
+                <span class="bloom" />
+                <div class="grid" style={`--cols:${cCols}`}>
+                    {Array.from({ length: cCols * cRows }, (_, i) => {
+                        const l = lit.get(i);
+                        return l ? (
+                            <span
+                                class={`gc lit c${l.c}`}
+                                style={`--delay:${l.d.toFixed(1)}s;--dur:${l.dur.toFixed(1)}s`}
+                            />
+                        ) : (
+                            <span class="gc" />
+                        );
+                    })}
+                </div>
+            </>
+        )
+    }
+</div>

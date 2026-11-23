@@ -1,0 +1,202 @@
+/* Option A — "Aqua Depth": dark-first deep teal ocean. Large soft tiles
+   drift slowly behind clear, bright-edged glass, like light through water.
+   Most Apple-like of the three. Counter accent: warm sand (caret, featured
+   badge, one drifting tile). Scoped to html[data-design="glass-a"]. */
+
+html[data-design="glass-a"] {
+  /* light (secondary) */
+  --bg: #e4f4f3;
+  --world-bg: radial-gradient(120% 90% at 75% 0%, #f4fbfb 0%, #def2f1 45%, #cde9e8 100%);
+  --ink: #04262a;
+  --ink-2: #24484c;
+  --ink-3: #557578;
+  --accent: #075f5c;
+  --accent-fill: #086864;
+  --on-accent: #ffffff;
+  --accent-glow: rgb(10 122 118 / 0.55);
+  --accent-halo: rgb(10 122 118 / 0.14);
+  --accent-line: rgb(10 122 118 / 0.3);
+  --counter: #e2ae4f;
+  --on-counter: #2b1d04;
+
+  --g-fill: rgb(255 255 255 / 0.18);
+  --g-blur: 22px;
+  --g-sat: 1.6;
+  --g-bright: 1.1;
+  --g-rim-hi: rgb(255 255 255 / 0.95);
+  --g-rim-lo: rgb(255 255 255 / 0.45);
+  --g-inner: rgb(255 255 255 / 0.28);
+  --g-sheen: rgb(255 255 255 / 0.34);
+  --g-spec: rgb(255 255 255 / 0.6);
+  --g-shadow: rgb(10 90 95 / 0.38);
+  --g-shadow-near: rgb(10 60 64 / 0.12);
+  --g-fallback: #f1fafa;
+  --g-scrim: rgb(228 244 243 / 0.7);
+  --g-tint: rgb(255 255 255 / 0.42);
+  --g-line: rgb(4 38 42 / 0.1);
+  --g-hover: rgb(4 38 42 / 0.07);
+  --g-thumb: #ffffff;
+  --g-field: rgb(255 255 255 / 0.55);
+  --g-field-focus: rgb(255 255 255 / 0.85);
+
+  --w0: #8fe0d6;
+  --w1: #5ccfc3;
+  --w2: #2fb5aa;
+  --w3: #149890;
+  --w4: #0c7b77;
+  --w5: #0a605f;
+  --tc0: #c9ecea;
+  --tc1: #a2dfdb;
+  --tc2: #74cdc6;
+  --tc3: #3fb6ac;
+  --tc4: #1f9a93;
+  --tc5: #e6b65c;
+  --caustic: rgb(255 255 255 / 0.55);
+
+  --r-panel: 32px;
+  --r-card: 28px;
+  --r-field: 18px;
+  --f-display: var(--f-book);
+  --display-tt: none;
+  --display-ls: -0.035em;
+  --label-f: var(--f-book);
+  --label-tt: uppercase;
+  --label-ls: 0.12em;
+  --label-size: 0.72rem;
+}
+
+html[data-design="glass-a"][data-theme="dark"] {
+  --bg: #031417;
+  --world-bg: radial-gradient(120% 90% at 75% 0%, #0d4247 0%, #072a2e 42%, #03161a 100%);
+  --ink: #e9fbf8;
+  --ink-2: #c4e2de;
+  --ink-3: #7fa3a0;
+  --accent: #6fe3d5;
+  --accent-fill: #49d3c4;
+  --on-accent: #022326;
+  --accent-glow: rgb(73 211 196 / 0.45);
+  --accent-halo: rgb(73 211 196 / 0.16);
+  --accent-line: rgb(111 227 213 / 0.32);
+  --counter: #e9c46a;
+  --on-counter: #2b1d04;
+
+  --g-fill: rgb(3 26 29 / 0.16);
+  --g-blur: 24px;
+  --g-sat: 1.7;
+  --g-bright: 0.5;
+  --g-rim-hi: rgb(255 255 255 / 0.5);
+  --g-rim-lo: rgb(150 255 238 / 0.2);
+  --g-inner: rgb(120 240 225 / 0.07);
+  --g-sheen: rgb(255 255 255 / 0.07);
+  --g-spec: rgb(160 255 240 / 0.16);
+  --g-shadow: rgb(0 12 14 / 0.85);
+  --g-shadow-near: rgb(0 0 0 / 0.35);
+  --g-fallback: #0a2a2e;
+  --g-scrim: rgb(3 20 23 / 0.66);
+  --g-tint: rgb(255 255 255 / 0.07);
+  --g-line: rgb(255 255 255 / 0.12);
+  --g-hover: rgb(255 255 255 / 0.09);
+  --g-thumb: rgb(255 255 255 / 0.16);
+  --g-field: rgb(0 10 12 / 0.28);
+  --g-field-focus: rgb(0 10 12 / 0.4);
+
+  --w0: #c4f7ee;
+  --w1: #8eeadc;
+  --w2: #5bd9ca;
+  --w3: #34c1b4;
+  --w4: #1ea399;
+  --w5: #12857f;
+  --tc0: #0e3a3f;
+  --tc1: #13565a;
+  --tc2: #177372;
+  --tc3: #1b918b;
+  --tc4: #2fb3a7;
+  --tc5: #e9c46a;
+  --caustic: rgb(120 240 225 / 0.18);
+}
+
+/* world: deep gradient + drifting rounded tiles + two slow caustic lights */
+html[data-design="glass-a"] .g-world {
+  background: var(--world-bg);
+}
+html[data-design="glass-a"] .g-world .dt {
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  border-radius: 24%;
+  background: linear-gradient(150deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0) 55%), var(--tc);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+  opacity: var(--o);
+  animation: ga-drift var(--dur) ease-in-out var(--delay) infinite alternate;
+  will-change: transform;
+}
+html[data-design="glass-a"] .g-world .c0 {
+  --tc: var(--tc0);
+}
+html[data-design="glass-a"] .g-world .c1 {
+  --tc: var(--tc1);
+}
+html[data-design="glass-a"] .g-world .c2 {
+  --tc: var(--tc2);
+}
+html[data-design="glass-a"] .g-world .c3 {
+  --tc: var(--tc3);
+}
+html[data-design="glass-a"] .g-world .c4 {
+  --tc: var(--tc4);
+}
+html[data-design="glass-a"] .g-world .c5 {
+  --tc: var(--tc5);
+  opacity: 0.85;
+}
+html[data-design="glass-a"] .g-world .caustic {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--caustic), transparent);
+  will-change: transform;
+}
+html[data-design="glass-a"] .g-world .caustic-1 {
+  left: 40%;
+  top: -30%;
+  animation: ga-caustic 38s ease-in-out infinite alternate;
+}
+html[data-design="glass-a"] .g-world .caustic-2 {
+  left: -25%;
+  top: 45%;
+  animation: ga-caustic 46s ease-in-out -12s infinite alternate-reverse;
+}
+@keyframes ga-drift {
+  to {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
+  }
+}
+@keyframes ga-caustic {
+  to {
+    transform: translate(12vmax, 8vmax) scale(1.15);
+  }
+}
+
+/* type: Apple-like mixed case, tight tracking, Book weight only */
+html[data-design="glass-a"] .g-head h2 {
+  font-size: clamp(2.3rem, 5.4vw, 4rem);
+}
+html[data-design="glass-a"] .g-role {
+  font-size: clamp(1.5rem, 2.3vw, 1.9rem);
+}
+
+/* nav sits a little higher-contrast than panels (it floats over content) */
+html[data-design="glass-a"] .g-nav {
+  --g-fill: rgb(255 255 255 / 0.22);
+}
+html[data-design="glass-a"][data-theme="dark"] .g-nav {
+  --g-fill: rgb(8 40 44 / 0.35);
+}
+
+/* mini mosaic: round, soft */
+html[data-design="glass-a"] .g-mini {
+  --mini: 6px;
+  --mini-r: 2px;
+}

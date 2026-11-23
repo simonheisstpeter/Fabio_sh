@@ -1,0 +1,49 @@
+---
+// FABIO as a tile mosaic, re-rendered for the glass system: rounded glossy
+// tiles with grout gaps instead of square tiles in an ink frame. Tile color
+// is a class (s0..s5 = diagonal step of the option's --w ramp), so the
+// palette follows the option and the theme without JS.
+interface Props {
+    word?: string;
+    label: string;
+}
+
+const { word = "FABIO", label }: Props = Astro.props;
+
+const FONT: Record<string, string[]> = {
+    F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+    A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+    B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+    I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+    O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+};
+
+const letters = word.toUpperCase().split("");
+// 5 columns per letter + 1 grout column between letters, + caret column pair
+const cols = letters.length * 6 + 1;
+const rows: { cls: string; d: number }[][] = [];
+for (let r = 0; r < 7; r++) {
+    const row: { cls: string; d: number }[] = [];
+    letters.forEach((ch, li) => {
+        const glyph = FONT[ch] ?? FONT.I;
+        for (let c = 0; c < 5; c++) {
+            const col = li * 6 + c;
+            const on = glyph[r][c] === "1";
+            row.push({
+                cls: on ? `t on s${(r + col) % 6}` : "t",
+                d: on ? 120 + (r + col) * 28 : 0,
+            });
+        }
+        row.push({ cls: "t", d: 0 });
+    });
+    // caret sits on the baseline row after the last letter
+    row.push({ cls: r === 6 ? "t caret" : "t", d: 0 });
+    rows.push(row);
+}
+const cells = rows.flat();
+---
+
+<h1 class="sr-only">{label}</h1>
+<span class="g-word" style={`--cols:${cols}`} role="img" aria-label={label}>
+    {cells.map((c) => <span class={c.cls} style={c.d ? `--d:${c.d}ms` : undefined} />)}
+</span>
