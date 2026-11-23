@@ -49,11 +49,20 @@ function originSecret(): Buffer | null {
   return v && v.length >= 32 ? Buffer.from(v) : null;
 }
 
-function bypassedCdn(request: Request, pathname: string): boolean {
+/**
+ * Why a request is refused, or `null` to let it through. The reason goes into
+ * the 403 body so a misconfigured edge rule can be told apart from a missing
+ * one. It names lengths only, never the secret or what was sent.
+ */
+function bypassedCdn(request: Request, pathname: string): string | null {
   const expected = originSecret();
-  if (!expected || pathname === HEALTH_PATH) return false;
-  const given = Buffer.from(request.headers.get(ORIGIN_SECRET_HEADER) ?? "");
-  return given.length !== expected.length || !timingSafeEqual(given, expected);
+  if (!expected || pathname === HEALTH_PATH) return null;
+  const raw = request.headers.get(ORIGIN_SECRET_HEADER);
+  if (raw === null) return "origin header missing";
+  const given = Buffer.from(raw.trim());
+  if (given.length === expected.length && timingSafeEqual(given, expected)) return null;
+  const parts = raw.split(",").length;
+  return `origin header mismatch (received ${given.length} chars${parts > 1 ? ` in ${parts} values` : ""}, expected ${expected.length})`;
 }
 
 /**
@@ -105,8 +114,9 @@ function guard(
 ): Response | undefined {
   const { pathname } = url;
 
-  if (bypassedCdn(request, pathname)) {
-    return new Response("Forbidden", { status: 403, headers: { "Content-Type": "text/plain" } });
+  const refused = bypassedCdn(request, pathname);
+  if (refused) {
+    return new Response(`Forbidden: ${refused}\n`, { status: 403, headers: { "Content-Type": "text/plain" } });
   }
 
   if (!SAFE_METHODS.has(request.method)) {

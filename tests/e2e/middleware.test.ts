@@ -240,12 +240,19 @@ describe("CDN-only access (ORIGIN_SECRET)", () => {
       expect(res.status, path).toBe(403);
       expect(res.headers.get("x-content-type-options"), path).toBe("nosniff");
     }
-    expect((await client.get("/", { "x-origin-secret": "wrong" })).status).toBe(403);
+    expect(await (await client.get("/")).text()).toBe("Forbidden: origin header missing\n");
+    const wrong = await client.get("/", { "x-origin-secret": "wrong" });
+    expect(wrong.status).toBe(403);
+    const body = await wrong.text();
+    expect(body).toBe(`Forbidden: origin header mismatch (received 5 chars, expected ${SECRET.length})\n`);
+    expect(body).not.toContain(SECRET);
     expect((await client.get("/", { "x-origin-secret": SECRET.slice(0, -1) + "c" })).status).toBe(403);
   });
 
   it("serves requests carrying the secret", async () => {
     expect((await client.get("/", { "x-origin-secret": SECRET })).status).toBe(200);
+    // surrounding whitespace from a copy-pasted edge rule value is tolerated
+    expect((await client.get("/", { "x-origin-secret": ` ${SECRET} ` })).status).toBe(200);
   });
 
   it("keeps the health check open", async () => {
