@@ -1,4 +1,5 @@
 import type { APIContext } from "astro";
+import { timingSafeEqual } from "node:crypto";
 import { defineMiddleware } from "astro:middleware";
 import { validateSession } from "./lib/admin-auth";
 import { LOCALES } from "./i18n/locales.js";
@@ -31,6 +32,28 @@ function isForeignOrigin(request: Request, url: URL, site: URL | undefined): boo
   // "own origin" reference; `site` covers the TLS-terminating proxy case.
   const hostHeader = request.headers.get("host");
   return host !== url.host && host !== site?.host && host !== hostHeader;
+}
+
+/**
+ * CDN-only access. When `ORIGIN_SECRET` is set, every request must carry it in
+ * `X-Origin-Secret`; the CDN adds that header (Bunny: an edge rule "Set
+ * Request Header"), so a request that went around the CDN is refused. That is
+ * also what makes `CLIENT_IP_HEADER` trustworthy. `/robots.txt` stays open for
+ * the container health check. Unset (or under 32 chars), nothing changes.
+ */
+const ORIGIN_SECRET_HEADER = "x-origin-secret";
+const HEALTH_PATH = "/robots.txt";
+
+function originSecret(): Buffer | null {
+  const v = process.env.ORIGIN_SECRET?.trim();
+  return v && v.length >= 32 ? Buffer.from(v) : null;
+}
+
+function bypassedCdn(request: Request, pathname: string): boolean {
+  const expected = originSecret();
+  if (!expected || pathname === HEALTH_PATH) return false;
+  const given = Buffer.from(request.headers.get(ORIGIN_SECRET_HEADER) ?? "");
+  return given.length !== expected.length || !timingSafeEqual(given, expected);
 }
 
 /**
@@ -81,6 +104,10 @@ function guard(
   { url, cookies, redirect, request, site }: Pick<APIContext, "url" | "cookies" | "redirect" | "request" | "site">,
 ): Response | undefined {
   const { pathname } = url;
+
+  if (bypassedCdn(request, pathname)) {
+    return new Response("Forbidden", { status: 403, headers: { "Content-Type": "text/plain" } });
+  }
 
   if (!SAFE_METHODS.has(request.method)) {
     if (isForeignOrigin(request, url, site)) {

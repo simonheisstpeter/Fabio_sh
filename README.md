@@ -100,7 +100,12 @@ docker run -p 4321:4321 -v $(pwd)/db:/app/db fabio-sh
 
 Deployed as a container (Bunny Magic Containers; previously Coolify). The `backups/` and `db/` directories must be on a persistent volume: an empty database reopens first-run admin setup to whoever visits `/admin/register` first. Run a single instance, since each replica would get its own SQLite file.
 
-Behind Bunny CDN, set `CLIENT_IP_HEADER=x-real-ip` and make sure the container is only reachable through the CDN. Pages that are not explicitly public send `Cache-Control: private, no-store`, so the edge never stores admin pages, API responses or `/cv`.
+Behind Bunny CDN, set `CLIENT_IP_HEADER=x-real-ip` and lock the container to the CDN:
+
+1. Generate a secret: `openssl rand -hex 32`.
+2. In the pull zone that serves fabio.sh, add an edge rule: action **Set Request Header**, header `X-Origin-Secret`, value = the secret, condition: request URL matches `*`.
+3. Only then set `ORIGIN_SECRET` to the same value on the container and redeploy (the other order locks everyone out until step 2 is done).
+4. Check: the site works on fabio.sh; a request straight to the container address (bunny.run hostname or Anycast IP) without the header gets `403`. Pages that are not explicitly public send `Cache-Control: private, no-store`, so the edge never stores admin pages, API responses or `/cv`.
 
 The entrypoint starts as root only to `chown` the mounted `db/` volume, then runs migrations and the server as the unprivileged `node` user (via `su-exec`). A `HEALTHCHECK` polls `/robots.txt`. Scripts run from a Coolify terminal execute as root — if one creates new files in `db/`, restart the container so the entrypoint re-applies ownership.
 
@@ -112,6 +117,7 @@ The entrypoint starts as root only to `chown` the mounted `db/` volume, then run
 | `IP_HASH_SECRET` | random per process | HMAC key for hashing client IPs in rate limits. Set a stable random value in production, otherwise limits reset on every restart |
 | `ADMIN_ORIGIN`   | `https://fabio.sh` (dev: `http://localhost:4321`) | Expected origin for passkey (WebAuthn) ceremonies. Read at runtime |
 | `ADMIN_RP_ID`    | `fabio.sh` (dev: `localhost`) | WebAuthn relying-party id — the bare domain. Read at runtime                  |
+| `ORIGIN_SECRET` | – | At least 32 random chars. When set, every request must carry it in `X-Origin-Secret` (added by the CDN), so the container can't be used around the CDN. `/robots.txt` stays open for health checks |
 | `CLIENT_IP_HEADER` | – | Header the CDN writes with the visitor's IP, used for rate limits. Behind Bunny set `x-real-ip`. Unset, Astro's left-most `X-Forwarded-For` hop is used, which a visitor can forge |
 | `ADMIN_RP_NAME`  | `fabio.sh admin` | Display name shown in the passkey prompt                                             |
 | `TIDAL_MAIL` / `TIDAL_PASSWORD` | – | Credentials for the "last played" widget (optional)                              |

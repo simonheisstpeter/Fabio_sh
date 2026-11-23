@@ -223,3 +223,32 @@ describe("ATProto blob proxy", () => {
     },
   );
 });
+
+describe("CDN-only access (ORIGIN_SECRET)", () => {
+  const SECRET = "a".repeat(20) + "-origin-secret-" + "b".repeat(20);
+  let locked: Server;
+  let client: Client;
+  beforeAll(async () => {
+    locked = await startServer({ ORIGIN_SECRET: SECRET });
+    client = new Client(locked.url);
+  });
+  afterAll(() => locked.stop());
+
+  it("refuses requests that did not come through the CDN", async () => {
+    for (const path of ["/", "/admin/login", "/api/contact"]) {
+      const res = await client.get(path);
+      expect(res.status, path).toBe(403);
+      expect(res.headers.get("x-content-type-options"), path).toBe("nosniff");
+    }
+    expect((await client.get("/", { "x-origin-secret": "wrong" })).status).toBe(403);
+    expect((await client.get("/", { "x-origin-secret": SECRET.slice(0, -1) + "c" })).status).toBe(403);
+  });
+
+  it("serves requests carrying the secret", async () => {
+    expect((await client.get("/", { "x-origin-secret": SECRET })).status).toBe(200);
+  });
+
+  it("keeps the health check open", async () => {
+    expect((await client.get("/robots.txt")).status).toBe(200);
+  });
+});
