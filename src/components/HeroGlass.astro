@@ -9,16 +9,23 @@
 //   4 Lens     — a liquid glass lens lights up the grid under the pointer
 //   5 Bloom    — no grid: giant glowing wordmark, a glass bar refracting it
 //   6 Reactive — grid tiles light up along the pointer's path
+//   7 Reactive Bloom      — 6, under a glowing veil that fades out in parts,
+//                           so the grid shows crisp on one side, soft on the other
+//   8 Reactive Bloom Bar  — 5's big wordmark + glass bar on that veil, reactive
 import type { Translations } from "../i18n/index";
 import "../styles/hero-glass.css";
 
-export type HeroVariant = 1 | 2 | 3 | 4 | 5 | 6;
+export type HeroVariant = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 interface Props {
     t: Translations;
     variant?: HeroVariant;
 }
-const { t, variant = 1 }: Props = Astro.props;
+const { t, variant = 7 }: Props = Astro.props;
+// composition flags: 8 borrows Bloom's layout, 7 and 8 the veil, 6–8 react
+const bloomLayout = variant === 5 || variant === 8;
+const veil = variant === 7 || variant === 8;
+const reactive = variant >= 6;
 
 // FABIO in a 5x7 pixel font; each tile takes the ramp step of its diagonal
 const FONT: Record<string, string[]> = {
@@ -48,9 +55,16 @@ const LIT: Record<number, number> = { 4: 3, 5: 2, 13: 4, 12: 1, 22: 3, 48: 2, 56
 const windowCells = Array.from({ length: 64 }, (_, i) => (i in LIT ? `lit s${LIT[i]}` : ""));
 ---
 
-<section class={`gh gh-v${variant}`} aria-label={t.name} data-gh data-variant={variant}>
+<section
+    class={`gh gh-v${variant}${variant === 8 ? " gh-v5" : ""}`}
+    aria-label={t.name}
+    data-gh
+    data-variant={variant}
+    data-reactive={reactive ? "" : undefined}
+>
     {variant === 4 && <div class="gh-lens" aria-hidden="true" data-lens></div>}
     {variant === 5 && <div class="gh-bloom" aria-hidden="true"></div>}
+    {veil && <div class="gh-veil" aria-hidden="true"></div>}
 
     <div class="gh-inner">
         <div class="gh-stack">
@@ -77,10 +91,10 @@ const windowCells = Array.from({ length: 64 }, (_, i) => (i in LIT ? `lit s${LIT
                     )
                 }
 
-                {variant !== 3 && variant !== 5 && <p class="gh-role">digital media &amp; IT</p>}
+                {variant !== 3 && !bloomLayout && <p class="gh-role">digital media &amp; IT</p>}
 
                 {
-                    variant !== 5 && (
+                    !bloomLayout && (
                         <div class="gh-cta">
                             <a href="#projects" class="gh-btn gh-btn-primary">{t.menuProjects}</a>
                             <a href="#contact" class="gh-btn gh-btn-glass gh-glass">{t.menuContact}</a>
@@ -106,7 +120,7 @@ const windowCells = Array.from({ length: 64 }, (_, i) => (i in LIT ? `lit s${LIT
             }
 
             {
-                variant === 5 && (
+                bloomLayout && (
                     <div class="gh-bar gh-glass">
                         <p class="gh-role">digital media &amp; IT</p>
                         <div class="gh-cta">
@@ -166,9 +180,9 @@ const windowCells = Array.from({ length: 64 }, (_, i) => (i in LIT ? `lit s${LIT
             });
         }
 
-        // 6 · light up the site grid under the pointer, plus an idle shimmer
+        // 6–8 · light up the site grid under the pointer, plus an idle shimmer
         const grid = document.querySelector<HTMLElement>(".g-world .grid");
-        if (grid && hero.dataset.variant === "6" && !still) {
+        if (grid && hero.hasAttribute("data-reactive") && !still) {
             const cells = [...grid.children] as HTMLElement[];
             const cols = Number(getComputedStyle(grid).getPropertyValue("--cols")) || 16;
             const light = (i: number) => {
