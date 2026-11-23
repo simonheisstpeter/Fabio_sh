@@ -1,0 +1,18 @@
+---
+// Component options for option B "Tessellate": every component in 3–4
+// variants on the option's own world and tokens. Design preview only
+// (English, noindex), scoped to html[data-design="glass-b"].
+import GlassLayout from "../../../components/designs/glass/GlassLayout.astro";
+import GlassWorld from "../../../components/designs/glass/GlassWorld.astro";
+import GlassKit from "../../../components/designs/glass/GlassKit.astro";
+import { previewProjects } from "../../../components/designs/glass/projects";
+import "../../../styles/designs/glass-b.css";
+import "../../../styles/designs/glass-kit.css";
+
+const projects = previewProjects();
+---
+
+<GlassLayout title="Tessellate components" design="glass-b">
+    <GlassWorld variant="b" />
+    <GlassKit option="b" name="Tessellate" projects={projects} numbering="no" />
+</GlassLayout>

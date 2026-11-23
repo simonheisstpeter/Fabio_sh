@@ -1,0 +1,18 @@
+---
+// Component options for option C "Prism Tile": every component in 3–4
+// variants on the option's own world and tokens. Design preview only
+// (English, noindex), scoped to html[data-design="glass-c"].
+import GlassLayout from "../../../components/designs/glass/GlassLayout.astro";
+import GlassWorld from "../../../components/designs/glass/GlassWorld.astro";
+import GlassKit from "../../../components/designs/glass/GlassKit.astro";
+import { previewProjects } from "../../../components/designs/glass/projects";
+import "../../../styles/designs/glass-c.css";
+import "../../../styles/designs/glass-kit.css";
+
+const projects = previewProjects();
+---
+
+<GlassLayout title="Prism Tile components" design="glass-c">
+    <GlassWorld variant="c" />
+    <GlassKit option="c" name="Prism Tile" projects={projects} numbering="slash" />
+</GlassLayout>

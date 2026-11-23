@@ -15,7 +15,7 @@ const options = [
         glass: "blur 24 · saturate 1.7 · brightness 0.5 · teal black fill 16% · radius 32/28",
         mosaic: "15 drifting rounded tiles (24% radius, gloss), 26–48s loops, one sand tile",
         type: "Andes Book only, mixed case, −0.035em tracking; uppercase Book labels",
-        best: "A personal site that should feel quietly expensive and native to Apple devices.",
+        best: "A personal site that should feel quietly expensive and native to Apple devices. (Still in the first turquoise palette.)",
         weak: "Least ownable of the three: closest to stock iOS 26. Relies on motion for its character.",
     },
     {
@@ -23,9 +23,9 @@ const options = [
         name: "Tessellate",
         mood: "Warm, editorial, crafted",
         concept:
-            "Light first: pearl and aqua. A real tessellation with grout lines and diagonal split tiles; milky tinted glass, the hero sits on one large glass plate. Uppercase editorial type with N° indexes.",
-        palette: ["#F3F1EC", "#E4DFD5", "#A3DCD3", "#5CC0B3", "#0B6862", "#A94F2C"],
-        glass: "blur 30 · saturate 1.35 · brightness 1.05 · pearl fill 18% · radius 22/20 · grout line",
+            "Light first, in the v8 emerald palette: ivory and mint. A real tessellation with grout lines and diagonal split tiles; milky ivory glass, the hero sits on one large glass plate. Uppercase editorial type with N° indexes.",
+        palette: ["#FFFAEB", "#ECE4CF", "#A7F3D0", "#34D399", "#059669", "#047857"],
+        glass: "blur 30 · saturate 1.3 · brightness 1.05 · ivory fill 20% · radius 22/20 · grout line",
         mosaic: "20×16 tile grid, 3px grout, split tiles, 2 color currents, breathing tiles",
         type: "Andes Book uppercase display, mono labels and buttons, N° numbering",
         best: "Keeps the most of today's mosaic identity; reads like a design studio or print piece.",
@@ -36,10 +36,10 @@ const options = [
         name: "Prism Tile",
         mood: "Bold, dramatic, launch day",
         concept:
-            "A near black canvas on a faint tile grid where a few saturated turquoise tiles glow and pulse. Darker glass with strong white specular rims and turquoise underlight. Black uppercase display.",
-        palette: ["#040706", "#090E0D", "#0AA597", "#19E3C7", "#5FF5E0", "#8B9CFF"],
-        glass: "blur 40 · saturate 2 · brightness 0.42 · fill 4% · radius 26/24 · turquoise rim",
-        mosaic: "16×13 dark grid, 14 lit tiles with glow, 7–14s opacity pulses, one periwinkle",
+            "In the v8 emerald palette: a near black green canvas on a faint tile grid where a few emerald tiles glow and pulse. Darker glass with strong white specular rims and emerald underlight. Black uppercase display.",
+        palette: ["#050B09", "#0A1512", "#047857", "#10B981", "#34D399", "#A7F3D0"],
+        glass: "blur 40 · saturate 1.8 · brightness 0.42 · fill 4% · radius 26/24 · emerald rim",
+        mosaic: "16×13 dark grid, 14 lit tiles with glow, 7–14s opacity pulses",
         type: "Andes Black uppercase display, −0.035em; mono labels; Book body",
         best: "Maximum impact and the strongest product feel; the glow makes the mosaic unmistakable.",
         weak: "Loudest option. Light mode is the weakest light mode of the three; best kept dark only.",
@@ -54,7 +54,9 @@ const options = [
             <h1>Liquid Glass × turquoise mosaic</h1>
             <p class="ov-lede">
                 Three directions on identical content: nav, hero, project bento, text section, contact
-                form, component sheet, footer. Pick one; nothing is applied to the live site yet.
+                form, component sheet, footer. B and C now use the v8 emerald palette and each has a
+                component options page (every component in three or four variants). Nothing is applied
+                to the live site yet.
             </p>
             <button class="ov-theme" type="button" data-ov-theme>Toggle light / dark</button>
         </header>
@@ -74,7 +76,10 @@ const options = [
                             <ul class="ov-swatches" aria-label="Palette">
                                 {o.palette.map((c) => <li style={`--c:${c}`} title={c}><span>{c}</span></li>)}
                             </ul>
-                            <a class="ov-open" href={`/mediakit/designs/glass-${o.id}`}>Open full page →</a>
+                            <span class="ov-links">
+                                <a class="ov-open" href={`/mediakit/designs/glass-${o.id}`}>Open full page →</a>
+                                {o.id !== "a" && <a class="ov-open" href={`/mediakit/designs/glass-${o.id}-kit`}>Component options →</a>}
+                            </span>
                         </div>
                     </article>
                 ))
@@ -231,6 +236,11 @@ const options = [
         height: 1px;
         overflow: hidden;
         clip: rect(0 0 0 0);
+    }
+    html[data-design="glass-index"] .ov-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 22px;
     }
     html[data-design="glass-index"] .ov-open {
         margin-top: 6px;

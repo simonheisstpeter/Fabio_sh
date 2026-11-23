@@ -1,56 +1,57 @@
-/* Option B — "Tessellate": light-first, pearl and aqua. A crisp geometric
-   mosaic with visible grout lines and diagonal split tiles; the glass is
-   milky and tinted, the typography editorial (uppercase Book, N° indexes
-   in mono). Warmer and calmer. Counter accent: terracotta.
-   Scoped to html[data-design="glass-b"]. */
+/* Option B — "Tessellate", emerald edition: light-first ivory and mint
+   from the v8 palette. A crisp geometric mosaic with visible grout lines
+   and diagonal split tiles; the glass is milky ivory, the typography
+   editorial (uppercase Book, N° indexes in mono). Only the v8 emerald
+   ramp (#A7F3D0 → #047857) is used for color; neutrals are the v8 paper,
+   ink and green-black canvas. Scoped to html[data-design="glass-b"]. */
 
 html[data-design="glass-b"] {
-  --bg: #f3f1ec;
-  --grout: #e4dfd5;
-  --ink: #18211f;
-  --ink-2: #35413e;
-  --ink-3: #616c69;
-  --accent: #0b6a64;
-  --accent-fill: #0b6862;
-  --on-accent: #ffffff;
-  --accent-glow: rgb(15 124 117 / 0.4);
-  --accent-halo: rgb(15 124 117 / 0.12);
-  --accent-line: rgb(15 124 117 / 0.28);
-  --counter: #a94f2c;
-  --on-counter: #ffffff;
+  --bg: #fffaeb;
+  --grout: #ece4cf;
+  --ink: #1f1f1f;
+  --ink-2: #33403a;
+  --ink-3: #5c7268;
+  --accent: #047857;
+  --accent-fill: #047857;
+  --on-accent: #f2fbf7;
+  --accent-glow: rgb(4 120 87 / 0.4);
+  --accent-halo: rgb(16 185 129 / 0.14);
+  --accent-line: rgb(4 120 87 / 0.3);
+  --counter: #10b981;
+  --on-counter: #052018;
 
-  --g-fill: rgb(255 253 249 / 0.18);
+  --g-fill: rgb(255 250 235 / 0.2);
   --g-blur: 30px;
-  --g-sat: 1.35;
+  --g-sat: 1.3;
   --g-bright: 1.05;
   --g-rim-hi: rgb(255 255 255 / 0.95);
   --g-rim-lo: rgb(255 255 255 / 0.55);
   --g-inner: rgb(255 255 255 / 0.4);
-  --g-sheen: rgb(255 255 255 / 0.28);
+  --g-sheen: rgb(255 255 255 / 0.3);
   --g-spec: rgb(255 255 255 / 0.55);
-  --g-shadow: rgb(70 60 40 / 0.22);
-  --g-shadow-near: rgb(70 60 40 / 0.08);
-  --g-fallback: #faf8f4;
-  --g-scrim: rgb(243 241 236 / 0.72);
+  --g-shadow: rgb(11 92 64 / 0.24);
+  --g-shadow-near: rgb(11 92 64 / 0.08);
+  --g-fallback: #fffdf5;
+  --g-scrim: rgb(255 250 235 / 0.88);
   --g-tint: rgb(255 255 255 / 0.5);
-  --g-line: rgb(24 33 31 / 0.1);
-  --g-hover: rgb(24 33 31 / 0.06);
+  --g-line: rgb(31 31 31 / 0.1);
+  --g-hover: rgb(31 31 31 / 0.06);
   --g-thumb: #ffffff;
   --g-field: rgb(255 255 255 / 0.62);
   --g-field-focus: #ffffff;
 
-  --w0: #bfe9e2;
-  --w1: #8fd8cd;
-  --w2: #58c0b3;
-  --w3: #2aa196;
-  --w4: #13827b;
-  --w5: #0c625e;
-  --tc0: #f6f4ef;
-  --tc1: #eaf1ec;
-  --tc2: #d0ece5;
-  --tc3: #a3dcd3;
-  --tc4: #5cc0b3;
-  --tc5: #1a8a82;
+  --w0: #a7f3d0;
+  --w1: #6ee7b7;
+  --w2: #34d399;
+  --w3: #10b981;
+  --w4: #059669;
+  --w5: #047857;
+  --tc0: #fffaeb;
+  --tc1: #e9f7f0;
+  --tc2: #cbe7d8;
+  --tc3: #a7f3d0;
+  --tc4: #34d399;
+  --tc5: #059669;
 
   --r-panel: 22px;
   --r-card: 20px;
@@ -65,21 +66,21 @@ html[data-design="glass-b"] {
 }
 
 html[data-design="glass-b"][data-theme="dark"] {
-  --bg: #0e1615;
-  --grout: #090f0e;
-  --ink: #eef4f1;
-  --ink-2: #b2c2bd;
-  --ink-3: #7f8f8a;
-  --accent: #74d8cb;
-  --accent-fill: #56c4b6;
-  --on-accent: #06201d;
-  --accent-glow: rgb(86 196 182 / 0.35);
-  --accent-halo: rgb(86 196 182 / 0.14);
-  --accent-line: rgb(116 216 203 / 0.3);
-  --counter: #e38a62;
-  --on-counter: #2a0f04;
+  --bg: #0a1512;
+  --grout: #060e0b;
+  --ink: #e6fbf2;
+  --ink-2: #b9d9cb;
+  --ink-3: #8fb4a2;
+  --accent: #34d399;
+  --accent-fill: #34d399;
+  --on-accent: #052018;
+  --accent-glow: rgb(52 211 153 / 0.35);
+  --accent-halo: rgb(52 211 153 / 0.14);
+  --accent-line: rgb(52 211 153 / 0.32);
+  --counter: #6ee7b7;
+  --on-counter: #052018;
 
-  --g-fill: rgb(30 42 40 / 0.18);
+  --g-fill: rgb(18 33 28 / 0.2);
   --g-blur: 30px;
   --g-sat: 1.2;
   --g-bright: 0.55;
@@ -90,8 +91,8 @@ html[data-design="glass-b"][data-theme="dark"] {
   --g-spec: rgb(255 255 255 / 0.1);
   --g-shadow: rgb(0 0 0 / 0.7);
   --g-shadow-near: rgb(0 0 0 / 0.3);
-  --g-fallback: #17211f;
-  --g-scrim: rgb(14 22 21 / 0.7);
+  --g-fallback: #12211c;
+  --g-scrim: rgb(10 21 18 / 0.72);
   --g-tint: rgb(255 255 255 / 0.06);
   --g-line: rgb(255 255 255 / 0.11);
   --g-hover: rgb(255 255 255 / 0.08);
@@ -99,18 +100,18 @@ html[data-design="glass-b"][data-theme="dark"] {
   --g-field: rgb(0 0 0 / 0.22);
   --g-field-focus: rgb(0 0 0 / 0.32);
 
-  --w0: #d3f3ed;
-  --w1: #a6e6dc;
-  --w2: #74d4c6;
-  --w3: #48baab;
-  --w4: #2b9a8e;
-  --w5: #1d7a71;
-  --tc0: #121b1a;
-  --tc1: #15211f;
-  --tc2: #173530;
-  --tc3: #1c544d;
-  --tc4: #237c72;
-  --tc5: #3aa597;
+  --w0: #a7f3d0;
+  --w1: #6ee7b7;
+  --w2: #34d399;
+  --w3: #10b981;
+  --w4: #059669;
+  --w5: #047857;
+  --tc0: #0d1a16;
+  --tc1: #12211c;
+  --tc2: #17291f;
+  --tc3: #0e4a35;
+  --tc4: #065f46;
+  --tc5: #059669;
 }
 
 /* world: a real tessellation, grout = the container background */

@@ -1,0 +1,848 @@
+/* fabio.sh — Liquid Glass component options ("kit" pages).
+   Token-only: every rule reads the direction's tokens (glass-b / glass-c),
+   so the same variants render in each direction's look. Scoped like
+   glass-core.css: :where(html[data-design^="glass"]) keeps class-level
+   specificity, nothing reaches the live site. */
+
+:where(html[data-design^="glass"]) .k-page {
+  --ramp-h: repeating-linear-gradient(
+    90deg,
+    var(--w0) 0 10px,
+    var(--w1) 10px 20px,
+    var(--w2) 20px 30px,
+    var(--w3) 30px 40px,
+    var(--w4) 40px 50px,
+    var(--w5) 50px 60px
+  );
+  --tile-g: linear-gradient(155deg, rgb(255 255 255 / 0.45), rgb(255 255 255 / 0) 50%);
+  padding-bottom: 120px;
+}
+
+/* ---------- page frame ---------- */
+:where(html[data-design^="glass"]) .k-intro {
+  padding-top: 130px;
+}
+:where(html[data-design^="glass"]) .k-intro-panel {
+  display: grid;
+  gap: 18px;
+  padding: clamp(24px, 4.5vw, 56px);
+}
+:where(html[data-design^="glass"]) .k-intro h1 {
+  font-size: clamp(2rem, 9.5vw, 7rem);
+  overflow-wrap: anywhere;
+}
+:where(html[data-design^="glass"]) .k-intro-panel > * {
+  min-width: 0;
+}
+:where(html[data-design^="glass"]) .k-lede {
+  max-width: 62ch;
+}
+:where(html[data-design^="glass"]) .k-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+:where(html[data-design^="glass"]) .k-toc a {
+  text-decoration: none;
+}
+:where(html[data-design^="glass"]) .k-sec {
+  padding-top: clamp(64px, 9vw, 120px);
+  scroll-margin-top: 80px;
+}
+:where(html[data-design^="glass"]) .k-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 24px;
+}
+:where(html[data-design^="glass"]) .k-grid-1 {
+  grid-template-columns: minmax(0, 1fr);
+}
+:where(html[data-design^="glass"]) .k-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 1000px) {
+  :where(html[data-design^="glass"]) .k-grid,
+  :where(html[data-design^="glass"]) .k-grid-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+:where(html[data-design^="glass"]) .k-spec {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-width: 0;
+}
+/* variant caption sits on a scrim: readable over any tile */
+:where(html[data-design^="glass"]) .k-cap {
+  display: grid;
+  gap: 2px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--g-scrim);
+}
+:where(html[data-design^="glass"]) .k-cap b {
+  font-weight: 400;
+  color: var(--ink);
+}
+:where(html[data-design^="glass"]) .k-cap span {
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+/* a stage is an empty frame: the world shows through, so glass reads */
+:where(html[data-design^="glass"]) .k-stage {
+  display: grid;
+  place-items: center;
+  min-height: 132px;
+  padding: 28px 16px;
+  border-radius: var(--r-panel);
+  box-shadow: inset 0 0 0 1px var(--g-line);
+}
+:where(html[data-design^="glass"]) .k-stage-left {
+  justify-items: start;
+  padding-inline: clamp(16px, 3vw, 32px);
+}
+:where(html[data-design^="glass"]) .k-stage.g-glass {
+  box-shadow:
+    inset 0 1px 0 0 var(--g-rim-hi),
+    inset 0 -1px 0 0 var(--g-rim-lo),
+    inset 0 0 32px 0 var(--g-inner),
+    0 30px 70px -28px var(--g-shadow);
+}
+:where(html[data-design^="glass"]) .k-stage-panel {
+  min-height: 0;
+  padding: 24px;
+}
+:where(html[data-design^="glass"]) .k-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+:where(html[data-design^="glass"]) .k-stage .g-btn-ghost {
+  background: var(--g-scrim);
+}
+:where(html[data-design^="glass"]) .k-stage .g-muted {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--g-scrim);
+}
+:where(html[data-design^="glass"]) .k-stage.g-glass .g-muted {
+  padding: 0;
+  background: none;
+}
+
+/* ---------- shared tile bits ---------- */
+:where(html[data-design^="glass"]) .k-face {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4px;
+  padding: 12px;
+  border-radius: calc(var(--r-card) - 8px);
+  background: var(--g-tint);
+}
+:where(html[data-design^="glass"]) .k-face i,
+:where(html[data-design^="glass"]) .k-strip i,
+:where(html[data-design^="glass"]) .k-band i {
+  aspect-ratio: 1;
+  border-radius: 22%;
+  background: var(--tile-g), var(--c);
+}
+:where(html[data-design^="glass"]) .k-face-sm {
+  grid-template-columns: repeat(3, 8px);
+  gap: 2px;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
+:where(html[data-design^="glass"]) .k-face-sm i {
+  border-radius: 2px;
+}
+:where(html[data-design^="glass"]) .k-face-word {
+  grid-template-columns: repeat(8, 14px);
+  gap: 3px;
+  padding: 0;
+  background: none;
+  align-self: start;
+}
+
+/* ---------- navigation ---------- */
+:where(html[data-design^="glass"]) .k-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+:where(html[data-design^="glass"]) .k-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: var(--r-ctrl);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 300ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-links a:hover,
+:where(html[data-design^="glass"]) .k-links a[aria-current] {
+  background: var(--g-hover);
+}
+:where(html[data-design^="glass"]) .k-nav1 {
+  --r: var(--r-ctrl);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: min(100%, 760px);
+  padding: 6px 6px 6px 16px;
+}
+:where(html[data-design^="glass"]) .k-nav1 .k-links,
+:where(html[data-design^="glass"]) .k-nav3 .k-links {
+  margin-left: auto;
+}
+:where(html[data-design^="glass"]) .k-nav2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  width: min(100%, 920px);
+}
+:where(html[data-design^="glass"]) .k-island {
+  --r: var(--r-ctrl);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 6px 16px;
+}
+:where(html[data-design^="glass"]) .k-island.k-links {
+  padding: 6px;
+}
+:where(html[data-design^="glass"]) .k-nav3 {
+  --r: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 12px 16px 18px;
+  overflow: hidden;
+}
+:where(html[data-design^="glass"]) .k-nav3 .k-links a {
+  border-radius: 8px;
+}
+:where(html[data-design^="glass"]) .k-nav3 .k-links a[aria-current] {
+  color: var(--on-accent);
+  background: var(--accent-fill);
+}
+:where(html[data-design^="glass"]) .k-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  height: 4px;
+}
+:where(html[data-design^="glass"]) .k-rail i {
+  flex: 1;
+  background: var(--c);
+}
+:where(html[data-design^="glass"]) .k-stage-dock {
+  min-height: 170px;
+  align-items: end;
+}
+:where(html[data-design^="glass"]) .k-dock {
+  --r: 30px;
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+}
+:where(html[data-design^="glass"]) .k-dock a {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 68px;
+  padding: 8px 12px;
+  border-radius: 22px;
+  font-size: 0.72rem;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background 300ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-dock svg {
+  width: 22px;
+  height: 22px;
+}
+:where(html[data-design^="glass"]) .k-dock a[aria-current] {
+  color: var(--ink);
+  background: var(--g-thumb);
+  box-shadow:
+    inset 0 1px 0 0 var(--g-rim-hi),
+    0 6px 16px -8px var(--g-shadow);
+}
+:where(html[data-design^="glass"]) .k-dock a[aria-current] svg {
+  color: var(--accent);
+}
+@media (max-width: 480px) {
+  :where(html[data-design^="glass"]) .k-dock a {
+    min-width: 0;
+    padding: 8px 8px;
+  }
+}
+
+/* ---------- buttons ---------- */
+:where(html[data-design^="glass"]) .k-btn-glass {
+  --r: var(--r-ctrl);
+  color: var(--ink);
+}
+:where(html[data-design^="glass"]) .k-btn-glass.is-primary {
+  --g-fill: color-mix(in srgb, var(--accent-fill) 32%, transparent);
+  --g-rim-lo: var(--accent-line);
+}
+@media (hover: hover) {
+  :where(html[data-design^="glass"]) .k-btn-glass:hover {
+    transform: translateY(-1px) scale(1.03);
+  }
+  :where(html[data-design^="glass"]) .k-btn-glass.is-primary:hover {
+    box-shadow:
+      inset 0 1px 0 0 var(--g-rim-hi),
+      inset 0 0 0 1px var(--accent-line),
+      inset 0 0 24px 0 var(--accent-halo),
+      0 14px 34px -10px var(--accent-glow);
+  }
+}
+:where(html[data-design^="glass"]) .k-btn-tile {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 18px 0 13px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  cursor: pointer;
+  background: linear-gradient(var(--g-tint), var(--g-tint)), var(--g-scrim);
+  box-shadow:
+    inset 0 1px 0 0 var(--g-rim-hi),
+    inset 0 0 0 1px var(--g-line),
+    0 3px 0 0 var(--g-line);
+  transition:
+    transform 400ms var(--ease-spring),
+    box-shadow 400ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-btn-tile.is-primary {
+  color: var(--on-accent);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0) 50%), var(--accent-fill);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    0 3px 0 0 var(--accent-line),
+    0 14px 26px -14px var(--accent-glow);
+}
+:where(html[data-design^="glass"]) .k-btn-tile:active {
+  transform: translateY(3px);
+  box-shadow: inset 0 0 0 1px var(--g-line);
+}
+:where(html[data-design^="glass"]) .k-glyph {
+  display: grid;
+  grid-template-columns: repeat(2, 9px);
+  gap: 2px;
+  transition: transform 700ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-glyph i {
+  width: 9px;
+  height: 9px;
+  border-radius: 2.5px;
+  background: var(--tile-g), var(--c);
+}
+:where(html[data-design^="glass"]) .is-primary .k-glyph i {
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+:where(html[data-design^="glass"]) .k-btn-tile:hover .k-glyph {
+  transform: rotate(90deg);
+}
+:where(html[data-design^="glass"]) .k-btn-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 10px;
+  border-radius: 8px;
+  background: var(--g-scrim);
+  color: var(--ink);
+  font-size: 1.05rem;
+  text-decoration: none;
+}
+:where(html[data-design^="glass"]) .k-btn-link::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 4px;
+  height: 3px;
+  border-radius: 1px;
+  background: var(--ramp-h);
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform 700ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-btn-link svg {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  transition: transform 600ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-btn-link:hover::after,
+:where(html[data-design^="glass"]) .k-btn-link:focus-visible::after {
+  transform: scaleX(1);
+}
+:where(html[data-design^="glass"]) .k-btn-link:hover svg {
+  transform: translateX(4px);
+}
+
+/* ---------- cards ---------- */
+:where(html[data-design^="glass"]) .k-card-2 {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 400px;
+  padding: 10px;
+  overflow: hidden;
+  border-radius: var(--r-card);
+  background: var(--media-bg, #f5f6f5);
+  box-shadow: 0 30px 70px -28px var(--g-shadow);
+}
+:where(html[data-design^="glass"]) .k-card-2 > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-card-2:hover > img {
+  transform: scale(1.04);
+}
+/* caption glass over a photo: denser tint than over the mosaic, so text
+   holds AA on any image */
+:where(html[data-design^="glass"]) .k-caption {
+  --r: calc(var(--r-card) - 8px);
+  --g-fill: color-mix(in srgb, var(--bg) 84%, transparent);
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 18px;
+}
+:where(html[data-design^="glass"]) .k-caption .g-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-fill);
+  text-underline-offset: 3px;
+}
+:where(html[data-design^="glass"]) .k-card-3 {
+  --r: var(--r-card);
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  height: 100%;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :where(html[data-design^="glass"]) .k-card-3:hover .k-face i {
+    animation: g-pop 650ms var(--ease-spring) both;
+    animation-delay: calc(var(--i) * 16ms);
+  }
+}
+:where(html[data-design^="glass"]) .k-rows {
+  --r: var(--r-card);
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+}
+:where(html[data-design^="glass"]) .k-rows li {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto 24px;
+  align-items: center;
+  gap: 16px;
+  padding: 10px;
+  border-radius: calc(var(--r-card) - 8px);
+  cursor: pointer;
+  transition: background 300ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-rows li + li {
+  box-shadow: 0 -1px 0 var(--g-line);
+}
+:where(html[data-design^="glass"]) .k-rows li:hover {
+  background: var(--g-hover);
+}
+:where(html[data-design^="glass"]) .k-thumb {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--media-bg, #f5f6f5);
+  box-shadow: inset 0 0 0 1px var(--g-line);
+}
+:where(html[data-design^="glass"]) .k-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+:where(html[data-design^="glass"]) .k-row-title {
+  display: grid;
+  font-size: 1.02rem;
+  line-height: 1.3;
+}
+:where(html[data-design^="glass"]) .k-row-title small {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+}
+:where(html[data-design^="glass"]) .k-row-go svg {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  transition: transform 500ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-rows li:hover .k-row-go svg {
+  transform: translateX(4px);
+}
+
+/* ---------- section heads ---------- */
+:where(html[data-design^="glass"]) .k-h {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+}
+:where(html[data-design^="glass"]) .k-head2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 22px;
+}
+:where(html[data-design^="glass"]) .k-num {
+  font-size: clamp(4.5rem, 12vw, 9rem);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+:where(html[data-design^="glass"]) .k-head2 .g-muted {
+  margin-bottom: 8px;
+}
+:where(html[data-design^="glass"]) .k-head3 {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+:where(html[data-design^="glass"]) .k-strip {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 4px;
+  max-width: 620px;
+}
+:where(html[data-design^="glass"]) .k-strip i {
+  animation: g-pop 700ms var(--ease-spring) both;
+  animation-delay: calc(var(--i) * 40ms);
+}
+:where(html[data-design^="glass"]) .k-head3-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 38ch);
+  align-items: end;
+  gap: 12px 40px;
+}
+@media (max-width: 700px) {
+  :where(html[data-design^="glass"]) .k-head3-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- fields ---------- */
+:where(html[data-design^="glass"]) .k-fieldset {
+  display: grid;
+  gap: 22px;
+  place-items: stretch;
+}
+:where(html[data-design^="glass"]) .k-line {
+  position: relative;
+  display: grid;
+  gap: 4px;
+}
+:where(html[data-design^="glass"]) .k-line input {
+  padding: 8px 0 10px;
+  border: 0;
+  border-bottom: 1px solid var(--ink-3);
+  background: transparent;
+  font: inherit;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+:where(html[data-design^="glass"]) .k-line input:focus {
+  outline: none;
+}
+:where(html[data-design^="glass"]) .k-line i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent-fill);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 600ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-line:focus-within i,
+:where(html[data-design^="glass"]) .k-line.is-focus i {
+  transform: scaleX(1);
+}
+:where(html[data-design^="glass"]) .k-float {
+  position: relative;
+  display: block;
+}
+:where(html[data-design^="glass"]) .k-float input {
+  width: 100%;
+  min-height: 60px;
+  padding: 24px 18px 8px;
+  border: 0;
+  border-radius: 18px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--g-field);
+  box-shadow: inset 0 0 0 1px var(--g-line);
+  transition:
+    box-shadow 400ms var(--ease-spring),
+    background 300ms ease;
+}
+:where(html[data-design^="glass"]) .k-float span {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  pointer-events: none;
+  transition:
+    top 400ms var(--ease-spring),
+    font-size 400ms var(--ease-spring),
+    color 200ms ease;
+}
+:where(html[data-design^="glass"]) .k-float input:focus,
+:where(html[data-design^="glass"]) .k-float input.is-focus {
+  outline: none;
+  background: var(--g-field-focus);
+  box-shadow:
+    inset 0 0 0 1.5px var(--accent),
+    0 0 0 5px var(--accent-halo);
+}
+:where(html[data-design^="glass"]) .k-float input:focus + span,
+:where(html[data-design^="glass"]) .k-float input:not(:placeholder-shown) + span {
+  top: 16px;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ---------- selection ---------- */
+:where(html[data-design^="glass"]) .k-seg {
+  position: relative;
+  display: inline-flex;
+  padding: 4px;
+  border-radius: var(--r-ctrl);
+  background: var(--g-tint);
+  box-shadow: inset 0 0 0 1px var(--g-line);
+}
+:where(html[data-design^="glass"]) .k-seg button {
+  position: relative;
+  z-index: 1;
+  min-height: 38px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--r-ctrl);
+  background: transparent;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 300ms ease;
+}
+:where(html[data-design^="glass"]) .k-seg button[aria-selected="true"] {
+  color: var(--ink);
+}
+:where(html[data-design^="glass"]) .k-seg-thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 60px;
+  height: calc(100% - 8px);
+  border-radius: var(--r-ctrl);
+  background: var(--g-thumb);
+  box-shadow:
+    inset 0 1px 0 0 var(--g-rim-hi),
+    0 6px 16px -8px var(--g-shadow);
+  transition:
+    transform 550ms var(--ease-spring),
+    width 550ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-tchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 0 12px 0 6px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  background: var(--g-tint);
+  box-shadow: inset 0 0 0 1px var(--g-line);
+  cursor: pointer;
+}
+:where(html[data-design^="glass"]) .k-tchip i {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--tile-g), var(--c);
+  transition: transform 600ms var(--ease-spring);
+}
+:where(html[data-design^="glass"]) .k-tchip:hover i {
+  transform: rotate(90deg);
+}
+:where(html[data-design^="glass"]) .k-tchip.is-active {
+  color: var(--on-accent);
+  background: var(--tile-g), var(--accent-fill);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35);
+}
+:where(html[data-design^="glass"]) .k-tchip.is-active i {
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.4);
+}
+
+/* ---------- feedback ---------- */
+:where(html[data-design^="glass"]) .k-toast {
+  --r: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 420px);
+  padding: 12px 12px 12px 16px;
+  animation: g-rise 900ms var(--ease-spring) both;
+}
+:where(html[data-design^="glass"]) .k-toast b,
+:where(html[data-design^="glass"]) .k-edge b {
+  display: block;
+  font-weight: 400;
+}
+:where(html[data-design^="glass"]) .k-toast small,
+:where(html[data-design^="glass"]) .k-edge small {
+  display: block;
+  font-size: 0.82rem;
+}
+:where(html[data-design^="glass"]) .k-toast .g-btn {
+  min-height: 38px;
+  margin-left: auto;
+}
+:where(html[data-design^="glass"]) .k-edge {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+:where(html[data-design^="glass"]) .k-edge-tiles {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 3px;
+}
+:where(html[data-design^="glass"]) .k-edge-tiles i {
+  width: 8px;
+  min-height: 5px;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+/* ---------- footers ---------- */
+:where(html[data-design^="glass"]) .k-foot1 {
+  padding: clamp(24px, 4vw, 48px);
+}
+:where(html[data-design^="glass"]) .k-footmark {
+  font-size: clamp(2.6rem, 8vw, 6rem);
+}
+:where(html[data-design^="glass"]) .k-foot-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 24px;
+  color: var(--ink-2);
+}
+:where(html[data-design^="glass"]) .k-foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+:where(html[data-design^="glass"]) .k-foot-links a {
+  cursor: pointer;
+}
+:where(html[data-design^="glass"]) .k-foot-links a:hover {
+  color: var(--ink);
+}
+:where(html[data-design^="glass"]) .k-foot2 {
+  position: relative;
+  padding-top: 34px;
+}
+:where(html[data-design^="glass"]) .k-band {
+  display: grid;
+  grid-template-columns: repeat(36, minmax(0, 1fr));
+  gap: 3px;
+  overflow: hidden;
+  border-radius: var(--r-panel);
+}
+:where(html[data-design^="glass"]) .k-band i {
+  border-radius: 18%;
+}
+:where(html[data-design^="glass"]) .k-foot2-bar {
+  --r: var(--r-ctrl);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 22px;
+  width: min(100% - 32px, 860px);
+  padding: 10px 22px;
+  transform: translateX(-50%);
+}
+:where(html[data-design^="glass"]) .k-foot2-bar .g-brand {
+  margin-right: 0;
+}
+@media (max-width: 760px) {
+  :where(html[data-design^="glass"]) .k-foot2 {
+    padding-top: 0;
+  }
+  :where(html[data-design^="glass"]) .k-foot2-bar {
+    --r: 20px;
+    position: relative;
+    left: auto;
+    width: 100%;
+    margin-top: -24px;
+    transform: none;
+  }
+}
+:where(html[data-design^="glass"]) .k-foot3 {
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  gap: 24px 40px;
+  padding: 28px clamp(16px, 3vw, 32px);
+  border-radius: var(--r-panel);
+  box-shadow: inset 0 1px 0 var(--g-line);
+}
+:where(html[data-design^="glass"]) .k-foot3 > div {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  font-size: 0.95rem;
+}
+@media (max-width: 760px) {
+  :where(html[data-design^="glass"]) .k-foot3 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}

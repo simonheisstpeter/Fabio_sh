@@ -1,60 +1,62 @@
-/* Option C — "Prism Tile": dark, near-black canvas on a faint tile grid
-   where a handful of saturated turquoise tiles glow and pulse. The glass
-   is darker and more dramatic: deep backdrop dimming, strong white
-   specular rim on top, turquoise rim light underneath. Black uppercase
-   display, mono labels. The boldest, most "product launch". Counter
-   accent: cool periwinkle. Scoped to html[data-design="glass-c"]. */
+/* Option C — "Prism Tile", emerald edition: a near-black green canvas on
+   a faint tile grid where a handful of emerald tiles glow and pulse. The
+   glass is darker and more dramatic: deep backdrop dimming, strong white
+   specular rim on top, emerald rim light underneath. Black uppercase
+   display, mono labels. Only the v8 emerald ramp (#A7F3D0 → #047857) is
+   used for color. Scoped to html[data-design="glass-c"]. */
 
 html[data-design="glass-c"] {
-  /* light (secondary) */
-  --bg: #edf2f1;
-  --cell-bg: #e3eae8;
-  --cell-line: rgb(4 19 17 / 0.04);
-  --ink: #041311;
-  --ink-2: #33433f;
-  --ink-3: #62716d;
-  --accent: #00655c;
-  --accent-fill: #00a896;
-  --on-accent: #021412;
-  --accent-glow: rgb(0 200 178 / 0.55);
-  --accent-halo: rgb(0 168 150 / 0.14);
-  --accent-line: rgb(0 120 108 / 0.3);
-  --counter: #4757d6;
-  --on-counter: #ffffff;
+  /* light (secondary): v8 mint surfaces */
+  --bg: #e9f7f0;
+  --cell-bg: #dcf1e6;
+  --cell-line: rgb(31 31 31 / 0.04);
+  --ink: #0b1a14;
+  --ink-2: #33473e;
+  --ink-3: #5c7268;
+  --accent: #047857;
+  --accent-fill: #10b981;
+  --on-accent: #052018;
+  --accent-glow: rgb(16 185 129 / 0.55);
+  --accent-halo: rgb(16 185 129 / 0.16);
+  --accent-line: rgb(4 120 87 / 0.3);
+  --counter: #047857;
+  --on-counter: #f2fbf7;
 
   --g-fill: rgb(255 255 255 / 0.18);
   --g-blur: 36px;
-  --g-sat: 1.7;
-  --g-bright: 1.12;
+  --g-sat: 1.6;
+  --g-bright: 1.1;
   --g-rim-hi: rgb(255 255 255 / 1);
-  --g-rim-lo: rgb(0 200 178 / 0.55);
+  --g-rim-lo: rgb(16 185 129 / 0.55);
   --g-inner: rgb(255 255 255 / 0.3);
   --g-sheen: rgb(255 255 255 / 0.32);
   --g-spec: rgb(255 255 255 / 0.6);
-  --g-shadow: rgb(0 60 54 / 0.35);
-  --g-shadow-near: rgb(0 30 27 / 0.12);
-  --g-fallback: #f6faf9;
-  --g-scrim: rgb(237 242 241 / 0.72);
+  --g-shadow: rgb(11 92 64 / 0.35);
+  --g-shadow-near: rgb(11 92 64 / 0.12);
+  --g-fallback: #f5fcf8;
+  --g-scrim: rgb(233 247 240 / 0.88);
+  --slab: rgb(233 247 240 / 0.9);
   --g-tint: rgb(255 255 255 / 0.45);
-  --g-line: rgb(4 19 17 / 0.1);
-  --g-hover: rgb(4 19 17 / 0.06);
+  --g-line: rgb(31 31 31 / 0.1);
+  --g-hover: rgb(31 31 31 / 0.06);
   --g-thumb: #ffffff;
   --g-field: rgb(255 255 255 / 0.55);
   --g-field-focus: #ffffff;
 
-  --w0: #5ff5e0;
-  --w1: #2fe6cf;
-  --w2: #12cdb9;
-  --w3: #00b3a1;
-  --w4: #00968a;
-  --w5: #007a71;
-  --lc0: #6d7cff;
-  --lc1: #0e8f86;
-  --lc2: #08b8a6;
-  --lc3: #19e3c7;
-  --lc4: #00c9b4;
-  --lc5: #63f2de;
+  --w0: #6ee7b7;
+  --w1: #34d399;
+  --w2: #10b981;
+  --w3: #059669;
+  --w4: #047857;
+  --w5: #047857;
+  --lc0: #a7f3d0;
+  --lc1: #047857;
+  --lc2: #059669;
+  --lc3: #10b981;
+  --lc4: #34d399;
+  --lc5: #6ee7b7;
   --lit-glow: 0.4;
+  --glow-rgb: 16 185 129;
 
   --r-panel: 26px;
   --r-card: 24px;
@@ -69,34 +71,35 @@ html[data-design="glass-c"] {
 }
 
 html[data-design="glass-c"][data-theme="dark"] {
-  --bg: #040706;
-  --cell-bg: #090e0d;
+  --bg: #050b09;
+  --cell-bg: #0a1512;
   --cell-line: rgb(255 255 255 / 0.03);
-  --ink: #f1fffc;
-  --ink-2: #bdd3ce;
-  --ink-3: #6e8580;
-  --accent: #3ff0d6;
-  --accent-fill: #19e3c7;
-  --on-accent: #021412;
-  --accent-glow: rgb(25 227 199 / 0.5);
-  --accent-halo: rgb(25 227 199 / 0.14);
-  --accent-line: rgb(63 240 214 / 0.35);
-  --counter: #8b9cff;
-  --on-counter: #0b0f2a;
+  --ink: #e6fbf2;
+  --ink-2: #b9d9cb;
+  --ink-3: #8fb4a2;
+  --accent: #34d399;
+  --accent-fill: #34d399;
+  --on-accent: #052018;
+  --accent-glow: rgb(52 211 153 / 0.5);
+  --accent-halo: rgb(52 211 153 / 0.14);
+  --accent-line: rgb(52 211 153 / 0.35);
+  --counter: #6ee7b7;
+  --on-counter: #052018;
 
   --g-fill: rgb(255 255 255 / 0.04);
   --g-blur: 40px;
-  --g-sat: 2;
+  --g-sat: 1.8;
   --g-bright: 0.42;
   --g-rim-hi: rgb(255 255 255 / 0.7);
-  --g-rim-lo: rgb(25 227 199 / 0.45);
-  --g-inner: rgb(25 227 199 / 0.05);
+  --g-rim-lo: rgb(52 211 153 / 0.45);
+  --g-inner: rgb(52 211 153 / 0.05);
   --g-sheen: rgb(255 255 255 / 0.06);
-  --g-spec: rgb(120 255 235 / 0.16);
+  --g-spec: rgb(167 243 208 / 0.16);
   --g-shadow: rgb(0 0 0 / 0.95);
   --g-shadow-near: rgb(0 0 0 / 0.5);
-  --g-fallback: #0b1211;
-  --g-scrim: rgb(4 7 6 / 0.7);
+  --g-fallback: #0d1a16;
+  --g-scrim: rgb(5 11 9 / 0.82);
+  --slab: rgb(5 11 9 / 0.9);
   --g-tint: rgb(255 255 255 / 0.06);
   --g-line: rgb(255 255 255 / 0.1);
   --g-hover: rgb(255 255 255 / 0.08);
@@ -104,19 +107,20 @@ html[data-design="glass-c"][data-theme="dark"] {
   --g-field: rgb(0 0 0 / 0.35);
   --g-field-focus: rgb(0 0 0 / 0.5);
 
-  --w0: #b5fff3;
-  --w1: #6ff8e4;
-  --w2: #2fe9d0;
-  --w3: #12cfb9;
-  --w4: #05ad9c;
-  --w5: #0a877d;
-  --lc0: #8b9cff;
-  --lc1: #0c6f68;
-  --lc2: #0aa597;
-  --lc3: #19e3c7;
-  --lc4: #00c2b0;
-  --lc5: #5ff5e0;
+  --w0: #a7f3d0;
+  --w1: #6ee7b7;
+  --w2: #34d399;
+  --w3: #10b981;
+  --w4: #059669;
+  --w5: #047857;
+  --lc0: #a7f3d0;
+  --lc1: #047857;
+  --lc2: #059669;
+  --lc3: #10b981;
+  --lc4: #34d399;
+  --lc5: #6ee7b7;
   --lit-glow: 0.5;
+  --glow-rgb: 52 211 153;
 }
 
 /* world: faint tile grid + a few glowing, pulsing tiles + one soft bloom */
@@ -183,7 +187,7 @@ html[data-design="glass-c"] .g-world .bloom {
   }
 }
 
-/* glass: strong specular rims, turquoise underlight, deep shadow */
+/* glass: strong specular rims, emerald underlight, deep shadow */
 html[data-design="glass-c"] .g-glass::before {
   padding: 1.2px;
   background: linear-gradient(
@@ -199,8 +203,8 @@ html[data-design="glass-c"][data-theme="dark"] .g-lift:hover {
     inset 0 1px 0 0 var(--g-rim-hi),
     inset 0 -1px 0 0 var(--g-rim-lo),
     inset 0 0 40px 0 var(--g-inner),
-    0 0 0 1px rgb(25 227 199 / 0.15),
-    0 30px 90px -30px rgb(25 227 199 / 0.35),
+    0 0 0 1px rgb(var(--glow-rgb) / 0.15),
+    0 30px 90px -30px rgb(var(--glow-rgb) / 0.35),
     0 44px 90px -30px var(--g-shadow);
 }
 
@@ -241,8 +245,26 @@ html[data-design="glass-c"] .g-word {
   --tile-r: 0.2;
   --gap: max(2px, calc(var(--tile) * 0.12));
   --tile-gloss: linear-gradient(155deg, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0) 45%);
-  --tile-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.2), 0 0 18px -2px rgb(25 227 199 / 0.45);
+  --tile-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.2), 0 0 18px -2px rgb(var(--glow-rgb) / 0.45);
 }
 html[data-design="glass-c"]:not([data-theme="dark"]) .g-word {
-  --tile-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.15), 0 4px 12px -4px rgb(0 150 138 / 0.5);
+  --tile-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.15), 0 4px 12px -4px rgb(var(--glow-rgb) / 0.5);
+}
+
+/* titles that sit directly on the glowing grid get a slab of canvas behind
+   them (a lit tile can sit under any line of text) */
+html[data-design="glass-c"] .g-head > h2,
+html[data-design="glass-c"] .k-stage .k-h {
+  width: fit-content;
+  padding: 0.16em 0.14em 0.12em;
+  margin-left: -0.14em;
+  border-radius: 0.08em;
+  background: var(--slab);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+html[data-design="glass-c"] .g-glass .g-head > h2 {
+  padding: 0;
+  margin-left: 0;
+  background: none;
 }
